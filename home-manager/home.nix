@@ -129,6 +129,7 @@
         src = pkgs.fetchFromGitHub {
 	  owner = "zimfw";
 	  repo = "completion";
+	  rev = "master";
 	};
         file = "init.zsh";
       }
