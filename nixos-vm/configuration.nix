@@ -81,9 +81,8 @@
   ];
 
   # Allow users to use zsh shell
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh.enable = true;
+  environment.shells = with pkgs; [ zsh ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
