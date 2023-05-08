@@ -83,7 +83,7 @@
   # Allow users to use zsh shell
   programs.zsh = {
     enable = true;
-  }
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
