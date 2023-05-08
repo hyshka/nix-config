@@ -33,15 +33,32 @@
     };
   };
 
-  # TODO: Set your username
   home = {
     username = "hyshka";
     homeDirectory = "/home/hyshka";
   };
 
   # Add stuff for your user as you see fit:
+  home.packages = with pkgs; [
+    # utils
+    ncdu ranger htop
+  ];
+
   programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+    customPaneNavigationAndResize = true;
+    shortcut = "Space";
+    baseIndex = 1;
+    aggressiveResize = true;
+    escapeTime = 10;
+    plugins = with pkgs; [ tmuxPlugins.sensible tmuxPlugins.pain-control tmuxPlugins.sessionist tmuxPlugins.tmux-colors-solarized ];
+    extraConfig = ''
+      set -g @colors-solarized 'light'
+    '';
+  };
 
   # Enable home-manager and git
   programs.home-manager.enable = true;

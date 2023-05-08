@@ -18,17 +18,24 @@
   };
 
   outputs = { nixpkgs, home-manager, hardware, ... }@inputs: {
+    # Reusable nixos modules you might want to export
+    # These are usually stuff you would upstream into nixpkgs
+    nixosModules = import ./modules/nixos;
+    # Reusable home-manager modules you might want to export
+    # These are usually stuff you would upstream into home-manager
+    homeManagerModules = import ./modules/home-manager;
+
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       # FIXME replace with your hostname
       nixos-vm = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ ./nixos-vm/configuration.nix ];
       };
       rpi4 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ hardware.nixosModules.raspberry-pi-4 ./rpi4/configuration.nix ];
       };
@@ -37,10 +44,9 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      # FIXME replace with your username@hostname
       "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        extraSpecialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [ ./home-manager/home.nix ];
       };
