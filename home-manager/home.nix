@@ -71,7 +71,6 @@
     escapeTime = 10;
     disableConfirmationPrompt = true;
     reverseSplit = true;
-    plugins = with pkgs; [ tmuxPlugins.sensible tmuxPlugins.pain-control tmuxPlugins.sessionist tmuxPlugins.tmux-colors-solarized ];
     plugins = with pkgs; [
       tmuxPlugins.sensible
       tmuxPlugins.sessionist
