@@ -123,17 +123,17 @@
     #  # zimfw config
     #  zstyle ':zim:input' double-dot-expand yes
     #'';
-    plugins = [
-      {
-        name = "zim-completion";
-        src = pkgs.fetchFromGitHub {
-	  owner = "zimfw";
-	  repo = "completion";
-	  rev = "master";
-	  sha256 = "859b41f4194e8f32aea023383744075f507c6eb0c8d50400efe1b69f33fdccb1";
-	};
-        file = "init.zsh";
-      }
+    #plugins = [
+    #  {
+    #    name = "zim-completion";
+    #    src = pkgs.fetchFromGitHub {
+    #      owner = "zimfw";
+    #      repo = "completion";
+    #      rev = "master";
+    #      sha256 = "859b41f4194e8f32aea023383744075f507c6eb0c8d50400efe1b69f33fdccb1";
+    #    };
+    #    file = "init.zsh";
+    #  }
     #  {
     #    src = zsh-completions;
     #    name = "zsh-completions";
@@ -147,7 +147,7 @@
     #    src = zsh-history-substring-search;
     #    name = "zsh-history-substring-search";
     #  }
-    ];
+    #];
   };
 
   programs.git = {
