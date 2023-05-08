@@ -100,8 +100,6 @@
     # Use keys only. Remove if you want to SSH using password (not recommended)
     passwordAuthentication = false;
   };
-  # Allow users to foward SSH agents.
-  security.pam.enableSSHAgentAuth = true;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "22.11";

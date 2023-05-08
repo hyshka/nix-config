@@ -17,7 +17,10 @@
     # nix-colors.url = "github:misterio77/nix-colors";
   };
 
-  outputs = { nixpkgs, home-manager, hardware, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, hardware, ... }@inputs:
+    let
+      inherit (self) outputs;
+    in {
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
