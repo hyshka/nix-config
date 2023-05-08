@@ -63,7 +63,6 @@
     enable = true;
     tmuxp.enable = true;
     keyMode = "vi";
-    shortcut = "a";
     terminal = "tmux-256color";
     customPaneNavigationAndResize = true;
     shortcut = "Space";
