@@ -129,7 +129,7 @@
     if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
       # fix cursor in virtualbox
       export WLR_NO_HARDWARE_CURSORS=1;
-      exec sway
+      exec sway -d
     fi
   '';
 
