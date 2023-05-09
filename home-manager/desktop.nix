@@ -64,11 +64,6 @@
   fonts.fontconfig.enable = true;
   gtk.font = "Iosevka Aile";
 
-  # enable hardware support for sway
-  #hardware.opengl = {
-  #  enable = true;
-  #  driSupport = true;
-  #};
   #xdg.portal = {
   #  enable = true;
   #  extraPortals = with pkgs; [
@@ -76,8 +71,6 @@
   #    xdg-desktop-portal-gtk
   #  ];
   #};
-  ## allow screen sharing with wlroots compositors
-  #xdg.portal.wlr.enable = true;
   # allow swawylock to unlock
   #security.pam.services.swaylock = {
   #  text = "auth include login";

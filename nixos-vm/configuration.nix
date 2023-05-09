@@ -84,6 +84,36 @@
   programs.zsh.enable = true;
   environment.shells = with pkgs; [ zsh ];
 
+  # Support user desktops
+  xdg.portal = {
+    enable = true;
+    # allow screen sharing with wlroots compositors
+    wlr.enable = true;
+  };
+
+  # video support
+  hardware = {
+    opengl = {
+      enable = true;
+      #extraPackages = with pkgs; [ amdvlk ];
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    openrgb.enable = true;
+    opentabletdriver.enable = true;
+  };
+
+  # audio
+  #security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    #jack.enable = true;
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
     hyshka = {
@@ -91,13 +121,15 @@
       openssh.authorizedKeys.keys = [
 	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTi8LybJv9rM1PY+89RizysnNS0qe17peP1lsribcY+VuEW1aZrjYePJKVyFlIUqQnPGr9zK2FsLqU+Y40hfNQMITlHQMCbrWLvGdPvR2uP17+DFvZSp+ox0KVIjqOgxpLIWbszHKzfA1g8FJfzpH7j1kzP7bEonUXAGd3eVtf2kuzELKl7pI4uQyuoKF6ti1EMKQEOivLJm9aphz8/Bk+aZVgFy2srCxhqpWM5v967iNOK+UtPAqStrkJTvc1NtmMe6YQ099lRltq5dLerBfb0r5BdTKa+oTrgMELzV1YOv1i5Nj21RUz0kDT1eiVoqmyYAIlB8Rn01qByCU+2FH1 bryan@hyshka.com"
       ];
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
       shell = pkgs.zsh;
     };
   };
 
   # Support Sway window manager
   security.polkit.enable = true;
+  # may still be needed for swaylock
+  #security.pam.services = { swaylock = { }; };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -108,6 +140,8 @@
     # Use keys only. Remove if you want to SSH using password (not recommended)
     passwordAuthentication = false;
   };
+  # Passwordless sudo when SSH'ing with keys
+  security.pam.enableSSHAgentAuth = true;
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "22.11";
