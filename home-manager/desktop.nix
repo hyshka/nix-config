@@ -192,5 +192,14 @@
       size = 11;
       name = "Iosevka Term";
     };
+    extraConfig = ''
+      # Disable scrollback, I use tmux
+      scrollback_lines 0
+      scrollback_pager_history_size 0
+
+      #detect_urls yes
+      input_delay 0
+      enable_audio_bell no
+    '';
   };
 }
