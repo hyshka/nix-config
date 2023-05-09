@@ -5,7 +5,7 @@
 
     # web
     firefox-devedition-bin
-    ungoogle-chromium
+    ungoogled-chromium
 
     # comms
     discord
