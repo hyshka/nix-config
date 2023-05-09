@@ -27,7 +27,7 @@
     #flowblade
 
     # office
-    libreoffice-bin
+    libreoffice
     flameshot
     zathura
 
