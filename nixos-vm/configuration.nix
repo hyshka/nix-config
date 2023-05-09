@@ -74,11 +74,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    tmux
-  ];
+  #environment.systemPackages = with pkgs; [];
 
   # Allow users to use zsh shell
   programs.zsh.enable = true;
@@ -99,19 +95,15 @@
       driSupport = true;
       driSupport32Bit = true;
     };
-    openrgb.enable = true;
-    opentabletdriver.enable = true;
   };
 
   # audio
-  #security.rtkit.enable = true;
   hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    #jack.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -130,6 +122,15 @@
   security.polkit.enable = true;
   # may still be needed for swaylock
   #security.pam.services = { swaylock = { }; };
+
+  # autostart sway on login
+  environment.loginShellInit = ''
+    if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
+      # fix cursor in virtualbox
+      export WLR_NO_HARDWARE_CURSORS=1;
+      exec sway
+    fi
+  '';
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
