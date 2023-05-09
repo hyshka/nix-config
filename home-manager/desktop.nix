@@ -62,7 +62,7 @@
 
   # Enable font discovery
   fonts.fontconfig.enable = true;
-  gtk.font = "Iosevka Aile";
+  gtk.font = "Iosevka";
 
   #xdg.portal = {
   #  enable = true;
@@ -103,10 +103,10 @@
   services.swayidle.enable = true;
   services.mako = {
     enable = true;
-    font = "Iosevka Aile";
+    font = "Iosevka";
   };
   services.clipman.enable = true;
-  services.udiskie.enable = true;
+  #services.udiskie.enable = true;
   services.espanso = {
     enable = true;
     settings = {
@@ -174,7 +174,7 @@
     enable = true;
     font = {
       size = 11;
-      name = "Iosevka Term";
+      name = "Iosevka";
     };
     extraConfig = ''
       # Disable scrollback, I use tmux
