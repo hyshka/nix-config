@@ -7,7 +7,8 @@ let
   ## know how.
   relToDotDir = file:
     (optionalString (cfg.dotDir != null) (cfg.dotDir + "/")) + file;
-in {
+in
+{
   meta.maintainers = [ maintainers.joedevivo ];
 
   options = {
@@ -24,10 +25,11 @@ in {
       };
 
       configFile = mkOption {
-        default = if cfg.dotDir != null then
-          "$HOME/${cfg.dotDir}/.zimrc"
-        else
-          "$HOME/.zimrc";
+        default =
+          if cfg.dotDir != null then
+            "$HOME/${cfg.dotDir}/.zimrc"
+          else
+            "$HOME/.zimrc";
         type = types.str;
         description = ''
           Location of zimrc file
@@ -104,7 +106,7 @@ in {
     home.file."${relToDotDir ".zimrc"}".text = concatStringsSep "\n"
       ((map (zmodule: "zmodule ${zmodule}") cfg.zimfw.zmodules));
     home.activation.zimfw = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      ${pkgs.zsh} -c "export ZIM_HOME='${cfg.zimfw.homeDir}' && source ${pkgs.zimfw}/zimfw.zsh init -q && zimfw install && zimfw compile"
+      ${pkgs.zsh}/bin/zsh -c "export ZIM_HOME='${cfg.zimfw.homeDir}' && source ${pkgs.zimfw}/zimfw.zsh init -q && zimfw install && zimfw compile"
     '';
   };
 }
