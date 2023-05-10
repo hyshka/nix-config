@@ -76,6 +76,13 @@
   #  text = "auth include login";
   #};
 
+  home.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = 1;
+    #QT_QPA_PLATFORM = "wayland";
+    LIBSEAT_BACKEND = "logind";
+    TERMINAL = "kitty -1";
+  };
+
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -176,14 +183,12 @@
       size = 11;
       name = "Iosevka";
     };
-    extraConfig = ''
-      # Disable scrollback, I use tmux
-      scrollback_lines 0
-      scrollback_pager_history_size 0
-
-      #detect_urls yes
-      input_delay 0
-      enable_audio_bell no
-    '';
+    settings = {
+      scrollback_lines = 0;
+      scrollback_pager_history_size = 0;
+      #detect_urls = "yes";
+      input_delay = 0;
+      enable_audio_bell = "no";
+    };
   };
 }
