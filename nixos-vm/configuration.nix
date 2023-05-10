@@ -1,7 +1,10 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ inputs, outputs, lib, config, pkgs, ... }:
+  let ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in
+{
   imports =
     [
       # If you want to use modules your own flake exports (from modules/nixos):
