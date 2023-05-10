@@ -52,6 +52,14 @@
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+      warn-dirty = false;
+    };
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      # Delete older generations too
+      options = "--delete-older-than 7d";
     };
   };
 
@@ -98,13 +106,14 @@
   };
 
   # audio
-  #security.rtkit.enable = true;
+  security.rtkit.enable = true;
   hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    #jack.enable = true;
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -112,9 +121,15 @@
     hyshka = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
-	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTi8LybJv9rM1PY+89RizysnNS0qe17peP1lsribcY+VuEW1aZrjYePJKVyFlIUqQnPGr9zK2FsLqU+Y40hfNQMITlHQMCbrWLvGdPvR2uP17+DFvZSp+ox0KVIjqOgxpLIWbszHKzfA1g8FJfzpH7j1kzP7bEonUXAGd3eVtf2kuzELKl7pI4uQyuoKF6ti1EMKQEOivLJm9aphz8/Bk+aZVgFy2srCxhqpWM5v967iNOK+UtPAqStrkJTvc1NtmMe6YQ099lRltq5dLerBfb0r5BdTKa+oTrgMELzV1YOv1i5Nj21RUz0kDT1eiVoqmyYAIlB8Rn01qByCU+2FH1 bryan@hyshka.com"
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTi8LybJv9rM1PY+89RizysnNS0qe17peP1lsribcY+VuEW1aZrjYePJKVyFlIUqQnPGr9zK2FsLqU+Y40hfNQMITlHQMCbrWLvGdPvR2uP17+DFvZSp+ox0KVIjqOgxpLIWbszHKzfA1g8FJfzpH7j1kzP7bEonUXAGd3eVtf2kuzELKl7pI4uQyuoKF6ti1EMKQEOivLJm9aphz8/Bk+aZVgFy2srCxhqpWM5v967iNOK+UtPAqStrkJTvc1NtmMe6YQ099lRltq5dLerBfb0r5BdTKa+oTrgMELzV1YOv1i5Nj21RUz0kDT1eiVoqmyYAIlB8Rn01qByCU+2FH1 bryan@hyshka.com"
       ];
-      extraGroups = [ "wheel" "video" "audio" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+        "wheel"
+        "video"
+        "audio"
+      ] ++ ifTheyExist [
+        "docker"
+      ];
       shell = pkgs.zsh;
     };
   };
@@ -132,6 +147,11 @@
       exec sway -d
     fi
   '';
+
+  # Support Docker
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
