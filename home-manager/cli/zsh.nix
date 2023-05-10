@@ -6,7 +6,7 @@
     enableAutosuggestions = true;
     enableCompletion = false;
     enableSyntaxHighlighting = true;
-    programs.zsh.syntaxHighlighting.highlighters = [ "main" "brackets" "cursor" ];
+    syntaxHighlighting.highlighters = [ "main" "brackets" "cursor" ];
     historySubstringSearch.enable = true;
     history = {
       ignoreDups = true;
