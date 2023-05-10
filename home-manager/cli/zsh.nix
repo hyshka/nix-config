@@ -1,5 +1,4 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ zimfw ];
   programs.zsh = {
     enable = true;
     autocd = true;
