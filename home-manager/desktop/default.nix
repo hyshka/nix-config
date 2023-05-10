@@ -76,6 +76,7 @@
 
   wayland.windowManager.sway = {
     enable = true;
+    package = null;
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";

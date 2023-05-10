@@ -142,20 +142,17 @@ in
   };
 
   # Support Sway window manager
-  security.polkit.enable = true;
-  # may still be needed for swaylock
-  #security.pam.services = { swaylock = { }; };
-  # allow swawylock to unlock
-  #security.pam.services.swaylock = {
-  #  text = "auth include login";
-  #};
-
+  programs.sway = {
+    enable = true;
+    extraSessionCommands = ''
+      # fix cursor in virtualbox
+      export WLR_NO_HARDWARE_CURSORS=1;
+    '';
+  };
 
   # autostart sway on login
   environment.loginShellInit = ''
     if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-      # fix cursor in virtualbox
-      export WLR_NO_HARDWARE_CURSORS=1;
       exec sway -d >> sway.log 2>&1
     fi
   '';
