@@ -6,11 +6,14 @@
     enableAutosuggestions = true;
     enableCompletion = false;
     enableSyntaxHighlighting = true;
-    syntaxHighlighting.highlighters = [ "main" "brackets" "cursor" ];
     historySubstringSearch.enable = true;
     history = {
       ignoreDups = true;
       expireDuplicatesFirst = true;
+    };
+    localVariables = {
+      # zsh-users config
+      ZSH_HIGHLIGHT_HIGHLIGHTERS = [ "main" "brackets" "cursor" ];
     };
     zimfw = {
       enable = true;
