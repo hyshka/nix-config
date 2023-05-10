@@ -1,5 +1,4 @@
 { lib, config, ... }:
-
 let
   mkFontOption = kind: {
     family = lib.mkOption {

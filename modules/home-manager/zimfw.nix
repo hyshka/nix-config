@@ -1,18 +1,11 @@
-home-manager:
-let extendedLib = home-manager.lib;
-
-in { config, lib, pkgs, ... }:
-with lib;
-with extendedLib;
+{ config, lib, pkgs, ... }:
 let
-  lib = extendedLib;
   cfg = config.programs.zsh;
 
   ## copied relToDotDir from ./zsh.nix. Probably should import it, but I don't
   ## know how.
   relToDotDir = file:
     (optionalString (cfg.dotDir != null) (cfg.dotDir + "/")) + file;
-
 in {
   meta.maintainers = [ maintainers.joedevivo ];
 
