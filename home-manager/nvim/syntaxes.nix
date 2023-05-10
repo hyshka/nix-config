@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ pkgs, ... }: {
   programs.neovim.plugins = with pkgs.vimPlugins; [
     nvim-ts-rainbow2
     {
