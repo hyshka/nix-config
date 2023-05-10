@@ -8,30 +8,30 @@
   home.packages = with pkgs; [
     # web
     firefox-devedition-bin
-    #ungoogled-chromium
+    ungoogled-chromium
 
     # comms
-    #discord
-    #slack
-    #zoom-us
+    discord
+    slack
+    zoom-us
 
     # imaging
     darktable
-    #hugin
-    #inkscape-with-extensions
-    #gimp-with-plugins
-    #digikam
+    hugin
+    inkscape-with-extensions
+    gimp-with-plugins
+    digikam
 
     # video
-    #jellyfin-media-player
+    jellyfin-media-player
     mpv
-    #handbrake
-    #obs-studio
-    #flowblade
+    handbrake
+    obs-studio
+    flowblade
 
     # office
-    #libreoffice
-    #flameshot
+    libreoffice
+    flameshot
     zathura
 
     # file management
@@ -41,11 +41,11 @@
     #udiskie
 
     # networking
-    #mullvad-vpn
-    #transmission-gtk
+    mullvad-vpn
+    transmission-gtk
 
     # music
-    #spotify
+    spotify
 
     # gaming
     #steam
@@ -55,12 +55,12 @@
     #yubikey-manager
     #corectrl
     gparted
-    #heimdall
-    #espanso
+    heimdall
+    espanso
 
     # work
-    #fontforge-gtk
-    #zeal
+    fontforge-gtk
+    zeal
   ];
 
   # Enable font discovery
