@@ -9,7 +9,7 @@ in
     compression = true;
     controlMaster = "auto";
     controlPersist = "yes";
-    ControlPath = "~/.ssh/sockets/socket-%r@%h:%p";
+    controlPath = "~/.ssh/sockets/socket-%r@%h:%p";
     #matchBlocks = {
     #  net = {
     #    host = builtins.concatStringsSep " " hostnames;
