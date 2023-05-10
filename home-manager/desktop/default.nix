@@ -6,17 +6,14 @@
   ];
 
   home.packages = with pkgs; [
-    # fonts
-    iosevka-bin
-
     # web
     firefox-devedition-bin
-    ungoogled-chromium
+    #ungoogled-chromium
 
     # comms
     discord
-    slack
-    zoom-us
+    #slack
+    #zoom-us
 
     # imaging
     darktable
