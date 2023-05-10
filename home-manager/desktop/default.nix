@@ -71,7 +71,8 @@
     MOZ_ENABLE_WAYLAND = 1;
     #QT_QPA_PLATFORM = "wayland";
     LIBSEAT_BACKEND = "logind";
-    TERMINAL = "kitty -1";
+    #TERMINAL = "kitty -1";
+    TERMINAL = "foot";
   };
 
   wayland.windowManager.sway = {
@@ -80,11 +81,11 @@
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";
-      terminal = "kitty";
+      #terminal = "kitty";
       menu = "wofi --show run";
-      startup = [
-        {command = "kitty";}
-      ];
+      #startup = [
+      #  {command = "kitty -1";}
+      #];
       bars = [{
         fonts.size = 9.0;
         position = "top";
@@ -168,6 +169,10 @@
   #    ];
   #  };
   #};
+
+  programs.foot = {
+    enable = true;
+  };
 
   programs.kitty = {
     enable = true;
