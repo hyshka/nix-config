@@ -56,7 +56,7 @@
     #corectrl
     gparted
     heimdall
-    espanso
+    #espanso
 
     # work
     fontforge-gtk
