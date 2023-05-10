@@ -16,7 +16,7 @@ in
     # ./nvim.nix
     ./cli
     ./nvim
-    ./desktop.nix
+    ./desktop
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
