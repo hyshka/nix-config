@@ -96,6 +96,10 @@ in
     enable = true;
     # allow screen sharing with wlroots compositors
     wlr.enable = true;
+  #  extraPortals = with pkgs; [
+  #    xdg-desktop-portal-wlr
+  #    xdg-desktop-portal-gtk
+  #  ];
   };
 
   # video support
@@ -141,6 +145,11 @@ in
   security.polkit.enable = true;
   # may still be needed for swaylock
   #security.pam.services = { swaylock = { }; };
+  # allow swawylock to unlock
+  #security.pam.services.swaylock = {
+  #  text = "auth include login";
+  #};
+
 
   # autostart sway on login
   environment.loginShellInit = ''

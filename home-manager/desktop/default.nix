@@ -11,16 +11,16 @@
     #ungoogled-chromium
 
     # comms
-    discord
+    #discord
     #slack
     #zoom-us
 
     # imaging
     darktable
-    hugin
-    inkscape-with-extensions
-    gimp-with-plugins
-    digikam
+    #hugin
+    #inkscape-with-extensions
+    #gimp-with-plugins
+    #digikam
 
     # video
     #jellyfin-media-player
@@ -30,15 +30,15 @@
     #flowblade
 
     # office
-    libreoffice
-    flameshot
+    #libreoffice
+    #flameshot
     zathura
 
     # file management
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
-    udiskie
+    #udiskie
 
     # networking
     #mullvad-vpn
@@ -54,30 +54,18 @@
     # misc
     #yubikey-manager
     #corectrl
-    #gparted
+    gparted
     #heimdall
     espanso
 
     # work
-    fontforge-gtk
-    zeal
+    #fontforge-gtk
+    #zeal
   ];
 
   # Enable font discovery
   fonts.fontconfig.enable = true;
   gtk.font = "Iosevka";
-
-  #xdg.portal = {
-  #  enable = true;
-  #  extraPortals = with pkgs; [
-  #    xdg-desktop-portal-wlr
-  #    xdg-desktop-portal-gtk
-  #  ];
-  #};
-  # allow swawylock to unlock
-  #security.pam.services.swaylock = {
-  #  text = "auth include login";
-  #};
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
