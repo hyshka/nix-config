@@ -18,6 +18,7 @@
     zimfw = {
       enable = true;
       zmodules = [
+	#"$PATH_TO_LOCAL_MODULE" # path must exist as env var
         "environment"
         "git"
         "input"
@@ -27,7 +28,6 @@
         "fzf"
         "ssh"
         "exa" # must come after utility
-	"$PATH_TO_LOCAL_MODULE" # path must exist as env var
         "duration-info"
         "git-info"
         "asciiship"
