@@ -1,4 +1,10 @@
 { inputs, lib, config, pkgs, ... }: {
+  imports = [
+    ./font.nix
+    ./gtk.nix
+    ./qt.nix
+  ];
+
   home.packages = with pkgs; [
     # fonts
     iosevka-bin
