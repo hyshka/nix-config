@@ -178,7 +178,7 @@
     enable = true;
     font = {
       size = 11;
-      name = "Iosevka";
+      name = config.fontProfiles.monospace.family;
     };
     settings = {
       scrollback_lines = 0;
