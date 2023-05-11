@@ -16,7 +16,7 @@
       ZSH_HIGHLIGHT_HIGHLIGHTERS = [ "main" "brackets" "cursor" ];
     };
     zimfw = {
-      enable = true;
+      enable = false;
       zmodules = [
 	#"$PATH_TO_LOCAL_MODULE" # path must exist as env var
         "environment"
