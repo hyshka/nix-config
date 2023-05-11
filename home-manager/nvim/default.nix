@@ -8,12 +8,15 @@ in
     ./syntaxes.nix
     ./ui.nix
   ];
-  home.sessionVariables.EDITOR = "nvim";
 
   programs.neovim = {
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
+    defaultEditor = true;
+
+    extraPackages = with pkgs; [
+    ];
 
     # TODO config
     extraConfig = /* vim */ ''
