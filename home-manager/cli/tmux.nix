@@ -44,4 +44,41 @@
       set-option -g display-panes-time 4000
     '';
   };
+  xdg.configFile = {
+    "tmuxp_dashboard" = {
+      text = ''
+        session_name: "dashboard"
+        start_directory: "''${HOME}"
+        windows:
+          - window_name: live
+            layout: even-vertical
+            panes:
+              - htop
+              - focus: true
+              - blank
+      '';
+      target = "tmuxp/dashboard.yml";
+    };
+    "tmuxp_project" = {
+      text = ''
+        session_name: "''${PROJECT}"
+        start_directory: "''${PROJECT_PATH}"
+        windows:
+          - window_name: code
+            layout: even-vertical
+            focus: true
+            panes:
+              - shell_command:
+                - nvim
+                focus: true
+          - window_name: shell
+            layout: even-vertical
+            panes:
+              - blank
+              - blank
+              - blank
+      '';
+      target = "tmuxp/project.yml";
+    };
+  };
 }

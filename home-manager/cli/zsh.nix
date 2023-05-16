@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   home.packages = with pkgs; [ nix-zsh-completions ];
   programs.zsh = {
     enable = true;
@@ -45,6 +45,39 @@
     initExtra = ''
       # zimfw config
       zstyle ':zim:input' double-dot-expand yes
+
+      # functions
+      function morning {
+          echo 'Calendar'
+          echo 'Bullet journal'
+          echo 'Email'
+          echo 'Typing (optional)'
+          echo 'Coffee'
+          echo 'Focus time'
+          curl -H "Accept: text/plain" https://icanhazdadjoke.com/
+      }
+      function tpd {
+        if [ -z "$1" ]
+        then
+            print This command requires an argument. Ex. tpd [projectname]
+        else
+            PROJECT=$1
+            PROJECT_PATH=$(find ~/work/*/* -maxdepth 0 -type d -name $PROJECT)
+            print $PROJECT $PROJECT_PATH
+            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yaml
+        fi
+      }
     '';
+    shellAliases = {
+      t = "tmux";
+      tpw = "tmuxp load ~/.config/tmuxp/dashboard.yml";
+      av = "aws-vault exec mr-bryan --";
+    };
+    sessionVariables = {
+      # TODO move to ledger module
+      LEDGER_FILE = "~/finance/2023/2023.journal";
+    };
+    # TODO .zprofile
+    profileExtra = "";
   };
 }
