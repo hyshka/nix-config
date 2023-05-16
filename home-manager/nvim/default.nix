@@ -18,6 +18,29 @@ in
     extraPackages = with pkgs; [
     ];
 
+    plugins = with pkgs.vimPlugins; [
+      # core
+      vim-sensible
+      vim-surround
+      vim-repeat
+      vim-unimpaired
+      vim-tmux-focus-events
+
+      # navigation
+      ranger-vim
+      popup-nvim
+      plenary-nvim
+      telescope-nvim
+      telescope-fzf-native-nvim # do make?
+
+      # other
+      vim-LanguageTool
+      nerdcommenter
+      emmet-vim
+      vim-argwrap
+      targets-vim
+    ];
+
     # TODO config
     extraConfig = /* vim */ ''
     " Section: Options
@@ -145,15 +168,20 @@ in
         nnoremap <Leader>fl <cmd>Telescope lsp_references<CR>
 
         " ranger
-        let g:ranger_map_keys = 0
-        let g:ranger_replace_netrw = 1
-        nnoremap <leader>n :Ranger<CR>
-        nnoremap <leader>m :RangerWorkingDirectory<CR>
+	map <leader>rr :RangerEdit<cr>
+        map <leader>rv :RangerVSplit<cr>
+        map <leader>rs :RangerSplit<cr>
+        map <leader>rt :RangerTab<cr>
+        map <leader>ri :RangerInsert<cr>
+        map <leader>ra :RangerAppend<cr>
+        map <leader>rc :set operatorfunc=RangerChangeOperator<cr>g@
+        map <leader>rd :RangerCD<cr>
+        map <leader>rld :RangerLCD<cr>
 
 	" Lightline
         " If this comes after we set our colorscheme than lightline won't properly set it's own colors.
         let g:lightline = {
-            \'colorscheme': 'everforest',
+            \'colorscheme': 'default',
             \}
         "let g:lightline.component_expand = {
         "    \'linter_checking': 'lightline#ale#checking',
@@ -173,15 +201,6 @@ in
         let g:lightline.component = {
             \'filename': "%{expand('%:p:h:t')}/%t"
             \}
-
-        " Enable true color
-        if exists('+termguicolors')
-          let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-          let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-          set termguicolors
-        endif
-
-        set background=light
 
 	" Surround shortcut to correctly wrap word
         nmap ysw ysiW
@@ -227,121 +246,7 @@ in
         let g:indent_blankline_filetype = ['vim', 'python', 'html', 'htmldjango', 'javascript', 'jsx', 'vue', 'css', 'scss']
     '';
     extraLuaConfig = /* lua */ ''
-    -- LSP Config
-    -- Ref: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    -- Required packages
-    -- typescript: typescript-language-server
-    -- python: ruff-lsp, pyright
-    -- json: vscode-langservers-extracted
-    -- yaml: yaml-language-server
-    -- nix: rnix-lsp
-
-    -- Global mappings.
-    -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
-
-    -- Use LspAttach autocommand to only map the following keys
-    -- after the language server attaches to the current buffer
-    vim.api.nvim_create_autocmd('LspAttach', {
-      group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-      callback = function(ev)
-        -- Enable completion triggered by <c-x><c-o>
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-        -- Buffer local mappings.
-        -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf }
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-        vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set('n', '<space>wl', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', '<space>f', function()
-          vim.lsp.buf.format { async = true }
-        end, opts)
-      end,
-    })
-
-
-    -- null-ls: eslint, black, semgrep, sqlfluff
-    -- Ref: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
-    -- mypy requires: sudo pip install django-stubs django-stubs-ext
-
-    local null_ls = require("null-ls")
-    --local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-    null_ls.setup({
-        debug = true,
-        sources = {
-            null_ls.builtins.code_actions.eslint_d,
-            null_ls.builtins.completion.tags,
-            null_ls.builtins.diagnostics.eslint_d,
-    	--TODO mypy requires all project dependencies to be installed
-    	--null_ls.builtins.diagnostics.mypy,
-            --null_ls.builtins.diagnostics.semgrep,
-            --null_ls.builtins.diagnostics.sqlfluff.with({
-            --    extra_args = { "--dialect", "mysql" },
-            --}),
-            null_ls.builtins.diagnostics.trail_space,
-            --TODO docformatter
-            null_ls.builtins.formatting.black,
-            null_ls.builtins.formatting.eslint_d,
-            --null_ls.builtins.formatting.prettier,
-            --null_ls.builtins.formatting.trim_whitespace,
-        },
-        --on_attach = function(client, bufnr)
-        --    if client.supports_method("textDocument/formatting") then
-        --        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        --        vim.api.nvim_create_autocmd("BufWritePre", {
-        --            group = augroup,
-        --            buffer = bufnr,
-        --            callback = function()
-        --                vim.lsp.buf.format({ bufnr = bufnr })
-        --            end,
-        --        })
-        --    end
-        --end,
-    })
     '';
-
-    plugins = with pkgs.vimPlugins; [
-      # core
-      vim-sensible
-      vim-surround
-      vim-repeat
-      vim-unimpaired
-      vim-tmux-focus-events
-
-      # navigation
-      ranger-vim
-      popup-nvim
-      plenary-nvim
-      telescope-nvim
-      telescope-fzf-native-nvim # do make?
-
-      # languages
-      null-ls-nvim
-      SchemaStore-nvim
-      vim-LanguageTool
-
-      # other
-      nerdcommenter
-      emmet-vim
-      vim-argwrap
-      targets-vim
-    ];
   };
 
   xdg.configFile."nvim/init.lua".onChange = ''

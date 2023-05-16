@@ -7,6 +7,8 @@ in /* vim */ ''
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 
+  set background=light
+
   if exists("syntax_on")
     syntax reset
   endif
