@@ -12,6 +12,13 @@
       ignoreDups = true;
       expireDuplicatesFirst = true;
     };
+    dirHashes = {
+      conf  = "$HOME/nix-config";
+      fin   = "$HOME/finance";
+      work  = "$HOME/work";
+      down  = "$HOME/Downloads";
+      media = "/mnt/media";
+    };
     localVariables = {
       # zsh-users config
       ZSH_HIGHLIGHT_HIGHLIGHTERS = [ "main" "brackets" "cursor" ];
