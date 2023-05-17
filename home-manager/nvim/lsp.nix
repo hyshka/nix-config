@@ -8,7 +8,7 @@
       nodePackages.pyright
       nodePackages.vscode-langservers-extracted
       nodePackages.yaml-language-server
-      rnix-lsp
+      nil
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -19,7 +19,7 @@
       # python: ruff-lsp, pyright
       # json: vscode-langservers-extracted
       # yaml: yaml-language-server
-      # nix: rnix-lsp
+      # nix: nil
       SchemaStore-nvim
       {
         plugin = nvim-lspconfig;
@@ -34,7 +34,7 @@
           add_lsp("pyright", lspconfig.pyright, {})
           add_lsp("tsserver", lspconfig.tsserver, {})
           add_lsp("ruff_lsp", lspconfig.ruff_lsp, {})
-          add_lsp("rnix", lspconfig.rnix, {})
+          add_lsp("nil_ls", lspconfig.nil_ls, {})
           add_lsp("jsonls", lspconfig.jsonls, {
             settings = {
               json = {
