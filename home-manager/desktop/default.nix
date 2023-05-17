@@ -65,7 +65,6 @@
 
   # Enable font discovery
   fonts.fontconfig.enable = true;
-  gtk.font = "Iosevka";
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
@@ -103,7 +102,7 @@
   services.swayidle.enable = true;
   services.mako = {
     enable = true;
-    font = "Iosevka";
+    font = config.fontProfiles.sans-serif.family;
   };
   services.clipman.enable = true;
   #services.udiskie.enable = true;
