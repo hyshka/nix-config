@@ -71,7 +71,7 @@
             PROJECT=$1
             PROJECT_PATH=$(find ~/work/*/* -maxdepth 0 -type d -name $PROJECT)
             print $PROJECT $PROJECT_PATH
-            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yaml
+            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yml
         fi
       }
     '';
