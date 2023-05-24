@@ -14,10 +14,10 @@ rec {
     #  name = "${config.colorscheme.slug}";
     #  package = gtkThemeFromScheme { scheme = config.colorscheme; };
     #};
-    #iconTheme = {
-    #  name = "Papirus";
-    #  package = pkgs.papirus-icon-theme;
-    #};
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
   #services.xsettingsd = {
