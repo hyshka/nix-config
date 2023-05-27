@@ -3,6 +3,7 @@
     ./font.nix
     ./gtk.nix
     ./qt.nix
+    ./syncthing.nix
   ];
 
   home.packages = with pkgs; [
@@ -13,7 +14,7 @@
     # comms
     discord
     slack
-    zoom-us
+    zoom-us # TODO can't sign in
 
     # imaging
     darktable
@@ -27,16 +28,16 @@
     mpv
     handbrake
     obs-studio
-    flowblade
+    flowblade # TODO won't launch
 
     # office
     libreoffice
-    flameshot
+    flameshot # TODO wayland support?
     zathura
 
     # file management
     xfce.thunar
-    xfce.thunar-volman
+    xfce.thunar-volman # TODO requires gvfs
     xfce.thunar-archive-plugin
     #udiskie
 
@@ -48,12 +49,12 @@
     spotify
 
     # gaming
-    #steam
-    #etlegacy
+    steam
+    etlegacy
 
     # misc
-    #yubikey-manager
-    #corectrl
+    yubikey-manager
+    corectrl
     gparted
     heimdall
     #espanso
