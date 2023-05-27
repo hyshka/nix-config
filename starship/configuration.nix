@@ -169,10 +169,12 @@ in
     enable = true;
     # Obfuscate port
     ports = [ 38001 ];
-    # Forbid root login through SSH.
-    permitRootLogin = "no";
-    # Use keys only. Remove if you want to SSH using password (not recommended)
-    passwordAuthentication = false;
+    settings = {
+      # Forbid root login through SSH.
+      permitRootLogin = "no";
+      # Use keys only. Remove if you want to SSH using password (not recommended)
+      passwordAuthentication = false;
+    };
   };
   # Passwordless sudo when SSH'ing with keys
   security.pam.enableSSHAgentAuth = true;
