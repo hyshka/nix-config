@@ -16,7 +16,7 @@ in
       inputs.hardware.nixosModules.common-cpu-amd
       #inputs.hardware.nixosModules.common-cpu-amd-pstate
       inputs.hardware.nixosModules.common-gpu-amd
-      #inputs.hardware.nixosModules.common-hidpi
+      inputs.hardware.nixosModules.common-hidpi
 
       # You can also split up your configuration and import pieces of it here:
       # ./users.nix
@@ -113,9 +113,6 @@ in
   hardware = {
     opengl = {
       enable = true;
-      #extraPackages = with pkgs; [ amdvlk ];
-      driSupport = true;
-      driSupport32Bit = true;
     };
   };
 
