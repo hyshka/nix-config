@@ -4,7 +4,23 @@
     ./gtk.nix
     ./qt.nix
     ./syncthing.nix
+    #./xdg.nix
+    #./espanso.nix
   ];
+
+  # TODO move to module
+  xdg = {
+    mime.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "text/html" = [ "firefox-devedition.desktop" ];
+        "text/xml" = [ "firefox-devedition.desktop" ];
+        "x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
+        "x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+      };
+    };
+  };
 
   home.packages = with pkgs; [
     # web
@@ -14,7 +30,7 @@
     # comms
     discord
     slack
-    zoom-us # TODO can't sign in
+    zoom-us # TODO can't sign in but can join video from zoom links
 
     # imaging
     darktable
@@ -37,7 +53,7 @@
 
     # file management
     xfce.thunar
-    xfce.thunar-volman # TODO requires gvfs
+    xfce.thunar-volman # requires gvfs
     xfce.thunar-archive-plugin
     #udiskie
 
@@ -50,18 +66,19 @@
 
     # gaming
     steam
-    etlegacy
+    #etlegacy
 
     # misc
     yubikey-manager
     corectrl
     gparted
     heimdall
-    #espanso
 
     # work
     fontforge-gtk
     zeal
+    # work build deps
+    gnumake
   ];
 
   # Enable font discovery
@@ -73,6 +90,7 @@
     LIBSEAT_BACKEND = "logind";
     #TERMINAL = "kitty -1";
     TERMINAL = "foot";
+    BROWSER = "firefox-devedition";
   };
 
   wayland.windowManager.sway = {
@@ -107,68 +125,6 @@
   };
   services.clipman.enable = true;
   #services.udiskie.enable = true;
-  #services.espanso = {
-  #  enable = true;
-  #  settings = {
-  #    matches = [
-  #      {
-  #        trigger = ":e1";
-  #        replace = "bryan@hyshka.com";
-  #      }
-  #      {
-  #        trigger = ":e2";
-  #        replace = "bryan@muckrack.com";
-  #      }
-  #      {
-  #        trigger = ":dr";
-  #        replace = "python manage.py runserver 0.0.0.0:8000";
-  #      }
-  #      {
-  #        trigger = ":dR";
-  #        replace = "WEBPACK_LOADER_USE_PROD=1 python manage.py runserver 0.0.0.0:8000";
-  #      }
-  #      {
-  #        trigger = ":dt";
-  #        replace = "python manage.py test --keepdb --nomigrations";
-  #      }
-  #      {
-  #        trigger = ":pdb";
-  #        replace = "__import__('pdb').set_trace()  # FIXME";
-  #      }
-  #      {
-  #        trigger = ":pudb";
-  #        replace = "import pudb; pu.db  # FIXME";
-  #      }
-  #      { # Dates
-  #        trigger = ":date";
-  #        replace = "{{mydate}}";
-  #        vars = [{
-  #          name = "mydate";
-  #          type = "date";
-  #          params = { format = "%Y-%m-%d"; };
-  #        }];
-  #      }
-  #      { # Shell commands
-  #        trigger = ":shell";
-  #        replace = "{{output}}";
-  #        vars = [{
-  #          name = "output";
-  #          type = "shell";
-  #          params = { cmd = "echo Hello from your shell"; };
-  #        }];
-  #      }
-  #      {
-  #        trigger = ":vim";
-  #        replace = "{{output}}";
-  #        vars = [{
-  #          name = "output";
-  #          type = "shell";
-  #          params = { cmd = "kitty nvim"; };
-  #        }];
-  #      }
-  #    ];
-  #  };
-  #};
 
   programs.foot = {
     enable = true;

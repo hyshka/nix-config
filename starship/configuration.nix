@@ -109,6 +109,9 @@ in
   #  ];
   };
 
+  # Support auto mounting in Thunar
+  services.gvfs.enable = true;
+
   # video support
   hardware = {
     opengl = {

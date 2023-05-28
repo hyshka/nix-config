@@ -10,6 +10,7 @@ rec {
       name = config.fontProfiles.sans-serif.family;
       size = 12;
     };
+    # TODO
     #theme = {
     #  name = "${config.colorscheme.slug}";
     #  package = gtkThemeFromScheme { scheme = config.colorscheme; };
