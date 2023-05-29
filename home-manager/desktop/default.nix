@@ -48,7 +48,6 @@
 
     # office
     libreoffice
-    flameshot # TODO wayland support?
     zathura
 
     # file management
@@ -73,12 +72,15 @@
     corectrl
     gparted
     heimdall
+    sway-contrib.grimshot # screenshots
 
     # work
     fontforge-gtk
     zeal
     # work build deps
+    # TODO mode to module
     gnumake
+    awscli2
   ];
 
   # Enable font discovery
@@ -112,6 +114,11 @@
        mode = "1920x1200";
        pos = "0 0";
      };
+     keybindings = let
+        modifier = config.wayland.windowManager.sway.config.modifier;
+      in lib.mkOptionDefault {
+        "${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+      };
     };
   };
 

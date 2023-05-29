@@ -11,12 +11,12 @@ in
       # outputs.nixosModules.example
 
       # If you want to use modules from other flakes (such as nixos-hardware):
-      inputs.hardware.nixosModules.common-pc
+      #inputs.hardware.nixosModules.common-pc
       inputs.hardware.nixosModules.common-pc-ssd
       inputs.hardware.nixosModules.common-cpu-amd
       #inputs.hardware.nixosModules.common-cpu-amd-pstate
       inputs.hardware.nixosModules.common-gpu-amd
-      inputs.hardware.nixosModules.common-hidpi
+      #inputs.hardware.nixosModules.common-hidpi
 
       # You can also split up your configuration and import pieces of it here:
       # ./users.nix
