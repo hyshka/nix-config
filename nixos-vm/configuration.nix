@@ -170,9 +170,9 @@ in
   services.openssh = {
     enable = true;
     # Forbid root login through SSH.
-    permitRootLogin = "no";
+    PermitRootLogin = "no";
     # Use keys only. Remove if you want to SSH using password (not recommended)
-    passwordAuthentication = false;
+    PasswordAuthentication = false;
   };
   # Passwordless sudo when SSH'ing with keys
   security.pam.enableSSHAgentAuth = true;

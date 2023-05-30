@@ -5,7 +5,7 @@
     ./qt.nix
     ./syncthing.nix
     #./xdg.nix
-    #./espanso.nix
+    ./espanso.nix
   ];
 
   # TODO move to module
