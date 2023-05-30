@@ -72,6 +72,7 @@
     gparted
     heimdall
     sway-contrib.grimshot # screenshots
+    pavucontrol # volume controls
 
     # work
     fontforge-gtk
@@ -118,6 +119,8 @@
         modifier = config.wayland.windowManager.sway.config.modifier;
       in lib.mkOptionDefault {
         "${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+        "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
+        "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
       };
     };
   };
@@ -139,6 +142,7 @@
   services.mako = {
     enable = true;
     font = config.fontProfiles.sans-serif.family;
+    defaultTimeout = 5;
   };
   services.clipman.enable = true;
   #services.udiskie.enable = true;
