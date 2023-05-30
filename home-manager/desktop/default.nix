@@ -54,7 +54,6 @@
     xfce.thunar
     xfce.thunar-volman # requires gvfs
     xfce.thunar-archive-plugin
-    #udiskie
 
     # networking
     mullvad-vpn
@@ -106,10 +105,11 @@
       #startup = [
       #  {command = "kitty -1";}
       #];
-      bars = [{
-        fonts.size = 9.0;
-        position = "top";
-     }];
+      bars = [
+        {
+	  command = "waybar";
+	}
+      ];
      output.Virtual-1 = {
        mode = "1920x1200";
        pos = "0 0";
@@ -122,7 +122,17 @@
     };
   };
 
-  programs.waybar.enable = true;
+  programs.waybar = {
+    enable = true;
+    settings = {
+      mainBar = {
+        height = 30;
+	modules-left = [ "sway/workspaces" "sway/mode" "sway/scratchpad" ];
+        modules-center = [ "sway/window" ];
+        modules-right = [ "clock" "tray" ];
+      };
+    };
+  };
   programs.swaylock.enable = true;
   programs.wofi.enable = true;
   services.swayidle.enable = true;
