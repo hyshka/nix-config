@@ -118,8 +118,12 @@
      keybindings = let
         modifier = config.wayland.windowManager.sway.config.modifier;
       in lib.mkOptionDefault {
-        "${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+        # Desktop Utilities
         "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
+        "${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+
+	# Main app shortcuts
+        "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";
         "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
       };
     };
