@@ -20,7 +20,7 @@
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-label/EFIBOOT";
+      device = "/dev/disk/by-label/NIXBOOT";
       fsType = "vfat";
     };
     "/mnt/media" = {
