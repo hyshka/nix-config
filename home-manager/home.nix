@@ -13,7 +13,6 @@ in
     #inputs.zimfw.homeManagerModules.zimfw
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
     ./cli
     ./nvim
     ./desktop
