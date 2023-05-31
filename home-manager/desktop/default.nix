@@ -73,6 +73,7 @@
     heimdall
     sway-contrib.grimshot # screenshots
     pavucontrol # volume controls
+    xdg-utils # to fix programs launching other programs
 
     # work
     fontforge-gtk
