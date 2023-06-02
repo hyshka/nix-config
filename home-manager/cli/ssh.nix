@@ -10,7 +10,7 @@ in
     #controlMaster = "auto";
     #controlPersist = "yes";
     #controlPath = "~/.ssh/sockets/socket-%r@%h:%p";
-    #matchBlocks = {
+    matchBlocks = {
     #  net = {
     #    host = builtins.concatStringsSep " " hostnames;
     #    forwardAgent = true;
@@ -19,6 +19,11 @@ in
     #      host.address = ''/%d/.gnupg-sockets/S.gpg-agent.extra'';
     #    }];
     #  };
-    #};
+      rpi4 = {
+        host = "rpi4";
+	port = 38000;
+	user = "hyshka";
+      };
+    };
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # Support user desktops
   xdg.portal = {
@@ -43,4 +43,47 @@
       exec sway -d >> sway.log 2>&1
     fi
   '';
+
+  # Gparted support
+  security.polkit.enable = true;
+  environment.systemPackages = with pkgs; [ polkit_gnome ];
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+    };
+  };
+
+  # Enable steam
+  programs.steam = {
+    enable = true;
+  };
+
+  # Enable input access for Sunshine
+  hardware.steam-hardware.enable = true;
+
+  # Enable KMS access for Sunshine
+  security.wrappers.sunshine = {
+    owner = "root";
+    group = "root";
+    capabilities = "cap_sys_admin+p";
+    source = "${pkgs.sunshine}/bin/sunshine";
+  };
+  systemd.user.services.sunshine = {
+    #enable = false;
+    description = "sunshine";
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${config.security.wrapperDir}/sunshine";
+    };
+  };
 }

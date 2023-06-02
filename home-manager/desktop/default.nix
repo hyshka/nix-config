@@ -63,7 +63,8 @@
     spotify
 
     # gaming
-    steam
+    sunshine
+    xorg.xrandr # required for sunshine
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
 
     # misc
