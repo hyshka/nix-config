@@ -11,6 +11,13 @@ in
     #controlPersist = "yes";
     #controlPath = "~/.ssh/sockets/socket-%r@%h:%p";
     matchBlocks = {
+      # Force gpg-agent to open in current terminal
+      # Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
+      # https://wiki.archlinux.org/title/GnuPG#Configure_pinentry_to_use_the_correct_TTY
+      gpg = {
+        match = ''host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"'';
+      };
+
     #  net = {
     #    host = builtins.concatStringsSep " " hostnames;
     #    forwardAgent = true;

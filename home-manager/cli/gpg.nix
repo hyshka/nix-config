@@ -9,9 +9,9 @@ let
   #    name = "curses";
   #  };
   pinentry = {
-          packages = [ pkgs.pinentry-curses ];
-      name = "curses";
-    };
+    packages = [ pkgs.pinentry-curses ];
+    name = "curses";
+  };
 in
 {
   home.packages = pinentry.packages;

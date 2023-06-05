@@ -38,6 +38,7 @@
     inkscape-with-extensions
     gimp-with-plugins
     digikam
+    imv
 
     # video
     jellyfin-media-player
