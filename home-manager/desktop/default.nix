@@ -33,7 +33,7 @@
     zoom-us # TODO can't sign in but can join video from zoom links
 
     # imaging
-    darktable
+    unstable.darktable
     hugin
     inkscape-with-extensions
     gimp-with-plugins

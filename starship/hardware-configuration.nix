@@ -12,6 +12,14 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-amd" ];
+  boot.kernel.sysctl = {
+    # optimize swap on zram
+    # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram
+    "vm.swappiness" = 180;
+    "vm.watermark_boost_factor" = 0;
+    "vm.watermark_scale_factor" = 125;
+    "vm.page-cluster" = 0;
+  };
   boot.extraModulePackages = [ ];
 
   fileSystems = {
@@ -49,12 +57,14 @@
     };
   };
 
-  #swapDevices = [
-  #  {
-  #    device = "/.swapfile";
-  #    size = 2048;
-  #  }
-  #];
+  swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 6*1024; # https://itsfoss.com/swap-size/
+    priority = 1; # needs to be lower than the default zram priority of 5
+  } ];
+  zramSwap.enable = true;
+
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

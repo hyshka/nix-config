@@ -24,7 +24,7 @@ in
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      #outputs.overlays.unstable-packages
+      outputs.overlays.unstable-packages
 
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -51,7 +51,7 @@ in
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [];
+  #home.packages = with pkgs; [];
 
   # Enable home-manager
   programs = {
