@@ -11,6 +11,13 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+    sunshine = prev.sunshine.overrideAttrs (oldAttrs: rec {
+      extraLibraries = [
+        prev.xorg.xrandr # can't remember why
+        prev.util-linux # required for setsid
+      ];
+    });
+
     #etlegacy = inputs.nixpkgs.lib.callPackageWith (inputs.nixpkgs.pkgsi686Linux // prev.etlegacy);
     #etlegacy = prev.etlegacy.overrideAttrs (oldAttrs: let
     #  mirror = "https://mirror.etlegacy.com";

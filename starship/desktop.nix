@@ -66,24 +66,39 @@
   # Enable steam
   programs.steam = {
     enable = true;
+    #remotePlay.openFirewall = true;
   };
 
-  # Enable input access for Sunshine
-  hardware.steam-hardware.enable = true;
-
-  # Enable KMS access for Sunshine
-  security.wrappers.sunshine = {
-    owner = "root";
-    group = "root";
-    capabilities = "cap_sys_admin+p";
-    source = "${pkgs.sunshine}/bin/sunshine";
-  };
-  systemd.user.services.sunshine = {
-    #enable = false;
-    description = "sunshine";
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${config.security.wrapperDir}/sunshine";
+  # Enable avahi for Sunshine
+  services.avahi = {
+    enable = true;
+    reflector = true;
+    nssmdns = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      userServices = true;
+      workstation = true;
     };
   };
+  services.udev.extraRules = ''
+  KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess"
+  '';
+
+  # Enable KMS access for Sunshine
+  #security.wrappers.sunshine = {
+  #  owner = "root";
+  #  group = "root";
+  #  capabilities = "cap_sys_admin+p";
+  #  source = "${pkgs.sunshine}/bin/sunshine";
+  #};
+  #systemd.user.services.sunshine = {
+  #  #enable = false;
+  #  description = "sunshine";
+  #  wantedBy = [ "graphical-session.target" ];
+  #  serviceConfig = {
+  #    ExecStart = "${config.security.wrapperDir}/sunshine";
+  #  };
+  #};
+  services.flatpak.enable = true;
 }

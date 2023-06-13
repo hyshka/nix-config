@@ -7,9 +7,9 @@ in
     enable = true;
     serverAliveInterval = 300;
     compression = true;
-    #controlMaster = "auto";
-    #controlPersist = "yes";
-    #controlPath = "~/.ssh/sockets/socket-%r@%h:%p";
+    controlMaster = "auto";
+    controlPersist = "3s";
+    controlPath = "~/.ssh/master-socket/%r@%h:%p";
     matchBlocks = {
       # Force gpg-agent to open in current terminal
       # Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"

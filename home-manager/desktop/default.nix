@@ -64,8 +64,9 @@
     spotify
 
     # gaming
-    sunshine
-    xorg.xrandr # required for sunshine
+    #sunshine
+    #xorg.xrandr # required for sunshine
+    #util-linux # required for sunshine/setsid
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
 
     # misc
@@ -113,6 +114,51 @@
         {
 	  command = "waybar";
 	}
+      ];
+      assigns = {
+	"1: dash" = [{ class = "^Slack$"; }];
+	"2: work" = [];
+	"3: music" = [{ class = "^Spotify$"; }];
+	"4: web" = [{ app_id = "^firefox-aurora$"; } { class = "^Chromium-browser"; }];
+	"5: video" = [];
+      };
+      window.commands = [
+        # generic X11 dialogs
+        {
+          command = "floating enable";
+          criteria = {
+	    window_type = "dialog";
+	    window_role = "dialog";
+          };
+        }
+	# For pop up notification windows that don't use notifications api
+        {
+          command = "border none, floating enable";
+          criteria = {
+            title = "^zoom$";
+          };
+        }
+        # For specific Zoom windows
+        {
+          command = "border pixel, floating enable";
+          criteria = {
+            title = "^(Zoom|About)$";
+          };
+        }
+        {
+          command = "floating enable, floating_minimum_size 960 x 700";
+          criteria = {
+            title = "Settings";
+          };
+        }
+        # Open Zoom Meeting windows on a new workspace (a bit hacky)
+        {
+	  # this just sends it to workspace 1
+          command = "workspace next_on_output --create, move container to workspace current, floating disable, inhibit_idle open";
+          criteria = {
+            title = "Zoom Meeting(.*)?";
+          };
+        }
       ];
      output.Virtual-1 = {
        mode = "1920x1200";
