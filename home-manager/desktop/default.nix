@@ -5,7 +5,7 @@
     ./qt.nix
     ./syncthing.nix
     #./xdg.nix
-    ./espanso.nix
+    #./espanso.nix
   ];
 
   # TODO move to module
@@ -75,6 +75,8 @@
     gparted
     heimdall
     sway-contrib.grimshot # screenshots
+    flameshot # screenshots
+    grim # required for flameshot
     pavucontrol # volume controls
     xdg-utils # to fix programs launching other programs
 
@@ -105,22 +107,18 @@
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";
-      #terminal = "kitty";
       menu = "wofi --show run";
-      #startup = [
-      #  {command = "kitty -1";}
-      #];
       bars = [
         {
 	  command = "waybar";
 	}
       ];
       assigns = {
-	"1: dash" = [{ class = "^Slack$"; }];
-	"2: work" = [];
-	"3: music" = [{ class = "^Spotify$"; }];
-	"4: web" = [{ app_id = "^firefox-aurora$"; } { class = "^Chromium-browser"; }];
-	"5: video" = [];
+	"1" = [{ class = "^Slack$"; }];
+	"2" = [];
+	"3" = [{ class = "^Spotify$"; }];
+	"4" = [{ app_id = "^firefox-aurora$"; } { class = "^Chromium-browser"; }];
+	"5" = [];
       };
       window.commands = [
         # generic X11 dialogs
@@ -169,7 +167,8 @@
       in lib.mkOptionDefault {
         # Desktop Utilities
         "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
-        "${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+        #"${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+        "${modifier}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
 
 	# Main app shortcuts
         "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";

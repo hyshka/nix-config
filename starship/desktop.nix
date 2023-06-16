@@ -4,11 +4,7 @@
   xdg.portal = {
     enable = true;
     # allow screen sharing with wlroots compositors
-    wlr.enable = true;
-  #  extraPortals = with pkgs; [
-  #    xdg-desktop-portal-wlr
-  #    xdg-desktop-portal-gtk
-  #  ];
+    wlr.enable = true; # required for flameshot
   };
 
   # Support auto mounting in Thunar
@@ -101,4 +97,13 @@
   #  };
   #};
   services.flatpak.enable = true;
+
+  # TODO this didn't work in my home manager config
+  programs.openvpn3.enable = true; # work VPN access
+  services.openvpn.servers = {
+    workVPN  = {
+      autoStart = false;
+      config = '' config /home/hyshka/work/MR/bryan.ovpn '';
+    };
+  };
 }
