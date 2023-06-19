@@ -84,9 +84,11 @@
     fontforge-gtk
     zeal
     # work build deps
-    # TODO mode to module
+    # TODO move to module
     gnumake
     awscli2
+    pre-commit
+    python310Packages.nodeenv # for node.js pre-commit hooks
   ];
 
   # Enable font discovery
@@ -105,6 +107,19 @@
     enable = true;
     package = null;
     wrapperFeatures.gtk = true;
+    extraSessionCommands = ''
+      # https://github.com/flameshot-org/flameshot/blob/master/docs/Sway%20and%20wlroots%20support.md#basic-steps
+      export SDL_VIDEODRIVER=wayland
+      export _JAVA_AWT_WM_NONREPARENTING=1
+      export QT_QPA_PLATFORM=wayland
+      export XDG_SESSION_DESKTOP=sway
+    '';
+    extraConfig = ''
+      # https://github.com/flameshot-org/flameshot/blob/master/docs/Sway%20and%20wlroots%20support.md#basic-steps
+      exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+      exec hash dbus-update-activation-environment 2>/dev/null && \
+        dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+    '';
     config = {
       modifier = "Mod4";
       menu = "wofi --show run";

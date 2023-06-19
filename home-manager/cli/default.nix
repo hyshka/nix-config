@@ -3,6 +3,7 @@
     ./bat.nix
     ./direnv.nix
     ./git.nix
+    ./glances.nix
     ./gpg.nix
     ./ranger.nix
     ./ssh.nix
@@ -13,7 +14,6 @@
   home.packages = with pkgs; [
     bc # Calculator
     bottom # System viewer
-    htop # System viewer
     ncdu # TUI disk usage
     exa # Better ls
     ripgrep # Better grep
