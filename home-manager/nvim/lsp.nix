@@ -3,6 +3,7 @@
     extraPackages = with pkgs; [
       black
       nodePackages.eslint_d
+      nodePackages.prettier
       nodePackages.typescript-language-server
       python311Packages.python-lsp-ruff
       nodePackages.pyright
@@ -21,6 +22,30 @@
       # yaml: yaml-language-server
       # nix: nil
       SchemaStore-nvim
+      {
+        plugin = trouble-nvim;
+        type = "lua";
+        config = /* lua */ ''
+	  vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+            {silent = true, noremap = true}
+          )
+          vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+            {silent = true, noremap = true}
+          )
+          vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+            {silent = true, noremap = true}
+          )
+          vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+            {silent = true, noremap = true}
+          )
+          vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+            {silent = true, noremap = true}
+          )
+          vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+            {silent = true, noremap = true}
+          )
+	'';
+      }
       {
         plugin = nvim-lspconfig;
         type = "lua";
@@ -103,10 +128,10 @@
           -- mypy requires: sudo pip install django-stubs django-stubs-ext
 
           local null_ls = require("null-ls")
-          --local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+          local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
           null_ls.setup({
-              debug = true,
+              debug = false,
               sources = {
                   null_ls.builtins.code_actions.eslint_d,
                   null_ls.builtins.completion.tags,
@@ -121,21 +146,23 @@
                   --TODO docformatter
                   null_ls.builtins.formatting.black,
                   null_ls.builtins.formatting.eslint_d,
-                  --null_ls.builtins.formatting.prettier,
-                  --null_ls.builtins.formatting.trim_whitespace,
+                  null_ls.builtins.formatting.prettier,
+		  --TODO prettierd not in NixOS
+                  --null_ls.builtins.formatting.prettierd,
+                  null_ls.builtins.formatting.trim_whitespace,
               },
-              --on_attach = function(client, bufnr)
-              --    if client.supports_method("textDocument/formatting") then
-              --        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-              --        vim.api.nvim_create_autocmd("BufWritePre", {
-              --            group = augroup,
-              --            buffer = bufnr,
-              --            callback = function()
-              --                vim.lsp.buf.format({ bufnr = bufnr })
-              --            end,
-              --        })
-              --    end
-              --end,
+              on_attach = function(client, bufnr)
+                  if client.supports_method("textDocument/formatting") then
+                      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                      vim.api.nvim_create_autocmd("BufWritePre", {
+                          group = augroup,
+                          buffer = bufnr,
+                          callback = function()
+			      vim.lsp.buf.format({ async = false })
+                          end,
+                      })
+                  end
+              end,
           })
         '';
       }

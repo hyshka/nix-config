@@ -15,8 +15,7 @@ in
     vimdiffAlias = true;
     defaultEditor = true;
 
-    extraPackages = with pkgs; [
-    ];
+    #extraPackages = with pkgs; [];
 
     plugins = with pkgs.vimPlugins; [
       # core
