@@ -5,9 +5,9 @@
     enable = true;
     # allow screen sharing with wlroots compositors
     wlr.enable = true; # required for flameshot
-    #extraPortals = [
-    #  pkgs.xdg-desktop-portal-gtk # TODO test removal
-    #];
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk # required for flameshot screenshot access
+    ];
   };
 
   # Support auto mounting in Thunar
@@ -29,7 +29,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     #jack.enable = true;
-    #wireplumber.enable = true; # TODO test removal; required by xdg-desktop-portal-wlr
+    wireplumber.enable = true; # TODO test removal; required by xdg-desktop-portal-wlr
   };
 
   # Support Sway window manager
