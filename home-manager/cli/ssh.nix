@@ -1,4 +1,4 @@
-{ outputs, lib, ... }:
+{ outputs, lib, pkgs, ... }:
 let
   hostnames = builtins.attrNames outputs.nixosConfigurations;
 in
@@ -33,4 +33,7 @@ in
       };
     };
   };
+  home.packages = with pkgs; [
+    sshfs
+  ];
 }
