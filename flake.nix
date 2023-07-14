@@ -13,13 +13,17 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Nix-Darwin
+    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
     zimfw.url = "github:joedevivo/zimfw.nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, hardware, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hardware, darwin, ... }@inputs:
     let
       inherit (self) outputs;
     in {
@@ -49,6 +53,15 @@
         specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ hardware.nixosModules.raspberry-pi-4 ./rpi4/configuration.nix ];
+      };
+    };
+
+    # Nix-Darwin configuration entrypoint
+    darwinConfigurations = {
+      "Renees-MacBook-Air" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [ ./renee-macbook/configuration.nix ];
+        specialArgs = { inherit darwin nixpkgs; };
       };
     };
 
