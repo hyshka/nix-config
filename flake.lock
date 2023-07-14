@@ -16,27 +16,6 @@
         "type": "github"
       }
     },
-    "darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1689281837,
-        "narHash": "sha256-msgwgot2/hxXzlpYltIZ7boAqBkN8XejNOhBJ07q3FY=",
-        "owner": "lnl7",
-        "repo": "nix-darwin",
-        "rev": "c806a73609e77f0c446fdad5d3ea6ca3b7ae6e5f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lnl7",
-        "ref": "master",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
     "hardware": {
       "locked": {
         "lastModified": 1686452266,
@@ -110,6 +89,27 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1689281837,
+        "narHash": "sha256-msgwgot2/hxXzlpYltIZ7boAqBkN8XejNOhBJ07q3FY=",
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "rev": "c806a73609e77f0c446fdad5d3ea6ca3b7ae6e5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lnl7",
+        "ref": "master",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1686513595,
@@ -175,10 +175,10 @@
     },
     "root": {
       "inputs": {
-        "darwin": "darwin",
         "hardware": "hardware",
         "home-manager": "home-manager",
         "nix-colors": "nix-colors",
+        "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "zimfw": "zimfw"

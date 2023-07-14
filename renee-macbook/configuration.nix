@@ -1,5 +1,5 @@
 # inputs.self, inputs.nix-darwin, and inputs.nixpkgs can be accessed here
-{ inputs, outputs, pkgs, lib }:
+{ inputs, outputs, pkgs, lib, ... }:
 {
   # Ref:
   # http://daiderd.com/nix-darwin/
@@ -17,7 +17,10 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  nix.package = pkgs.nix;
+  # nix.package = pkgs.nix;
+
+  # Necessary for using flakes on this system.
+  nix.settings.experimental-features = "nix-command flakes";
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;  # default shell on catalina
@@ -28,5 +31,5 @@
   system.stateVersion = 4;
 
   # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = lib.mkDefault "aarach64-darwin";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-darwin";
 }

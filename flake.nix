@@ -14,8 +14,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nix-Darwin
-    darwin.url = "github:lnl7/nix-darwin/master";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:lnl7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
@@ -23,7 +23,7 @@
     zimfw.url = "github:joedevivo/zimfw.nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, hardware, darwin, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, ... }@inputs:
     let
       inherit (self) outputs;
     in {
@@ -57,13 +57,17 @@
     };
 
     # Nix-Darwin configuration entrypoint
+    # TODO: darwin-rebuild is not installed
+    # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
     darwinConfigurations = {
-      "Renees-MacBook-Air" = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+      "Renees-MacBook-Air" = nix-darwin.lib.darwinSystem {
         modules = [ ./renee-macbook/configuration.nix ];
-        specialArgs = { inherit darwin nixpkgs; };
+        specialArgs = { inherit inputs outputs; };
       };
     };
+    # Expose the package set, including overlays, for convenience.
+    # TODO: I'm not sure how this is helpful yet.
+    darwinPackages = self.darwinConfigurations."Renees-MacBook-Air".pkgs;
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
