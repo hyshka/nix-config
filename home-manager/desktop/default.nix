@@ -73,12 +73,16 @@
     yubikey-manager
     corectrl
     gparted
+    xorg.xhost # required by gparted
     heimdall
     sway-contrib.grimshot # screenshots
     flameshot # screenshots
     grim # required for flameshot
     pavucontrol # volume controls
     xdg-utils # to fix programs launching other programs
+    pkgs.unstable.uair # pomodoro timer
+    libnotify # required to send notifications from uair to mako
+    gnome.pomodoro
 
     # work
     fontforge-gtk
@@ -90,6 +94,28 @@
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks
   ];
+
+  xdg.configFile = {
+    "uair" = {
+      text = ''
+        [defaults]
+        format = "{time}\n"
+
+        [[sessions]]
+        id = "work"
+        name = "Work"
+        duration = "50m"
+        command = "notify-send 'Work Done!'"
+
+        [[sessions]]
+        id = "rest"
+        name = "Rest"
+        duration = "10m"
+        command = "notify-send 'Rest Done!'"
+      '';
+      target = "uair/uair.toml";
+    };
+  };
 
   # Enable font discovery
   fonts.fontconfig.enable = true;
@@ -199,7 +225,14 @@
         height = 30;
 	modules-left = [ "sway/workspaces" "sway/mode" "sway/scratchpad" ];
         modules-center = [ "sway/window" ];
-        modules-right = [ "clock" "tray" ];
+        modules-right = [ "custom/uair" "clock" "tray" ];
+	# requires uair package
+	"custom/uair" = {
+          format = "{}";
+          max-length = 10;
+          exec = "uair";
+	  on-click = "uairctl toggle";
+        };
       };
     };
   };

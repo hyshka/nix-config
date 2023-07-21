@@ -53,7 +53,7 @@
           - window_name: live
             layout: even-vertical
             panes:
-              - htop
+              - glances
               - focus: true
               - blank
       '';

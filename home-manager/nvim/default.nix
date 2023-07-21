@@ -245,6 +245,11 @@ in
         let g:indent_blankline_filetype = ['vim', 'python', 'html', 'htmldjango', 'javascript', 'jsx', 'vue', 'css', 'scss']
     '';
     extraLuaConfig = /* lua */ ''
+      vim.api.nvim_create_user_command("CopyRelPath", function()
+        local path = vim.fn.expand("%:p")
+        vim.fn.setreg("+", path)
+        vim.notify('Copied "' .. path .. '" to the clipboard!')
+      end, {})
     '';
   };
 

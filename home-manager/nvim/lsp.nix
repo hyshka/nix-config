@@ -148,7 +148,7 @@
           local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
           null_ls.setup({
-              debug = false,
+              debug = true,
               sources = {
                   null_ls.builtins.code_actions.eslint_d,
                   null_ls.builtins.completion.tags,
@@ -175,7 +175,14 @@
                           group = augroup,
                           buffer = bufnr,
                           callback = function()
-			      vim.lsp.buf.format({ async = false })
+			      --vim.lsp.buf.format({ async = false })
+			      vim.lsp.buf.format({
+			        async = false,
+				bufnr = bufnr,
+				filter = function(client)
+				    return client.name == "null-ls"
+				end
+			    })
                           end,
                       })
                   end
