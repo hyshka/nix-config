@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   home.packages = with pkgs; [ nix-zsh-completions ];
   programs.zsh = {
     enable = true;
@@ -84,7 +84,17 @@
       # TODO move to ledger module
       LEDGER_FILE = "~/finance/2023/2023.journal";
     };
-    # TODO .zprofile
-    profileExtra = "";
+    envExtra = ''
+      # GemFury key for MuckRack
+      export GEMFURY_DEPLOY_TOKEN=$(cat /run/user/1000/mr_gemfury_deploy_token.txt)
+      # Add private package index globally
+      export PIP_EXTRA_INDEX_URL=$(cat /run/user/1000/mr_pip_extra_index_url.txt)
+      # Add FontAwesome token globally
+      export FONTAWESOME_NPM_AUTH_TOKEN=$(cat /run/user/1000/mr_fontawesome_npm_auth_token.txt)
+    '';
   };
+
+  #sops.secrets.mr_gemfury_deploy_token = {
+  #  sopsFile = ../../starship/secrets.yaml;
+  #};
 }

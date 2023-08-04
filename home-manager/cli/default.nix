@@ -7,6 +7,7 @@
     ./gpg.nix
     ./ranger.nix
     ./ssh.nix
+    ./sops.nix
     ./tmux.nix
     ./zsh.nix
   ];
