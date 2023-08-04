@@ -17,15 +17,23 @@
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # sops-nix
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
     zimfw.url = "github:joedevivo/zimfw.nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, sops-nix, ... }@inputs:
     let
       inherit (self) outputs;
+      lib = nixpkgs.lib // home-manager.lib;
+      systems = [ "x86_64-linux" "aarch64-linux" ];
+      forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
+      pkgsFor = nixpkgs.legacyPackages;
     in {
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays { inherit inputs; };
@@ -36,13 +44,15 @@
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
 
+    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       starship = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ ./starship/configuration.nix ];
+        modules = [ ./starship/configuration.nix sops-nix.nixosModules.sops ];
       };
       nixos-vm = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config

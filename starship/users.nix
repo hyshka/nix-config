@@ -21,4 +21,10 @@ in
       shell = pkgs.zsh;
     };
   };
+
+  sops.secrets.hyshka_password = {
+    # TODO testing
+    sopsFile = ./secrets.yaml;
+    neededForUsers = true;
+  };
 }

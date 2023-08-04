@@ -1,0 +1,26 @@
+keys:
+  # Users
+  - &users:
+    - &hyshka 24F4192528C48797E539F247DB2D93D1BFAAA6EA
+  # Hosts
+  - &hosts:
+    # generate age from ssh host key
+    # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+    # when changin keys
+    # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
+    - &starship age1tpe0kar8t0dp48n7smgmtmk2st7jnswmwtlfapkld8fncvh03e5qrn048k
+
+creation_rules:
+  - path_regex: starship/secrets.ya?ml$
+    key_groups:
+      - age:
+          - *starship
+        pgp:
+          - *hyshka
+
+  #- path_regex: hosts/common/secrets.ya?ml$
+  #      key_groups:
+  #      - age:
+  #        - *starship
+  #        pgp:
+  #        - *hyshka
