@@ -15,6 +15,7 @@
       #inputs.hardware.nixosModules.common-cpu-amd-pstate
       inputs.hardware.nixosModules.common-gpu-amd
       #inputs.hardware.nixosModules.common-hidpi
+      inputs.sops-nix.nixosModules.sops
 
       # You can also split up your configuration and import pieces of it here:
       ./desktop.nix
@@ -65,4 +66,3 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 }
-

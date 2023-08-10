@@ -9,12 +9,19 @@ keys:
     # when changin keys
     # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
     - &starship age1tpe0kar8t0dp48n7smgmtmk2st7jnswmwtlfapkld8fncvh03e5qrn048k
+    - &rpi4 age1tx037c5v8g67tf6ees8aeg5dq2mv2z650lpqeusympfdx4sg85mq97yja5
 
 creation_rules:
   - path_regex: starship/secrets.ya?ml$
     key_groups:
       - age:
           - *starship
+        pgp:
+          - *hyshka
+  - path_regex: rpi4/secrets.ya?ml$
+    key_groups:
+      - age:
+          - *rpi4
         pgp:
           - *hyshka
   - path_regex: home-manager/secrets.ya?ml$

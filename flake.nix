@@ -52,17 +52,15 @@
       starship = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ ./starship/configuration.nix sops-nix.nixosModules.sops ];
+        modules = [ ./starship/configuration.nix ];
       };
       nixos-vm = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
+        specialArgs = { inherit inputs outputs; };
         modules = [ ./nixos-vm/configuration.nix ];
       };
       rpi4 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [ hardware.nixosModules.raspberry-pi-4 ./rpi4/configuration.nix ];
+        specialArgs = { inherit inputs outputs; };
+        modules = [ ./rpi4/configuration.nix ];
       };
     };
 
@@ -89,9 +87,8 @@
         modules = [ ./home-manager/home.nix ];
       };
       "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = { inherit inputs outputs; };
         modules = [ ./home-manager/home.nix ];
       };
     };
