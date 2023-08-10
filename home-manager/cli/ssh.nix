@@ -28,6 +28,7 @@ in
     #  };
       rpi4 = {
         host = "rpi4";
+        hostname = "10.0.0.250";
 	port = 38000;
 	user = "hyshka";
       };
