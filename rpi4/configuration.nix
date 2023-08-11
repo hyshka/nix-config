@@ -127,6 +127,7 @@
     };
   };
 
+  # TODO pull in home manager tmux
   programs.tmux = {
     enable = true;
     keyMode = "vi";
