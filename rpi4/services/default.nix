@@ -19,8 +19,8 @@
       enable = true;
       ports = [ 38000 ];
       settings = {
-        passwordAuthentication = false;
-        permitRootLogin = "no";
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
       };
   };
 
