@@ -20,9 +20,11 @@
 
   services.openssh = {
       enable = true;
-      permitRootLogin = "no";
-      passwordAuthentication = false;
       ports = [ 38000 ];
+      settings = {
+        passwordAuthentication = false;
+        permitRootLogin = "no";
+      };
   };
 
   services.ddclient = {
