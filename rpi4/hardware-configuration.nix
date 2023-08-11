@@ -4,6 +4,12 @@
       arm_boost=1
   '';
 
+  # TODO fix crash https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1669557985
+  boot.kernelParams = [ "kunit.enable=0" ];
+  https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1668650025
+  # TODO fix nix build
+  hardware.deviceTree.filter = "bcm2711-rpi-4*.dtb";
+
   # TODO slim down kernel modules, disable wireless
   # boot = {
   #         blacklistedKernelModules = [
@@ -60,7 +66,7 @@
   zramSwap.enable = true;
 
   # Enable GPU acceleration for transcoding
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
+  #hardware.raspberry-pi."4".fkms-3d.enable = true;
 
   nixpkgs.hostPlatform.system = "aarch64-linux";
 }
