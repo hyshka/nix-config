@@ -217,6 +217,6 @@
   };
 
   sops.secrets.nginx_basic_auth = {
-    sopsFile = ./secrets.yaml;
+    sopsFile = ../secrets.yaml;
   };
 }
