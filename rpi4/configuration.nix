@@ -11,6 +11,7 @@
     inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
+    ./services
     ./psitransfer.nix # TODO move nixos config module to ./modules
 
     # Import your generated (nixos-generate-config) hardware configuration
