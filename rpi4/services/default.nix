@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   services.snapper = {
       configs = {
