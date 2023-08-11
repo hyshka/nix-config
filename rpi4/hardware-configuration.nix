@@ -6,7 +6,7 @@
 
   # TODO fix crash https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1669557985
   boot.kernelParams = [ "kunit.enable=0" ];
-  https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1668650025
+  # https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1668650025
   # TODO fix nix build
   hardware.deviceTree.filter = "bcm2711-rpi-4*.dtb";
 
