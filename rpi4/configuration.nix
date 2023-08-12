@@ -42,6 +42,8 @@
 
       # filesystem
       btrfs-progs fuse snapper
+      # hard disk tools
+      smartmontools fio
 
       # misc
       fontconfig glibc
