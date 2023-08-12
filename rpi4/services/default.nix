@@ -135,6 +135,12 @@
                       devices = [ "galaxys9" ];
                       type = "receiveonly";
               };
+              "Phone Pictures" = {
+                      id = "ti8iw-ywmhx";
+                      path = "/mnt/storage/hyshka/Phone Pictures";
+                      devices = [ "bryan-pixel4" ];
+                      type = "receiveonly";
+              };
       };
   };
 
