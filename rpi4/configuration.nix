@@ -43,7 +43,7 @@
       # filesystem
       btrfs-progs fuse snapper
       # hard disk tools
-      smartmontools fio hdparm
+      smartmontools fio hdparm iozone
 
       # misc
       fontconfig glibc
