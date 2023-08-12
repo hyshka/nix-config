@@ -20,6 +20,13 @@
 
   # TODO use common module
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs = {
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
 
   # TODO slim down packages, go headless
   # environment.noXlibs = mkDefault true;
