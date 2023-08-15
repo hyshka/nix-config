@@ -37,7 +37,7 @@
 
       NSGlobalDomain = {
         "com.apple.swipescrolldirection" = false;
-	"com.apple.sound.beep.feedback" = 0
+	"com.apple.sound.beep.feedback" = 0;
 	AppleInterfaceStyleSwitchesAutomatically = true;
 	AppleKeyboardUIMode = 3; # TODO full keyboard control, not sure what this does
 	NSAutomaticCapitalizationEnabled = false;
