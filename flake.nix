@@ -74,7 +74,15 @@
         specialArgs = { inherit inputs outputs; };
       };
       "Bryans-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        modules = [ ./bryan-macbook/configuration.nix ];
+        modules = [
+	  ./bryan-macbook/configuration.nix
+	  home-manager.darwinModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = inputs;
+            home-manager.users.hyshka = import ./bryan-macbook/home.nix;
+          }
+	];
         specialArgs = { inherit inputs outputs; };
       };
     };
