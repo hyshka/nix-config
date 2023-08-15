@@ -4,14 +4,14 @@
 { inputs, outputs, lib, config, pkgs, ... }:
 {
   # You can import other home-manager modules here
-  imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    #inputs.zimfw.homeManagerModules.zimfw
+  #imports = [
+  #  # If you want to use home-manager modules from other flakes (such as nix-colors):
+  #  #inputs.zimfw.homeManagerModules.zimfw
 
-    # You can also split up your configuration and import pieces of it here:
-    #../home-manager/cli
-    #../home-manager/nvim
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  #  # You can also split up your configuration and import pieces of it here:
+  #  #../home-manager/cli
+  #  #../home-manager/nvim
+  #] ++ (builtins.attrValues outputs.homeManagerModules);
 
   home = {
     username = "hyshka";
