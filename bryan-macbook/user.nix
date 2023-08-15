@@ -16,5 +16,5 @@ in
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.extraSpecialArgs = inputs;
-  home-manager.users.hyshka = import ./home;
+  home-manager.users.hyshka = import ./home.nix;
 }
