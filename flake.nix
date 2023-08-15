@@ -67,6 +67,7 @@
     # Nix-Darwin configuration entrypoint
     # TODO: darwin-rebuild is not installed
     # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
+    # nix run nix-darwin -- switch --flake .
     darwinConfigurations = {
       "Renees-MacBook-Air" = nix-darwin.lib.darwinSystem {
         modules = [ ./renee-macbook/configuration.nix ];
