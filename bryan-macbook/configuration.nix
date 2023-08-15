@@ -23,7 +23,7 @@
   # programs.fish.enable = true;
 
 
-  system.defaults.NSGlobalDomain."com.apple.sound.beep.volume" = 0;
+  system.defaults.NSGlobalDomain."com.apple.sound.beep.volume" = 0.0;
   system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToEscape = true;
