@@ -11,7 +11,8 @@
       #inputs.sops-nix.nixosModules.sops
 
       # You can also split up your configuration and import pieces of it here:
-      ../starship/nix.nix
+      # TODO
+      #../starship/nix.nix
       # Create /etc/zshrc that loads the nix-darwin environment.
       # this is required if you want to use darwin's default shell - zsh
       ../starship/shell.nix
