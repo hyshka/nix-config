@@ -1,5 +1,5 @@
 # inputs.self, inputs.nix-darwin, and inputs.nixpkgs can be accessed here
-{ inputs, outputs, pkgs, lib, ... }:
+{ inputs, outputs, pkgs, lib, config, ... }:
 {
   imports =
     [
