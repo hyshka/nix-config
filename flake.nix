@@ -72,6 +72,10 @@
         modules = [ ./renee-macbook/configuration.nix ];
         specialArgs = { inherit inputs outputs; };
       };
+      "Bryans-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+        modules = [ ./bryan-macbook/configuration.nix ];
+        specialArgs = { inherit inputs outputs; };
+      };
     };
     # Expose the package set, including overlays, for convenience.
     # TODO: I'm not sure how this is helpful yet.
