@@ -15,7 +15,8 @@
       # Create /etc/zshrc that loads the nix-darwin environment.
       # this is required if you want to use darwin's default shell - zsh
       ../starship/shell.nix
-      ../starship/sshd.nix
+      # TODO security.pam is not an option on darwin
+      #../starship/sshd.nix
       # osx settings
       ./system.nix
 
