@@ -1,32 +1,57 @@
 # inputs.self, inputs.nix-darwin, and inputs.nixpkgs can be accessed here
 { inputs, outputs, pkgs, lib, ... }:
 {
+  imports =
+    [
+      # If you want to use modules your own flake exports (from modules/nixos):
+      # outputs.nixosModules.example
+
+      # If you want to use modules from other flakes (such as nixos-hardware):
+      inputs.home-manager.darwinModules.home-manager
+      #inputs.sops-nix.nixosModules.sops
+
+      # You can also split up your configuration and import pieces of it here:
+      ../starship/nix.nix
+      # Create /etc/zshrc that loads the nix-darwin environment.
+      # this is required if you want to use darwin's default shell - zsh
+      ../starship/shell.nix
+      ../starship/sshd.nix
+      # osx settings
+      ./system.nix
+
+      # Import your generated (nixos-generate-config) hardware configuration
+      #./hardware-configuration.nix
+    ];
+
   # Ref:
   # http://daiderd.com/nix-darwin/
   # https://github.com/LnL7/nix-darwin
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = [
-    pkgs.vim
-  ];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
-  # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
+  # Install packages from nix's official package repository.
+  #
+  # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
+  # But on macOS, it's less stable than homebrew.
+  #
+  # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
+  # List packages installed in system profile. To search by name, run:
+  # $ nix-env -qaP | grep wget
+  # environment.systemPackages = with pkgs; [];
 
-  # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;  # default shell on catalina
-  # programs.fish.enable = true;
 
+  # home manager
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.extraSpecialArgs = inputs;
 
-  system.defaults.NSGlobalDomain."com.apple.sound.beep.volume" = 0.0;
-  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = true;
+  # TODO replace "yourusername" with your own username!
+  #home-manager.users.yourusername = import ./home;
+
+  # override starship port
+  services.openssh.ports = [ 38002 ];
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
