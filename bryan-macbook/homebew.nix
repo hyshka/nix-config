@@ -41,6 +41,9 @@
     casks = [
       "firefox"
       "google-chrome"
+      "slack"
+      "discord"
+      "spotify"
       #"discord"
       #"syncthing"
       #"raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
