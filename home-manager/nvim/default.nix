@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
   color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
   #isDarwin = pkgs.stdenv.isDarwin;
