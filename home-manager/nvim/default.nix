@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 let
   color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
+  #isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
   imports = [
@@ -260,7 +262,7 @@ in
     done
   '';
 
-  xdg.desktopEntries = {
+  xdg.desktopEntries = lib.mkIf isLinux {
     nvim = {
       name = "Neovim";
       genericName = "Text Editor";
