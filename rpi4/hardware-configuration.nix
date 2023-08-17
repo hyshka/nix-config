@@ -56,6 +56,11 @@
       fsType = "btrfs";
       options = [ "defaults" "noatime" "subvol=mediacenter" ];
     };
+    "/mnt/parity1" = {
+      device = "/dev/disk/by-partlabel/parity1";
+      fsType = "ext4";
+      options = [ "defaults" "noatime" ];
+    };
   };
 
   swapDevices = [ {
