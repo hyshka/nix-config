@@ -50,7 +50,7 @@
       # filesystem
       btrfs-progs fuse snapper
       # hard disk tools
-      smartmontools fio hdparm iozone
+      smartmontools fio hdparm iozone parted
 
       # misc
       fontconfig glibc
