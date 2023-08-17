@@ -7,9 +7,11 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     #inputs.zimfw.homeManagerModules.zimfw
+    # TODO sops-nix is broken in darwin right now due to isLinux conditional
+    #inputs.sops-nix.homeManagerModule
 
     # You can also split up your configuration and import pieces of it here:
-    #../home-manager/cli
+    ../home-manager/cli
     ../home-manager/nvim
     ../modules/home-manager/zimfw.nix
   ];# ++ (builtins.attrValues outputs.homeManagerModules);

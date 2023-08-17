@@ -10,6 +10,9 @@ keys:
     # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
     - &starship age1tpe0kar8t0dp48n7smgmtmk2st7jnswmwtlfapkld8fncvh03e5qrn048k
     - &rpi4 age1tx037c5v8g67tf6ees8aeg5dq2mv2z650lpqeusympfdx4sg85mq97yja5
+    # not easy to find ssh host key on macos
+    # age-keygen -o ~/.config/sops/age/keys.txt
+    - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
 
 creation_rules:
   - path_regex: starship/secrets.ya?ml$
@@ -28,6 +31,7 @@ creation_rules:
     key_groups:
       - age:
           - *starship
+          - *macpro
         pgp:
           - *hyshka
 

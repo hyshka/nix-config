@@ -73,7 +73,8 @@
         modules = [ ./renee-macbook/configuration.nix ];
         specialArgs = { inherit inputs outputs; };
       };
-      "Bryans-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      # TODO: update weird company hostname?
+      "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
 	  ./bryan-macbook/configuration.nix
 	  home-manager.darwinModules.home-manager {

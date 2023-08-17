@@ -1,5 +1,6 @@
 { pkgs, config, lib, ... }:
 let
+  isLinux = pkgs.stdenv.isLinux;
   #pinentry =
   #  if config.gtk.enable then {
   #    packages = [ pkgs.pinentry-gnome pkgs.gcr ];
@@ -16,12 +17,12 @@ in
 {
   home.packages = pinentry.packages;
 
-  services.gpg-agent = {
+  services.gpg-agent = lib.mkIf isLinux {
     enable = true;
     enableSshSupport = true;
     pinentryFlavor = pinentry.name;
     defaultCacheTtl = 1800; # 30 min
-   };
+  };
 
   programs =
     let

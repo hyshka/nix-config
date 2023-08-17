@@ -1,10 +1,15 @@
+{ inputs, pkgs, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
 {
   sops = {
     #age.keyFile = "/home/hyshka/.age-key.txt"; # must have no password!
     # It's also possible to use a ssh key, but only when it has no password:
     #age.sshKeyPaths = [ "/home/user/path-to-ssh-key" ];
     gnupg = {
-      home = "/home/hyshka/.gnupg";
+      # TODO move to mac config
+      home = if isLinux then "/home/hyshka/.gnupg" else "/Users/hyshka/.gnupg";
     };
     defaultSopsFile = ../secrets.yaml;
     secrets = {
