@@ -32,6 +32,26 @@ in
 	port = 38000;
 	user = "hyshka";
       };
+      rpi4Ex = {
+        host = "rpi4Ex";
+        hostname = "68.148.153.144";
+	port = 38000;
+	user = "hyshka";
+      };
+      starship = {
+        host = "starship";
+        hostname = "10.0.0.251";
+	port = 38001;
+	user = "hyshka";
+        proxyJump = "hyshka@10.0.0.250:38000";
+      };
+      starshipEx = {
+        host = "starshipEx";
+        hostname = "10.0.0.251";
+	port = 38000;
+	user = "hyshka";
+        proxyJump = "hyshka@68.148.153.144:38000";
+      };
       # TODO not sure if I need this on mac
       #github = {
       #  host = "github";
