@@ -93,8 +93,4 @@
       export FONTAWESOME_NPM_AUTH_TOKEN=$(cat /run/user/1000/mr_fontawesome_npm_auth_token.txt)
     '';
   };
-
-  #sops.secrets.mr_gemfury_deploy_token = {
-  #  sopsFile = ../../starship/secrets.yaml;
-  #};
 }
