@@ -36,25 +36,10 @@
       fsType = "ext4";
       options = [ "defaults" "noatime" ];
     };
-    "/mnt/btrfs" = {
-      device = "/dev/disk/by-label/elements1";
-      fsType = "btrfs";
-      options = [ "defaults" "noatime" ];
-    };
     "/mnt/storage" = {
       device = "/dev/disk/by-label/elements1";
       fsType = "btrfs";
-      options = [ "defaults" "noatime" "subvol=storage" ];
-    };
-    "/mnt/psitransfer" = {
-      device = "/dev/disk/by-label/elements1";
-      fsType = "btrfs";
-      options = [ "defaults" "noatime" "subvol=psitransfer" ];
-    };
-    "/mnt/mediacenter" = {
-      device = "/dev/disk/by-label/elements1";
-      fsType = "btrfs";
-      options = [ "defaults" "noatime" "subvol=mediacenter" ];
+      options = [ "defaults" "noatime" ];
     };
     "/mnt/parity1" = {
       device = "/dev/disk/by-partlabel/parity1";

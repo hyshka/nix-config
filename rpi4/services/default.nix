@@ -3,7 +3,7 @@
   services.snapper = {
       configs = {
               storage = {
-                  SUBVOLUME = "/mnt/storage";
+                  SUBVOLUME = "/mnt/storage/hyshka";
 		  TIMELINE_CREATE = true;
 		  TIMELINE_CLEANUP = true;
                   TIMELINE_LIMIT_HOURLY = 12;
@@ -221,7 +221,7 @@
       enable = true;
       listenAddress = "127.0.0.1";
       port = 3000;
-      uploadDirectory = "/mnt/psitransfer";
+      uploadDirectory = "/mnt/storage/psitransfer";
       # TODO move to sops
       uploadPasswordFile = "/var/psitransfer-uploadpass";
   };

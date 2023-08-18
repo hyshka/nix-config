@@ -41,7 +41,7 @@
       ];
     };
     "/home/hyshka/storage" = {
-      device = "hyshka@10.0.0.250:/mnt/storage";
+      device = "hyshka@10.0.0.250:/mnt/storage/hyshka";
       fsType = "fuse.sshfs";
       options = [
         "noauto"
