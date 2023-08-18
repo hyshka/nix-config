@@ -82,7 +82,7 @@
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  # environment.systemPackages = with pkgs; [];
+  #environment.systemPackages = with pkgs; [ ];
 
   # override starship port
   #TODO

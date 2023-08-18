@@ -32,6 +32,17 @@ in
 	port = 38000;
 	user = "hyshka";
       };
+      # TODO not sure if I need this on mac
+      #github = {
+      #  host = "github";
+      #  hostname = "github.com";
+      #  user = "hyshka";
+      #  identityFile = [ "~/.ssh/id_rsa" ];
+      #  extraOptions = {
+      #    AddKeysToAgent = "yes";
+      #    UseKeychain = "yes";
+      #  };
+      #};
     };
   };
   home.packages = with pkgs; [
