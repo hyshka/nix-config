@@ -48,6 +48,7 @@
       #"syncthing"
       #"raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       #"iglance"   # beautiful system monitor
+      "tomatobar"
     ];
   };
 }
