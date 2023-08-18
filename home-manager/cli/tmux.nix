@@ -4,7 +4,9 @@
     tmuxp.enable = true;
     mouse = true;
     keyMode = "vi";
-    terminal = "tmux-256color";
+    # TODO install tmux-256color profile on mac
+    # https://gist.github.com/bbqtd/a4ac060d6f6b9ea6fe3aabe735aa9d95
+    terminal = "screen-256color";
     customPaneNavigationAndResize = true;
     shortcut = "Space";
     baseIndex = 1;
@@ -33,6 +35,7 @@
       bind-key -T copy-mode-vi 'Space' send -X halfpage-down
       bind-key -T copy-mode-vi 'BSpace' send -X halfpage-up
       # 24 bit color
+      # TODO no longer use kitty
       set-option -sa terminal-features ',xterm-kitty:RGB'
       # statusline
       set -g status-left '#{prefix_highlight}'
