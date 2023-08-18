@@ -21,6 +21,20 @@
     homeDirectory = "/Users/hyshka";
   };
 
+  # TODO WIP
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        startup_mode = "Fullscreen";
+        option_as_alt = "Both";
+      };
+      font = {
+        size = 12.0;
+      };
+    };
+  };
+
   # Add stuff for your user as you see fit:
   #home.packages = with pkgs; [];
 
