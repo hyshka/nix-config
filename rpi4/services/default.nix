@@ -4,7 +4,7 @@
     restic_password = {
       sopsFile = ../secrets.yaml;
     };
-    restic_s3CredentialsFile = {
+    restic_environmentFile = {
       sopsFile = ../secrets.yaml;
     };
   };
