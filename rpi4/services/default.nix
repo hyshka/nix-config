@@ -27,7 +27,7 @@
   services.restic.backups.hyshka = {
     user = "hyshka";
     passwordFile = config.sops.secrets.restic_password.path;
-    s3CredentialsFile = config.sops.secrets.restic_s3CredentialsFile.path;
+    environmentFile = config.sops.secrets.restic_s3CredentialsFile.path;
     initialize = true;
     paths = [
       "/mnt/storage/hyshka"
