@@ -3,9 +3,13 @@
   sops.secrets = {
     restic_password = {
       sopsFile = ../secrets.yaml;
+      owner = config.users.users.hyshka.name;
+      group = config.users.users.hyshka.group;
     };
     restic_environmentFile = {
       sopsFile = ../secrets.yaml;
+      owner = config.users.users.hyshka.name;
+      group = config.users.users.hyshka.group;
     };
   };
 
