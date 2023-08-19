@@ -1,5 +1,14 @@
 { config, pkgs, ... }:
 {
+  sops.secrets = {
+    restic_password = {
+      sopsFile = ../secrets.yaml;
+    };
+    restic_s3CredentialsFile = {
+      sopsFile = ../secrets.yaml;
+    };
+  };
+
   services.snapper = {
       configs = {
               storage = {
@@ -13,6 +22,25 @@
                   TIMELINE_LIMIT_YEARLY = 0;
                 };
       };
+  };
+
+  services.restic.backups.hyshka = {
+    user = "hyshka";
+    passwordFile = config.sops.secrets.restic_password.path;
+    s3CredentialsFile = config.sops.secrets.restic_s3CredentialsFile.path;
+    initialize = true;
+    paths = [
+      "/mnt/storage/hyshka"
+    ];
+    exclude = [
+      ".snapshots"
+      ".Trash-1000"
+    ];
+    repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
+    #timerConfig = {
+    #  OnCalendar = "03:00";
+    #  RandomizedDelaySec = "5h";
+    #};
   };
 
   services.openssh = {
