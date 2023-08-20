@@ -41,10 +41,10 @@
       ".Trash-1000"
     ];
     repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
-    #timerConfig = {
-    #  OnCalendar = "03:00";
-    #  RandomizedDelaySec = "5h";
-    #};
+    timerConfig = {
+      OnCalendar = "03:00";
+      Persistent = true;
+    };
   };
 
   services.openssh = {
