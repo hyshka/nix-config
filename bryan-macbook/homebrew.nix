@@ -34,6 +34,9 @@
     brews = [
       "wget"  # download tool
       "curl"  # no not install curl via nixpkgs, it's not working well on macOS!
+
+      # muck rack
+      #"pre-commit"
     ];
 
     # `brew install --cask`
@@ -49,6 +52,18 @@
       #"raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       #"iglance"   # beautiful system monitor
       "tomatobar"
+
+      # muck rack
+      "docker"
+      # Manually open docker desktop:
+      #   - Use advanced settings > user install so you don't need to sudo docker
+      # client commands.
+      # then open settings:
+      #   - disable start at login
+      #   - 16 gb memory
+      #   - use rosetta
+      # The following was noted but not required for me:
+      #   - add $HOME/.docker/bin to your PATH
     ];
   };
 }

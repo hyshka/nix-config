@@ -36,7 +36,14 @@
   };
 
   # Add stuff for your user as you see fit:
-  #home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+    # muck rack
+    # TODO move to module
+    pre-commit
+    python310Packages.nodeenv # for node.js pre-commit hooks
+    #gnumake
+    #awscli2
+  ];
 
   # Enable home-manager
   programs = {
