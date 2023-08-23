@@ -6,8 +6,8 @@
     ./glances.nix
     ./gpg.nix
     ./ranger.nix
-    ./ssh.nix
     ./sops.nix
+    ./ssh.nix
     ./tmux.nix
     ./zsh.nix
   ];
