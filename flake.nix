@@ -78,6 +78,12 @@
         modules = [
 	  ./bryan-macbook/configuration.nix
 	  home-manager.darwinModules.home-manager {
+            # If you want to use home-manager modules from other flakes (such as nix-colors):
+	    home-manager.sharedModules = [
+              #zimfw.homeManagerModules.zimfw
+              sops-nix.homeManagerModule
+            ];
+            # TODO ++ (builtins.attrValues outputs.homeManagerModules);
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = inputs;

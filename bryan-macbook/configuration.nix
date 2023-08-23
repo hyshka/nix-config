@@ -8,7 +8,6 @@
 
       # If you want to use modules from other flakes (such as nixos-hardware):
       inputs.home-manager.darwinModules.home-manager
-      #inputs.sops-nix.nixosModules.sops
 
       # You can also split up your configuration and import pieces of it here:
       # TODO

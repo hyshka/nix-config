@@ -5,23 +5,39 @@
 {
   # You can import other home-manager modules here
   imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    #inputs.zimfw.homeManagerModules.zimfw
-    # TODO sops-nix is broken in darwin right now due to isLinux conditional
-    #inputs.sops-nix.homeManagerModule
-
     # You can also split up your configuration and import pieces of it here:
     ../home-manager/cli
     ../home-manager/nvim
+    # TODO move zimfw module to flake.nix
     ../modules/home-manager/zimfw.nix
-  ];# ++ (builtins.attrValues outputs.homeManagerModules);
+  ];
 
   home = {
     username = "hyshka";
     homeDirectory = "/Users/hyshka";
   };
 
-  # TODO WIP
+  # TODO move to module
+  sops = {
+    gnupg = {
+      home = "/Users/hyshka/.gnupg";
+    };
+    defaultSopsFile = ../home-manager/secrets.yaml;
+    secrets = {
+      # TODO move to cli/zsh.nix?
+      mr_gemfury_deploy_token = {
+        path = "%r/mr_gemfury_deploy_token.txt";
+      };
+      mr_pip_extra_index_url = {
+        path = "%r/mr_pip_extra_index_url.txt";
+      };
+      mr_fontawesome_npm_auth_token = {
+        path = "%r/mr_fontawesome_npm_auth_token.txt";
+      };
+    };
+  };
+
+  # TODO can't launch alacritty via spotlight
   programs.alacritty = {
     enable = true;
     settings = {
@@ -41,8 +57,9 @@
     # TODO move to module
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks
-    #gnumake
+    # TODO aws cli
     #awscli2
+    # TODO mrcli
   ];
 
   # Enable home-manager
