@@ -91,7 +91,7 @@
     };
     # Expose the package set, including overlays, for convenience.
     # TODO: I'm not sure how this is helpful yet.
-    darwinPackages = self.darwinConfigurations."Renees-MacBook-Air".pkgs;
+    darwinPackages = self.darwinConfigurations."hyshka-D5920DQ4RN".pkgs;
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
