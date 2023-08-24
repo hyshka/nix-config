@@ -38,6 +38,7 @@ in
       # })
     ];
     # Configure your nixpkgs instance
+    # TODO I don't know why this also needs to be set for home-manager
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
@@ -45,6 +46,9 @@ in
       allowUnfreePredicate = (_: true);
     };
   };
+
+  colorscheme = lib.mkDefault colorSchemes.gruvbox-light-medium;
+  home.file.".colorscheme".text = config.colorscheme.slug;
 
   home = {
     username = "hyshka";
@@ -59,9 +63,6 @@ in
     home-manager.enable = true;
     git.enable = true; # always a requirement for home-manager
   };
-
-  colorscheme = lib.mkDefault colorSchemes.gruvbox-light-medium;
-  home.file.".colorscheme".text = config.colorscheme.slug;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

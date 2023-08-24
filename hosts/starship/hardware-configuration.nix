@@ -56,6 +56,8 @@
       ];
     };
   };
+  # for sshfs mount
+  environment.systemPackages = with pkgs; [ sshfs ];
 
   swapDevices = [ {
     device = "/var/lib/swapfile";
