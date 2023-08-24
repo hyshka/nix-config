@@ -52,15 +52,15 @@
       starship = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ ./starship/configuration.nix ];
+        modules = [ ./hosts/starship/configuration.nix ];
       };
       nixos-vm = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
-        modules = [ ./nixos-vm/configuration.nix ];
+        modules = [ ./hosts/nixos-vm/configuration.nix ];
       };
       rpi4 = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
-        modules = [ ./rpi4/configuration.nix ];
+        modules = [ ./hosts/rpi4/configuration.nix ];
       };
     };
 
@@ -72,7 +72,7 @@
       # TODO: update weird company hostname?
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
-	  ./bryan-macbook/configuration.nix
+	  ./hosts/bryan-macbook/configuration.nix
 	  home-manager.darwinModules.home-manager {
             # If you want to use home-manager modules from other flakes (such as nix-colors):
 	    home-manager.sharedModules = [
@@ -83,7 +83,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.hyshka = import ./bryan-macbook/home.nix;
+            home-manager.users.hyshka = import ./hosts/bryan-macbook/home.nix;
           }
 	];
         specialArgs = { inherit inputs outputs; };

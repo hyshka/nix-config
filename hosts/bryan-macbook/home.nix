@@ -6,12 +6,12 @@
   # You can import other home-manager modules here
   imports = [
     # You can also split up your configuration and import pieces of it here:
-    ../home-manager/cli
-    ../home-manager/nvim
+    ../../home-manager/cli
+    ../../home-manager/nvim
     # TODO can't launch alacritty via spotlight
-    ../home-manager/alacritty.nix
+    ../../home-manager/alacritty.nix
     # TODO move zimfw module to flake.nix
-    ../modules/home-manager/zimfw.nix
+    ../../modules/home-manager/zimfw.nix
   ];
 
   home = {
