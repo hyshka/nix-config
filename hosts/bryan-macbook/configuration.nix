@@ -38,7 +38,11 @@
   # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  #environment.systemPackages = with pkgs; [ ];
+  #environment.systemPackages = with pkgs; [];
+
+  # Set Git commit hash for darwin-version.
+  # TODO coming soon
+  #system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
