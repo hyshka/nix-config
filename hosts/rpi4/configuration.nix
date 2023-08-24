@@ -32,7 +32,7 @@
   # environment.noXlibs = mkDefault true;
 
   networking = {
-    hostName = "rpi4-nixos";
+    hostName = "rpi4";
     firewall = {
       allowedTCPPorts = [ 80 443 22000 38000 ];
       # docker interface for mediacenter network, allows docker to access ntfy
