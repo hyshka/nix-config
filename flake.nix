@@ -69,10 +69,6 @@
     # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
     # nix run nix-darwin -- switch --flake .
     darwinConfigurations = {
-      "Renees-MacBook-Air" = nix-darwin.lib.darwinSystem {
-        modules = [ ./renee-macbook/configuration.nix ];
-        specialArgs = { inherit inputs outputs; };
-      };
       # TODO: update weird company hostname?
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
