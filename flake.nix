@@ -78,8 +78,7 @@
 	    home-manager.sharedModules = [
               #zimfw.homeManagerModules.zimfw
               sops-nix.homeManagerModule
-            ];
-            # TODO ++ (builtins.attrValues outputs.homeManagerModules);
+            ] ++ (builtins.attrValues outputs.homeManagerModules);
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = inputs;

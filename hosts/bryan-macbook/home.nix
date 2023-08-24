@@ -10,8 +10,6 @@
     ../../home-manager/nvim
     # TODO can't launch alacritty via spotlight
     ../../home-manager/alacritty.nix
-    # TODO move zimfw module to flake.nix
-    ../../modules/home-manager/zimfw.nix
   ];
 
   home = {
