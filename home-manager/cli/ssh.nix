@@ -48,7 +48,7 @@ in
       starshipEx = {
         host = "starshipEx";
         hostname = "10.0.0.251";
-	port = 38000;
+	port = 38001;
 	user = "hyshka";
         proxyJump = "hyshka@68.148.153.144:38000";
       };
