@@ -18,10 +18,10 @@
       inputs.sops-nix.nixosModules.sops
 
       # You can also split up your configuration and import pieces of it here:
+      ../common/nix.nix
+      ../common/zsh.nix
       ./desktop.nix
       ./docker.nix
-      ./nix.nix
-      ./shell.nix
       ./sshd.nix
       ./users.nix
 

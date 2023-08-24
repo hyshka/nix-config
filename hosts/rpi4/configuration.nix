@@ -11,22 +11,13 @@
     inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
+    ../common/nix.nix
     ./services
     ./psitransfer.nix # TODO move nixos config module to ./modules
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
-
-  # TODO use common module
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs = {
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
-  };
 
   # TODO slim down packages, go headless
   # environment.noXlibs = mkDefault true;
@@ -41,7 +32,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-  	# rpi utils
+      # rpi utils
       raspberrypi-eeprom libraspberrypi
 
       # utils

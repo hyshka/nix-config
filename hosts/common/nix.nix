@@ -1,4 +1,7 @@
-{ inputs, lib, config, ... }:
+{ inputs, lib, config, pkgs, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
 {
   nixpkgs = {
     # Configure your nixpkgs instance
@@ -27,9 +30,10 @@
 
     gc = {
       automatic = true;
-      dates = "weekly";
       # Delete older generations too
       options = "--delete-older-than 7d";
     };
+    gc.dates = lib.mkIf isLinux "weekly";
+    # gc.interval defaults to daily on darwin
   };
 }

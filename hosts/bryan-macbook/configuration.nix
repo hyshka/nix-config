@@ -10,14 +10,10 @@
       inputs.home-manager.darwinModules.home-manager
 
       # You can also split up your configuration and import pieces of it here:
-      # TODO
-      #../starship/nix.nix
+      ../common/nix.nix
       # Create /etc/zshrc that loads the nix-darwin environment.
       # this is required if you want to use darwin's default shell - zsh
-      ../starship/shell.nix
-      # TODO security.pam is not an option on darwin
-      #../starship/sshd.nix
-      # osx settings
+      ../common/zsh.nix
       ./system.nix
       ./homebrew.nix
       ./user.nix
@@ -27,47 +23,8 @@
     ];
 
   # Ref:
-  # http://daiderd.com/nix-darwin/
+  # https://daiderd.com/nix-darwin/manual/index.html
   # https://github.com/LnL7/nix-darwin
-
-  # TODO merge with ./starship/nix.nix once I figue out how to pass different
-  # options
-  # isDarwin = pkgs.stdenv.isDarwin;
-  # Ref: https://github.com/mitchellh/nixos-config/blob/main/users/mitchellh/home-manager.nix#L5C3-L5C35
-  nixpkgs = {
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
-  };
-  nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
-
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-
-    settings = {
-      # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes";
-      # Deduplicate and optimize nix store
-      auto-optimise-store = true;
-      warn-dirty = false;
-    };
-
-    gc = {
-      automatic = true;
-      # TODO weekly interval?
-      # interval = "weekly";
-      # Delete older generations too
-      options = "--delete-older-than 7d";
-    };
-  };
-  # end nix module
-
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
@@ -82,10 +39,6 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   #environment.systemPackages = with pkgs; [ ];
-
-  # override starship port
-  #TODO
-  #services.openssh.ports = [ 38002 ];
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
