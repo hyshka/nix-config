@@ -26,6 +26,14 @@
   # https://daiderd.com/nix-darwin/manual/index.html
   # https://github.com/LnL7/nix-darwin
 
+  # TODO things to check out, config via nix-darwin
+  # https://karabiner-elements.pqrs.org/ (hotkeys)
+  # https://github.com/FelixKratz/SketchyBar (status bar)
+  # https://github.com/koekeishiya/skhd (hotkeys)
+  # https://github.com/cmacrae/spacebar (status bar)
+  # https://symless.com/synergy (virtual kvm)
+  # https://github.com/koekeishiya/yabai (wm)
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
