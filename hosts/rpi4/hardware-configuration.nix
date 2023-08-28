@@ -56,12 +56,12 @@
       fsType = "fuse.mergerfs";
       options = [
         "defaults"
-	"cache.files=off"
-	"dropcacheonclose=true"
+        "cache.files=off"
+        "dropcacheonclose=true"
         "category.create=mfs"
-	"fsname=mergerfs"
-	# TODO enable once I actually have free space
-	#"minfreespace=200G"
+        "fsname=mergerfs"
+        # TODO enable once I actually have free space
+        #"minfreespace=200G"
       ];
     };
     "/mnt/parity1" = {

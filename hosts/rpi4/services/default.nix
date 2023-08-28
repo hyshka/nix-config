@@ -16,12 +16,12 @@
   snapraid = {
     enable = true;
     parityFiles = [
-      /mnt/parity1/snapraid.parity
+      "/mnt/parity1/snapraid.parity"
     ];
     contentFiles = [
-      /var/snapraid.content
-      /mnt/disk1/.snapraid.content
-      /mnt/disk2/.snapraid.content
+      "/var/snapraid.content"
+      "/mnt/disk1/.snapraid.content"
+      "/mnt/disk2/.snapraid.content"
     ];
     dataDisks = {
       d1 = "/mnt/disk1/";
