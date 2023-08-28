@@ -53,6 +53,7 @@
       #"iglance"   # beautiful system monitor
       "tomatobar"
       # TODO zoom
+      "betterdisplay"
 
       # muck rack
       "docker"
