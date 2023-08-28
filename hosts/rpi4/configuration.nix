@@ -39,6 +39,7 @@
       neovim ncdu ranger htop git pciutils
 
       # filesystem
+      mergerfs mergerfs-tools
       btrfs-progs fuse snapper
       # hard disk tools
       smartmontools fio hdparm iozone parted
