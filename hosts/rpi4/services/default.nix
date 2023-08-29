@@ -333,5 +333,7 @@
 
   sops.secrets.nginx_basic_auth = {
     sopsFile = ../secrets.yaml;
+    owner = config.services.nginx.user;
+    group = config.services.nginx.group;
   };
 }
