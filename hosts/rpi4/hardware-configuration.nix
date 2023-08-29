@@ -50,7 +50,6 @@
       fsType = "btrfs";
       options = [ "defaults" "noatime" ];
     };
-    # TODO move docker volumes for /mnt/mediacenter
     "/mnt/storage" = {
       device = "/mnt/disk*";
       fsType = "fuse.mergerfs";

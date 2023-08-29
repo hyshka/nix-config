@@ -114,7 +114,7 @@
   };
 
   services.ntfy-sh = {
-  	enable = true;
+      enable = true;
       settings = {
       	base-url = "https://ntfy.hyshka.com";
       	listen-http = "0.0.0.0:8010";
@@ -132,7 +132,7 @@
   };
 
   services.syncthing = {
-      enable = false; # TODO after filesystem migration
+      enable = true;
       dataDir = "/home/hyshka";
       configDir = "/home/hyshka/.config/syncthing";
       user = "hyshka";
@@ -296,7 +296,7 @@
   # TODO replace with microbin
   # https://github.com/szabodanika/microbin
   services.psitransfer = {
-      enable = false; # TODO after filesystem migration
+      enable = true;
       listenAddress = "127.0.0.1";
       port = 3000;
       uploadDirectory = "/mnt/storage/psitransfer";

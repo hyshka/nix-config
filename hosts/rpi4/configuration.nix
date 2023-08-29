@@ -53,7 +53,7 @@
       # services
       syncthing
       nginx
-      restic # TODO configure
+      restic
       ddclient
       psitransfer
       ntfy-sh
