@@ -55,7 +55,9 @@
       fsType = "fuse.mergerfs";
       options = [
         "defaults"
-        "cache.files=off"
+	# partial cache required for mmap support for qbittorrent
+	# ref: https://github.com/trapexit/mergerfs#you-need-mmap-used-by-rtorrent-and-many-sqlite3-base-software
+        "cache.files=partial"
         "dropcacheonclose=true"
         "category.create=mfs"
         "fsname=mergerfs"
