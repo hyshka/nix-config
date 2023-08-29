@@ -52,6 +52,18 @@
   networking.hostName = "starship"; # Define your hostname.
   networking.firewall.enable = false;
 
+  # TODO move to module
+  networking.hosts = {
+    "10.0.0.250" = [
+      "psitransfer.hyshka.com"
+      "jellyseer.hyshka.com"
+      "jellyfin.hyshka.com"
+      "ntfy.hyshka.com"
+      "dashy.hyshka.com"
+      "glances.hyshka.com"
+    ];
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
