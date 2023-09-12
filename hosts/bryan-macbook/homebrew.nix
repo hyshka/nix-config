@@ -45,9 +45,7 @@
       "firefox"
       "google-chrome"
       "slack"
-      "discord"
       "spotify"
-      #"discord"
       #"syncthing"
       #"raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       #"iglance"   # beautiful system monitor
@@ -55,6 +53,7 @@
       # TODO zoom managed by work
       #"zoom"
       "betterdisplay"
+
 
       # muck rack
       "docker"
@@ -67,6 +66,10 @@
       #   - use rosetta
       # The following was noted but not required for me:
       #   - add $HOME/.docker/bin to your PATH
+
+      # non-work
+      "discord"
+      "jellyfin-media-player"
     ];
   };
 }
