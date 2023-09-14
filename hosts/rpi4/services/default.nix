@@ -106,7 +106,7 @@
       enable = true;
       protocol = "namecheap";
       username = "hyshka.com";
-      domains = [ "psitransfer" "jellyseerr" "jellyfin" "ntfy" "dashy" "glances"];
+      domains = [ "psitransfer" "jellyseerr" "jellyfin" "ntfy" "dashy" "glances" "dashboard" ];
       use = "web, web=dynamicdns.park-your-domain.com/getip";
       server = "dynamicdns.park-your-domain.com";
       # TODO move to sops
@@ -290,6 +290,16 @@
           proxyPass = "http://127.0.0.1:61208";
         };
       };
+      "dashboard.hyshka.com" = {
+        forceSSL = true;
+        enableACME = true;
+	# auth file format: user:{PLAIN}password
+        basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+        locations."/" = {
+          recommendedProxySettings = true;
+          proxyPass = "http://127.0.0.1:3001";
+        };
+      };
     };
   };
 
@@ -308,14 +318,27 @@
       docker.enable = true;
       oci-containers = {
               backend = "docker";
-              containers.dashy = {
+              containers = {
+	          dashy = {
                       image = "lissy93/dashy";
-                      autoStart = true;
+                      autoStart = false;
                       ports = [ "127.0.0.1:8888:80" ];
                       volumes = [
                               "/home/hyshka/dashy-conf.yml:/app/public/conf.yml"
                       ];
                       environment = {};
+		  };
+	          homepage = {
+                      image = "ghcr.io/benphelps/homepage";
+                      autoStart = true;
+                      ports = [ "127.0.0.1:3001:3000" ];
+                      volumes = [
+		              # TODO write config with nix
+		              "/home/hyshka/homepage-conf:/app/config"
+       			      "/var/run/docker.sock:/var/run/docker.sock" # (optional) For docker integrations
+                      ];
+                      environment = {};
+		  };
               };
       };
   };
@@ -375,6 +398,19 @@
         comment = "Primary Storage";
       };
     };
+  };
+
+  services.home-assistant = {
+    enable = true;
+    openFirewall = true;
+    extraComponents = [
+      # defaults
+      "default_config"
+      "met"
+      "esphome"
+      # extras
+      "environment_canada"
+    ];
   };
 
   sops.secrets.nginx_basic_auth = {
