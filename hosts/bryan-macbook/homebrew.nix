@@ -35,6 +35,10 @@
       "wget"  # download tool
       "curl"  # no not install curl via nixpkgs, it's not working well on macOS!
 
+      # mine
+      "clipboard" # https://github.com/Slackadays/Clipboard
+      "choose-gui" # https://github.com/chipsenkbeil/choose
+
       # muck rack
       #"pre-commit"
     ];
@@ -47,12 +51,21 @@
       "slack"
       "spotify"
       #"syncthing"
-      #"raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
+      "raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       #"iglance"   # beautiful system monitor
       "tomatobar"
       # TODO zoom managed by work
       #"zoom"
       "betterdisplay"
+      # TODO mac not supported by home-manager module
+      # TODO set content of config file in nix
+      # /Users/hyshka/Library/Application Support/espanso/config/default.yml
+      # /Users/hyshka/Library/Application Support/espanso/match/base.yml
+      # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103
+      "espanso"
+
+      # TODO window sizing shortcuts
+      #"rectangle" # https://rectangleapp.com/
 
 
       # muck rack
