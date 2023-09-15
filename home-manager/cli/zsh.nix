@@ -1,4 +1,24 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  isLinux = pkgs.stdenv.isLinux;
+  linuxEnv = ''
+      # GemFury key
+      export GEMFURY_DEPLOY_TOKEN=$(cat "$XDG_RUNTIME_DIR/mr_gemfury_deploy_token.txt")
+      # Add private package index globally
+      export PIP_EXTRA_INDEX_URL=$(cat "$XDG_RUNTIME_DIR/mr_pip_extra_index_url.txt")
+      # Add FontAwesome token globally
+      export FONTAWESOME_NPM_AUTH_TOKEN=$(cat "$XDG_RUNTIME_DIR/mr_fontawesome_npm_auth_token.txt")
+  '';
+  darwinEnv = ''
+      # GemFury key
+      export GEMFURY_DEPLOY_TOKEN=$(cat "$(getconf DARWIN_USER_TEMP_DIR)/mr_gemfury_deploy_token.txt")
+      # Add private package index globally
+      export PIP_EXTRA_INDEX_URL=$(cat "$(getconf DARWIN_USER_TEMP_DIR)/mr_pip_extra_index_url.txt")
+      # Add FontAwesome token globally
+      export FONTAWESOME_NPM_AUTH_TOKEN=$(cat "$(getconf DARWIN_USER_TEMP_DIR)/mr_fontawesome_npm_auth_token.txt")
+  '';
+in
+{
   home.packages = with pkgs; [ nix-zsh-completions ];
   programs.zsh = {
     enable = true;
@@ -78,19 +98,12 @@
     shellAliases = {
       t = "tmux";
       tpw = "tmuxp load ~/.config/tmuxp/dashboard.yml";
-      av = "aws-vault exec mr-bryan --";
     };
     sessionVariables = {
       # TODO move to ledger module
       LEDGER_FILE = "~/finance/2023/2023.journal";
     };
-    envExtra = ''
-      # GemFury key for MuckRack
-      export GEMFURY_DEPLOY_TOKEN=$(cat /run/user/1000/mr_gemfury_deploy_token.txt)
-      # Add private package index globally
-      export PIP_EXTRA_INDEX_URL=$(cat /run/user/1000/mr_pip_extra_index_url.txt)
-      # Add FontAwesome token globally
-      export FONTAWESOME_NPM_AUTH_TOKEN=$(cat /run/user/1000/mr_fontawesome_npm_auth_token.txt)
-    '';
+    # Environment for work
+    envExtra = if isLinux then linuxEnv else darwinEnv;
   };
 }
