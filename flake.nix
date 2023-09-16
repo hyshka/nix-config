@@ -62,6 +62,10 @@
         specialArgs = { inherit inputs outputs; };
         modules = [ ./hosts/rpi4/configuration.nix ];
       };
+      tiny1 = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs outputs; };
+        modules = [ ./hosts/tiny1/configuration.nix ];
+      };
     };
 
     # Nix-Darwin configuration entrypoint
