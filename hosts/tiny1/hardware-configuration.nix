@@ -1,5 +1,10 @@
 { lib, ... }:
 {
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+
   boot.kernel.sysctl = {
     # optimize swap for zram
     # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram
@@ -12,12 +17,12 @@
   # TODO smartctl tests & notifications
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/nixos";
+      device = "/dev/nvme0n1p1";
       fsType = "ext4";
       options = [ "defaults" "noatime" ];
     };
     "/boot" = {
-      device = "/dev/disk/by-label/boot";
+      device = "/dev/nvme0n1p3";
       fsType = "vfat";
       options = [ "defaults" "noatime" ];
     };
@@ -57,7 +62,7 @@
   };
 
   swapDevices = [ {
-    device = "/dev/disk/by-label/swap"; # 4GB
+    device = "/dev/nvme0n1p2"; # 4GB
     priority = 1; # needs to be lower than the default zram priority of 5
   } ];
   zramSwap.enable = true;

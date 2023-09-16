@@ -6,25 +6,32 @@ keys:
   - &hosts:
     # generate age from ssh host key
     # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
-    # when changin keys
+    # when changing keys
     # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
     - &starship age1tpe0kar8t0dp48n7smgmtmk2st7jnswmwtlfapkld8fncvh03e5qrn048k
     - &rpi4 age1tx037c5v8g67tf6ees8aeg5dq2mv2z650lpqeusympfdx4sg85mq97yja5
+    - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
 
 creation_rules:
-  - path_regex: starship/secrets.ya?ml$
+  - path_regex: hosts/starship/secrets.ya?ml$
     key_groups:
       - age:
           - *starship
         pgp:
           - *hyshka
-  - path_regex: rpi4/secrets.ya?ml$
+  - path_regex: hosts/rpi4/secrets.ya?ml$
     key_groups:
       - age:
           - *rpi4
+        pgp:
+          - *hyshka
+  - path_regex: hosts/tiny1/secrets.ya?ml$
+    key_groups:
+      - age:
+          - *tiny1
         pgp:
           - *hyshka
   - path_regex: home-manager/secrets.ya?ml$
