@@ -63,6 +63,7 @@
       # /Users/hyshka/Library/Application Support/espanso/match/base.yml
       # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103
       "espanso"
+      "balenaetcher"
 
       # TODO window sizing shortcuts
       #"rectangle" # https://rectangleapp.com/
