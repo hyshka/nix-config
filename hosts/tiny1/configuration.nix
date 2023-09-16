@@ -13,8 +13,8 @@
 
     # You can also split up your configuration and import pieces of it here:
     ../common/nix.nix
-    #./services
-    #./psitransfer.nix # TODO move nixos config module to ./modules
+    ./services
+    #../rpi4/psitransfer.nix # TODO move nixos config module to ./modules
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -146,10 +146,10 @@
     '';
   };
 
-  #sops.secrets.hyshka_password = {
-  #  sopsFile = ./secrets.yaml;
-  #  neededForUsers = true;
-  #};
+  sops.secrets.hyshka_password = {
+    sopsFile = ./secrets.yaml;
+    neededForUsers = true;
+  };
 
   system.stateVersion = "23.05";
 }
