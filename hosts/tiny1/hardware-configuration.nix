@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   boot.kernel.sysctl = {
     # optimize swap for zram
