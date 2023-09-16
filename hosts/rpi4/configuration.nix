@@ -58,6 +58,8 @@
       psitransfer
       ntfy-sh
       glances
+      python310Packages.psutil # glances dep
+      hddtemp # glances dep
   ];
 
   security.acme = {
