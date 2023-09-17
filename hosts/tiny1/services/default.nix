@@ -33,27 +33,27 @@
      recommendedOptimisation = true;
      recommendedTlsSettings = true;
 
-     virtualHosts = {
-      "glances.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:61208";
-        };
-      };
-      "dashboard.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        # auth file format: user:{PLAIN}password
-        basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:3001";
-        };
-      };
-    };
+     #virtualHosts = {
+     # "glances.hyshka.com" = {
+     #   forceSSL = true;
+     #   enableACME = true;
+     #   basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+     #   locations."/" = {
+     #     recommendedProxySettings = true;
+     #     proxyPass = "http://127.0.0.1:61208";
+     #   };
+     # };
+     # "dashboard.hyshka.com" = {
+     #   forceSSL = true;
+     #   enableACME = true;
+     #   # auth file format: user:{PLAIN}password
+     #   basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+     #   locations."/" = {
+     #     recommendedProxySettings = true;
+     #     proxyPass = "http://127.0.0.1:3001";
+     #   };
+     # };
+     #};
   };
 
   # TODO microbin
@@ -132,7 +132,7 @@
       # restrict access to LAN and localhost
       hosts allow = 10.0.0. 127.
       # limit connects to end0
-      interfaces = 10.0.0.250/24
+      interfaces = 10.0.0.166/24
       # limit log size to 50kb
       max log size = 50
       # disable printer support
