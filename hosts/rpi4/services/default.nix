@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
   sops.secrets = {
-    sops.secrets.ddclient_password = {};
-    sops.secrets.psitransfer_password = {};
+    ddclient_password = {};
+    psitransfer_password = {};
     restic_password = {
       owner = config.users.users.hyshka.name;
       group = config.users.users.hyshka.group;
