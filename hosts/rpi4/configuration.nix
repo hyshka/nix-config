@@ -19,9 +19,6 @@
     ./hardware-configuration.nix
   ];
 
-  # TODO slim down packages, go headless
-  # environment.noXlibs = mkDefault true;
-
   networking = {
     hostName = "rpi4";
     firewall = {
@@ -68,7 +65,7 @@
   };
 
   users = {
-    mutableUsers = false;
+    mutableUsers = true; # TODO
     users = {
       hyshka = {
         isNormalUser = true;
@@ -145,8 +142,8 @@
     '';
   };
 
+  sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.hyshka_password = {
-    sopsFile = ./secrets.yaml;
     neededForUsers = true;
   };
 

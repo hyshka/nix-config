@@ -1,15 +1,19 @@
 { config, pkgs, ... }:
 {
   sops.secrets = {
+    sops.secrets.ddclient_password = {};
+    sops.secrets.psitransfer_password = {};
     restic_password = {
-      sopsFile = ../secrets.yaml;
       owner = config.users.users.hyshka.name;
       group = config.users.users.hyshka.group;
     };
     restic_environmentFile = {
-      sopsFile = ../secrets.yaml;
       owner = config.users.users.hyshka.name;
       group = config.users.users.hyshka.group;
+    };
+    sops.secrets.nginx_basic_auth = {
+      owner = config.services.nginx.user;
+      group = config.services.nginx.group;
     };
   };
 
@@ -109,8 +113,7 @@
       domains = [ "psitransfer" "jellyseerr" "jellyfin" "ntfy" "dashy" "glances" "dashboard" ];
       use = "web, web=dynamicdns.park-your-domain.com/getip";
       server = "dynamicdns.park-your-domain.com";
-      # TODO move to sops
-      passwordFile = "/var/ddclient-adminpass";
+      passwordFile = config.sops.secrets.ddclient_password.path;
   };
 
   services.ntfy-sh = {
@@ -310,8 +313,7 @@
       listenAddress = "127.0.0.1";
       port = 3000;
       uploadDirectory = "/mnt/storage/psitransfer";
-      # TODO move to sops
-      uploadPasswordFile = "/var/psitransfer-uploadpass";
+      uploadPasswordFile = config.sops.secrets.psitransfer_password.path;
   };
 
   virtualisation = {
@@ -436,9 +438,4 @@
     ];
   };
 
-  sops.secrets.nginx_basic_auth = {
-    sopsFile = ../secrets.yaml;
-    owner = config.services.nginx.user;
-    group = config.services.nginx.group;
-  };
 }
