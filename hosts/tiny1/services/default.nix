@@ -132,7 +132,7 @@
       # restrict access to LAN and localhost
       hosts allow = 10.0.0. 127.
       # limit connects to end0
-      interfaces = 10.0.0.166/24
+      interfaces = 10.0.0.240/24
       # limit log size to 50kb
       max log size = 50
       # disable printer support

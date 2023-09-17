@@ -26,6 +26,18 @@ in
     #      host.address = ''/%d/.gnupg-sockets/S.gpg-agent.extra'';
     #    }];
     #  };
+      tiny1 = {
+        host = "tiny1";
+        hostname = "10.0.0.240";
+	port = 38000;
+	user = "hyshka";
+      };
+      tiny1Ex = {
+        host = "tiny1Ex";
+        hostname = "68.148.153.144";
+	port = 38000;
+	user = "hyshka";
+      };
       rpi4 = {
         host = "rpi4";
         hostname = "10.0.0.250";
