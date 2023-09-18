@@ -43,20 +43,6 @@
 
       # misc
       fontconfig glibc
-
-      # docker
-      docker-compose
-
-      # services
-      syncthing
-      nginx
-      restic
-      ddclient
-      psitransfer
-      ntfy-sh
-      glances
-      python310Packages.psutil # glances dep
-      hddtemp # glances dep
   ];
 
   security.acme = {

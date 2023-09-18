@@ -39,6 +39,7 @@ creation_rules:
       - age:
           - *starship
           - *macpro
+          - *tiny1
         pgp:
           - *hyshka
 

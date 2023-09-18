@@ -1,22 +1,18 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  sops.secrets = {
-    restic_password = {
-      sopsFile = ../secrets.yaml;
-      owner = config.users.users.hyshka.name;
-      group = config.users.users.hyshka.group;
-    };
-    restic_environmentFile = {
-      sopsFile = ../secrets.yaml;
-      owner = config.users.users.hyshka.name;
-      group = config.users.users.hyshka.group;
-    };
-    nginx_basic_auth = {
-      sopsFile = ../secrets.yaml;
-      owner = config.services.nginx.user;
-      group = config.services.nginx.group;
-    };
-  };
+  #imports = [
+  #  ./ddclient
+  #  ./docker
+  #  ./glances
+  #  ./home-assistant
+  #  ./nginx
+  #  ./ntfy
+  #  ./openssh
+  #  ./restic
+  #  ./samba
+  #  ./snapraid
+  #  ./syncthing
+  #];
 
   services.openssh = {
       enable = true;
@@ -27,57 +23,8 @@
       };
   };
 
-  services.nginx = {
-     enable = true;
-     recommendedGzipSettings = true;
-     recommendedOptimisation = true;
-     recommendedTlsSettings = true;
-
-     #virtualHosts = {
-     # "glances.hyshka.com" = {
-     #   forceSSL = true;
-     #   enableACME = true;
-     #   basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-     #   locations."/" = {
-     #     recommendedProxySettings = true;
-     #     proxyPass = "http://127.0.0.1:61208";
-     #   };
-     # };
-     # "dashboard.hyshka.com" = {
-     #   forceSSL = true;
-     #   enableACME = true;
-     #   # auth file format: user:{PLAIN}password
-     #   basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-     #   locations."/" = {
-     #     recommendedProxySettings = true;
-     #     proxyPass = "http://127.0.0.1:3001";
-     #   };
-     # };
-     #};
-  };
-
   # TODO microbin
   # https://github.com/szabodanika/microbin
-
-  virtualisation = {
-      docker.enable = true;
-      oci-containers = {
-              backend = "docker";
-              containers = {
-                  homepage = {
-                      image = "ghcr.io/benphelps/homepage";
-                      autoStart = true;
-                      ports = [ "127.0.0.1:3001:3000" ];
-                      volumes = [
-        	              # TODO write config with nix
-        	              "/home/hyshka/homepage-conf:/app/config"
-       			      "/var/run/docker.sock:/var/run/docker.sock" # (optional) For docker integrations
-                      ];
-                      environment = {};
-        	  };
-              };
-      };
-  };
 
   systemd.services.glances = {
     serviceConfig = {
