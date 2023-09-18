@@ -3,7 +3,7 @@
   environment.systemPackages = with pkgs; [ nginx ];
 
   sops.secrets = {
-    sops.secrets.nginx_basic_auth = {
+    nginx_basic_auth = {
       owner = config.services.nginx.user;
       group = config.services.nginx.group;
     };
