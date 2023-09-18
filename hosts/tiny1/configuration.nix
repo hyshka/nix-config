@@ -24,6 +24,7 @@
     hostName = "tiny1";
     firewall = {
       allowedTCPPorts = [ 80 443 22000 38000 ];
+      # TODO move to module
       # docker interface for mediacenter network, allows docker to access ntfy
       interfaces."br-65ee147cd7f3".allowedTCPPorts = [ 8010 ];
     };
@@ -51,11 +52,9 @@
 
       # misc?
       fontconfig glibc
-
-      # TODO deprecated
-      docker-compose glances python310Packages.psutil hddtemp
   ];
 
+  # TODO move to nginx?
   security.acme = {
     acceptTerms = true;
     defaults.email = "bryan@hyshka.com";
@@ -123,21 +122,6 @@
         gid = 13000;
       };
     };
-  };
-
-  # TODO pull in home manager tmux
-  programs.tmux = {
-    enable = true;
-    keyMode = "vi";
-    customPaneNavigationAndResize = true;
-    shortcut = "Space";
-    baseIndex = 1;
-    aggressiveResize = true;
-    escapeTime = 10;
-    plugins = with pkgs; [ tmuxPlugins.sensible tmuxPlugins.pain-control tmuxPlugins.sessionist tmuxPlugins.tmux-colors-solarized ];
-    extraConfig = ''
-      set -g @colors-solarized 'light'
-    '';
   };
 
   sops.secrets.hyshka_password = {
