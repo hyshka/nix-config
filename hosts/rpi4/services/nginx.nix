@@ -17,23 +17,6 @@
      recommendedTlsSettings = true;
 
      virtualHosts = {
-      "psitransfer.hyshka.com" = {
-         forceSSL = true;
-         enableACME = true;
-         locations."/" = {
-           recommendedProxySettings = true;
-           proxyPass = "http://127.0.0.1:3000";
-           extraConfig = ''
-             proxy_buffering off;
-             proxy_request_buffering off;
-             client_max_body_size 3g;
-           '';
-        };
-        extraConfig = ''
-           add_header Content-Security-Policy "frame-ancestors 'none'";
-           add_header X-Frame-Options "DENY";
-        '';
-      };
       "jellyseerr.hyshka.com" = {
         forceSSL = true;
         enableACME = true;

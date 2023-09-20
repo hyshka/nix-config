@@ -7,7 +7,7 @@
     ./nginx.nix
     ./ntfy.nix
     ./openssh.nix
-    ./psitransfer.nix
+    #./psitransfer.nix
     ./restic.nix
     ./samba.nix
     #./snapper.nix # TODO replaced by snapraid

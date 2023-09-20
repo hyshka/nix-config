@@ -13,7 +13,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/nix.nix
     ./services
-    ./psitransfer.nix # TODO move nixos config module to ./modules
+    #./psitransfer.nix # TODO move nixos config module to ./modules
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
