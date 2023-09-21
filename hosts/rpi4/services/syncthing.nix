@@ -1,6 +1,17 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   environment.systemPackages = with pkgs; [ syncthing ];
+
+  sops.secrets = {
+    syncthing_key = {
+      owner = config.users.users.hyshka.name;
+      group = config.users.users.hyshka.group;
+    };
+    syncthing_cert = {
+      owner = config.users.users.hyshka.name;
+      group = config.users.users.hyshka.group;
+    };
+  };
 
   services.syncthing = {
       enable = true;
@@ -10,8 +21,8 @@
       group = "users";
       overrideDevices = true;
       overrideFolders = true;
-      key = "/home/hyshka/syncthing-key.pem";
-      cert = "/home/hyshka/syncthing-cert.pem";
+      key = config.sops.secrets.syncthing_key.path;
+      cert = config.sops.secrets.syncthing_cert.path;
       extraOptions = {
         defaults = {
 	  folder = {
