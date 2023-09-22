@@ -10,7 +10,6 @@
     ./openssh.nix
     #./restic.nix
     ./samba.nix
-    #./snapper.nix # TODO replaced by snapraid
     #./snapraid.nix
     #./syncthing.nix
   ];
