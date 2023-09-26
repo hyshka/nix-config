@@ -35,8 +35,7 @@
       bind-key -T copy-mode-vi 'Space' send -X halfpage-down
       bind-key -T copy-mode-vi 'BSpace' send -X halfpage-up
       # 24 bit color
-      # TODO no longer use kitty
-      set-option -sa terminal-features ',xterm-kitty:RGB'
+      set-option -sa terminal-features ',screen-256color:RGB'
       # statusline
       set -g status-left '#{prefix_highlight}'
       set -g status-right '#{?pane_synchronized, #[bg=blue]#[fg=white] SYNCHRONIZED #[default],} #S '

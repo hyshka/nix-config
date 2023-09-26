@@ -43,6 +43,9 @@ in
 
     # TODO config
     extraConfig = /* vim */ ''
+    "Source colorscheme
+    source ${color}
+
     " Section: Options
     " configure persistent undo
     set undodir=~/.vim/undodir
@@ -181,7 +184,7 @@ in
 	" Lightline
         " If this comes after we set our colorscheme than lightline won't properly set it's own colors.
         let g:lightline = {
-            \'colorscheme': 'default',
+            \'colorscheme': 'solarized',
             \}
         "let g:lightline.component_expand = {
         "    \'linter_checking': 'lightline#ale#checking',

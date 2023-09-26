@@ -27,7 +27,7 @@
     zimfw.url = "github:joedevivo/zimfw.nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, sops-nix, nix-colors, ... }@inputs:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
@@ -80,6 +80,7 @@
 	  home-manager.darwinModules.home-manager {
             # If you want to use home-manager modules from other flakes (such as nix-colors):
 	    home-manager.sharedModules = [
+  	      nix-colors.homeManagerModule
               #zimfw.homeManagerModules.zimfw
               sops-nix.homeManagerModule
             ] ++ (builtins.attrValues outputs.homeManagerModules);

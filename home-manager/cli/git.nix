@@ -18,7 +18,12 @@
       merge.conflictstyle = "diff3";
       mergetool.keepBackup = false;
     };
-    delta.enable = true;
+    delta = {
+      enable = true;
+      options = {
+        light = true;
+      };
+    };
     lfs.enable = true;
     ignores = [ ".direnv" "result" ];
   };
