@@ -1,17 +1,17 @@
 { pkgs, ... }:
 {
   imports = [
-    #./ddclient.nix
+    ./ddclient.nix
     #./docker.nix
     ./glances.nix
     #./home-assistant.nix
     #./nginx.nix
     ./ntfy.nix
     ./openssh.nix
-    #./restic.nix
+    ./restic.nix
     ./samba.nix
     #./snapraid.nix
-    #./syncthing.nix
+    ./syncthing.nix
   ];
 
   # TODO microbin
