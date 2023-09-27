@@ -22,9 +22,6 @@
 
   networking = {
     hostName = "tiny1";
-    firewall = {
-      allowedTCPPorts = [ 80 443 22000 38000 ];
-    };
   };
 
   # Use the systemd-boot EFI boot loader.
