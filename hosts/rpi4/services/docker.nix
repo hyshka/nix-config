@@ -4,7 +4,7 @@
 
   # TODO split up
   virtualisation = {
-      docker.enable = true;
+      docker.enable = false;
 
       oci-containers = {
               backend = "docker";
