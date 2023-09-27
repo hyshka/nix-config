@@ -44,6 +44,9 @@
       # disk tools
       nvme-cli smartmontools fio hdparm iozone parted
 
+      # for intel_gpu_top
+      intel-gpu-tools
+
       # misc?
       fontconfig glibc
   ];
