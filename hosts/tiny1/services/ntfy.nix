@@ -17,4 +17,14 @@
       	#log-level = "DEBUG";
       };
   };
+
+  services.nginx.virtualHosts."ntfy.hyshka.com" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:8010";
+      proxyWebsockets = true;
+    };
+  };
 }

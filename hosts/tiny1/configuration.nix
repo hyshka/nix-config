@@ -54,12 +54,6 @@
       fontconfig glibc
   ];
 
-  # TODO move to nginx?
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "bryan@hyshka.com";
-  };
-
   users = {
     #mutableUsers = false; # TODO
     users = {

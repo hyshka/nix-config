@@ -1,17 +1,18 @@
+{ config, ... }:
 {
   virtualisation = {
-      oci-containers = {
-              containers.homepage = {
-                      image = "ghcr.io/benphelps/homepage";
-                      autoStart = false; # TODO config below isn't working, docker container doesn't pick up files
-                      ports = [ "127.0.0.1:3001:3000" ];
-                      volumes = [
-			      "/etc/homepage:/app/config"
-			      "/var/run/docker.sock:/var/run/docker.sock:ro" # (optional) For docker integrations
-                      ];
-                      environment = {};
-		  };
+    oci-containers = {
+      containers.homepage = {
+        image = "ghcr.io/benphelps/homepage";
+        autoStart = false; # TODO config below isn't working, docker container doesn't pick up files
+        ports = [ "127.0.0.1:3001:3000" ];
+        volumes = [
+          "/etc/homepage:/app/config"
+          "/var/run/docker.sock:/var/run/docker.sock:ro" # (optional) For docker integrations
+        ];
+        environment = {};
       };
+    };
   };
 
   environment.etc = {
@@ -114,4 +115,16 @@
       '';
     };
   };
+
+  # TODO enable when service is up
+  #services.nginx.virtualHosts."dashboard.hyshka.com" = {
+  #  forceSSL = true;
+  #  enableACME = true;
+  #  # auth file format: user:{PLAIN}password
+  #  basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+  #  locations."/" = {
+  #    recommendedProxySettings = true;
+  #    proxyPass = "http://127.0.0.1:3001";
+  #  };
+  #};
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   environment.systemPackages = with pkgs; [ glances python310Packages.psutil hddtemp ];
 
@@ -33,5 +33,15 @@
       [irq]
       disable=True
     '';
+  };
+
+  services.nginx.virtualHosts."glances.hyshka.com" = {
+    forceSSL = true;
+    enableACME = true;
+    basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:61208";
+    };
   };
 }
