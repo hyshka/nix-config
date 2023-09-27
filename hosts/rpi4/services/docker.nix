@@ -6,21 +6,21 @@
   virtualisation = {
       docker.enable = false;
 
-      oci-containers = {
-              backend = "docker";
-              containers = {
-	          homepage = {
-                      image = "ghcr.io/benphelps/homepage";
-                      autoStart = false; # TODO config below isn't working, docker container doesn't pick up files
-                      ports = [ "127.0.0.1:3001:3000" ];
-                      volumes = [
-		              "/etc/homepage:/app/config"
-       			      "/var/run/docker.sock:/var/run/docker.sock:ro" # (optional) For docker integrations
-                      ];
-                      environment = {};
-		  };
-              };
-      };
+      #oci-containers = {
+      #        backend = "docker";
+      #        containers = {
+      #            homepage = {
+      #                image = "ghcr.io/benphelps/homepage";
+      #                autoStart = false; # TODO config below isn't working, docker container doesn't pick up files
+      #                ports = [ "127.0.0.1:3001:3000" ];
+      #                volumes = [
+      #  	              "/etc/homepage:/app/config"
+      # 			      "/var/run/docker.sock:/var/run/docker.sock:ro" # (optional) For docker integrations
+      #                ];
+      #                environment = {};
+      #  	  };
+      #        };
+      #};
   };
 
   environment.etc = {
