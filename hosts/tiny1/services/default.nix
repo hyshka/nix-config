@@ -2,9 +2,10 @@
 {
   imports = [
     ./ddclient.nix
-    #./docker.nix
+    ./docker.nix
     ./glances.nix
     #./home-assistant.nix
+    ./homepage.nix
     #./nginx.nix
     ./ntfy.nix
     ./openssh.nix
