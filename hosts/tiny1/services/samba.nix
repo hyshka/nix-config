@@ -14,6 +14,7 @@
       "recyclarr"
       "jellyseer"
       "prowlarr"
+      "ntfy-sh"
     ];
     extraConfig = ''
       server string = tiny1
@@ -35,13 +36,13 @@
         "guest ok" = "no";
         comment = "hyshka home folder";
       };
-      #storage = {
-      #  path = "/mnt/storage";
-      #  "read only" = "no";
-      #  browseable = "yes";
-      #  "guest ok" = "no";
-      #  comment = "Primary Storage";
-      #};
+      storage = {
+        path = "/mnt/storage";
+        "read only" = "no";
+        browseable = "yes";
+        "guest ok" = "no";
+        comment = "Primary Storage";
+      };
     };
   };
 }
