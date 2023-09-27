@@ -9,7 +9,7 @@
   # TODO replace with microbin
   # https://github.com/szabodanika/microbin
   services.psitransfer = {
-      enable = true;
+      enable = false;
       listenAddress = "127.0.0.1";
       port = 3000;
       uploadDirectory = "/mnt/storage/psitransfer";

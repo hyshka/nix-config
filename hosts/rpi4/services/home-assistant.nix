@@ -8,7 +8,7 @@
   };
 
   services.home-assistant = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     extraComponents = [
       # defaults

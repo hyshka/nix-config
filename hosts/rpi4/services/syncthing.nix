@@ -14,7 +14,7 @@
   };
 
   services.syncthing = {
-      enable = true;
+      enable = false;
       dataDir = "/home/hyshka";
       configDir = "/home/hyshka/.config/syncthing";
       user = "hyshka";

@@ -7,7 +7,7 @@
   };
 
   services.ddclient = {
-      enable = true;
+      enable = false;
       protocol = "namecheap";
       username = "hyshka.com";
       domains = [ "jellyseerr" "jellyfin" "ntfy" "dashy" "glances" "dashboard" ];

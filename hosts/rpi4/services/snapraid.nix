@@ -1,6 +1,6 @@
 {
   snapraid = {
-    enable = true;
+    enable = false;
     parityFiles = [
       "/mnt/parity1/snapraid.parity"
     ];

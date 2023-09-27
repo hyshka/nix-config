@@ -1,6 +1,6 @@
 {
   services.samba = {
-    enable = true;
+    enable = false;
     # TODO open only for LAN?
     openFirewall = true;
     invalidUsers = [
