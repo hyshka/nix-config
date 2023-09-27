@@ -20,24 +20,5 @@
      recommendedGzipSettings = true;
      recommendedOptimisation = true;
      recommendedTlsSettings = true;
-
-     virtualHosts = {
-      "jellyseerr.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:5055";
-        };
-      };
-      "jellyfin.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:8096";
-        };
-      };
-    };
   };
 }
