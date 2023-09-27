@@ -6,7 +6,7 @@
     ./glances.nix
     #./home-assistant.nix
     #./nginx.nix
-    #./ntfy.nix
+    ./ntfy.nix
     ./openssh.nix
     #./restic.nix
     ./samba.nix

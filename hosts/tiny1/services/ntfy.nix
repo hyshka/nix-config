@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   services.ntfy-sh = {
-      enable = true;
+      enable = false;
       settings = {
       	base-url = "https://ntfy.hyshka.com";
       	listen-http = "0.0.0.0:8010";
