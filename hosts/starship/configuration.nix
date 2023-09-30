@@ -26,6 +26,7 @@
     ./docker.nix
     ./sshd.nix
     ./users.nix
+    ./bluetooth.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -57,12 +58,11 @@
   # TODO move to module
   networking.hosts = {
     "10.0.0.250" = [
-      "psitransfer.hyshka.com"
       "jellyseer.hyshka.com"
       "jellyfin.hyshka.com"
       "ntfy.hyshka.com"
-      "dashy.hyshka.com"
       "glances.hyshka.com"
+      "dashboard.hyshka.com"
     ];
   };
 
