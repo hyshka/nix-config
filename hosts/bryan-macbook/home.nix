@@ -1,7 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 
-{ pkgs, ... }:
+{ pkgs, config, lib, nix-colors, ... }:
 {
   # Import other home-manager modules in flake.nix
   imports = [
@@ -11,6 +11,9 @@
     # TODO can't launch alacritty via spotlight
     ../../home-manager/alacritty.nix
   ];
+
+  colorscheme = lib.mkDefault nix-colors.colorSchemes.gruvbox-light-medium;
+  home.file.".colorscheme".text = config.colorscheme.slug;
 
   home = {
     username = "hyshka";

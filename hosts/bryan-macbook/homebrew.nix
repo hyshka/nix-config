@@ -64,6 +64,7 @@
       # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103
       "espanso"
       "balenaetcher"
+      "mullvadvpn"
 
       # TODO window sizing shortcuts
       #"rectangle" # https://rectangleapp.com/
