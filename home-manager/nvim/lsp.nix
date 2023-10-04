@@ -74,7 +74,9 @@
           end
 
           add_lsp("pyright", lspconfig.pyright, {})
-          add_lsp("tsserver", lspconfig.tsserver, {})
+          add_lsp("tsserver", lspconfig.tsserver, {
+	    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue"}
+	  })
           add_lsp("ruff_lsp", lspconfig.ruff_lsp, {})
           add_lsp("nil_ls", lspconfig.nil_ls, {})
           add_lsp("jsonls", lspconfig.jsonls, {
