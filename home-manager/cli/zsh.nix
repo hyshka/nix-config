@@ -69,7 +69,7 @@ in
         "zsh-users/zsh-history-substring-search"
       ];
     };
-    initExtra = ''
+    initExtra = /* bash */ ''
       # zimfw config
       zstyle ':zim:input' double-dot-expand yes
 

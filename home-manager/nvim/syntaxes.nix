@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   programs.neovim.plugins = with pkgs.vimPlugins; [
     nvim-ts-rainbow2
+    pkgs.unstable.vimPlugins.hmts-nvim
     # individual grammars
     #(pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [ p.bash p.c p.comment p.cpp p.diff p.devicetree p.dockerfile p.git_config ]))
     pkgs.vimPlugins.nvim-treesitter.withAllGrammars
