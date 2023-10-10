@@ -56,7 +56,7 @@
   # https://github.com/koekeishiya/yabai (wm)
 
   services.yabai = {
-    enable = true;
+    enable = false;
     #config = {};
   };
 
