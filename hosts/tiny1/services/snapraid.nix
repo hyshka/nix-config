@@ -34,6 +34,10 @@
       ".AppleDB"
       ".nfo"
     ];
+    # disable touch for better compatibility as a receive-only syncthing node.
+    # otherwise, the sub-second timestamps will be marked as a local change and
+    # prevent syncs.
+    touchBeforeSync = false;
     #sync.interval = "01:00"; # defaults to daily at 1 am
     scrub = {
       # TODO these PMS values may be out-of-date, snapraid recommends scrub once/week
