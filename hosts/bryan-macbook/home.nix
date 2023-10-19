@@ -32,8 +32,12 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
+    # TODO move to cli?
+    buku
+
     # muck rack
     # TODO move to module
+    # coding
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks
     # TODO aws cli

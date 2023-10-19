@@ -81,6 +81,8 @@
       #   - use rosetta
       # The following was noted but not required for me:
       #   - add $HOME/.docker/bin to your PATH
+      # VPN
+      "openvpn-connect"
 
       # non-work
       "discord"
