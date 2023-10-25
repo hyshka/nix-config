@@ -9,6 +9,9 @@
         type = "lua";
         config = /* lua */ ''
           require('copilot').setup({
+	    suggestion = {
+	      auto_trigger = true,
+	    },
             copilot_node_command = '${pkgs.nodejs_20}/bin/node',
           })
         '';
