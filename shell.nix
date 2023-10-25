@@ -17,6 +17,10 @@
       home-manager
       git
 
+      # For CI
+      alejandra
+
+      # For sops-nix
       sops
       ssh-to-age
       gnupg
