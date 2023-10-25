@@ -37,6 +37,7 @@
 
     # muck rack
     # TODO move to module
+    gimp
     # coding
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks

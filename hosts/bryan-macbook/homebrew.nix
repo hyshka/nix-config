@@ -83,6 +83,7 @@
       #   - add $HOME/.docker/bin to your PATH
       # VPN
       "openvpn-connect"
+      "fontforge"
 
       # non-work
       "discord"
