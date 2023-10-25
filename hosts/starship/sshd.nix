@@ -4,7 +4,7 @@
   services.openssh = {
     enable = true;
     # Obfuscate port
-    ports = [ 38001 ];
+    ports = [38001];
     settings = {
       # Forbid root login through SSH.
       PermitRootLogin = "no";

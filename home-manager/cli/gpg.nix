@@ -1,5 +1,9 @@
-{ pkgs, config, lib, ... }:
-let
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: let
   isLinux = pkgs.stdenv.isLinux;
   #pinentry =
   #  if config.gtk.enable then {
@@ -10,11 +14,10 @@ let
   #    name = "curses";
   #  };
   pinentry = {
-    packages = [ pkgs.pinentry-curses ];
+    packages = [pkgs.pinentry-curses];
     name = "curses";
   };
-in
-{
+in {
   home.packages = pinentry.packages;
 
   services.gpg-agent = lib.mkIf isLinux {
@@ -24,28 +27,26 @@ in
     defaultCacheTtl = 1800; # 30 min
   };
 
-  programs =
-    let
-      fixGpg = ''
-        gpgconf --launch gpg-agent
-      '';
-    in
-    {
-      # Start gpg-agent if it's not running or tunneled in
-      # SSH does not start it automatically, so this is needed to avoid having to use a gpg command at startup
-      # https://www.gnupg.org/faq/whats-new-in-2.1.html#autostart
-      #bash.profileExtra = fixGpg;
-      #fish.loginShellInit = fixGpg;
-      zsh.loginExtra = fixGpg;
+  programs = let
+    fixGpg = ''
+      gpgconf --launch gpg-agent
+    '';
+  in {
+    # Start gpg-agent if it's not running or tunneled in
+    # SSH does not start it automatically, so this is needed to avoid having to use a gpg command at startup
+    # https://www.gnupg.org/faq/whats-new-in-2.1.html#autostart
+    #bash.profileExtra = fixGpg;
+    #fish.loginShellInit = fixGpg;
+    zsh.loginExtra = fixGpg;
 
-      gpg = {
-        enable = true;
-        #publicKeys = [{
-        #  source = ../../pgp.asc;
-        #  trust = 5;
-        #}];
-      };
+    gpg = {
+      enable = true;
+      #publicKeys = [{
+      #  source = ../../pgp.asc;
+      #  trust = 5;
+      #}];
     };
+  };
 
   systemd.user.services = {
     # Link /run/user/$UID/gnupg to ~/.gnupg-sockets
@@ -60,7 +61,7 @@ in
         ExecStop = "${pkgs.coreutils}/bin/rm $HOME/.gnupg-sockets";
         RemainAfterExit = true;
       };
-      Install.WantedBy = [ "default.target" ];
+      Install.WantedBy = ["default.target"];
     };
   };
 }

@@ -1,6 +1,5 @@
-
-{ pkgs, ... }: {
-  home.packages = with pkgs; [ glances ];
+{pkgs, ...}: {
+  home.packages = with pkgs; [glances];
 
   xdg.configFile = {
     "glances" = {

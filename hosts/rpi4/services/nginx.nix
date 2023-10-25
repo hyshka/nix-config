@@ -1,6 +1,9 @@
-{ config, pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ nginx ];
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [nginx];
 
   sops.secrets = {
     nginx_basic_auth = {
@@ -11,12 +14,12 @@
 
   # TODO split up?
   services.nginx = {
-     enable = false;
-     recommendedGzipSettings = true;
-     recommendedOptimisation = true;
-     recommendedTlsSettings = true;
+    enable = false;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedTlsSettings = true;
 
-     virtualHosts = {
+    virtualHosts = {
       "jellyseerr.hyshka.com" = {
         forceSSL = true;
         enableACME = true;
@@ -45,7 +48,7 @@
       "dashy.hyshka.com" = {
         forceSSL = true;
         enableACME = true;
-	# auth file format: user:{PLAIN}password
+        # auth file format: user:{PLAIN}password
         basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
         locations."/" = {
           recommendedProxySettings = true;
@@ -64,7 +67,7 @@
       "dashboard.hyshka.com" = {
         forceSSL = true;
         enableACME = true;
-	# auth file format: user:{PLAIN}password
+        # auth file format: user:{PLAIN}password
         basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
         locations."/" = {
           recommendedProxySettings = true;

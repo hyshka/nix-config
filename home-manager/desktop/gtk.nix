@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
-rec {
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}: rec {
   gtk = {
     enable = true;
     font = {
@@ -25,4 +28,3 @@ rec {
     };
   };
 }
-

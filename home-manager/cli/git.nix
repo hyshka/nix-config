@@ -1,4 +1,4 @@
-{ config, ... }: {
+{config, ...}: {
   programs.git = {
     enable = true;
     userName = "hyshka";
@@ -25,6 +25,6 @@
       };
     };
     lfs.enable = true;
-    ignores = [ ".direnv" "result" ];
+    ignores = [".direnv" "result"];
   };
 }

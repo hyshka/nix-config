@@ -1,4 +1,10 @@
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./font.nix
     ./gtk.nix
@@ -14,10 +20,10 @@
     mimeApps = {
       enable = true;
       defaultApplications = {
-        "text/html" = [ "firefox-devedition.desktop" ];
-        "text/xml" = [ "firefox-devedition.desktop" ];
-        "x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
-        "x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+        "text/html" = ["firefox-devedition.desktop"];
+        "text/xml" = ["firefox-devedition.desktop"];
+        "x-scheme-handler/http" = ["firefox-devedition.desktop"];
+        "x-scheme-handler/https" = ["firefox-devedition.desktop"];
       };
     };
   };
@@ -151,26 +157,26 @@
       menu = "wofi --show run";
       bars = [
         {
-	  command = "waybar";
-	}
+          command = "waybar";
+        }
       ];
       assigns = {
-	"1" = [{ class = "^Slack$"; }];
-	"2" = [];
-	"3" = [{ class = "^Spotify$"; }];
-	"4" = [{ app_id = "^firefox-aurora$"; } { class = "^Chromium-browser"; }];
-	"5" = [];
+        "1" = [{class = "^Slack$";}];
+        "2" = [];
+        "3" = [{class = "^Spotify$";}];
+        "4" = [{app_id = "^firefox-aurora$";} {class = "^Chromium-browser";}];
+        "5" = [];
       };
       window.commands = [
         # generic X11 dialogs
         {
           command = "floating enable";
           criteria = {
-	    window_type = "dialog";
-	    window_role = "dialog";
+            window_type = "dialog";
+            window_role = "dialog";
           };
         }
-	# For pop up notification windows that don't use notifications api
+        # For pop up notification windows that don't use notifications api
         {
           command = "border none, floating enable";
           criteria = {
@@ -192,29 +198,30 @@
         }
         # Open Zoom Meeting windows on a new workspace (a bit hacky)
         {
-	  # this just sends it to workspace 1
+          # this just sends it to workspace 1
           command = "workspace next_on_output --create, move container to workspace current, floating disable, inhibit_idle open";
           criteria = {
             title = "Zoom Meeting(.*)?";
           };
         }
       ];
-     output.Virtual-1 = {
-       mode = "1920x1200";
-       pos = "0 0";
-     };
-     keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
-      in lib.mkOptionDefault {
-        # Desktop Utilities
-        "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
-        #"${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
-        "${modifier}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
-
-	# Main app shortcuts
-        "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";
-        "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
+      output.Virtual-1 = {
+        mode = "1920x1200";
+        pos = "0 0";
       };
+      keybindings = let
+        modifier = config.wayland.windowManager.sway.config.modifier;
+      in
+        lib.mkOptionDefault {
+          # Desktop Utilities
+          "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
+          #"${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+          "${modifier}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
+
+          # Main app shortcuts
+          "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";
+          "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
+        };
     };
   };
 
@@ -223,15 +230,15 @@
     settings = {
       mainBar = {
         height = 30;
-	modules-left = [ "sway/workspaces" "sway/mode" "sway/scratchpad" ];
-        modules-center = [ "sway/window" ];
-        modules-right = [ "custom/uair" "clock" "tray" ];
-	# requires uair package
-	"custom/uair" = {
+        modules-left = ["sway/workspaces" "sway/mode" "sway/scratchpad"];
+        modules-center = ["sway/window"];
+        modules-right = ["custom/uair" "clock" "tray"];
+        # requires uair package
+        "custom/uair" = {
           format = "{}";
           max-length = 10;
           exec = "uair";
-	  on-click = "uairctl toggle";
+          on-click = "uairctl toggle";
         };
       };
     };

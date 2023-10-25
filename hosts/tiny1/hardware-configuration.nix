@@ -1,9 +1,8 @@
-{ lib, ... }:
-{
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+{lib, ...}: {
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
 
   boot.kernel.sysctl = {
     # optimize swap for zram
@@ -19,25 +18,25 @@
     "/" = {
       device = "/dev/nvme0n1p1";
       fsType = "ext4";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
     "/boot" = {
       device = "/dev/nvme0n1p3";
       fsType = "vfat";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
     "/mnt/disk1" = {
       # newer drive, no errors: /dev/disk/by-id/usb-WD_Elements_2621_57584A3241363146314A4858-0:0-part1
       device = "/dev/disk/by-id/usb-WD_Elements_2621_57584A3241363146314A4858-0:0-part1";
       # older drive, some read errors: /dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1
       fsType = "btrfs";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
     "/mnt/disk2" = {
       # older drive, some read errors: /dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1
       device = "/dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1";
       fsType = "btrfs";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
     "/mnt/storage" = {
       device = "/mnt/disk*";
@@ -57,14 +56,16 @@
     "/mnt/parity1" = {
       device = "/dev/disk/by-id/usb-WDC_WD40_EFPX-68C6CN0_152D00539000-0:0-part1";
       fsType = "ext4";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
   };
 
-  swapDevices = [ {
-    device = "/dev/nvme0n1p2"; # 4GB
-    priority = 1; # needs to be lower than the default zram priority of 5
-  } ];
+  swapDevices = [
+    {
+      device = "/dev/nvme0n1p2"; # 4GB
+      priority = 1; # needs to be lower than the default zram priority of 5
+    }
+  ];
   zramSwap.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

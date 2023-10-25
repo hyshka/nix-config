@@ -1,23 +1,29 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-
-{ inputs, outputs, lib, config, pkgs, ... }:
-let
-  inherit (inputs.nix-colors) colorSchemes;
-in
 {
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  inherit (inputs.nix-colors) colorSchemes;
+in {
   # You can import other home-manager modules here
-  imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    inputs.nix-colors.homeManagerModule
-    #inputs.zimfw.homeManagerModules.zimfw
-    inputs.sops-nix.homeManagerModule
+  imports =
+    [
+      # If you want to use home-manager modules from other flakes (such as nix-colors):
+      inputs.nix-colors.homeManagerModule
+      #inputs.zimfw.homeManagerModules.zimfw
+      inputs.sops-nix.homeManagerModule
 
-    # You can also split up your configuration and import pieces of it here:
-    ./cli
-    ./nvim
-    ./desktop
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+      # You can also split up your configuration and import pieces of it here:
+      ./cli
+      ./nvim
+      ./desktop
+    ]
+    ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     # You can add overlays here
@@ -43,7 +49,7 @@ in
       # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = (_: true);
+      allowUnfreePredicate = _: true;
     };
   };
 

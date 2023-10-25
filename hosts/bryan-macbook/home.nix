@@ -1,8 +1,13 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-
-{ outputs, pkgs, config, lib, nix-colors, ... }:
 {
+  outputs,
+  pkgs,
+  config,
+  lib,
+  nix-colors,
+  ...
+}: {
   # Import other home-manager modules in flake.nix
   imports = [
     # You can also split up your configuration and import pieces of it here:

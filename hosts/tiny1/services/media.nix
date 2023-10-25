@@ -1,7 +1,6 @@
 {
-
   # docker interface for mediacenter network, allows docker to access ntfy
-  networking.firewall.interfaces."br-65ee147cd7f3".allowedTCPPorts = [ 8010 ];
+  networking.firewall.interfaces."br-65ee147cd7f3".allowedTCPPorts = [8010];
 
   users = {
     groups = {
@@ -35,7 +34,7 @@
         uid = 13006;
         group = "mediacenter";
         # Unsure if video is required for hardware accel
-        extraGroups = [ "video" "render" ];
+        extraGroups = ["video" "render"];
       };
       recyclarr = {
         isSystemUser = true;
@@ -56,20 +55,20 @@
   };
 
   services.nginx.virtualHosts."jellyseerr.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:5055";
-        };
-      };
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:5055";
+    };
+  };
 
   services.nginx.virtualHosts."jellyfin.hyshka.com" = {
-        forceSSL = true;
-        enableACME = true;
-        locations."/" = {
-          recommendedProxySettings = true;
-          proxyPass = "http://127.0.0.1:8096";
-        };
-      };
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:8096";
+    };
+  };
 }

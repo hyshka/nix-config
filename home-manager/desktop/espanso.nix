@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   services.espanso = {
     enable = false;
     package = pkgs.espanso-wayland;
@@ -34,32 +32,40 @@
           trigger = ":pudb";
           replace = "import pudb; pu.db  # FIXME";
         }
-        { # Dates
+        {
+          # Dates
           trigger = ":date";
           replace = "{{mydate}}";
-          vars = [{
-            name = "mydate";
-            type = "date";
-            params = { format = "%Y-%m-%d"; };
-          }];
+          vars = [
+            {
+              name = "mydate";
+              type = "date";
+              params = {format = "%Y-%m-%d";};
+            }
+          ];
         }
-        { # Shell commands
+        {
+          # Shell commands
           trigger = ":shell";
           replace = "{{output}}";
-          vars = [{
-            name = "output";
-            type = "shell";
-            params = { cmd = "echo Hello from your shell"; };
-          }];
+          vars = [
+            {
+              name = "output";
+              type = "shell";
+              params = {cmd = "echo Hello from your shell";};
+            }
+          ];
         }
         {
           trigger = ":vim";
           replace = "{{output}}";
-          vars = [{
-            name = "output";
-            type = "shell";
-            params = { cmd = "kitty nvim"; };
-          }];
+          vars = [
+            {
+              name = "output";
+              type = "shell";
+              params = {cmd = "kitty nvim";};
+            }
+          ];
         }
       ];
     };

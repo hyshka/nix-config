@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   # TODO To make this work, homebrew need to be installed manually, see https://brew.sh
   #
   # The apps installed by homebrew are not managed by nix, and not reproducible!
@@ -32,8 +32,8 @@
     # `brew install`
     # TODO Feel free to add your favorite apps here.
     brews = [
-      "wget"  # download tool
-      "curl"  # no not install curl via nixpkgs, it's not working well on macOS!
+      "wget" # download tool
+      "curl" # no not install curl via nixpkgs, it's not working well on macOS!
 
       # mine
       "clipboard" # https://github.com/Slackadays/Clipboard
@@ -51,7 +51,7 @@
       "slack"
       "spotify"
       #"syncthing"
-      "raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
+      "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       #"iglance"   # beautiful system monitor
       "tomatobar"
       # TODO zoom managed by work
@@ -68,7 +68,6 @@
 
       # TODO window sizing shortcuts
       #"rectangle" # https://rectangleapp.com/
-
 
       # muck rack
       "docker"

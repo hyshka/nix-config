@@ -1,6 +1,9 @@
-{ pkgs, config, ... }:
 {
-  environment.systemPackages = with pkgs; [ glances python310Packages.psutil hddtemp ];
+  pkgs,
+  config,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [glances python310Packages.psutil hddtemp];
 
   systemd.services.glances = {
     serviceConfig = {
@@ -9,8 +12,8 @@
     script = ''
       ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1
     '';
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
   };
 
   environment.etc."glances/glances.conf" = {

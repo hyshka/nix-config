@@ -1,10 +1,9 @@
-{ config, ... }:
-{
+{config, ...}: {
   sops.secrets."home-assistant-secrets.yaml" = {
     owner = "hass";
     group = "hass";
     path = "/var/lib/hass/secrets.yaml";
-    restartUnits = [ "home-assistant.service" ];
+    restartUnits = ["home-assistant.service"];
   };
 
   services.home-assistant = {
@@ -38,7 +37,7 @@
         themes = "!include_dir_merge_named themes";
       };
       http = {};
-      feedreader.urls = [ "https://nixos.org/blogs.xml" ];
+      feedreader.urls = ["https://nixos.org/blogs.xml"];
     };
   };
 }

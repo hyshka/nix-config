@@ -1,6 +1,9 @@
-{ config, pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ restic ];
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [restic];
 
   sops.secrets = {
     restic_password = {

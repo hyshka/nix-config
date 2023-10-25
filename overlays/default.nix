@@ -1,8 +1,7 @@
 # This file defines overlays
-{ inputs, ... }:
-{
+{inputs, ...}: {
   # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs { pkgs = final; };
+  additions = final: _prev: import ../pkgs {pkgs = final;};
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
@@ -17,6 +16,13 @@
         prev.util-linux # required for setsid
       ];
     });
+
+    #nodePackages = prev.nodePackages // {
+    #  "@vue/language-server" = prev.nodePackages."@vue/language-server".overrideAttrs (oldAttrs {
+    #    version = 1.8.15;
+    #    src = /Users/hyshka/Work/nixpkgs/result;
+    #  });
+    #};
 
     #etlegacy = inputs.nixpkgs.lib.callPackageWith (inputs.nixpkgs.pkgsi686Linux // prev.etlegacy);
     #etlegacy = prev.etlegacy.overrideAttrs (oldAttrs: let

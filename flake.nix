@@ -27,16 +27,24 @@
     zimfw.url = "github:joedevivo/zimfw.nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, hardware, nix-darwin, sops-nix, nix-colors, ... }@inputs:
-    let
-      inherit (self) outputs;
-      lib = nixpkgs.lib // home-manager.lib;
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
-      forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
-      pkgsFor = nixpkgs.legacyPackages;
-    in {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    hardware,
+    nix-darwin,
+    sops-nix,
+    nix-colors,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    lib = nixpkgs.lib // home-manager.lib;
+    systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
+    forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
+    pkgsFor = nixpkgs.legacyPackages;
+  in {
     # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays { inherit inputs; };
+    overlays = import ./overlays {inherit inputs;};
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;
@@ -44,27 +52,27 @@
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
 
-    devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       starship = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
+        specialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ ./hosts/starship/configuration.nix ];
+        modules = [./hosts/starship/configuration.nix];
       };
       nixos-vm = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
-        modules = [ ./hosts/nixos-vm/configuration.nix ];
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/nixos-vm/configuration.nix];
       };
       rpi4 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
-        modules = [ ./hosts/rpi4/configuration.nix ];
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/rpi4/configuration.nix];
       };
       tiny1 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
-        modules = [ ./hosts/tiny1/configuration.nix ];
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/tiny1/configuration.nix];
       };
     };
 
@@ -76,21 +84,24 @@
       # TODO: update weird company hostname?
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
-	  ./hosts/bryan-macbook/configuration.nix
-	  home-manager.darwinModules.home-manager {
+          ./hosts/bryan-macbook/configuration.nix
+          home-manager.darwinModules.home-manager
+          {
             # If you want to use home-manager modules from other flakes (such as nix-colors):
-	    home-manager.sharedModules = [
-  	      nix-colors.homeManagerModule
-              #zimfw.homeManagerModules.zimfw
-              sops-nix.homeManagerModule
-            ] ++ (builtins.attrValues outputs.homeManagerModules);
+            home-manager.sharedModules =
+              [
+                nix-colors.homeManagerModule
+                #zimfw.homeManagerModules.zimfw
+                sops-nix.homeManagerModule
+              ]
+              ++ (builtins.attrValues outputs.homeManagerModules);
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.hyshka = import ./hosts/bryan-macbook/home.nix;
           }
-	];
-        specialArgs = { inherit inputs outputs; };
+        ];
+        specialArgs = {inherit inputs outputs;};
       };
     };
     # Expose the package set, including overlays, for convenience.
@@ -102,19 +113,19 @@
     homeConfigurations = {
       "hyshka@starship" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs outputs; }; # Pass flake inputs to our config
+        extraSpecialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
-        modules = [ ./home-manager/home.nix ];
+        modules = [./home-manager/home.nix];
       };
       "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [ ./home-manager/home.nix ];
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home-manager/home.nix];
       };
       "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs outputs; };
-        modules = [ ./home-manager/home-cli.nix ];
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home-manager/home-cli.nix];
       };
     };
   };

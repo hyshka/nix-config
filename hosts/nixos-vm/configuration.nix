@@ -1,26 +1,30 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-
-{ inputs, outputs, lib, config, pkgs, ... }:
-  let ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-in
 {
-  imports =
-    [
-      # If you want to use modules your own flake exports (from modules/nixos):
-      # outputs.nixosModules.example
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+in {
+  imports = [
+    # If you want to use modules your own flake exports (from modules/nixos):
+    # outputs.nixosModules.example
 
-      # If you want to use modules from other flakes (such as nixos-hardware):
-      # inputs.hardware.nixosModules.common-cpu-amd
-      # inputs.hardware.nixosModules.common-ssd
+    # If you want to use modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
 
-      # You can also split up your configuration and import pieces of it here:
-      # ./users.nix
-      ../common/nix.nix
+    # You can also split up your configuration and import pieces of it here:
+    # ./users.nix
+    ../common/nix.nix
 
-      # Import your generated (nixos-generate-config) hardware configuration
-      ./hardware-configuration.nix
-    ];
+    # Import your generated (nixos-generate-config) hardware configuration
+    ./hardware-configuration.nix
+  ];
 
   nixpkgs = {
     # You can add overlays here
@@ -60,20 +64,20 @@ in
 
   # Allow users to use zsh shell
   programs.zsh.enable = true;
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
   # Support completion for system packages
   # Ref: https://nix-community.github.io/home-manager/options.html#opt-programs.zsh.enableCompletion
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.pathsToLink = ["/share/zsh"];
 
   # Support user desktops
   xdg.portal = {
     enable = true;
     # allow screen sharing with wlroots compositors
     wlr.enable = true;
-  #  extraPortals = with pkgs; [
-  #    xdg-desktop-portal-wlr
-  #    xdg-desktop-portal-gtk
-  #  ];
+    #  extraPortals = with pkgs; [
+    #    xdg-desktop-portal-wlr
+    #    xdg-desktop-portal-gtk
+    #  ];
   };
 
   # video support
@@ -104,13 +108,15 @@ in
       openssh.authorizedKeys.keys = [
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTi8LybJv9rM1PY+89RizysnNS0qe17peP1lsribcY+VuEW1aZrjYePJKVyFlIUqQnPGr9zK2FsLqU+Y40hfNQMITlHQMCbrWLvGdPvR2uP17+DFvZSp+ox0KVIjqOgxpLIWbszHKzfA1g8FJfzpH7j1kzP7bEonUXAGd3eVtf2kuzELKl7pI4uQyuoKF6ti1EMKQEOivLJm9aphz8/Bk+aZVgFy2srCxhqpWM5v967iNOK+UtPAqStrkJTvc1NtmMe6YQ099lRltq5dLerBfb0r5BdTKa+oTrgMELzV1YOv1i5Nj21RUz0kDT1eiVoqmyYAIlB8Rn01qByCU+2FH1 bryan@hyshka.com"
       ];
-      extraGroups = [
-        "wheel"
-        "video"
-        "audio"
-      ] ++ ifTheyExist [
-        "docker"
-      ];
+      extraGroups =
+        [
+          "wheel"
+          "video"
+          "audio"
+        ]
+        ++ ifTheyExist [
+          "docker"
+        ];
       shell = pkgs.zsh;
     };
   };

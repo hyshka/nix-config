@@ -1,7 +1,12 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-
-{ inputs, outputs, pkgs, config, ... }: {
+{
+  inputs,
+  outputs,
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
@@ -22,27 +27,41 @@
   networking = {
     hostName = "rpi4";
     firewall = {
-      allowedTCPPorts = [ 80 443 22000 38000 ];
+      allowedTCPPorts = [80 443 22000 38000];
       # docker interface for mediacenter network, allows docker to access ntfy
-      interfaces."br-65ee147cd7f3".allowedTCPPorts = [ 8010 ];
+      interfaces."br-65ee147cd7f3".allowedTCPPorts = [8010];
     };
   };
 
   environment.systemPackages = with pkgs; [
-      # rpi utils
-      raspberrypi-eeprom libraspberrypi
+    # rpi utils
+    raspberrypi-eeprom
+    libraspberrypi
 
-      # utils
-      neovim ncdu ranger htop git pciutils
+    # utils
+    neovim
+    ncdu
+    ranger
+    htop
+    git
+    pciutils
 
-      # filesystem
-      mergerfs mergerfs-tools
-      btrfs-progs fuse snapper
-      # hard disk tools
-      smartmontools fio hdparm iozone parted
+    # filesystem
+    mergerfs
+    mergerfs-tools
+    btrfs-progs
+    fuse
+    snapper
+    # hard disk tools
+    smartmontools
+    fio
+    hdparm
+    iozone
+    parted
 
-      # misc
-      fontconfig glibc
+    # misc
+    fontconfig
+    glibc
   ];
 
   security.acme = {
@@ -55,12 +74,12 @@
     users = {
       hyshka = {
         isNormalUser = true;
-	initialPassword = "pw123";
+        initialPassword = "pw123";
         #passwordFile = config.sops.secrets.hyshka_password.path;
-        extraGroups = [ "wheel" ];
+        extraGroups = ["wheel"];
         openssh.authorizedKeys.keys = [
           "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTi8LybJv9rM1PY+89RizysnNS0qe17peP1lsribcY+VuEW1aZrjYePJKVyFlIUqQnPGr9zK2FsLqU+Y40hfNQMITlHQMCbrWLvGdPvR2uP17+DFvZSp+ox0KVIjqOgxpLIWbszHKzfA1g8FJfzpH7j1kzP7bEonUXAGd3eVtf2kuzELKl7pI4uQyuoKF6ti1EMKQEOivLJm9aphz8/Bk+aZVgFy2srCxhqpWM5v967iNOK+UtPAqStrkJTvc1NtmMe6YQ099lRltq5dLerBfb0r5BdTKa+oTrgMELzV1YOv1i5Nj21RUz0kDT1eiVoqmyYAIlB8Rn01qByCU+2FH1 bryan@hyshka.com"
-      ];
+        ];
       };
       # TODO move to services
       wireguard = {
@@ -88,7 +107,7 @@
         uid = 13006;
         group = "mediacenter";
         # Unsure if video is required for hardware accel
-        extraGroups = [ "video" ];
+        extraGroups = ["video"];
       };
       recyclarr = {
         isSystemUser = true;
@@ -122,7 +141,7 @@
     baseIndex = 1;
     aggressiveResize = true;
     escapeTime = 10;
-    plugins = with pkgs; [ tmuxPlugins.sensible tmuxPlugins.pain-control tmuxPlugins.sessionist tmuxPlugins.tmux-colors-solarized ];
+    plugins = with pkgs; [tmuxPlugins.sensible tmuxPlugins.pain-control tmuxPlugins.sessionist tmuxPlugins.tmux-colors-solarized];
     extraConfig = ''
       set -g @colors-solarized 'light'
     '';

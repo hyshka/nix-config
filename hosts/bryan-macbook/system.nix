@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # Ref:
   # - https://daiderd.com/nix-darwin/manual/index.html
   # - https://github.com/ryan4yin/nix-darwin-kickstarter/blob/main/rich-demo/modules/system.nix
@@ -37,10 +37,10 @@
 
       NSGlobalDomain = {
         "com.apple.swipescrolldirection" = false;
-	"com.apple.sound.beep.feedback" = 0;
-	AppleInterfaceStyleSwitchesAutomatically = true;
-	AppleKeyboardUIMode = 3; # TODO full keyboard control, not sure what this does
-	NSAutomaticCapitalizationEnabled = false;
+        "com.apple.sound.beep.feedback" = 0;
+        AppleInterfaceStyleSwitchesAutomatically = true;
+        AppleKeyboardUIMode = 3; # TODO full keyboard control, not sure what this does
+        NSAutomaticCapitalizationEnabled = false;
         NSAutomaticDashSubstitutionEnabled = false;
         NSAutomaticPeriodSubstitutionEnabled = false;
         NSAutomaticQuoteSubstitutionEnabled = false;
@@ -64,7 +64,7 @@
           # Add a context menu item for showing the Web Inspector in web views
           WebKitDeveloperExtras = true;
         };
-	"com.apple.finder" = {
+        "com.apple.finder" = {
           ShowExternalHardDrivesOnDesktop = true;
           ShowHardDrivesOnDesktop = true;
           ShowMountedServersOnDesktop = true;
@@ -73,15 +73,15 @@
           # When performing a search, search the current folder by default
           FXDefaultSearchScope = "SCcf";
         };
-	"com.apple.desktopservices" = {
+        "com.apple.desktopservices" = {
           # Avoid creating .DS_Store files on network or USB volumes
           DSDontWriteNetworkStores = true;
           DSDontWriteUSBStores = true;
         };
-	"com.apple.AdLib" = {
+        "com.apple.AdLib" = {
           allowApplePersonalizedAdvertising = false;
         };
-	# Prevent Photos from opening automatically when devices are plugged in
+        # Prevent Photos from opening automatically when devices are plugged in
         "com.apple.ImageCapture".disableHotPlug = true;
       };
 

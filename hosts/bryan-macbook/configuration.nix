@@ -1,27 +1,31 @@
 # inputs.self, inputs.nix-darwin, and inputs.nixpkgs can be accessed here
-{ inputs, outputs, pkgs, lib, config, ... }:
 {
-  imports =
-    [
-      # If you want to use modules your own flake exports (from modules/nixos):
-      # outputs.nixosModules.example
+  inputs,
+  outputs,
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  imports = [
+    # If you want to use modules your own flake exports (from modules/nixos):
+    # outputs.nixosModules.example
 
-      # If you want to use modules from other flakes (such as nixos-hardware):
-      inputs.home-manager.darwinModules.home-manager
+    # If you want to use modules from other flakes (such as nixos-hardware):
+    inputs.home-manager.darwinModules.home-manager
 
-      # You can also split up your configuration and import pieces of it here:
-      ../common/nix.nix
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      # this is required if you want to use darwin's default shell - zsh
-      ../common/zsh.nix
-      ./system.nix
-      ./homebrew.nix
-      ./user.nix
+    # You can also split up your configuration and import pieces of it here:
+    ../common/nix.nix
+    # Create /etc/zshrc that loads the nix-darwin environment.
+    # this is required if you want to use darwin's default shell - zsh
+    ../common/zsh.nix
+    ./system.nix
+    ./homebrew.nix
+    ./user.nix
 
-      # Import your generated (nixos-generate-config) hardware configuration
-      #./hardware-configuration.nix
-    ];
-
+    # Import your generated (nixos-generate-config) hardware configuration
+    #./hardware-configuration.nix
+  ];
 
   nixpkgs = {
     # You can add overlays here

@@ -1,4 +1,8 @@
-{ inputs, config, ... }: {
+{
+  inputs,
+  config,
+  ...
+}: {
   sops = {
     #age.keyFile = "/home/hyshka/.age-key.txt"; # must have no password!
     # It's also possible to use a ssh key, but only when it has no password:

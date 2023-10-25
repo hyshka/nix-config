@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  ...
+}: {
   # Support user desktops
   xdg.portal = {
     enable = true;
@@ -46,20 +49,20 @@
 
   # Gparted support
   security.polkit.enable = true;
-  environment.systemPackages = with pkgs; [ polkit_gnome ];
+  environment.systemPackages = with pkgs; [polkit_gnome];
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
+      wantedBy = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      after = ["graphical-session.target"];
       serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
     };
   };
 
@@ -82,7 +85,7 @@
     };
   };
   services.udev.extraRules = ''
-  KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess"
+    KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess"
   '';
 
   # Enable KMS access for Sunshine
@@ -105,9 +108,9 @@
   # TODO this didn't work in my home manager config
   programs.openvpn3.enable = true; # work VPN access
   services.openvpn.servers = {
-    workVPN  = {
+    workVPN = {
       autoStart = false;
-      config = '' config /home/hyshka/work/MR/bryan.ovpn '';
+      config = ''config /home/hyshka/work/MR/bryan.ovpn '';
     };
   };
 }

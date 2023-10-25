@@ -1,11 +1,10 @@
-{ pkgs, ... }:
-{
-  environment.systemPackages = with pkgs; [ docker-compose ];
+{pkgs, ...}: {
+  environment.systemPackages = with pkgs; [docker-compose];
 
   virtualisation = {
-      docker.enable = true;
-      oci-containers = {
-          backend = "docker";
-      };
+    docker.enable = true;
+    oci-containers = {
+      backend = "docker";
+    };
   };
 }

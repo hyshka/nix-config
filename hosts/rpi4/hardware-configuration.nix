@@ -1,11 +1,11 @@
 {
   # TODO try to OC
   boot.loader.raspberryPi.firmwareConfig = ''
-      arm_boost=1
+    arm_boost=1
   '';
 
   # TODO fix crash https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1669557985
-  boot.kernelParams = [ "kunit.enable=0" ];
+  boot.kernelParams = ["kunit.enable=0"];
   # https://github.com/NixOS/nixos-hardware/issues/631#issuecomment-1668650025
   # TODO fix nix build
   hardware.deviceTree.filter = "bcm2711-rpi-4*.dtb";
@@ -35,7 +35,7 @@
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
-      options = [ "defaults" "noatime" ];
+      options = ["defaults" "noatime"];
     };
     #"/mnt/disk1" = {
     #  # newer drive, no errors: /dev/disk/by-id/usb-WD_Elements_2621_57584A3241363146314A4858-0:0-part1
@@ -72,11 +72,13 @@
     #};
   };
 
-  swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 2*1024; # https://itsfoss.com/swap-size/
-    priority = 1; # needs to be lower than the default zram priority of 5
-  } ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 2 * 1024; # https://itsfoss.com/swap-size/
+      priority = 1; # needs to be lower than the default zram priority of 5
+    }
+  ];
   zramSwap.enable = true;
 
   # Enable GPU acceleration for transcoding

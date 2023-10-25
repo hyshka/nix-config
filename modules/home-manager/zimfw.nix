@@ -1,15 +1,18 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.programs.zsh;
 
   ## copied relToDotDir from ./zsh.nix. Probably should import it, but I don't
   ## know how.
   relToDotDir = file:
     (optionalString (cfg.dotDir != null) (cfg.dotDir + "/")) + file;
-in
-{
-  meta.maintainers = [ maintainers.joedevivo ];
+in {
+  meta.maintainers = [maintainers.joedevivo];
 
   options = {
     programs.zsh.zimfw = {
@@ -26,10 +29,9 @@ in
 
       configFile = mkOption {
         default =
-          if cfg.dotDir != null then
-            "$HOME/${cfg.dotDir}/.zimrc"
-          else
-            "$HOME/.zimrc";
+          if cfg.dotDir != null
+          then "$HOME/${cfg.dotDir}/.zimrc"
+          else "$HOME/.zimrc";
         type = types.str;
         description = ''
           Location of zimrc file
@@ -54,7 +56,7 @@ in
       };
 
       zmodules = mkOption {
-        default = [ "environment" "git" "input" "termtitle" "utility" ];
+        default = ["environment" "git" "input" "termtitle" "utility"];
         example = [
           "environment"
           "git"
@@ -76,12 +78,12 @@ in
   };
 
   config = mkIf cfg.zimfw.enable {
-    home.packages = [ pkgs.zimfw ];
+    home.packages = [pkgs.zimfw];
     programs.zsh.localVariables = {
       ZIM_HOME = cfg.zimfw.homeDir;
       ZIM_CONFIG_FILE = cfg.zimfw.configFile;
     };
-    programs.zsh.initExtra = concatStringsSep "\n" ([
+    programs.zsh.initExtra = concatStringsSep "\n" [
       (optionalString (cfg.zimfw.degit) ''
         zstyle ':zim:zmodule' use 'degit'
       '')
@@ -102,10 +104,11 @@ in
           source ''${ZIM_HOME}/init.zsh
         fi
       ''
-    ]);
-    home.file."${relToDotDir ".zimrc"}".text = concatStringsSep "\n"
-      ((map (zmodule: "zmodule ${zmodule}") cfg.zimfw.zmodules));
-    home.activation.zimfw = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ];
+    home.file."${relToDotDir ".zimrc"}".text =
+      concatStringsSep "\n"
+      (map (zmodule: "zmodule ${zmodule}") cfg.zimfw.zmodules);
+    home.activation.zimfw = lib.hm.dag.entryAfter ["writeBoundary"] ''
       ${pkgs.zsh}/bin/zsh -c "export ZIM_HOME='${cfg.zimfw.homeDir}' && source ${pkgs.zimfw}/zimfw.zsh init -q && zimfw install && zimfw compile"
     '';
   };
