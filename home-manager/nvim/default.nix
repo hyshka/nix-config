@@ -8,6 +8,7 @@ in
     ./lsp.nix
     ./syntaxes.nix
     ./ui.nix
+    ./copilot.nix
   ];
 
   programs.neovim = {
