@@ -44,21 +44,6 @@
         "nofail"
       ];
     };
-    "/home/hyshka/storage" = {
-      device = "hyshka@10.0.0.250:/mnt/storage/hyshka";
-      fsType = "fuse.sshfs";
-      options = [
-        "noauto"
-        #"x-systemd.automount" # to mount on-demand
-        "_netdev"
-        "users"
-        "idmap=user"
-        "IdentityFile=/home/hyshka/.ssh/id_rsa"
-        "allow_other"
-        "reconnect"
-        "port=38000"
-      ];
-    };
   };
   # for sshfs mount
   environment.systemPackages = with pkgs; [sshfs];

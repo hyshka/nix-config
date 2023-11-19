@@ -21,6 +21,9 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Lanzaboote for secure boot support
+    lanzaboote.url = "github:nix-community/lanzaboote";
+
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
@@ -32,6 +35,7 @@
     nixpkgs,
     home-manager,
     hardware,
+    lanzaboote,
     nix-darwin,
     sops-nix,
     nix-colors,

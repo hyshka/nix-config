@@ -4,6 +4,8 @@
   inputs,
   outputs,
   pkgs,
+  config,
+  lib,
   ...
 }: {
   imports = [
@@ -18,6 +20,7 @@
     inputs.hardware.nixosModules.common-gpu-amd
     #inputs.hardware.nixosModules.common-hidpi
     inputs.sops-nix.nixosModules.sops
+    inputs.lanzaboote.nixosModules.lanzaboote
 
     # You can also split up your configuration and import pieces of it here:
     ../common/nix.nix
@@ -38,7 +41,7 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       #outputs.overlays.additions
       #outputs.overlays.modifications
-      #outputs.overlays.unstable-packages
+      outputs.overlays.unstable-packages
 
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -57,7 +60,7 @@
 
   # TODO move to module
   networking.hosts = {
-    "10.0.0.250" = [
+    "10.0.0.240" = [
       "jellyseer.hyshka.com"
       "jellyfin.hyshka.com"
       "ntfy.hyshka.com"
@@ -65,10 +68,29 @@
       "dashboard.hyshka.com"
     ];
   };
+  networking.wireless = {
+    enable = true;
+    #iwd.enable = true; # TODO remove once this works
+    #userControlled.enable = true; # TODO remove once this works
+    environmentFile = config.sops.secrets.wireless.path;
+    networks."THENEST" = {
+      psk = "@PSK_THENEST@";
+    };
+  };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets.wireless = {};
+
+  boot = {
+    # Use the systemd-boot EFI boot loader.
+    loader.systemd-boot.enable = lib.mkForce false;
+    loader.efi.canTouchEfiVariables = true;
+    bootspec.enable = true;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "America/Edmonton";
