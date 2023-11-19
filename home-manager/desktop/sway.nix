@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   wayland.windowManager.sway = {
     enable = true;
     package = null;
@@ -27,8 +30,8 @@
       menu = "wofi --show run";
       bars = [
         {
-	  command = "waybar";
-	}
+          command = "waybar";
+        }
       ];
       #assigns = {
       #  "1" = [{ class = "^Slack$"; }];
@@ -75,22 +78,23 @@
       #    };
       #  }
       #];
-     output.Headless-1 = {
-       mode = "1280x720";
-       pos = "0 0";
-     };
-     keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
-      in lib.mkOptionDefault {
-        # Desktop Utilities
-        "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
-        #"${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
-        "${modifier}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
-
-	# Main app shortcuts
-        "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";
-        "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
+      output.Headless-1 = {
+        mode = "1280x720";
+        pos = "0 0";
       };
+      keybindings = let
+        modifier = config.wayland.windowManager.sway.config.modifier;
+      in
+        lib.mkOptionDefault {
+          # Desktop Utilities
+          "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
+          #"${modifier}+Shift+s" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot copy area";
+          "${modifier}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
+
+          # Main app shortcuts
+          "${modifier}+Shift+w" = "exec ${pkgs.firefox-devedition-bin}/bin/firefox-devedition";
+          "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
+        };
     };
   };
 
@@ -99,15 +103,15 @@
     settings = {
       mainBar = {
         height = 30;
-	modules-left = [ "sway/workspaces" "sway/mode" "sway/scratchpad" ];
-        modules-center = [ "sway/window" ];
-        modules-right = [ "custom/uair" "clock" "tray" ];
-	# requires uair package
-	"custom/uair" = {
+        modules-left = ["sway/workspaces" "sway/mode" "sway/scratchpad"];
+        modules-center = ["sway/window"];
+        modules-right = ["custom/uair" "clock" "tray"];
+        # requires uair package
+        "custom/uair" = {
           format = "{}";
           max-length = 10;
           exec = "uair";
-	  on-click = "uairctl toggle";
+          on-click = "uairctl toggle";
         };
       };
     };

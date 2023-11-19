@@ -146,7 +146,7 @@
       RestartSec = "5s";
       #ExecStart = "${config.security.wrapperDir}/sunshine";
     };
-    wantedBy = [ "graphical-session.target" ];
+    wantedBy = ["graphical-session.target"];
   };
   services.flatpak.enable = true;
 
