@@ -89,6 +89,9 @@
     unstable.sunshine
     xorg.xrandr # required for sunshine
     util-linux # required for sunshine/setsid
+
+    # xfce4
+    xfce.xfce4-pulseaudio-plugin
   ];
 
   # Enable avahi for Sunshine
