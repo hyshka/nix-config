@@ -26,6 +26,17 @@
   };
   boot.extraModulePackages = [];
 
+  # Disable systemd-boot and enable lanzaboote for secure boot support.
+  boot = {
+    loader.systemd-boot.enable = lib.mkForce false;
+    loader.efi.canTouchEfiVariables = true;
+    bootspec.enable = true;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
+  };
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXROOT";
@@ -45,8 +56,6 @@
       ];
     };
   };
-  # for sshfs mount
-  environment.systemPackages = with pkgs; [sshfs];
 
   swapDevices = [
     {
@@ -63,6 +72,18 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp0s3.useDHCP = lib.mkDefault true;
+
+  networking.wireless = {
+    enable = false;
+    # Temporarily enabling iwd and user control can help debug new networks.
+    #iwd.enable = true;
+    #userControlled.enable = true;
+    environmentFile = config.sops.secrets.wireless.path;
+    networks."THENEST" = {
+      psk = "@PSK_THENEST@";
+    };
+  };
+  sops.secrets.wireless = {};
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

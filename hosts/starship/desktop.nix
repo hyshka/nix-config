@@ -6,8 +6,6 @@
   # Support user desktops
   xdg.portal = {
     enable = true;
-    # allow screen sharing with wlroots compositors
-    wlr.enable = true; # required for flameshot
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk # required for flameshot screenshot access
     ];
@@ -31,13 +29,6 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    #jack.enable = true;
-    wireplumber.enable = true; # TODO test removal; required by xdg-desktop-portal-wlr
-  };
-
-  # Support Sway window manager
-  programs.sway = {
-    enable = true;
   };
 
   services.xserver = {
@@ -66,13 +57,6 @@
     #};
   };
 
-  # autostart sway on login
-  environment.loginShellInit = ''
-    if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-      exec sway -d >> sway.log 2>&1
-    fi
-  '';
-
   # Gparted support
   security.polkit.enable = true;
   systemd = {
@@ -94,7 +78,6 @@
   # Enable steam
   programs.steam = {
     enable = true;
-    #remotePlay.openFirewall = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -141,7 +124,6 @@
     };
 
     serviceConfig = {
-      Environment = "WAYLAND_DISPLAY=wayland-1";
       Restart = "on-failure";
       RestartSec = "5s";
       #ExecStart = "${config.security.wrapperDir}/sunshine";

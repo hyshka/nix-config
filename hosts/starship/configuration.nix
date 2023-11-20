@@ -68,29 +68,8 @@
       "dashboard.hyshka.com"
     ];
   };
-  networking.wireless = {
-    enable = true;
-    #iwd.enable = true; # TODO remove once this works
-    #userControlled.enable = true; # TODO remove once this works
-    environmentFile = config.sops.secrets.wireless.path;
-    networks."THENEST" = {
-      psk = "@PSK_THENEST@";
-    };
-  };
 
   sops.defaultSopsFile = ./secrets.yaml;
-  sops.secrets.wireless = {};
-
-  boot = {
-    # Use the systemd-boot EFI boot loader.
-    loader.systemd-boot.enable = lib.mkForce false;
-    loader.efi.canTouchEfiVariables = true;
-    bootspec.enable = true;
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/etc/secureboot";
-    };
-  };
 
   # Set your time zone.
   time.timeZone = "America/Edmonton";
