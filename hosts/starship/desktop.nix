@@ -30,6 +30,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  # xfce hack: https://nixos.wiki/wiki/Xfce#Pulseaudio
+  nixpkgs.config.pulseaudio = true;
 
   services.xserver = {
     enable = true;
