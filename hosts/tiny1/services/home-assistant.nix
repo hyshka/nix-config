@@ -72,6 +72,7 @@
           resource = "https://icanhazdadjoke.com/";
           scan_interval = "3600";
           headers.Accept = "application/json";
+	  json_attributes = ["joke" "id" "status"];
         }
       ];
       intent_script.TellJoke = {
