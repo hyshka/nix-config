@@ -29,8 +29,8 @@
         elevation = "!secret elevation";
         unit_system = "metric";
         time_zone = "America/Edmonton";
-        currency = "cad";
-        country = "ca";
+        currency = "CAD";
+        country = "CA";
         internal_url = "http://10.0.0.240:8123";
       };
       frontend = {
