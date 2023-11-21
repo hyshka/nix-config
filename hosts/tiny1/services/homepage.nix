@@ -1,129 +1,282 @@
-{config, ...}: {
+{config, ...}: let
+  # Ref: https://github.com/nikitawootten/infra/blob/main/hosts/hades/lab/homepage.nix
+  settings = {
+    title = "tiny1";
+  };
+  settingsFile = builtins.toFile "homepage-settings.yaml" (builtins.toJSON settings);
+  bookmarks = [
+    {
+      Administration = [
+        {
+          Source = [
+            {
+              icon = "github.png";
+              href = "https://github.com/hyshka/nix-config";
+            }
+          ];
+        }
+        {
+          Cloudflare = [
+            {
+              icon = "cloudflare.png";
+              href = "https://dash.cloudflare.com/";
+            }
+          ];
+        }
+      ];
+    }
+    {
+      Development = [
+        {
+          "Nix Options Search" = [
+            {
+              abbr = "NS";
+              href = "https://search.nixos.org/packages";
+            }
+          ];
+        }
+      ];
+    }
+  ];
+  bookmarksFile = builtins.toFile "homepage-bookmarks.yaml" (builtins.toJSON bookmarks);
+
+  widgets = [
+    {
+      resources = {
+        cpu = true;
+        memory = true;
+        cputemp = true;
+        uptime = true;
+        label = "system";
+        disk = "/";
+      };
+    }
+    {
+      search = {
+        provider = "duckduckgo";
+        target = "_blank";
+      };
+    }
+  ];
+  widgetsFile = builtins.toFile "homepage-widgets.yaml" (builtins.toJSON widgets);
+
+  docker = {
+    my-docker.socket = "/var/run/docker.sock";
+  };
+  dockerFile = builtins.toFile "homepage-docker.yaml" (builtins.toJSON docker);
+
+  # TODO https://github.com/nikitawootten/infra/blob/main/hosts/hades/lab/homepage.nix#L77
+  services = [
+    {
+      Backup = [
+        {
+          Syncthing = [
+            {
+              icon = "syncthing.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+        {
+          Restic = [
+            {
+              icon = "restic.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+        {
+          Backblaze = [
+            {
+              icon = "backblaze.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+      ];
+    }
+    {
+      Infrastructure = [
+        {
+          Ntfy = [
+            {
+              icon = "ntfy.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+        {
+          Ddclient = [
+            {
+              icon = "ddclient.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+        {
+          Glances = [
+            {
+              icon = "glances.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+        {
+          Namecheap = [
+            {
+              icon = "namecheap.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+      ];
+    }
+    {
+      Home = [
+        {
+          "Home Assistant" = [
+            {
+              icon = "homeassistant.png";
+              href = "https://tbd.hyshka.com";
+            }
+          ];
+        }
+      ];
+    }
+    {
+      Media = [
+        {
+          Jellyfin = [
+            {
+              icon = "jellyfin.png";
+              href = "https://jellyfin.hyshka.com";
+              description = "Jellyfin: Media server";
+              server = "my-docker";
+              container = "jellyfin";
+              #widget = {
+              #  type = "jellyfin";
+              #  url = "https://jellyfin.hyshka.com";
+              #  key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
+              #  enableBlocks = true;
+              #  enableNowPlaying = true;
+              #};
+            }
+          ];
+        }
+        {
+          Jellyseer = [
+            {
+              icon = "jellyseer.png";
+              href = "https://jellyseer.hyshka.com";
+              server = "my-docker";
+              container = "jellyfin";
+            }
+          ];
+        }
+        {
+          Radarr = [
+            {
+              icon = "radarr.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "radarr";
+            }
+          ];
+        }
+        {
+          Sonarr = [
+            {
+              icon = "sonarr.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "sonarr";
+            }
+          ];
+        }
+        {
+          Prowlarr = [
+            {
+              icon = "prowlarr.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "prowlarr";
+            }
+          ];
+        }
+        {
+          Recyclarr = [
+            {
+              #icon = "jellyseer.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "recyclarr";
+            }
+          ];
+        }
+        {
+          Qbittorrent = [
+            {
+              icon = "qbittorrent.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "qbittorrent";
+              #widget = {
+              #  type = "qbittorrent";
+              #  url = "https://tbd.hyshka.com";
+              #  username = "todo";
+              #  password = "todo";
+              #};
+            }
+          ];
+        }
+        {
+          Wireguard = [
+            {
+              icon = "mullvad.png";
+              href = "https://tbd.hyshka.com";
+              server = "my-docker";
+              container = "wireguard";
+            }
+          ];
+        }
+      ];
+    }
+  ];
+  servicesFile = builtins.toFile "homepage-services.yaml" (builtins.toJSON services);
+in {
   virtualisation = {
     oci-containers = {
       containers.homepage = {
         image = "ghcr.io/benphelps/homepage";
-        autoStart = false; # TODO config below isn't working, docker container doesn't pick up files
+        autoStart = true;
         ports = ["127.0.0.1:3001:3000"];
         volumes = [
-          "/etc/homepage:/app/config"
-          "/var/run/docker.sock:/var/run/docker.sock:ro" # (optional) For docker integrations
+          "/var/run/docker.sock:/var/run/docker.sock:ro"
+          # TODO logs
+          #"${config.lib.lab.mkConfigDir "homepage"}/logs/:/config/logs/"
+          "${settingsFile}:/config/settings.yaml"
+          "${servicesFile}:/config/services.yaml"
+          "${bookmarksFile}:/config/bookmarks.yaml"
+          "${widgetsFile}:/config/widgets.yaml"
+          "${dockerFile}:/config/docker.yaml"
         ];
-        environment = {};
+        environmentFiles = [config.sops.secrets.homepage.path];
       };
     };
   };
 
-  environment.etc = {
-    "homepage/bookmarks.yaml" = {
-      text = ''
-        ---
-
-      '';
-    };
-    "homepage/docker.yaml" = {
-      text = ''
-        ---
-
-        my-docker:
-          socket: /var/run/docker.sock
-      '';
-    };
-    "homepage/widgets.yaml" = {
-      text = ''
-        ---
-
-        - resources:
-            cpu: true
-            memory: true
-            disk: /
-      '';
-    };
-    "homepage/services.yaml" = {
-      text = ''
-        ---
-
-        - Media:
-            - Jellyfin:
-                href: http://localhost:8096/
-                icon: jellyfin
-                server: my-docker
-                container: jellyfin
-            - Jellyseerr:
-                href: http://localhost:5055/
-                icon: jellyseerr
-                server: my-docker
-                container: jellyseerr
-            - Radarr:
-                href: http://localhost:7878/
-                icon: radarr
-                server: my-docker
-                container: radarr
-            - Sonarr:
-                href: http://localhost:8989/
-                icon: sonarr
-                server: my-docker
-                container: sonarr
-            - Prowlarr:
-                href: http://localhost:9696/
-                icon: prowlarr
-                server: my-docker
-                container: prowlarr
-            - Recyclarr:
-                href: http://localhost/
-                server: my-docker
-                container: recyclarr
-            - QBittorrent:
-                href: http://localhost:8080/
-                icon: qbittorrent
-                server: my-docker
-                container: qbittorrent
-                  #widget:
-                  #  type: qbittorrent
-                  #  url: http://localhost:8080
-                  #  username: admin
-                  #  password: adminadmin
-            - Wireguard:
-                href: http://localhost/
-                icon: mullvad
-                server: my-docker
-                container: wireguard
-
-        - Backup:
-            - Syncthing:
-                href: http://localhost:8384/
-            - Restic:
-                href: http://localhost/
-            - Backblaze:
-                href: https://backblaze.com/
-                icon: backblaze
-
-        - Other:
-            - Ntfy:
-                href: http://localhost:8010/
-                icon: ntfy
-            - Psitransfer:
-                href: http://localhost:3000/
-            - Ddclient:
-                href: http://localhost
-            - Glances:
-                href: http://localhost:61208/
-                icon: glances
-            - Namecheap:
-                href: https://namecheap.com/
-      '';
-    };
+  sops.secrets = {
+    homepage = {};
   };
 
-  # TODO enable when service is up
-  #services.nginx.virtualHosts."dashboard.hyshka.com" = {
-  #  forceSSL = true;
-  #  enableACME = true;
-  #  # auth file format: user:{PLAIN}password
-  #  basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-  #  locations."/" = {
-  #    recommendedProxySettings = true;
-  #    proxyPass = "http://127.0.0.1:3001";
-  #  };
-  #};
+  services.nginx.virtualHosts."dashboard.hyshka.com" = {
+    forceSSL = true;
+    enableACME = true;
+    # auth file format: user:{PLAIN}password
+    basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:3001";
+    };
+  };
 }
