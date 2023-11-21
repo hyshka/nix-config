@@ -52,10 +52,10 @@
 
       # weather
       weather = [
-        { platform = "environment_canada"; }
+        {platform = "environment_canada";}
       ];
       camera = [
-        { platform = "environment_canada"; }
+        {platform = "environment_canada";}
       ];
 
       # dad jokes
@@ -68,11 +68,11 @@
         {
           name = "random_joke";
           platform = "rest";
-          json_attributes = "joke";
+          json_attributes = ["joke" "id" "status"];
+          value_template = "{{ value_json.joke }}";
           resource = "https://icanhazdadjoke.com/";
           scan_interval = "3600";
           headers.Accept = "application/json";
-	  json_attributes = ["joke" "id" "status"];
         }
       ];
       intent_script.TellJoke = {
