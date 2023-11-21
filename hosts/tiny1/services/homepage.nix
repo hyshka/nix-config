@@ -10,7 +10,7 @@
         {
           Source = [
             {
-              icon = "github.png";
+              icon = "github";
               href = "https://github.com/hyshka/nix-config";
             }
           ];
@@ -18,7 +18,7 @@
         {
           Cloudflare = [
             {
-              icon = "cloudflare.png";
+              icon = "cloudflare";
               href = "https://dash.cloudflare.com/";
             }
           ];
@@ -72,7 +72,7 @@
         {
           Syncthing = [
             {
-              icon = "syncthing.png";
+              icon = "syncthing";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -80,7 +80,7 @@
         {
           Restic = [
             {
-              icon = "restic.png";
+              icon = "restic";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -88,7 +88,7 @@
         {
           Backblaze = [
             {
-              icon = "backblaze.png";
+              icon = "backblaze";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -100,7 +100,7 @@
         {
           Ntfy = [
             {
-              icon = "ntfy.png";
+              icon = "ntfy";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -108,7 +108,7 @@
         {
           Ddclient = [
             {
-              icon = "ddclient.png";
+              icon = "ddclient";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -116,7 +116,7 @@
         {
           Glances = [
             {
-              icon = "glances.png";
+              icon = "glances";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -124,7 +124,7 @@
         {
           Namecheap = [
             {
-              icon = "namecheap.png";
+              icon = "namecheap";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -136,7 +136,7 @@
         {
           "Home Assistant" = [
             {
-              icon = "homeassistant.png";
+              icon = "homeassistant";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -148,7 +148,7 @@
         {
           Jellyfin = [
             {
-              icon = "jellyfin.png";
+              icon = "jellyfin";
               href = "https://jellyfin.hyshka.com";
               description = "Jellyfin: Media server";
               server = "my-docker";
@@ -166,7 +166,7 @@
         {
           Jellyseer = [
             {
-              icon = "jellyseer.png";
+              icon = "jellyseer";
               href = "https://jellyseer.hyshka.com";
               server = "my-docker";
               container = "jellyfin";
@@ -176,7 +176,7 @@
         {
           Radarr = [
             {
-              icon = "radarr.png";
+              icon = "radarr";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "radarr";
@@ -186,7 +186,7 @@
         {
           Sonarr = [
             {
-              icon = "sonarr.png";
+              icon = "sonarr";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "sonarr";
@@ -196,7 +196,7 @@
         {
           Prowlarr = [
             {
-              icon = "prowlarr.png";
+              icon = "prowlarr";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "prowlarr";
@@ -206,7 +206,7 @@
         {
           Recyclarr = [
             {
-              #icon = "jellyseer.png";
+              #icon = "jellyseer";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "recyclarr";
@@ -216,7 +216,7 @@
         {
           Qbittorrent = [
             {
-              icon = "qbittorrent.png";
+              icon = "qbittorrent";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "qbittorrent";
@@ -232,7 +232,7 @@
         {
           Wireguard = [
             {
-              icon = "mullvad.png";
+              icon = "mullvad";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "wireguard";
