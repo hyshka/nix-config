@@ -28,7 +28,7 @@
         longitude = "!secret longitude";
         elevation = "!secret elevation";
         unit_system = "metric";
-        time_zone = "america/edmonton";
+        time_zone = "America/Edmonton";
         currency = "cad";
         country = "ca";
         internal_url = "http://10.0.0.240:8123";
