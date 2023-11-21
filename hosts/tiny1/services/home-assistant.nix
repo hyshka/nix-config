@@ -54,6 +54,9 @@
       weather = [
         { platform = "environment_canada"; }
       ];
+      camera = [
+        { platform = "environment_canada"; }
+      ];
 
       # dad jokes
       conversation.intents = {
