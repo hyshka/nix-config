@@ -2,6 +2,7 @@
   # Ref: https://github.com/nikitawootten/infra/blob/main/hosts/hades/lab/homepage.nix
   settings = {
     title = "tiny1";
+    showStats = true;
   };
   settingsFile = builtins.toFile "homepage-settings.yaml" (builtins.toJSON settings);
   bookmarks = [
