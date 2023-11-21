@@ -11,7 +11,7 @@
         {
           Source = [
             {
-              icon = "github";
+              icon = "github.svg";
               href = "https://github.com/hyshka/nix-config";
             }
           ];
@@ -19,7 +19,7 @@
         {
           Cloudflare = [
             {
-              icon = "cloudflare";
+              icon = "cloudflare.svg";
               href = "https://dash.cloudflare.com/";
             }
           ];
@@ -73,7 +73,7 @@
         {
           Syncthing = [
             {
-              icon = "syncthing";
+              icon = "syncthing.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -81,7 +81,7 @@
         {
           Restic = [
             {
-              icon = "backblaze";
+              icon = "backblaze.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -89,7 +89,7 @@
         {
           Backblaze = [
             {
-              icon = "backblaze";
+              icon = "backblaze.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -101,7 +101,7 @@
         {
           Ntfy = [
             {
-              icon = "ntfy";
+              icon = "ntfy.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -109,7 +109,7 @@
         {
           Ddclient = [
             {
-              #icon = "ddclient";
+              #icon = "ddclient.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -117,7 +117,7 @@
         {
           Glances = [
             {
-              icon = "glances";
+              icon = "glances.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -125,7 +125,7 @@
         {
           Namecheap = [
             {
-              #icon = "namecheap";
+              #icon = "namecheap.svg";
               href = "https://namecheap.com";
             }
           ];
@@ -133,7 +133,7 @@
         {
           Mullvad = [
             {
-              icon = "mullbad";
+              icon = "mullvad.svg";
               href = "https://mullvad.net";
             }
           ];
@@ -145,7 +145,7 @@
         {
           "Home Assistant" = [
             {
-              icon = "home-assistant";
+              icon = "home-assistant.svg";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -157,13 +157,13 @@
         {
           Jellyfin = [
             {
-              icon = "jellyfin";
+              icon = "jellyfin.svg";
               href = "https://jellyfin.hyshka.com";
               description = "Jellyfin: Media server";
-              server = "my-docker";
-              container = "jellyfin";
+              server = "'my-docker'";
+              container = "'jellyfin'";
               widget = {
-                type = "jellyfin";
+                type = "'jellyfin'";
                 url = "http://localhost:8096";
                 key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
                 enableBlocks = true;
@@ -175,60 +175,60 @@
         {
           Jellyseer = [
             {
-              icon = "jellyseer";
+              icon = "jellyseer.svg";
               href = "https://jellyseer.hyshka.com";
-              server = "my-docker";
-              container = "jellyfin";
+              server = "'my-docker'";
+              container = "'jellyseer'";
             }
           ];
         }
         {
           Radarr = [
             {
-              icon = "radarr";
+              icon = "radarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "radarr";
+              server = "'my-docker'";
+              container = "'radarr'";
             }
           ];
         }
         {
           Sonarr = [
             {
-              icon = "sonarr";
+              icon = "sonarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "sonarr";
+              server = "'my-docker'";
+              container = "'sonarr'";
             }
           ];
         }
         {
           Prowlarr = [
             {
-              icon = "prowlarr";
+              icon = "prowlarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "prowlarr";
+              server = "'my-docker'";
+              container = "'prowlarr'";
             }
           ];
         }
         {
           Recyclarr = [
             {
-              #icon = "jellyseer";
+              #icon = "jellyseer.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "recyclarr";
+              server = "'my-docker'";
+              container = "'recyclarr'";
             }
           ];
         }
         {
           Qbittorrent = [
             {
-              icon = "qbittorrent";
+              icon = "qbittorrent.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "qbittorrent";
+              server = "'my-docker'";
+              container = "'qbittorrent'";
               #widget = {
               #  type = "qbittorrent";
               #  url = "https://tbd.hyshka.com";
@@ -241,10 +241,10 @@
         {
           Wireguard = [
             {
-              icon = "wireguard";
+              icon = "wireguard.svg";
               href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "wireguard";
+              server = "'my-docker'";
+              container = "'wireguard'";
             }
           ];
         }
