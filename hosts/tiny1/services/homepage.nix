@@ -80,7 +80,7 @@
         {
           Restic = [
             {
-              icon = "restic";
+              icon = "backblaze";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -108,7 +108,7 @@
         {
           Ddclient = [
             {
-              icon = "ddclient";
+              #icon = "ddclient";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -124,8 +124,16 @@
         {
           Namecheap = [
             {
-              icon = "namecheap";
-              href = "https://tbd.hyshka.com";
+              #icon = "namecheap";
+              href = "https://namecheap.com";
+            }
+          ];
+        }
+        {
+          Mullvad = [
+            {
+              icon = "mullbad";
+              href = "https://mullvad.net";
             }
           ];
         }
@@ -136,7 +144,7 @@
         {
           "Home Assistant" = [
             {
-              icon = "homeassistant";
+              icon = "home-assistant";
               href = "https://tbd.hyshka.com";
             }
           ];
@@ -232,7 +240,7 @@
         {
           Wireguard = [
             {
-              icon = "mullvad";
+              icon = "wireguard";
               href = "https://tbd.hyshka.com";
               server = "my-docker";
               container = "wireguard";
