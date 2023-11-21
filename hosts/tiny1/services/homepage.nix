@@ -153,13 +153,13 @@
               description = "Jellyfin: Media server";
               server = "my-docker";
               container = "jellyfin";
-              #widget = {
-              #  type = "jellyfin";
-              #  url = "https://jellyfin.hyshka.com";
-              #  key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
-              #  enableBlocks = true;
-              #  enableNowPlaying = true;
-              #};
+              widget = {
+                type = "jellyfin";
+                url = "http://localhost:8096";
+                key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
+                enableBlocks = true;
+                enableNowPlaying = true;
+              };
             }
           ];
         }
