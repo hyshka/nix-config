@@ -256,7 +256,7 @@ in {
   virtualisation = {
     oci-containers = {
       containers.homepage = {
-        image = "ghcr.io/benphelps/homepage";
+        image = "ghcr.io/benphelps/homepage:latest";
         autoStart = true;
         ports = ["127.0.0.1:3001:3000"];
         volumes = [
