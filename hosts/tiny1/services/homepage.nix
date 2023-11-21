@@ -160,10 +160,10 @@
               icon = "jellyfin.svg";
               href = "https://jellyfin.hyshka.com";
               description = "Jellyfin: Media server";
-              server = "'my-docker'";
-              container = "'jellyfin'";
+              server = "my-docker";
+              container = "jellyfin";
               widget = {
-                type = "'jellyfin'";
+                type = "jellyfin";
                 url = "http://localhost:8096";
                 key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
                 enableBlocks = true;
@@ -177,8 +177,8 @@
             {
               icon = "jellyseer.svg";
               href = "https://jellyseer.hyshka.com";
-              server = "'my-docker'";
-              container = "'jellyseer'";
+              server = "my-docker";
+              container = "jellyseer";
             }
           ];
         }
@@ -187,8 +187,8 @@
             {
               icon = "radarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'radarr'";
+              server = "my-docker";
+              container = "radarr";
             }
           ];
         }
@@ -197,8 +197,8 @@
             {
               icon = "sonarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'sonarr'";
+              server = "my-docker";
+              container = "sonarr";
             }
           ];
         }
@@ -207,8 +207,8 @@
             {
               icon = "prowlarr.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'prowlarr'";
+              server = "my-docker";
+              container = "prowlarr";
             }
           ];
         }
@@ -217,8 +217,8 @@
             {
               #icon = "jellyseer.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'recyclarr'";
+              server = "my-docker";
+              container = "recyclarr";
             }
           ];
         }
@@ -227,8 +227,8 @@
             {
               icon = "qbittorrent.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'qbittorrent'";
+              server = "my-docker";
+              container = "qbittorrent";
               #widget = {
               #  type = "qbittorrent";
               #  url = "https://tbd.hyshka.com";
@@ -243,8 +243,8 @@
             {
               icon = "wireguard.svg";
               href = "https://tbd.hyshka.com";
-              server = "'my-docker'";
-              container = "'wireguard'";
+              server = "my-docker";
+              container = "wireguard";
             }
           ];
         }
