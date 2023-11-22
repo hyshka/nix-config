@@ -6,6 +6,7 @@
     ./home-assistant.nix
     ./homepage.nix
     ./media.nix
+    ./n8n.nix
     ./nginx.nix
     ./ntfy.nix
     ./openssh.nix

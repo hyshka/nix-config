@@ -138,6 +138,14 @@
             }
           ];
         }
+        {
+          n8n = [
+            {
+              icon = "ntfy.svg";
+              href = "http://localhost:5678";
+            }
+          ];
+        }
       ];
     }
     {
