@@ -56,7 +56,7 @@
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
 
-    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
     devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     # NixOS configuration entrypoint
