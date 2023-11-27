@@ -10,6 +10,7 @@
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
     # outputs.nixosModules.example
+    outputs.overlays.unstable-packages
 
     # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-pc-ssd
