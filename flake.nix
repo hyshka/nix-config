@@ -47,6 +47,16 @@
     forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
     pkgsFor = nixpkgs.legacyPackages;
   in {
+    # Your custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    # Formatter for your nix files, available through 'nix fmt'
+    # Other options beside 'alejandra' include 'nixpkgs-fmt'
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
+    # Dev shells
+    # TODO
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
     # Reusable nixos modules you might want to export
@@ -55,9 +65,6 @@
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
-
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'

@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{
   imports = [
     ./ddclient.nix
     ./docker.nix
@@ -16,7 +16,4 @@
     ./snapraid.nix
     ./syncthing.nix
   ];
-
-  # TODO microbin
-  # https://github.com/szabodanika/microbin
 }
