@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     "${pkgs.unstable}/nixos/modules/services/web-apps/microbin.nix"
   ];
@@ -12,7 +15,7 @@
     settings = {
       MICROBIN_PORT = 8081;
     };
-  }
+  };
 
   sops.secrets.microbin-passwordFile = {};
 }

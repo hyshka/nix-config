@@ -3,5 +3,5 @@
     enable = true;
     openFirewall = true;
     settings = {};
-  }
+  };
 }
