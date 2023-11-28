@@ -24,6 +24,14 @@
             }
           ];
         }
+        {
+          Namecheap = [
+            {
+              abbr = "NC";
+              href = "https://namecheap.com";
+            }
+          ];
+        }
       ];
     }
     {
@@ -32,7 +40,7 @@
           "Nix Options Search" = [
             {
               abbr = "NS";
-              href = "https://search.nixos.org/packages";
+              href = "https://search.nixos.org/options";
             }
           ];
         }
@@ -48,7 +56,6 @@
         memory = true;
         cputemp = true;
         uptime = true;
-        label = "system";
         disk = "/";
       };
     }
@@ -71,190 +78,171 @@
     {
       Backup = [
         {
-          Syncthing = [
-            {
-              icon = "syncthing.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Syncthing = {
+            icon = "syncthing.svg";
+            href = "https://tbd.hyshka.com";
+            description = "Main backup service, syncs all devices to the NAS";
+          };
         }
         {
-          Restic = [
-            {
-              icon = "backblaze.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Restic = {
+            icon = "backblaze.svg";
+            href = "https://tbd.hyshka.com";
+            description = "Remote backup service";
+          };
         }
         {
-          Backblaze = [
-            {
-              icon = "backblaze.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Backblaze = {
+            icon = "backblaze.svg";
+            href = "https://backblaze.com";
+            description = "Remote storage";
+          };
         }
       ];
     }
     {
       Infrastructure = [
         {
-          Ntfy = [
-            {
-              icon = "ntfy.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Ntfy = {
+            icon = "ntfy.svg";
+            href = "https://tbd.hyshka.com";
+          };
         }
         {
-          Ddclient = [
-            {
-              #icon = "ddclient.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Ddclient = {
+            #icon = "ddclient.svg";
+	    abbr = "dd";
+            href = "https://tbd.hyshka.com";
+          };
         }
         {
-          Glances = [
-            {
-              icon = "glances.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          Glances = {
+            icon = "glances.png";
+            href = "https://tbd.hyshka.com";
+          };
         }
         {
-          Namecheap = [
-            {
-              #icon = "namecheap.svg";
-              href = "https://namecheap.com";
-            }
-          ];
+          Mullvad = {
+            icon = "mullvad.svg";
+            href = "https://mullvad.net";
+          };
         }
         {
-          Mullvad = [
-            {
-              icon = "mullvad.svg";
-              href = "https://mullvad.net";
-            }
-          ];
-        }
-        {
-          n8n = [
-            {
-              icon = "ntfy.svg";
-              href = "http://localhost:5678";
-            }
-          ];
+          n8n = {
+            icon = "ntfy.svg";
+            href = "http://10.0.0.240:5678";
+          };
         }
       ];
     }
     {
       Home = [
         {
-          "Home Assistant" = [
-            {
-              icon = "home-assistant.svg";
-              href = "https://tbd.hyshka.com";
-            }
-          ];
+          "Home Assistant" = {
+            icon = "home-assistant.svg";
+            href = "http://10.0.0.240:8123/";
+          };
         }
       ];
     }
     {
       Media = [
         {
-          Jellyfin = [
-            {
-              icon = "jellyfin.svg";
-              href = "https://jellyfin.hyshka.com";
-              description = "Jellyfin: Media server";
-              server = "my-docker";
-              container = "jellyfin";
-              widget = {
-                type = "jellyfin";
-                url = "http://localhost:8096";
-                key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
-                enableBlocks = true;
-                enableNowPlaying = true;
-              };
-            }
-          ];
+          Jellyfin = {
+            icon = "jellyfin.svg";
+            href = "https://jellyfin.hyshka.com";
+            description = "Jellyfin: Media server";
+            server = "my-docker";
+            container = "jellyfin";
+            widget = {
+              type = "jellyfin";
+              url = "http://jellyfin:8096";
+              key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
+              enableNowPlaying = true;
+            };
+          };
         }
         {
-          Jellyseer = [
-            {
-              icon = "jellyseer.svg";
-              href = "https://jellyseer.hyshka.com";
-              server = "my-docker";
-              container = "jellyseer";
-            }
-          ];
+          Jellyseerr = {
+            icon = "jellyseerr.svg";
+            href = "https://jellyseer.hyshka.com";
+            server = "my-docker";
+            container = "jellyseerr";
+            widget = {
+              type = "jellyseerr";
+              url = "http://jellyseerr:5055";
+              key = "{{HOMEPAGE_VAR_JELLYSEERR_APIKEY}}";
+            };
+          };
         }
         {
-          Radarr = [
-            {
-              icon = "radarr.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "radarr";
-            }
-          ];
+          Radarr = {
+            icon = "radarr.svg";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "radarr";
+            widget = {
+              type = "radarr";
+              url = "http://radarr:7878";
+              key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
+            };
+          };
         }
         {
-          Sonarr = [
-            {
-              icon = "sonarr.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "sonarr";
-            }
-          ];
+          Sonarr = {
+            icon = "sonarr.svg";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "sonarr";
+            widget = {
+              type = "sonarr";
+              url = "http://sonarr:8989";
+              key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
+            };
+          };
         }
         {
-          Prowlarr = [
-            {
-              icon = "prowlarr.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "prowlarr";
-            }
-          ];
+          Prowlarr = {
+            icon = "prowlarr.svg";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "prowlarr";
+            widget = {
+              type = "prowlarr";
+              url = "http://prowlarr:9696";
+              key = "{{HOMEPAGE_VAR_PROWLARR_APIKEY}}";
+            };
+          };
         }
         {
-          Recyclarr = [
-            {
-              #icon = "jellyseer.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "recyclarr";
-            }
-          ];
+          Recyclarr = {
+            icon = "trash-guides.png";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "recyclarr";
+          };
         }
         {
-          Qbittorrent = [
-            {
-              icon = "qbittorrent.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "qbittorrent";
-              #widget = {
-              #  type = "qbittorrent";
-              #  url = "https://tbd.hyshka.com";
-              #  username = "todo";
-              #  password = "todo";
-              #};
-            }
-          ];
+          Qbittorrent = {
+            icon = "qbittorrent.svg";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "qbittorrent";
+            widget = {
+              type = "qbittorrent";
+              url = "http://wireguard:8080";
+	      username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
+	      password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
+            };
+          };
         }
         {
-          Wireguard = [
-            {
-              icon = "wireguard.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "wireguard";
-            }
-          ];
+          Wireguard = {
+            icon = "wireguard.svg";
+            href = "https://tbd.hyshka.com";
+            server = "my-docker";
+            container = "wireguard";
+          };
         }
       ];
     }
@@ -264,7 +252,7 @@ in {
   virtualisation = {
     oci-containers = {
       containers.homepage = {
-        image = "ghcr.io/benphelps/homepage:latest";
+        image = "ghcr.io/gethomepage/homepage:latest";
         autoStart = true;
         ports = ["127.0.0.1:3001:3000"];
         volumes = [
@@ -278,6 +266,7 @@ in {
           "${dockerFile}:/config/docker.yaml"
         ];
         environmentFiles = [config.sops.secrets.homepage.path];
+	extraOptions = ["--network=media_default"];
       };
     };
   };
