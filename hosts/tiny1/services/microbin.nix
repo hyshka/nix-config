@@ -19,16 +19,30 @@
     };
   };
 
+  sops.secrets.microbin-passwordFile = {};
+
   services.microbin = {
     enable = true;
     passwordFile = config.sops.secrets.microbin-passwordFile.path;
     dataDir = "/mnt/storage/microbin/";
-    # TODO https://microbin.eu/docs/installation-and-configuration/configuration/
     settings = {
       MICROBIN_PORT = 8081;
-      #MICROBIN_DATA_DIR = "microbin_";
+      MICROBIN_BIND = "127.0.0.1";
+      MICROBIN_PUBLIC_PATH = "https://microbin.hyshka.com/";
+      MICROBIN_MAX_FILE_SIZE_UNENCRYPTED_MB = 1024;
     };
   };
 
-  sops.secrets.microbin-passwordFile = {};
+  services.ddclient.domains = ["microbin"];
+  services.nginx.virtualHosts."microbin.hyshka.com" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:8081";
+    };
+    extraConfig = ''
+      client_max_body_size 1024M;
+    '';
+  };
 }
