@@ -111,7 +111,7 @@
         {
           Ddclient = {
             #icon = "ddclient.svg";
-	    abbr = "dd";
+            abbr = "dd";
             href = "https://tbd.hyshka.com";
           };
         }
@@ -231,8 +231,8 @@
             widget = {
               type = "qbittorrent";
               url = "http://wireguard:8080";
-	      username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
-	      password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
+              username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
+              password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
             };
           };
         }
@@ -266,7 +266,7 @@ in {
           "${dockerFile}:/config/docker.yaml"
         ];
         environmentFiles = [config.sops.secrets.homepage.path];
-	extraOptions = ["--network=media_default"];
+        extraOptions = ["--network=media_default"];
       };
     };
   };
