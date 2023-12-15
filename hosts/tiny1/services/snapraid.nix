@@ -8,10 +8,12 @@
       "/var/snapraid.content"
       "/mnt/disk1/.snapraid.content"
       "/mnt/disk2/.snapraid.content"
+      "/mnt/disk3/.snapraid.content"
     ];
     dataDisks = {
       d1 = "/mnt/disk1/";
       d2 = "/mnt/disk2/";
+      d3 = "/mnt/disk3/";
     };
     exclude = [
       # https://github.com/IronicBadger/infra/blob/master/group_vars/morpheus.yaml#L52

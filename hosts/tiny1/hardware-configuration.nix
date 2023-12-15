@@ -38,6 +38,11 @@
       fsType = "btrfs";
       options = ["defaults" "noatime"];
     };
+    "/mnt/disk3" = {
+      device = "/dev/disk/by-id/usb-ST4000VN_006-3CW104_152D00539000-0:1-part1";
+      fsType = "btrfs";
+      options = ["defaults" "noatime"];
+    };
     "/mnt/storage" = {
       device = "/mnt/disk*";
       fsType = "fuse.mergerfs";
@@ -55,6 +60,8 @@
     };
     "/mnt/parity1" = {
       device = "/dev/disk/by-id/usb-WDC_WD40_EFPX-68C6CN0_152D00539000-0:0-part1";
+      # https://www.snapraid.it/faq#fs
+      # mkfs.ext4 -m 0 -T largefile4 DEVICE
       fsType = "ext4";
       options = ["defaults" "noatime"];
     };
