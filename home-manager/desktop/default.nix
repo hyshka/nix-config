@@ -41,6 +41,7 @@
     zoom-us # TODO can't sign in but can join video from zoom links
 
     # imaging
+    ansel # TODO
     unstable.darktable
     hugin
     inkscape-with-extensions
