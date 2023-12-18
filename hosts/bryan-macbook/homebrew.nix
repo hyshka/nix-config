@@ -46,23 +46,25 @@
     # `brew install --cask`
     # TODO Feel free to add your favorite apps here.
     casks = [
+      "amethyst" # tiling window manager
+      "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
+      "tomatobar" # pomodoro timer
+      "betterdisplay" # display manager
+      "espanso" # text expander
+
       "firefox"
       "google-chrome"
       "slack"
       "spotify"
       #"syncthing"
-      "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       #"iglance"   # beautiful system monitor
-      "tomatobar"
       # TODO zoom managed by work
       #"zoom"
-      "betterdisplay"
       # TODO mac not supported by home-manager module
       # TODO set content of config file in nix
       # /Users/hyshka/Library/Application Support/espanso/config/default.yml
       # /Users/hyshka/Library/Application Support/espanso/match/base.yml
       # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103
-      "espanso"
       "balenaetcher"
       "mullvadvpn"
 
