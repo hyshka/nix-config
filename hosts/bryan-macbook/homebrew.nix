@@ -56,6 +56,7 @@
       "slack"
       "spotify"
       "obs"
+      "handbrake"
       #"syncthing"
       #"iglance"   # beautiful system monitor
       # TODO zoom managed by work
