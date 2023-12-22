@@ -29,7 +29,7 @@ in {
     defaultKeymap = "viins";
     enableAutosuggestions = false;
     enableCompletion = false;
-    enableSyntaxHighlighting = false;
+    syntaxHighlighting.enable = false;
     historySubstringSearch.enable = false;
     history = {
       ignoreDups = true;
