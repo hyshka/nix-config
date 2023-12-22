@@ -57,12 +57,6 @@
   # https://github.com/koekeishiya/skhd (hotkeys)
   # https://github.com/cmacrae/spacebar (status bar)
   # https://symless.com/synergy (virtual kvm)
-  # https://github.com/koekeishiya/yabai (wm)
-
-  services.yabai = {
-    enable = false;
-    #config = {};
-  };
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;

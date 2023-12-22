@@ -40,6 +40,11 @@
     # TODO move to cli?
     buku
 
+    # video
+    mpv
+    mpvScripts.cutter # https://github.com/rushmj/mpv-video-cutter
+    mpvScripts.mpv-webm # https://github.com/ekisu/mpv-webm
+
     # muck rack
     # TODO move to module
     gimp
@@ -57,6 +62,6 @@
     git.enable = true; # always a requirement for home-manager
   };
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.05";
+  # hwriteTextFilettps://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  home.stateVersion = "23.11";
 }
