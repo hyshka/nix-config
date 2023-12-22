@@ -23,7 +23,6 @@
     };
 
     taps = [
-      "homebrew/cask"
       "homebrew/cask-fonts"
       "homebrew/services"
       "homebrew/cask-versions"
@@ -56,6 +55,7 @@
       "google-chrome"
       "slack"
       "spotify"
+      "obs"
       #"syncthing"
       #"iglance"   # beautiful system monitor
       # TODO zoom managed by work
