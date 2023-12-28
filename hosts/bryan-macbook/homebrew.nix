@@ -57,6 +57,7 @@
       "spotify"
       "obs"
       "handbrake"
+      "libreoffice"
       #"syncthing"
       #"iglance"   # beautiful system monitor
       # TODO zoom managed by work
