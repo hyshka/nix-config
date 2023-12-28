@@ -1,6 +1,6 @@
 {
   qt = {
     enable = true;
-    style = "adwaita";
+    #style = "adwaita";
   };
 }

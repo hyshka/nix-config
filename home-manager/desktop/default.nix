@@ -42,6 +42,7 @@
 
     # imaging
     ansel # TODO
+    vkdt # TODO
     unstable.darktable
     hugin
     inkscape-with-extensions
