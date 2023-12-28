@@ -30,6 +30,7 @@
     ./sshd.nix
     ./users.nix
     ./bluetooth.nix
+    ./android.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix

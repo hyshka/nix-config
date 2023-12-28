@@ -23,12 +23,12 @@
         url = "https://github.com/hanatos/${oldAttrs.pname}/releases/download/${version}/${oldAttrs.pname}-${version}.tar.xz";
         sha256 = "sha256-Sk/K+EWvJBkwwD5R1gH9ZQHetojrJTTJrKW9Dvr+lHA=";
       };
-      buildInputs = oldAttrs.buildInputs ++ [
-        prev.libxml2 # for xmllint optional dependency
-      ];
+      buildInputs =
+        oldAttrs.buildInputs
+        ++ [
+          prev.libxml2 # for xmllint optional dependency
+        ];
     });
-
-
 
     #nodePackages = prev.nodePackages // {
     #  "@vue/language-server" = prev.nodePackages."@vue/language-server".overrideAttrs (oldAttrs {
