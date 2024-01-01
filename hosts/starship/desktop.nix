@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   # Support user desktops
@@ -12,7 +13,11 @@
   };
 
   # Support auto mounting in Thunar
-  services.gvfs.enable = true;
+  # Use full-featured version instead of XFCE version
+  services.gvfs = {
+    enable = true;
+    package = lib.mkForce pkgs.gnome3.gvfs;
+  };
 
   # video support
   hardware = {
