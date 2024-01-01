@@ -46,6 +46,12 @@
       #"rpi4-nixos" = { id = "SBU2DEZ-MEVLQ2S-2HN6L6N-3VILABR-Z3C5NWU-UD36AF7-4HVFWZ7-W2QJWQB"; };
     };
     folders = {
+      "Ansel" = {
+        id = "euawy-suaeu";
+        path = "/mnt/storage/hyshka/Ansel";
+        devices = ["starship"];
+        type = "receiveonly";
+      };
       "Darktable" = {
         id = "4harq-seslg";
         path = "/mnt/storage/hyshka/Darktable";
