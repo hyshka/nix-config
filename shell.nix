@@ -18,6 +18,7 @@
       nix
       home-manager
       git
+      neovim
 
       # For CI
       alejandra

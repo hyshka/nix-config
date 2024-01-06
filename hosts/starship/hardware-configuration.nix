@@ -39,22 +39,22 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/NIXROOT";
+      device = "/dev/disk/by-uuid/b46bdeba-1da9-4cd2-a34b-827feb86b1e9";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/disk/by-label/NIXBOOT";
+      device = "/dev/disk/by-uuid/8DF7-8E89";
       fsType = "vfat";
     };
-    "/mnt/media" = {
-      device = "/dev/disk/by-label/Media";
-      fsType = "ntfs";
-      options = [
-        "uid=1000"
-        "gid=100"
-        "nofail"
-      ];
-    };
+    #"/mnt/media" = {
+    #  device = "/dev/disk/by-label/Media";
+    #  fsType = "ntfs";
+    #  options = [
+    #    "uid=1000"
+    #    "gid=100"
+    #    "nofail"
+    #  ];
+    #};
   };
 
   swapDevices = [

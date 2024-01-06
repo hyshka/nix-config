@@ -8,7 +8,7 @@ keys:
     # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
     # when changing keys
     # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
-    - &starship age1tpe0kar8t0dp48n7smgmtmk2st7jnswmwtlfapkld8fncvh03e5qrn048k
+    - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
     - &rpi4 age1tx037c5v8g67tf6ees8aeg5dq2mv2z650lpqeusympfdx4sg85mq97yja5
     - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
     # not easy to find ssh host key on macos
