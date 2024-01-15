@@ -2,6 +2,7 @@
   imports = [
     ./bat.nix
     ./direnv.nix
+    ./fzf.nix
     ./git.nix
     ./glances.nix
     ./gpg.nix
