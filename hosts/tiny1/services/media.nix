@@ -51,6 +51,11 @@
         uid = 13009;
         group = "mediacenter";
       };
+      sabnzbd = {
+        isSystemUser = true;
+        uid = 13010;
+        group = "mediacenter";
+      };
     };
   };
 
