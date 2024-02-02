@@ -53,6 +53,7 @@
 
       "firefox"
       "google-chrome"
+      "arc"
       "slack"
       "spotify"
       "obs"
