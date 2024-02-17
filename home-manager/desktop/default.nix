@@ -80,6 +80,7 @@
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
     unstable.yuzu-mainline
     unstable.gzdoom
+    lutris
 
     # misc
     yubikey-manager
