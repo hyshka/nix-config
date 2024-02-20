@@ -25,19 +25,6 @@
       fsType = "vfat";
       options = ["defaults" "noatime"];
     };
-    "/mnt/disk1" = {
-      # newer drive, no errors: /dev/disk/by-id/usb-WD_Elements_2621_57584A3241363146314A4858-0:0-part1
-      device = "/dev/disk/by-id/usb-WD_Elements_2621_57584A3241363146314A4858-0:0-part1";
-      # older drive, some read errors: /dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1
-      fsType = "btrfs";
-      options = ["defaults" "noatime"];
-    };
-    "/mnt/disk2" = {
-      # older drive, some read errors: /dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1
-      device = "/dev/disk/by-id/usb-WD_Elements_1078_575831314141343244544855-0:0-part1";
-      fsType = "btrfs";
-      options = ["defaults" "noatime"];
-    };
     "/mnt/disk3" = {
       device = "/dev/disk/by-id/usb-ST4000VN_006-3CW104_152D00539000-0:1-part1";
       fsType = "btrfs";
