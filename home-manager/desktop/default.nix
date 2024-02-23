@@ -9,7 +9,6 @@
     ./font.nix
     ./gtk.nix
     ./qt.nix
-    ./syncthing.nix
     #./xdg.nix
     #./espanso.nix
     #./sway.nix

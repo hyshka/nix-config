@@ -36,7 +36,7 @@
         };
       };
       devices = {
-        "starship" = {id = "H2KQXW6-KBPZXXF-TDAWBJW-GZHGWEH-ZSLT7IN-N7CN2UB-TFY6KEH-CYLSXAC";};
+        "starship" = {id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";};
         "renee-galaxys9" = {id = "F6EBD2Q-TSSEF3J-YR4JH7L-ZHM6BQE-O7YOLSY-XKVHCSW-JUNM66E-YHDFWQK";};
         "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
         # TODO Bryan's old S9?
