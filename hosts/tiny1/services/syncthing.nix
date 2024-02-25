@@ -39,10 +39,6 @@
         "starship" = {id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";};
         "renee-galaxys9" = {id = "F6EBD2Q-TSSEF3J-YR4JH7L-ZHM6BQE-O7YOLSY-XKVHCSW-JUNM66E-YHDFWQK";};
         "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
-        # TODO Bryan's old S9?
-        "galaxys9" = {id = "RGNDH6P-UWJZ464-NSXPOQ6-SJE3V6S-GO6KDYC-3RI5NL4-HBWW25V-JVRS2AZ";};
-        # TODO why was this in the old config?
-        #"rpi4-nixos" = { id = "SBU2DEZ-MEVLQ2S-2HN6L6N-3VILABR-Z3C5NWU-UD36AF7-4HVFWZ7-W2QJWQB"; };
       };
       folders = {
         "Ansel" = {
@@ -100,9 +96,10 @@
           type = "receiveonly";
         };
         "Phone Camera" = {
+          enable = false;
           id = "sm-g930f_pwyw-photos";
           path = "/mnt/storage/hyshka/phone-camera";
-          devices = ["galaxys9"];
+          devices = [];
           type = "receiveonly";
         };
         "Phone Pictures" = {

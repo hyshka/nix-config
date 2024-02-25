@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   sops.secrets = {
     syncthing_key = {
       owner = config.users.users.hyshka.name;
@@ -39,6 +36,46 @@
           id = "ljd5z-m6qfp";
           path = "/home/hyshka/Home Notes";
           devices = ["tiny1" "renee-galaxys9" "bryan-pixel4"];
+        };
+        "Finance" = {
+          id = "4rqlm-lmagt";
+          path = "/home/hyshka/Finance";
+          devices = ["tiny1"];
+        };
+        "Videos" = {
+          id = "xjkcs-vzunq";
+          path = "/home/hyshka/Videos";
+          devices = ["tiny1"];
+        };
+        "Documents" = {
+          id = "vzqdy-afqjw";
+          path = "/home/hyshka/Documents";
+          devices = ["tiny1"];
+        };
+        "Music" = {
+          id = "ijjkj-sfe6a";
+          path = "/home/hyshka/Music";
+          devices = ["tiny1"];
+        };
+        "Pictures" = {
+          id = "nnvzz-njc6m";
+          path = "/home/hyshka/Pictures";
+          devices = ["tiny1"];
+        };
+        "Ansel" = {
+          id = "euawy-suaeu";
+          path = "/home/hyshka/Ansel";
+          devices = ["tiny1"];
+        };
+        "Work" = {
+          id = "dwgeq-drahv";
+          path = "/home/hyshka/work";
+          devices = ["tiny1"];
+        };
+        "Darktable" = {
+          id = "4harq-seslg";
+          path = "/home/hyshka/Darktable";
+          devices = ["tiny1"];
         };
       };
     };
