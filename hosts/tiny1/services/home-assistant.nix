@@ -21,7 +21,9 @@
 
   services.home-assistant = {
     enable = true;
-    package = pkgs.unstable.home-assistant;
+    package =
+      pkgs.unstable.home-assistant.overrideAttrs
+      (oldAttrs: {doInstallCheck = false;});
     openFirewall = true;
     extraComponents = [
       # defaults
@@ -42,6 +44,10 @@
       "zha" # https://www.home-assistant.io/integrations/zha/
       "mqtt" # https://www.home-assistant.io/integrations/mqtt/
     ];
+    customComponents = [
+      pkgs.zha_toolkit
+    ];
+
     # todo writable until i know what to do
     configWritable = true;
     config = {
@@ -65,6 +71,8 @@
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
+      # Enable zha_toolkit component
+      zha_toolkit = {};
 
       # dad jokes
       conversation.intents = {
@@ -107,8 +115,41 @@
               {% endif %}
             '';
           }
+          {
+            name = "Vindstyrka TVOC Index";
+            unique_id = "vindstyrka_tvoc_index";
+            device_class = "aqi";
+            unit_of_measurement = "";
+            state = ''
+              {{ None }}
+            '';
+          }
         ];
       };
+
+      automation = [
+        {
+          alias = "Read vindstryrka tvoc";
+          trigger = {
+            platform = "time_pattern";
+            seconds = "0";
+            minutes = "/1";
+          };
+          action = [
+            {
+              service = "zha_toolkit.attr_read";
+              data = {
+                ieee = "5c:c7:c1:ff:fe:62:36:64";
+                endpoint = 1;
+                cluster = 64638;
+                attribute = 0;
+                manf = 4476;
+                state_id = "sensor.vindstyrka_tvoc_index";
+              };
+            }
+          ];
+        }
+      ];
     };
   };
 }
