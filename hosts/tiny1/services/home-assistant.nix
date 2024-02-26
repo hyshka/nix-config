@@ -25,6 +25,7 @@
       "syncthing" # https://www.home-assistant.io/integrations/syncthing/
       "glances" # https://www.home-assistant.io/integrations/glances/
       "feedreader" # https://www.home-assistant.io/integrations/feedreader/
+      "zha" # https://www.home-assistant.io/integrations/zha/
     ];
     # todo writable until i know what to do
     configWritable = true;
@@ -50,14 +51,6 @@
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
 
-      # weather
-      weather = [
-        {platform = "environment_canada";}
-      ];
-      camera = [
-        {platform = "environment_canada";}
-      ];
-
       # dad jokes
       conversation.intents = {
         TellJoke = [
@@ -81,6 +74,25 @@
           service = "homeassistant.update_entity";
           entity_id = "sensor.random_joke";
         };
+      };
+
+      template = {
+        sensor = [
+          {
+            name = "Feels like";
+            device_class = "temperature";
+            unit_of_measurement = "°C";
+            state = ''
+              {% if not is_state('sensor.Edmonton_humidex', 'unknown') %}
+                {{ states('sensor.Edmonton_humidex') }}
+              {% elif not is_state('sensor.Edmonton_wind_chill', 'unknown') %}
+                {{ states('sensor.Edmonton_wind_chill') }}
+              {% else %}
+                {{ states('sensor.Edmonton_temperature') | round(0) }}
+              {% endif %}
+            '';
+          }
+        ];
       };
     };
   };
