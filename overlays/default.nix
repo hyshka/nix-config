@@ -92,6 +92,10 @@
     unstable = import inputs.nixpkgs-unstable {
       system = final.system;
       config.allowUnfree = true;
+
+      # TODO move to home-assistant module if possible
+      # workaround until the matter integration uses a more recent version of openssl
+      config.permittedInsecurePackages = ["openssl-1.1.1w"];
     };
   };
 }

@@ -1,4 +1,9 @@
-{config, ...}: {
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}: {
   sops.secrets."home-assistant-secrets.yaml" = {
     owner = "hass";
     group = "hass";
@@ -6,8 +11,17 @@
     restartUnits = ["home-assistant.service"];
   };
 
+  # https://nixos.wiki/wiki/Home_Assistant#Running_a_recent_version_using_an_overlay
+  disabledModules = [
+    "services/home-automation/home-assistant.nix"
+  ];
+  imports = [
+    "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
+  ];
+
   services.home-assistant = {
     enable = true;
+    package = pkgs.unstable.home-assistant;
     openFirewall = true;
     extraComponents = [
       # defaults
@@ -26,6 +40,7 @@
       "glances" # https://www.home-assistant.io/integrations/glances/
       "feedreader" # https://www.home-assistant.io/integrations/feedreader/
       "zha" # https://www.home-assistant.io/integrations/zha/
+      "mqtt" # https://www.home-assistant.io/integrations/mqtt/
     ];
     # todo writable until i know what to do
     configWritable = true;
