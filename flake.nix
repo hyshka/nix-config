@@ -94,7 +94,7 @@
     # nix run nix-darwin -- switch --flake .
     darwinConfigurations = {
       # TODO: update weird company hostname?
-      "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
+      "root-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
           ./hosts/bryan-macbook/configuration.nix
           home-manager.darwinModules.home-manager
