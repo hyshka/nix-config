@@ -54,8 +54,8 @@ stdenv.mkDerivation rec {
   src = lib.cleanSource (fetchFromGitHub {
     owner = "aurelienpierreeng";
     repo = "ansel";
-    rev = "57ed58dd565a6c23224cf9a6d2dc63e096118a36";
-    hash = "sha256-Hf0GevT56YKw2cXDI85SwqYC/MwIPQ/TTdysgOY2lm0=";
+    rev = "61eb388760d130476415a51e19f94b199a1088fe";
+    hash = "sha256-68EX5rnOlBHXZnMlXjQk+ZXFIwR5ZFc1Wyg8EzCKaUg=";
     fetchSubmodules = true;
   });
 
