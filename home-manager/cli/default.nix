@@ -24,5 +24,6 @@
     diffsitter # Better diff
     jq # JSON pretty printer and manipulator
     nix-melt # ranger-link flake.lock viewer
+    silver-searcher # Better ack
   ];
 }
