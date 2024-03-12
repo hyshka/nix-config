@@ -42,26 +42,16 @@
     enable = true;
     desktopManager = {
       xterm.enable = false;
-      xfce.enable = true;
-      # TODO use i3
-      #enableXfwm = false;
+      xfce = {
+        enable = true;
+        noDesktop = true;
+        enableXfwm = false;
+      };
     };
     displayManager.defaultSession = "xfce";
-    # TODO use i3
-    #windowManager.i3.enable = true;
-
-    #displayManager = {
-    #  defaultSession = "none+i3";
-    #};
-    #windowManager.i3 = {
-    #  enable = true;
-    #  extraPackages = with pkgs; [
-    #    dmenu #application launcher most people use
-    #    i3status # gives you the default i3 status bar
-    #    i3lock #default i3 screen locker
-    #    i3blocks #if you are planning on using i3blocks over i3status
-    # ];
-    #};
+    # i3 is configured through home manage but this must be enabled so that it's
+    # an option in the display manager
+    windowManager.i3.enable = true;
   };
 
   # Gparted support
@@ -140,7 +130,6 @@
     };
     wantedBy = ["graphical-session.target"];
   };
-  services.flatpak.enable = true;
 
   # TODO this didn't work in my home manager config
   programs.openvpn3.enable = true; # work VPN access

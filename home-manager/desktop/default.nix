@@ -10,9 +10,9 @@
     ./gtk.nix
     ./qt.nix
     #./xdg.nix
-    #./espanso.nix
+    ./espanso.nix
     #./sway.nix
-    #./i3.nix
+    ./i3.nix
   ];
 
   # TODO move to module
@@ -40,7 +40,7 @@
     zoom-us # TODO can't sign in but can join video from zoom links
 
     # imaging
-    ansel # TODO
+    ansel
     vkdt # TODO
     unstable.darktable
     hugin
@@ -73,9 +73,6 @@
     spotify
 
     # gaming
-    #unstable.sunshine
-    #xorg.xrandr # required for sunshine
-    #util-linux # required for sunshine/setsid
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
     unstable.yuzu-mainline
     unstable.gzdoom
