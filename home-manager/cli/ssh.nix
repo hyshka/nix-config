@@ -12,6 +12,7 @@ in {
     compression = true;
     controlMaster = "auto";
     controlPersist = "3s";
+    # TODO mkdir -p ~/.ssh/master-socket required before this will work
     controlPath = "~/.ssh/master-socket/%r@%h:%p";
     matchBlocks = {
       # Force gpg-agent to open in current terminal
@@ -44,14 +45,15 @@ in {
       rpi4 = {
         host = "rpi4";
         hostname = "10.0.0.250";
-        port = 38000;
+        port = 38002;
         user = "hyshka";
       };
       rpi4Ex = {
         host = "rpi4Ex";
-        hostname = "68.148.153.144";
-        port = 38000;
+        hostname = "10.0.0.250";
+        port = 38002;
         user = "hyshka";
+        proxyJump = "hyshka@68.148.153.144:38000";
       };
       starship = {
         host = "starship";
@@ -67,20 +69,6 @@ in {
         user = "hyshka";
         proxyJump = "hyshka@68.148.153.144:38000";
       };
-      # TODO not sure if I need this on mac
-      #github = {
-      #  host = "github";
-      #  hostname = "github.com";
-      #  user = "hyshka";
-      #  identityFile = [ "~/.ssh/id_rsa" ];
-      #  extraOptions = {
-      #    AddKeysToAgent = "yes";
-      #    UseKeychain = "yes";
-      #  };
-      #};
     };
   };
-  home.packages = with pkgs; [
-    sshfs
-  ];
 }
