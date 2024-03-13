@@ -139,6 +139,11 @@
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [./home-manager/home-cli.nix];
       };
+      "hyshka@rpi4" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [./home-manager/home-cli.nix];
+      };
     };
   };
 }

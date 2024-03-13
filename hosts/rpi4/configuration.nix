@@ -46,6 +46,7 @@
 
   networking = {
     hostName = "rpi4";
+    useDHCP = true;
   };
 
   # Set your time zone.

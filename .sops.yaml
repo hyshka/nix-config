@@ -9,7 +9,7 @@ keys:
     # when changing keys
     # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
     - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
-    - &rpi4 age1tx037c5v8g67tf6ees8aeg5dq2mv2z650lpqeusympfdx4sg85mq97yja5
+    - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
     - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt

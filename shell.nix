@@ -28,6 +28,7 @@
       ssh-to-age
       gnupg
       age
+      pinentry-curses
     ];
   };
 }
