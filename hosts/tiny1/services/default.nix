@@ -1,5 +1,6 @@
 {
   imports = [
+    ../../common/tailscale.nix
     ./ddclient.nix
     ./docker.nix
     ./glances.nix

@@ -25,6 +25,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../common/nix.nix
     ../common/zsh.nix
+    ../common/tailscale.nix
     ./desktop.nix
     ./docker.nix
     ./sshd.nix
