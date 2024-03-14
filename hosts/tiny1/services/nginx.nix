@@ -16,6 +16,11 @@
   security.acme = {
     acceptTerms = true;
     defaults.email = "bryan@hyshka.com";
+    certs = {
+      "home.hyshka.com" = {
+        extraDomainNames = ["hass.home.hyshka.com" "glances.home.hyshka.com" "dashboard.home.hyshka.com"];
+      };
+    };
   };
 
   networking.firewall.allowedTCPPorts = [80 443];

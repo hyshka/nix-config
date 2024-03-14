@@ -277,7 +277,7 @@ in {
 
   services.nginx.virtualHosts."dashboard.home.hyshka.com" = {
     forceSSL = true;
-    enableACME = true;
+    useACMEHost = "home.hyshka.com";
     # auth file format: user:{PLAIN}password
     basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
     locations."/" = {

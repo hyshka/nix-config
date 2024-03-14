@@ -40,7 +40,7 @@
 
   services.nginx.virtualHosts."glances.home.hyshka.com" = {
     forceSSL = true;
-    enableACME = true;
+    useACMEHost = "home.hyshka.com";
     basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
     locations."/" = {
       recommendedProxySettings = true;
