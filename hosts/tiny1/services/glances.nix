@@ -38,7 +38,7 @@
     '';
   };
 
-  services.nginx.virtualHosts."glances.hyshka.com" = {
+  services.nginx.virtualHosts."glances.home.hyshka.com" = {
     forceSSL = true;
     enableACME = true;
     basicAuthFile = config.sops.secrets.nginx_basic_auth.path;

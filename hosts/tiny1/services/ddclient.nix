@@ -13,7 +13,7 @@
     enable = true;
     protocol = "namecheap";
     username = "hyshka.com";
-    domains = ["jellyseerr" "jellyfin" "ntfy" "glances" "dashboard"];
+    domains = ["jellyseerr" "jellyfin" "ntfy"];
     use = "web, web=dynamicdns.park-your-domain.com/getip";
     server = "dynamicdns.park-your-domain.com";
     passwordFile = config.sops.secrets.ddclient_password.path;

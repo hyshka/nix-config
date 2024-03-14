@@ -275,7 +275,7 @@ in {
     homepage = {};
   };
 
-  services.nginx.virtualHosts."dashboard.hyshka.com" = {
+  services.nginx.virtualHosts."dashboard.home.hyshka.com" = {
     forceSSL = true;
     enableACME = true;
     # auth file format: user:{PLAIN}password

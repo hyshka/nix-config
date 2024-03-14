@@ -152,4 +152,13 @@
       ];
     };
   };
+
+  services.nginx.virtualHosts."hass.home.hyshka.com" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."/" = {
+      recommendedProxySettings = true;
+      proxyPass = "http://127.0.0.1:8123";
+    };
+  };
 }
