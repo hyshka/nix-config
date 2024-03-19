@@ -19,7 +19,7 @@
     extraConfig = ''
       server string = tiny1
       # restrict access to LAN and localhost
-      hosts allow = 10.0.0. 127.
+      hosts allow = 10.0.0. 127. 100.
       # limit connects to end0
       interfaces = 10.0.0.240/24
       # limit log size to 50kb
