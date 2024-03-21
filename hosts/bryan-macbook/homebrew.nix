@@ -29,7 +29,6 @@
     ];
 
     # `brew install`
-    # TODO Feel free to add your favorite apps here.
     brews = [
       "wget" # download tool
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
@@ -40,10 +39,10 @@
 
       # muck rack
       #"pre-commit"
+      "helm" # not available for darwin in nixpkgs
     ];
 
     # `brew install --cask`
-    # TODO Feel free to add your favorite apps here.
     casks = [
       "amethyst" # tiling window manager
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
