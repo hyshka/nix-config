@@ -50,7 +50,7 @@
   };
 
   networking.wireless = {
-    enable = false;
+    enable = true;
     environmentFile = config.sops.secrets.wireless.path;
     networks."THENEST" = {
       psk = "@PSK_THENEST@";
