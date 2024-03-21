@@ -49,6 +49,15 @@
     useDHCP = true;
   };
 
+  networking.wireless = {
+    enable = false;
+    environmentFile = config.sops.secrets.wireless.path;
+    networks."THENEST" = {
+      psk = "@PSK_THENEST@";
+    };
+  };
+  sops.secrets.wireless = {};
+
   # Set your time zone.
   time.timeZone = "America/Edmonton";
 
