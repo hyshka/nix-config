@@ -50,7 +50,7 @@ in {
       };
       rpi4w = {
         host = "rpi4w";
-        hostname = "10.0.0.242";
+        hostname = "10.0.0.241";
         port = 38002;
         user = "hyshka";
       };
