@@ -42,21 +42,21 @@ in {
         port = 38000;
         user = "hyshka";
       };
+      #rpi4 = {
+      #  host = "rpi4";
+      #  hostname = "10.0.0.250";
+      #  port = 38002;
+      #  user = "hyshka";
+      #};
       rpi4 = {
         host = "rpi4";
-        hostname = "10.0.0.250";
-        port = 38002;
-        user = "hyshka";
-      };
-      rpi4w = {
-        host = "rpi4w";
         hostname = "10.0.0.241";
         port = 38002;
         user = "hyshka";
       };
       rpi4Ex = {
         host = "rpi4Ex";
-        hostname = "10.0.0.250";
+        hostname = "10.0.0.241";
         port = 38002;
         user = "hyshka";
         proxyJump = "hyshka@68.148.153.144:38000";

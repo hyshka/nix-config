@@ -26,6 +26,9 @@
   };
   boot.extraModulePackages = [];
 
+  # Allow cross-compiling for rpi4
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
   # Disable systemd-boot and enable lanzaboote for secure boot support.
   boot = {
     loader.systemd-boot.enable = lib.mkForce false;
