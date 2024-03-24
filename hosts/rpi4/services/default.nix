@@ -1,6 +1,7 @@
 {
   imports = [
-    ./openssh.nix
     ../../common/tailscale.nix
+    ./glances.nix
+    ./openssh.nix
   ];
 }
