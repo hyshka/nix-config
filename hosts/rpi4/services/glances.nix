@@ -5,13 +5,13 @@
 }: {
   environment.systemPackages = with pkgs; [glances python310Packages.psutil hddtemp];
 
-  # 127.0.0.1:61208
+  # port 61208
   systemd.services.glances = {
     serviceConfig = {
       User = "hyshka";
     };
     script = ''
-      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1
+      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 0.0.0.0
     '';
     after = ["network.target"];
     wantedBy = ["multi-user.target"];
