@@ -6,7 +6,6 @@
     signing = {
       key = "DB2D93D1BFAAA6EA";
       signByDefault = true;
-      #gpgPath = "${config.programs.gpg.package}/bin/gpg2";
     };
     extraConfig = {
       init.defaultBranch = "main";

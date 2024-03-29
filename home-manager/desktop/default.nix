@@ -130,20 +130,13 @@
   fonts.fontconfig.enable = true;
 
   home.sessionVariables = {
-    #MOZ_ENABLE_WAYLAND = 1;
-    #QT_QPA_PLATFORM = "wayland";
     LIBSEAT_BACKEND = "logind";
     TERMINAL = "kitty -1";
-    #TERMINAL = "foot";
     BROWSER = "firefox-devedition";
   };
 
   services.clipman.enable = true;
   #services.udiskie.enable = true;
-
-  programs.foot = {
-    enable = true;
-  };
 
   programs.kitty = {
     enable = true;
