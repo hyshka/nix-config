@@ -75,6 +75,7 @@
 
       # muck rack
       "docker"
+      "orbstack"
       # Manually open docker desktop:
       #   - Use advanced settings > user install so you don't need to sudo docker
       # client commands.
