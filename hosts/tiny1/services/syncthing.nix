@@ -95,6 +95,11 @@
           devices = ["starship" "renee-galaxys9" "bryan-pixel4"];
           type = "receiveonly";
         };
+        "Notes" = {
+          id = "36eka-bxxix";
+          path = "/mnt/storage/hyshka/Notes";
+          devices = ["bryan-pixel4" "starship"];
+        };
         "Phone Camera" = {
           enable = false;
           id = "sm-g930f_pwyw-photos";

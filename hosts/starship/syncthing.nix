@@ -34,8 +34,13 @@
       folders = {
         "Home Notes" = {
           id = "ljd5z-m6qfp";
-          path = "/home/hyshka/Home Notes";
+          path = "/home/hyshka/Notes/Home Notes";
           devices = ["tiny1" "renee-galaxys9" "bryan-pixel4"];
+        };
+        "Notes" = {
+          id = "36eka-bxxix";
+          path = "/home/hyshka/Notes";
+          devices = ["bryan-pixel4" "tiny1"];
         };
         "Finance" = {
           id = "4rqlm-lmagt";
