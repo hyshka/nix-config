@@ -49,6 +49,7 @@
     # TODO move to module
     gimp
     # coding
+    lorri
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks
     # TODO aws cli
