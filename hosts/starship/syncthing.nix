@@ -27,15 +27,16 @@
         };
       };
       devices = {
-        "renee-galaxys9" = {id = "F6EBD2Q-TSSEF3J-YR4JH7L-ZHM6BQE-O7YOLSY-XKVHCSW-JUNM66E-YHDFWQK";};
         "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
         "tiny1" = {id = "SBU2DEZ-MEVLQ2S-2HN6L6N-3VILABR-Z3C5NWU-UD36AF7-4HVFWZ7-W2QJWQB";};
+        "rg353ps" = {id = "7NUMEKY-IPM4SAT-HXKSGQP-KFBVHZO-PTSC5HW-CK5FBYL-HR5NKL6-KYQNXAY";};
+        "renee-pixel7a" = {id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";};
       };
       folders = {
         "Home Notes" = {
           id = "ljd5z-m6qfp";
           path = "/home/hyshka/Notes/Home Notes";
-          devices = ["tiny1" "renee-galaxys9" "bryan-pixel4"];
+          devices = ["tiny1" "renee-pixel7a" "bryan-pixel4"];
         };
         "Notes" = {
           id = "36eka-bxxix";
@@ -81,6 +82,11 @@
           id = "4harq-seslg";
           path = "/home/hyshka/Darktable";
           devices = ["tiny1"];
+        };
+        "StardewValley_Saves" = {
+          id = "j6n94-htfpu";
+          path = "/home/hyshka/.config/StardewValley/Saves/";
+          devices = ["tiny1" "rg353ps"];
         };
       };
     };

@@ -37,8 +37,9 @@
       };
       devices = {
         "starship" = {id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";};
-        "renee-galaxys9" = {id = "F6EBD2Q-TSSEF3J-YR4JH7L-ZHM6BQE-O7YOLSY-XKVHCSW-JUNM66E-YHDFWQK";};
         "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
+        "rg353ps" = {id = "7NUMEKY-IPM4SAT-HXKSGQP-KFBVHZO-PTSC5HW-CK5FBYL-HR5NKL6-KYQNXAY";};
+        "renee-pixel7a" = {id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";};
       };
       folders = {
         "Ansel" = {
@@ -92,7 +93,7 @@
         "Home Notes" = {
           id = "ljd5z-m6qfp";
           path = "/mnt/storage/hyshka/Home Notes";
-          devices = ["starship" "renee-galaxys9" "bryan-pixel4"];
+          devices = ["starship" "renee-pixel7a" "bryan-pixel4"];
           type = "sendreceive";
         };
         "Notes" = {
@@ -112,6 +113,12 @@
           id = "ti8iw-ywmhx";
           path = "/mnt/storage/hyshka/Phone Pictures";
           devices = ["bryan-pixel4"];
+          type = "receiveonly";
+        };
+        "StardewValley_Saves" = {
+          id = "j6n94-htfpu";
+          path = "/mnt/storage/hyshka/StardewValley_Saves";
+          devices = ["starship" "rg353ps"];
           type = "receiveonly";
         };
       };
