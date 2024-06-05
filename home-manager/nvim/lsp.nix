@@ -159,7 +159,7 @@
           '';
       }
       {
-        plugin = null-ls-nvim;
+        plugin = none-ls-nvim;
         type = "lua";
         config =
           /*
@@ -174,13 +174,13 @@
                   local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
                   null_ls.setup({
-                      debug = true,
+                      debug = false,
                       sources = {
                           null_ls.builtins.code_actions.eslint_d,
                           null_ls.builtins.completion.tags,
                           null_ls.builtins.diagnostics.eslint_d,
-                  	--TODO mypy requires all project dependencies to be installed
-                  	--null_ls.builtins.diagnostics.mypy,
+                  	  --TODO mypy requires all project dependencies to be installed
+                  	  --null_ls.builtins.diagnostics.mypy,
                           --null_ls.builtins.diagnostics.semgrep,
                           --null_ls.builtins.diagnostics.sqlfluff.with({
                           --    extra_args = { "--dialect", "mysql" },
@@ -190,7 +190,7 @@
                           null_ls.builtins.formatting.black,
                           null_ls.builtins.formatting.eslint_d,
                           null_ls.builtins.formatting.prettier,
-            --TODO prettierd not in NixOS
+                          --TODO prettierd not in NixOS
                           --null_ls.builtins.formatting.prettierd,
                           null_ls.builtins.formatting.trim_whitespace,
                       },
