@@ -9,7 +9,7 @@
     enable = true;
     autocd = true;
     defaultKeymap = "viins";
-    enableAutosuggestions = false;
+    autosuggestion.enable = false;
     enableCompletion = false;
     syntaxHighlighting.enable = false;
     historySubstringSearch.enable = false;

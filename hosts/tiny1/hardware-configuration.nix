@@ -14,6 +14,7 @@
   };
 
   # TODO smartctl tests & notifications
+  # https://github.com/AnalogJ/scrutiny
   fileSystems = {
     "/" = {
       device = "/dev/nvme0n1p1";

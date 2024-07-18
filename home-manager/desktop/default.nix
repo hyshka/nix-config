@@ -41,7 +41,7 @@
 
     # imaging
     ansel
-    vkdt # TODO
+    #vkdt # TODO: fix
     unstable.darktable
     hugin
     inkscape-with-extensions
@@ -74,7 +74,8 @@
 
     # gaming
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
-    unstable.yuzu-mainline
+    # TODO: yuzu
+    #unstable.yuzu-mainline
     unstable.gzdoom
     lutris
 
