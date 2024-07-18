@@ -48,7 +48,7 @@
         enableXfwm = false;
       };
     };
-    displayManager.defaultSession = "xfce";
+    displayManager.defaultSession = "xfce+i3";
     # i3 is configured through home manage but this must be enabled so that it's
     # an option in the display manager
     windowManager.i3.enable = true;
