@@ -18,8 +18,8 @@
     defaults.email = "bryan@hyshka.com";
     certs = {
       "home.hyshka.com" = {
-	webroot = "/var/lib/acme/.challenges";
-	group = "nginx";
+        webroot = "/var/lib/acme/.challenges";
+        group = "nginx";
         extraDomainNames = ["*.home.hyshka.com"];
       };
     };
