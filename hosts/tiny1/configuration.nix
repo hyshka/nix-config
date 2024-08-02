@@ -13,7 +13,7 @@
 
     # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.hardware.nixosModules.common-cpu-intel-kaby-lake
+    inputs.hardware.nixosModules.common-cpu-intel
     inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
