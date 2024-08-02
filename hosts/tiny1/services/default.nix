@@ -16,5 +16,6 @@
     ./samba.nix
     ./snapraid.nix
     ./syncthing.nix
+    ./silverbullet.nix
   ];
 }
