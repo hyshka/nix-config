@@ -1,5 +1,5 @@
 {
-  snapraid = {
+  services.snapraid = {
     enable = true;
     parityFiles = [
       "/mnt/parity1/snapraid.parity"
