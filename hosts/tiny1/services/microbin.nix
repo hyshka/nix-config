@@ -34,15 +34,9 @@
   };
 
   services.ddclient.domains = ["microbin"];
-  services.nginx.virtualHosts."microbin.hyshka.com" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:8081";
-    };
+  services.caddy.virtualHosts."microbin.hyshka.com" = {
     extraConfig = ''
-      client_max_body_size 1024M;
+      reverse_proxy :8081
     '';
   };
 }

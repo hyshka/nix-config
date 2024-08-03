@@ -6,16 +6,15 @@
   environment.systemPackages = with pkgs; [ddclient];
 
   sops.secrets = {
-    ddclient_password = {};
+    ddclient_cloudFlareApiKey = {};
   };
 
   services.ddclient = {
     enable = true;
-    protocol = "namecheap";
-    username = "hyshka.com";
-    domains = ["jellyseerr" "jellyfin" "ntfy"];
-    use = "web, web=dynamicdns.park-your-domain.com/getip";
-    server = "dynamicdns.park-your-domain.com";
-    passwordFile = config.sops.secrets.ddclient_password.path;
+    protocol = "cloudflare";
+    zone = "hyshka.com";
+    username = "bryan@hyshka.com";
+    use = "web";
+    passwordFile = config.sops.secrets.ddclient_cloudFlareApiKey.path;
   };
 }

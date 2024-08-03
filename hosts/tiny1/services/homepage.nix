@@ -254,7 +254,7 @@ in {
       containers.homepage = {
         image = "ghcr.io/gethomepage/homepage:latest";
         autoStart = true;
-        ports = ["127.0.0.1:3001:3000"];
+        ports = ["127.0.0.1:3001:3000" "100.116.243.20:3001:3000"];
         volumes = [
           "/var/run/docker.sock:/var/run/docker.sock:ro"
           # TODO logs
@@ -275,14 +275,15 @@ in {
     homepage = {};
   };
 
-  services.nginx.virtualHosts."dashboard.home.hyshka.com" = {
-    forceSSL = true;
-    useACMEHost = "home.hyshka.com";
-    # auth file format: user:{PLAIN}password
-    basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:3001";
-    };
-  };
+  # TODO custom tailscale domain
+  #services.nginx.virtualHosts."dashboard.home.hyshka.com" = {
+  #  forceSSL = true;
+  #  useACMEHost = "home.hyshka.com";
+  #  # auth file format: user:{PLAIN}password
+  #  basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
+  #  locations."/" = {
+  #    recommendedProxySettings = true;
+  #    proxyPass = "http://127.0.0.1:3001";
+  #  };
+  #};
 }

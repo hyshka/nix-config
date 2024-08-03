@@ -45,6 +45,10 @@
     ];
   };
 
+  # Allow network access when building
+  # https://mdleom.com/blog/2021/12/27/caddy-plugins-nixos/#xcaddy
+  #nix.settings.sandbox = false;
+
   networking = {
     hostName = "tiny1";
   };

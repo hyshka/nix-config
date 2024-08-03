@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [glances python310Packages.psutil hddtemp];
 
   systemd.services.glances = {
@@ -10,7 +6,7 @@
       User = "hyshka";
     };
     script = ''
-      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1
+      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1 --bind 100.116.243.20
     '';
     after = ["network.target"];
     wantedBy = ["multi-user.target"];
@@ -38,13 +34,15 @@
     '';
   };
 
-  services.nginx.virtualHosts."glances.home.hyshka.com" = {
-    forceSSL = true;
-    useACMEHost = "home.hyshka.com";
-    basicAuthFile = config.sops.secrets.nginx_basic_auth.path;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:61208";
-    };
-  };
+  # TODO custom tailscale domain
+
+  #services.caddy.virtualHosts."glances.home.hyshka.com" = {
+  #  #useACMEHost = "*.home.hyshka";
+  #  extraConfig = ''
+  #    reverse_proxy :61208
+  #    tls {
+  #      get_certificate tailscale
+  #    }
+  #  '';
+  #};
 }

@@ -59,21 +59,16 @@
     };
   };
 
-  services.nginx.virtualHosts."jellyseerr.hyshka.com" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:5055";
-    };
-  };
-
-  services.nginx.virtualHosts."jellyfin.hyshka.com" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:8096";
-    };
-  };
+  # TODO
+  #services.ddclient.domains = ["jellyseerr" "jellyfin"];
+  #services.caddy.virtualHosts."jellyseerr.hyshka.com" = {
+  #  extraConfig = ''
+  #    reverse_proxy :5055
+  #  '';
+  #};
+  #services.caddy.virtualHosts."jellyfin.hyshka.com" = {
+  #  extraConfig = ''
+  #    reverse_proxy :8096
+  #  '';
+  #};
 }

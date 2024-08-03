@@ -17,13 +17,10 @@
     };
   };
 
-  services.nginx.virtualHosts."ntfy.hyshka.com" = {
-    forceSSL = true;
-    enableACME = true;
-    locations."/" = {
-      recommendedProxySettings = true;
-      proxyPass = "http://127.0.0.1:8010";
-      proxyWebsockets = true;
-    };
+  services.ddclient.domains = ["ntfy"];
+  services.caddy.virtualHosts."ntfy.hyshka.com" = {
+    extraConfig = ''
+      reverse_proxy :8010
+    '';
   };
 }
