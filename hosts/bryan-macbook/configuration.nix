@@ -74,8 +74,7 @@
   #environment.systemPackages = with pkgs; [];
 
   # Set Git commit hash for darwin-version.
-  # TODO coming soon
-  #system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

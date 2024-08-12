@@ -63,6 +63,6 @@
     git.enable = true; # always a requirement for home-manager
   };
 
-  # hwriteTextFilettps://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.11";
 }
