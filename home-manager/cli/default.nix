@@ -16,7 +16,7 @@
   home.packages = with pkgs; [
     bc # Calculator
     bottom # System viewer
-    ncdu # TUI disk usage
+    ncdu_1 # TUI disk usage
     eza # Better ls
     ripgrep # Better grep
     fd # Better find

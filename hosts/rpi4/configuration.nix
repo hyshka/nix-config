@@ -69,7 +69,7 @@
 
     # utils
     neovim
-    ncdu
+    ncdu_1
     ranger
     htop
     git
