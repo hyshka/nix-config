@@ -29,6 +29,11 @@
                  reverse_proxy http://127.0.0.1:61208
         }
 
+        @hass host hass.home.hyshka.com
+        handle @hass {
+                 reverse_proxy http://127.0.0.1:8123
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort

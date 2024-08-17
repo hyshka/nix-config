@@ -62,6 +62,8 @@
         country = "CA";
         temperature_unit = "C";
         internal_url = "http://10.0.0.240:8123";
+	# TODO 400: Bad Request
+        external_url = "http://hass.home.hyshka.com/";
       };
       frontend = {
         themes = "!include_dir_merge_named themes";
@@ -152,13 +154,4 @@
       ];
     };
   };
-
-  # TODO custom tailscale domain
-  #services.nginx.virtualHosts."hass.home.hyshka.com" = {
-  #  useACMEHost = "*.home.hyshka.com";
-  #  locations."/" = {
-  #    recommendedProxySettings = true;
-  #    proxyPass = "http://127.0.0.1:8123";
-  #  };
-  #};
 }

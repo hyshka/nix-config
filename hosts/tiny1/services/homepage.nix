@@ -140,7 +140,7 @@
         {
           "Home Assistant" = {
             icon = "home-assistant.svg";
-            href = "http://10.0.0.240:8123/";
+            href = "http://hass.home.hyshka.com/";
           };
         }
       ];
