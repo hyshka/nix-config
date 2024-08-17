@@ -118,7 +118,7 @@
         {
           Glances = {
             icon = "glances.png";
-            href = "https://tbd.hyshka.com";
+            href = "http://glances.home.hyshka.com";
           };
         }
         {

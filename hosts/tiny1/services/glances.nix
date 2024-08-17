@@ -6,7 +6,7 @@
       User = "hyshka";
     };
     script = ''
-      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1 --bind 100.116.243.20
+      ${pkgs.glances}/bin/glances --enable-plugin smart --webserver --bind 127.0.0.1
     '';
     after = ["network.target"];
     wantedBy = ["multi-user.target"];
@@ -33,16 +33,4 @@
       disable=True
     '';
   };
-
-  # TODO custom tailscale domain
-
-  #services.caddy.virtualHosts."glances.home.hyshka.com" = {
-  #  #useACMEHost = "*.home.hyshka";
-  #  extraConfig = ''
-  #    reverse_proxy :61208
-  #    tls {
-  #      get_certificate tailscale
-  #    }
-  #  '';
-  #};
 }

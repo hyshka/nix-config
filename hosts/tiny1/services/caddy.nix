@@ -24,6 +24,11 @@
                  reverse_proxy http://127.0.0.1:3001
         }
 
+        @glances host glances.home.hyshka.com
+        handle @glances {
+                 reverse_proxy http://127.0.0.1:61208
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort
