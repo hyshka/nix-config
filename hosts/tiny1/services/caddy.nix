@@ -11,11 +11,25 @@
   };
 
   networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedUDPPorts = [443];
 
   services.caddy = {
     enable = true;
+    package = pkgs.custom-caddy;
     email = "bryan@hyshka.com";
-    virtualHosts."tiny1.tail7dfc7.ts.net" = {};
+    virtualHosts."http://*.home.hyshka.com" = {
+      extraConfig = ''
+        @dashboard host dashboard.home.hyshka.com
+        handle @dashboard {
+                 reverse_proxy http://127.0.0.1:3001
+        }
+
+        # Fallback for otherwise unhandled domains
+        handle {
+          abort
+        }
+      '';
+    };
   };
 
   systemd.services.caddy = {

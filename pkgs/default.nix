@@ -4,4 +4,5 @@
   # example = pkgs.callPackage ./example { };
   ansel = pkgs.callPackage ./ansel {};
   zha_toolkit = pkgs.callPackage ./zha_toolkit {};
+  custom-caddy = pkgs.callPackage ./caddy {};
 }
