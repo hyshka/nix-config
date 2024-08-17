@@ -62,14 +62,17 @@
         country = "CA";
         temperature_unit = "C";
         internal_url = "http://10.0.0.240:8123";
-        # TODO 400: Bad Request
         external_url = "http://hass.home.hyshka.com/";
       };
       frontend = {
         themes = "!include_dir_merge_named themes";
       };
       feedreader.urls = ["https://nixos.org/blogs.xml"];
-      http = {};
+      http = {
+        server_host = "127.0.0.1";
+        use_x_forwarded_for = "true";
+        trusted_proxies = "127.0.0.1";
+      };
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
