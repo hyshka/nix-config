@@ -62,7 +62,7 @@
         country = "CA";
         temperature_unit = "C";
         internal_url = "http://10.0.0.240:8123";
-	# TODO 400: Bad Request
+        # TODO 400: Bad Request
         external_url = "http://hass.home.hyshka.com/";
       };
       frontend = {

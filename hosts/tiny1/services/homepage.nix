@@ -142,6 +142,10 @@
             icon = "home-assistant.svg";
             href = "http://hass.home.hyshka.com/";
           };
+          "Silver Bullet" = {
+            icon = "silverbullet.svg";
+            href = "http://silverbullet.home.hyshka.com/";
+          };
         }
       ];
     }

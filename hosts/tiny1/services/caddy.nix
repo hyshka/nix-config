@@ -34,6 +34,11 @@
                  reverse_proxy http://127.0.0.1:8123
         }
 
+        @silverbullet host silverbullet.home.hyshka.com
+        handle @silverbullet {
+                 reverse_proxy http://127.0.0.1:3010
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort
