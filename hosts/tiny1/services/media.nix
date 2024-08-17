@@ -58,17 +58,4 @@
       };
     };
   };
-
-  # TODO
-  #services.ddclient.domains = ["jellyseerr" "jellyfin"];
-  #services.caddy.virtualHosts."jellyseerr.hyshka.com" = {
-  #  extraConfig = ''
-  #    reverse_proxy :5055
-  #  '';
-  #};
-  #services.caddy.virtualHosts."jellyfin.hyshka.com" = {
-  #  extraConfig = ''
-  #    reverse_proxy :8096
-  #  '';
-  #};
 }

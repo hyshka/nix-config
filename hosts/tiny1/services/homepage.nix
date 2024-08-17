@@ -154,7 +154,7 @@
         {
           Jellyfin = {
             icon = "jellyfin.svg";
-            href = "https://jellyfin.hyshka.com";
+            href = "http://jellyfin.home.hyshka.com";
             description = "Jellyfin: Media server";
             server = "my-docker";
             container = "jellyfin";
@@ -169,7 +169,7 @@
         {
           Jellyseerr = {
             icon = "jellyseerr.svg";
-            href = "https://jellyseer.hyshka.com";
+            href = "http://jellyseerr.home.hyshka.com";
             server = "my-docker";
             container = "jellyseerr";
             widget = {
@@ -182,7 +182,7 @@
         {
           Radarr = {
             icon = "radarr.svg";
-            href = "https://tbd.hyshka.com";
+            href = "http://radarr.home.hyshka.com";
             server = "my-docker";
             container = "radarr";
             widget = {
@@ -195,7 +195,7 @@
         {
           Sonarr = {
             icon = "sonarr.svg";
-            href = "https://tbd.hyshka.com";
+            href = "http://sonarr.home.hyshka.com";
             server = "my-docker";
             container = "sonarr";
             widget = {
@@ -208,7 +208,7 @@
         {
           Prowlarr = {
             icon = "prowlarr.svg";
-            href = "https://tbd.hyshka.com";
+            href = "http://prowlarr.home.hyshka.com";
             server = "my-docker";
             container = "prowlarr";
             widget = {
@@ -229,7 +229,7 @@
         {
           Qbittorrent = {
             icon = "qbittorrent.svg";
-            href = "https://tbd.hyshka.com";
+            href = "http://qbittorrent.home.hyshka.com";
             server = "my-docker";
             container = "qbittorrent";
             widget = {

@@ -39,6 +39,36 @@
                  reverse_proxy http://127.0.0.1:3010
         }
 
+        @jellyseerr host jellyseerr.home.hyshka.com
+        handle @jellyseerr {
+                 reverse_proxy http://127.0.0.1:5055
+        }
+
+        @jellyfin host jellyfin.home.hyshka.com
+        handle @jellyfin {
+                 reverse_proxy http://127.0.0.1:8096
+        }
+
+        @radarr host radarr.home.hyshka.com
+        handle @radarr {
+                 reverse_proxy http://127.0.0.1:7878
+        }
+
+        @sonarr host sonarr.home.hyshka.com
+        handle @sonarr {
+                 reverse_proxy http://127.0.0.1:8989
+        }
+
+        @prowlarr host prowlarr.home.hyshka.com
+        handle @prowlarr {
+                 reverse_proxy http://127.0.0.1:9696
+        }
+
+        @qbittorrent host qbittorrent.home.hyshka.com
+        handle @qbittorrent {
+                 reverse_proxy http://127.0.0.1:8080
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort
