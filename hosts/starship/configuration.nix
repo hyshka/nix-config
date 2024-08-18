@@ -61,17 +61,6 @@
   networking.hostName = "starship"; # Define your hostname.
   networking.firewall.enable = false;
 
-  # TODO move to module
-  networking.hosts = {
-    "10.0.0.240" = [
-      "jellyseer.hyshka.com"
-      "jellyfin.hyshka.com"
-      "ntfy.hyshka.com"
-      "glances.hyshka.com"
-      "dashboard.hyshka.com"
-    ];
-  };
-
   sops.defaultSopsFile = ./secrets.yaml;
 
   # Set your time zone.
