@@ -17,8 +17,15 @@
     enable = true;
     package = pkgs.custom-caddy;
     email = "bryan@hyshka.com";
-    virtualHosts."http://*.home.hyshka.com" = {
+    # Cloudflare DNS config for hyshka.com
+    # A *.home => tiny1 tailscale IP
+    # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650
+    virtualHosts."https://*.home.hyshka.com" = {
       extraConfig = ''
+        tls {
+          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        }
+
         @dashboard host dashboard.home.hyshka.com
         handle @dashboard {
                  reverse_proxy http://127.0.0.1:3001
