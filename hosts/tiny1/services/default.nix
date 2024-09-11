@@ -18,5 +18,7 @@
     ./silverbullet.nix
     ./caddy.nix
     ./acme.nix
+    #./tiddlywiki.nix
+    # TODO logseq https://github.com/NixOS/nixpkgs/pull/273532
   ];
 }
