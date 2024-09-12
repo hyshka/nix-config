@@ -33,31 +33,36 @@
       "wget" # download tool
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
 
-      # mine
-      "clipboard" # https://github.com/Slackadays/Clipboard
-      "choose-gui" # https://github.com/chipsenkbeil/choose
-
-      # muck rack
-      #"pre-commit"
+      # work tools
       "helm" # not available for darwin in nixpkgs
     ];
 
     # `brew install --cask`
     casks = [
+      # productivity
       "amethyst" # tiling window manager
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       "tomatobar" # pomodoro timer
       "betterdisplay" # display manager
       "espanso" # text expander
+      "languagetool"
+      # TODO window sizing shortcuts
+      #"rectangle" # https://rectangleapp.com/
 
+      # mine
+      "spotify"
+
+      # work tools
       "firefox"
       "google-chrome"
       "arc"
       "slack"
-      "spotify"
       "obs"
       "handbrake"
       "libreoffice"
+      "1password"
+      "openvpn-connect" # VPN
+      "fontforge"
       #"syncthing"
       #"iglance"   # beautiful system monitor
       # TODO zoom managed by work
@@ -67,17 +72,8 @@
       # /Users/hyshka/Library/Application Support/espanso/config/default.yml
       # /Users/hyshka/Library/Application Support/espanso/match/base.yml
       # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103
-      "balenaetcher"
-      "mullvadvpn"
-      "grammarly-desktop"
-      "languagetool"
 
-      # TODO window sizing shortcuts
-      #"rectangle" # https://rectangleapp.com/
-
-      # muck rack
-      "docker"
-      "orbstack"
+      # Docker
       # Manually open docker desktop:
       #   - Use advanced settings > user install so you don't need to sudo docker
       # client commands.
@@ -87,13 +83,8 @@
       #   - use rosetta
       # The following was noted but not required for me:
       #   - add $HOME/.docker/bin to your PATH
-      "openvpn-connect" # VPN
-      "fontforge"
-      "1password"
-
-      # non-work
-      "discord"
-      "jellyfin-media-player"
+      #"docker"
+      "orbstack"
     ];
   };
 }

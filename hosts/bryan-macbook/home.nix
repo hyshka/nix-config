@@ -13,7 +13,6 @@
     # You can also split up your configuration and import pieces of it here:
     ../../home-manager/cli
     ../../home-manager/nvim
-    # TODO can't launch alacritty via spotlight
     ../../home-manager/alacritty.nix
   ];
 
@@ -37,24 +36,21 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
-    # TODO move to cli?
-    buku
-
     # video
     mpv
     mpvScripts.cutter # https://github.com/rushmj/mpv-video-cutter
     mpvScripts.mpv-webm # https://github.com/ekisu/mpv-webm
 
-    # muck rack
-    # TODO move to module
+    # images
     gimp
+
     # coding
-    lorri
     pre-commit
     python310Packages.nodeenv # for node.js pre-commit hooks
     # TODO aws cli
     #awscli2
     # TODO mrcli
+    lorri # statoscope
   ];
 
   # Enable home-manager
