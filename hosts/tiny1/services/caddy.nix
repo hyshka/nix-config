@@ -17,6 +17,9 @@
     enable = true;
     package = pkgs.custom-caddy;
     email = "bryan@hyshka.com";
+    logFormat = ''
+    	level INFO
+    '';
     # Cloudflare DNS config for hyshka.com
     # A *.home => tiny1 tailscale IP
     # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650
@@ -44,6 +47,13 @@
         @silverbullet host silverbullet.home.hyshka.com
         handle @silverbullet {
                  reverse_proxy http://127.0.0.1:3010
+        }
+
+	# The Caddy rules for Nextcloud were too complex. Reverse proxy the
+	# buit-in Nginx configuration instead.
+        @cloud host cloud.home.hyshka.com
+        handle @cloud {
+                 reverse_proxy http://127.0.0.1:8082
         }
 
         @jellyseerr host jellyseerr.home.hyshka.com

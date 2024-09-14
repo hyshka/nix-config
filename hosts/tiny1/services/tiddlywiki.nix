@@ -7,5 +7,5 @@
     credentials = "../credentials.csv";
     port = 3456;
     readers = "(authenticated)";
-  }
+  };
 }
