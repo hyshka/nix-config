@@ -59,6 +59,14 @@
   # https://github.com/cmacrae/spacebar (status bar)
   # https://symless.com/synergy (virtual kvm)
 
+  # Synergy
+  # TODO tls/ssh
+  services.synergy.client = {
+    enable = true;
+    screenName = "macbook";
+    serverAddress = "10.0.0.201";
+  };
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
