@@ -19,8 +19,9 @@
     ./caddy.nix
     ./acme.nix
     ./nextcloud.nix
+    ./grafana.nix
     #./tiddlywiki.nix
     # TODO logseq https://github.com/NixOS/nixpkgs/pull/273532
-    # TODO immich https://github.com/suderman/nixos/blob/main/modules/immich/default.nix
+    # TODO immich https://github.com/NixOS/nixpkgs/pull/324127
   ];
 }
