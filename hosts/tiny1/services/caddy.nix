@@ -17,6 +17,11 @@
     enable = true;
     package = pkgs.custom-caddy;
     email = "bryan@hyshka.com";
+    globalConfig = ''
+      servers {
+        metrics
+      }
+    '';
     # Cloudflare DNS config for hyshka.com
     # A *.home => tiny1 tailscale IP
     # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650

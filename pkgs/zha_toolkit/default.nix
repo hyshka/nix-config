@@ -1,18 +1,18 @@
 {
   lib,
-  buildHomeAssistantComponent,
+  pkgs,
   fetchFromGitHub,
 }:
-buildHomeAssistantComponent rec {
+pkgs.unstable.buildHomeAssistantComponent rec {
   owner = "mdeweerd";
   domain = "zha_toolkit";
-  version = "1.1.9";
+  version = "1.1.19";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = "zha-toolkit";
     rev = "refs/tags/v${version}";
-    hash = "sha256-pv1Kp8Qq8s845T7s+Rcsypv39zk8oBuMiLxjUqY8YzI=";
+    hash = "sha256-cMCGLDngtIFuEiXZiHBUf6ltW9u0LY81un/Igd9Ai6Y=";
   };
 
   dontBuild = true;
