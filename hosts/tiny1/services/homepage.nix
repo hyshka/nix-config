@@ -103,34 +103,21 @@
     {
       Infrastructure = [
         {
-          Ntfy = {
-            icon = "ntfy.svg";
-            href = "https://tbd.hyshka.com";
-          };
-        }
-        {
-          Ddclient = {
-            #icon = "ddclient.svg";
-            abbr = "dd";
-            href = "https://tbd.hyshka.com";
-          };
-        }
-        {
           Glances = {
             icon = "glances.png";
-            href = "http://glances.home.hyshka.com";
+            href = "https://glances.home.hyshka.com";
+          };
+        }
+        {
+          Grafana = {
+            icon = "grafana.png";
+            href = "https://grafana.home.hyshka.com";
           };
         }
         {
           Mullvad = {
             icon = "mullvad.svg";
             href = "https://mullvad.net";
-          };
-        }
-        {
-          n8n = {
-            icon = "ntfy.svg";
-            href = "http://10.0.0.240:5678";
           };
         }
       ];
@@ -140,11 +127,15 @@
         {
           "Home Assistant" = {
             icon = "home-assistant.svg";
-            href = "http://hass.home.hyshka.com/";
+            href = "https://hass.home.hyshka.com/";
           };
           "Silver Bullet" = {
             icon = "silverbullet.svg";
-            href = "http://silverbullet.home.hyshka.com/";
+            href = "https://cloud.home.hyshka.com/";
+          };
+          "Nextcloud" = {
+            icon = "nextcloud.svg";
+            href = "https://cloud.home.hyshka.com/";
           };
         }
       ];
@@ -154,7 +145,7 @@
         {
           Jellyfin = {
             icon = "jellyfin.svg";
-            href = "http://jellyfin.home.hyshka.com";
+            href = "https://jellyfin.home.hyshka.com";
             description = "Jellyfin: Media server";
             server = "my-docker";
             container = "jellyfin";
@@ -169,7 +160,7 @@
         {
           Jellyseerr = {
             icon = "jellyseerr.svg";
-            href = "http://jellyseerr.home.hyshka.com";
+            href = "https://jellyseerr.home.hyshka.com";
             server = "my-docker";
             container = "jellyseerr";
             widget = {
@@ -182,7 +173,7 @@
         {
           Radarr = {
             icon = "radarr.svg";
-            href = "http://radarr.home.hyshka.com";
+            href = "https://radarr.home.hyshka.com";
             server = "my-docker";
             container = "radarr";
             widget = {
@@ -195,7 +186,7 @@
         {
           Sonarr = {
             icon = "sonarr.svg";
-            href = "http://sonarr.home.hyshka.com";
+            href = "https://sonarr.home.hyshka.com";
             server = "my-docker";
             container = "sonarr";
             widget = {
@@ -208,7 +199,7 @@
         {
           Prowlarr = {
             icon = "prowlarr.svg";
-            href = "http://prowlarr.home.hyshka.com";
+            href = "https://prowlarr.home.hyshka.com";
             server = "my-docker";
             container = "prowlarr";
             widget = {
@@ -229,7 +220,7 @@
         {
           Qbittorrent = {
             icon = "qbittorrent.svg";
-            href = "http://qbittorrent.home.hyshka.com";
+            href = "https://qbittorrent.home.hyshka.com";
             server = "my-docker";
             container = "qbittorrent";
             widget = {
