@@ -1,27 +1,10 @@
-{pkgs, ...}: let
-  copilot-chat-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "CopilotChat.nvim";
-    version = "2024-02-27";
-    src = pkgs.fetchFromGitHub {
-      owner = "CopilotC-Nvim";
-      repo = "CopilotChat.nvim";
-      rev = "5db944a349247757fd0bcf22ea90e76112529d8c";
-      sha256 = "XGbNwu7OX+Zc8WstuUjYpmoMb957/bNee/wMxhav99s=";
-    };
-  };
-in {
+{pkgs, ...}:
+{
   programs.neovim = {
     extraPackages = with pkgs; [
       nodejs_20
     ];
-    # For copilot-chat-nvim
-    extraPython3Packages = pyPkgs: [
-      pyPkgs.python-dotenv
-      pyPkgs.requests
-      pyPkgs.prompt-toolkit
-      pyPkgs.tiktoken
-    ];
-    plugins = with pkgs.vimPlugins; [
+    plugins = with pkgs.unstable.vimPlugins; [
       {
         plugin = copilot-lua;
         type = "lua";
@@ -30,16 +13,16 @@ in {
           lua
           */
           ''
-                 require('copilot').setup({
+          require('copilot').setup({
             suggestion = {
               auto_trigger = true,
             },
-                   copilot_node_command = '${pkgs.nodejs_20}/bin/node',
-                 })
+            copilot_node_command = '${pkgs.nodejs_20}/bin/node',
+          })
           '';
       }
       {
-        plugin = copilot-chat-nvim;
+        plugin = CopilotChat-nvim;
         type = "lua";
         # Ref: https://github.com/jellydn/lazy-nvim-ide/blob/main/lua/plugins/extras/copilot-chat.lua
         config = ''

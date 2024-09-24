@@ -26,8 +26,10 @@
     ];
   };
 
-  colorscheme = lib.mkDefault nix-colors.colorSchemes.gruvbox-light-medium;
-  home.file.".colorscheme".text = config.colorscheme.slug;
+  colorScheme = nix-colors.colorSchemes.gruvbox-light-medium;
+  home.file = {
+    ".colorscheme.json".text = builtins.toJSON config.colorscheme;
+  };
 
   home = {
     username = "hyshka";

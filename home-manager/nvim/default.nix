@@ -4,8 +4,13 @@
   lib,
   ...
 }: let
-  color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
   isLinux = pkgs.stdenv.isLinux;
+  reloadNvim = ''
+    XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+    for server in $XDG_RUNTIME_DIR/nvim.*; do
+      nvim --server $server --remote-send '<Esc>:source $MYVIMRC<CR>' &
+    done
+  '';
 in {
   imports = [
     ./lsp.nix
@@ -14,13 +19,13 @@ in {
     ./copilot.nix
   ];
 
+  home.sessionVariables.EDITOR = "nvim";
+
   programs.neovim = {
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
     defaultEditor = true;
-
-    #extraPackages = with pkgs; [];
 
     plugins = with pkgs.vimPlugins; [
       # core
@@ -39,7 +44,6 @@ in {
 
       # other
       vim-LanguageTool
-      nerdcommenter
       emmet-vim
       vim-argwrap
       targets-vim
@@ -51,8 +55,8 @@ in {
       vim
       */
       ''
-           "Source colorscheme
-           source ${color}
+           " Source colorscheme
+           "source ~/.config/nvim/color.vim
 
            " Section: Options
            " configure persistent undo
@@ -158,7 +162,7 @@ in {
 
                " Django templates
                autocmd BufNewFile,BufEnter,BufRead *templates/*.html setf htmldjango
-               autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
+               "autocmd FileType htmldjango setlocal commentstring={#\ %s\ #}
                " Disable autowrapping in Django templates
                autocmd FileType htmldjango setlocal formatoptions-=t
 
@@ -216,27 +220,6 @@ in {
         " Surround shortcut to correctly wrap word
                nmap ysw ysiW
 
-               " nerdcommenter support for vue files
-               let g:ft = '''
-               function! NERDCommenter_before()
-                 if &ft == 'vue'
-                   let g:ft = 'vue'
-                   let stack = synstack(line('.'), col('.'))
-                   if len(stack) > 0
-                     let syn = synIDattr((stack)[0], 'name')
-                     if len(syn) > 0
-                       exe 'setf ' . substitute(tolower(syn), '^vue_', ''', ''')
-                     endif
-                   endif
-                 endif
-               endfunction
-               function! NERDCommenter_after()
-                 if g:ft == 'vue'
-                   setf vue
-                   let g:ft = '''
-                 endif
-               endfunction
-
         " Argwrap
                nnoremap <leader>W :ArgWrap<CR>
                let g:argwrap_tail_comma = 1
@@ -245,12 +228,12 @@ in {
                let g:languagetool_cmd='/usr/bin/languagetool'
                let g:languagetool_lang='en-CA'
 
-               " treesitter
+               " treesitter folding
                set foldmethod=expr
                set foldexpr=nvim_treesitter#foldexpr()
                set nofoldenable  " Disable folding at startup.
 
-               " indent-blankline
+               " indent-blankline-nvim
                highlight IndentBlanklineChar guifg=#e4e4e4 gui=nocombine
                let g:indent_blankline_use_treesitter = v:true
                let g:indent_blankline_show_first_indent_level = v:false
@@ -269,12 +252,9 @@ in {
       '';
   };
 
-  xdg.configFile."nvim/init.lua".onChange = ''
-    XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
-    for server in $XDG_RUNTIME_DIR/nvim.*; do
-      nvim --server $server --remote-send ':source $MYVIMRC<CR>' &
-    done
-  '';
+  #xdg.configFile."nvim/color.vim".source = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
+  #xdg.configFile."nvim/color.vim".onChange = reloadNvim;
+  xdg.configFile."nvim/init.lua".onChange = reloadNvim;
 
   xdg.desktopEntries = lib.mkIf isLinux {
     nvim = {
@@ -302,7 +282,10 @@ in {
       ];
       terminal = true;
       type = "Application";
-      categories = ["Utility" "TextEditor"];
+      categories = [
+        "Utility"
+        "TextEditor"
+      ];
     };
   };
 }
