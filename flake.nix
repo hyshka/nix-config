@@ -24,6 +24,11 @@
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
+    # nixvim
+    # TODO: follow unstable? https://github.com/icodeforyou-dot-net/nix-dotfiles/blob/ed7a19b144ec73f4481c762a3867523b881fd90d/flake.nix#L14
+    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
@@ -39,6 +44,7 @@
     nix-darwin,
     sops-nix,
     nix-colors,
+    nixvim,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -105,6 +111,7 @@
                 nix-colors.homeManagerModule
                 #zimfw.homeManagerModules.zimfw
                 sops-nix.homeManagerModule
+                nixvim.homeManagerModules.nixvim
               ]
               ++ (builtins.attrValues outputs.homeManagerModules);
             home-manager.useGlobalPkgs = true;

@@ -13,6 +13,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../../home-manager/cli
     ../../home-manager/nvim
+    #../../home-manager/nixvim
     ../../home-manager/alacritty.nix
   ];
 

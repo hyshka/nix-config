@@ -49,24 +49,24 @@
   xdg.configFile = {
     "tmuxp_dashboard" = {
       text = ''
-           session_name: "dashboard"
-           start_directory: "''${HOME}"
-           windows:
-             - window_name: live
-               layout: even-vertical
-               panes:
-                 - glances
-                 - focus: true
-                 - blank
-             - window_name: config
-               layout: main-vertical
-               options:
-                 main-pane-height: 80%
-               panes:
-                 - shell_command:
-                   - cd nix-config; nvim
-                 - shell_command:
-                   - cd nix-config; git fetch -a
+        session_name: "dashboard"
+        start_directory: "''${HOME}"
+        windows:
+          - window_name: live
+            layout: even-vertical
+            panes:
+              - glances
+              - focus: true
+              - blank
+          - window_name: config
+            layout: main-vertical
+            options:
+              main-pane-height: 80%
+            panes:
+              - shell_command:
+                - cd nix-config; nvim
+              - shell_command:
+                - cd nix-config; git fetch -a
       '';
       target = "tmuxp/dashboard.yml";
     };
@@ -93,33 +93,33 @@
     };
     "tmuxp_muckrack" = {
       text = ''
-           session_name: "muckrack"
-           start_directory: "''${HOME}/MuckRack/muckrack"
-           windows:
-             - window_name: code
-               layout: main-horizontal
-               options:
-                 main-pane-height: 80%
-               focus: true
-               panes:
-                 - shell_command:
-                   - nvim
-                   focus: true
-                 - shell_command:
-                   - git fetch -a
-             - window_name: web
-               layout: even-vertical
-               panes:
-                 - blank
-                 - blank
-             - window_name: test
-               layout: even-vertical
-               panes:
-                 - blank
-                 - blank
-             - window_name: deploy
-               panes:
-                 - blank
+        session_name: "muckrack"
+        start_directory: "''${HOME}/MuckRack/muckrack"
+        windows:
+          - window_name: code
+            layout: main-horizontal
+            options:
+              main-pane-height: 80%
+            focus: true
+            panes:
+              - shell_command:
+                - nvim
+                focus: true
+              - shell_command:
+                - git fetch -a
+          - window_name: web
+            layout: even-vertical
+            panes:
+              - blank
+              - blank
+          - window_name: test
+            layout: even-vertical
+            panes:
+              - blank
+              - blank
+          - window_name: deploy
+            panes:
+              - blank
       '';
       target = "tmuxp/muckrack.yml";
     };

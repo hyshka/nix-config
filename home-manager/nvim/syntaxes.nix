@@ -10,22 +10,23 @@
         lua
         */
         ''
-	  require'nvim-treesitter.configs'.setup {
-            highlight = {
-              enable = true,
-              additional_vim_regex_highlighting = false,
-	      -- disable on very large buffers
-	      disable = function(lang, bufnr)
-                return vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 1048576
-              end
-            },
-            incremental_selection = {
-              enable = true,
-            },
-            indent = {
-              enable = true
-            },
-          }
+          require'nvim-treesitter.configs'.setup {
+                   highlight = {
+                     enable = true,
+                     additional_vim_regex_highlighting = false,
+              disable = { "vue" },
+              -- disable on very large buffers
+              disable = function(lang, bufnr)
+                       return vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr)) > 1048576
+                     end
+                   },
+                   incremental_selection = {
+                     enable = true,
+                   },
+                   indent = {
+                     enable = true
+                   },
+                 }
         '';
     }
   ];
