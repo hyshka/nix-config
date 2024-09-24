@@ -60,8 +60,8 @@
                  - blank
              - window_name: config
                layout: main-vertical
-        options:
-          main-pane-height: 80%
+               options:
+                 main-pane-height: 80%
                panes:
                  - shell_command:
                    - cd nix-config; nvim
@@ -98,8 +98,8 @@
            windows:
              - window_name: code
                layout: main-horizontal
-        options:
-          main-pane-height: 80%
+               options:
+                 main-pane-height: 80%
                focus: true
                panes:
                  - shell_command:
