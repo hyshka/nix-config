@@ -90,7 +90,7 @@
     grim # required for flameshot
     pavucontrol # volume controls
     xdg-utils # to fix programs launching other programs
-    pkgs.unstable.uair # pomodoro timer
+    #pkgs.unstable.uair # pomodoro timer TODO: build error
     libnotify # required to send notifications from uair to mako
     gnome.pomodoro
 
