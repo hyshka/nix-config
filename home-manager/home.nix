@@ -17,10 +17,12 @@ in {
       inputs.nix-colors.homeManagerModule
       #inputs.zimfw.homeManagerModules.zimfw
       inputs.sops-nix.homeManagerModule
+      inputs.nixvim.homeManagerModules.nixvim
 
       # You can also split up your configuration and import pieces of it here:
       ./cli
-      ./nvim
+      #./nvim
+      ./nixvim
       ./desktop
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
