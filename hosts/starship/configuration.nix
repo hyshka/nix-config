@@ -26,6 +26,7 @@
     ../common/nix.nix
     ../common/zsh.nix
     ../common/tailscale.nix
+    ../common/catppuccin.nix
     ./desktop.nix
     ./docker.nix
     ./sshd.nix

@@ -31,8 +31,8 @@
 
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
-    nix-colors.url = "github:misterio77/nix-colors";
     zimfw.url = "github:joedevivo/zimfw.nix";
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs = {
@@ -43,8 +43,8 @@
     lanzaboote,
     nix-darwin,
     sops-nix,
-    nix-colors,
     nixvim,
+    catppuccin,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -105,12 +105,12 @@
           ./hosts/bryan-macbook/configuration.nix
           home-manager.darwinModules.home-manager
           {
-            # If you want to use home-manager modules from other flakes (such as nix-colors):
+            # If you want to use home-manager modules from other flakes:
             home-manager.sharedModules =
               [
-                nix-colors.homeManagerModule
                 #zimfw.homeManagerModules.zimfw
                 sops-nix.homeManagerModule
+                catppuccin.homeManagerModules.catppuccin
                 nixvim.homeManagerModules.nixvim
               ]
               ++ (builtins.attrValues outputs.homeManagerModules);

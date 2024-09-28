@@ -3,21 +3,16 @@
 {
   inputs,
   outputs,
-  lib,
-  config,
-  pkgs,
   ...
-}: let
-  inherit (inputs.nix-colors) colorSchemes;
-in {
+}: {
   # You can import other home-manager modules here
   imports =
     [
-      # If you want to use home-manager modules from other flakes (such as nix-colors):
-      inputs.nix-colors.homeManagerModule
+      # If you want to use home-manager modules from other flakes:
       #inputs.zimfw.homeManagerModules.zimfw
       inputs.sops-nix.homeManagerModule
       inputs.nixvim.homeManagerModules.nixvim
+      inputs.catppuccin.homeManagerModules.catppuccin
 
       # You can also split up your configuration and import pieces of it here:
       ./cli
@@ -55,16 +50,15 @@ in {
     };
   };
 
-  colorscheme = lib.mkDefault colorSchemes.gruvbox-light-medium;
-  home.file.".colorscheme".text = config.colorscheme.slug;
+  catppuccin = {
+    enable = true;
+    flavor = "frappe";
+  };
 
   home = {
     username = "hyshka";
     homeDirectory = "/home/hyshka";
   };
-
-  # Add stuff for your user as you see fit:
-  #home.packages = with pkgs; [];
 
   # Enable home-manager
   programs = {

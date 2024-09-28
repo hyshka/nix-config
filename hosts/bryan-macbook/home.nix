@@ -3,9 +3,6 @@
 {
   outputs,
   pkgs,
-  config,
-  lib,
-  nix-colors,
   ...
 }: {
   # Import other home-manager modules in flake.nix
@@ -25,11 +22,6 @@
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
     ];
-  };
-
-  colorScheme = nix-colors.colorSchemes.gruvbox-light-medium;
-  home.file = {
-    ".colorscheme.json".text = builtins.toJSON config.colorscheme;
   };
 
   home = {

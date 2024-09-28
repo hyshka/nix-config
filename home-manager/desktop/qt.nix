@@ -1,6 +1,7 @@
 {
   qt = {
     enable = true;
-    #style = "adwaita";
+    style.name = "kvantum";
+    platformTheme.name = "kvantum";
   };
 }
