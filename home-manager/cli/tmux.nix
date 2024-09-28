@@ -22,6 +22,7 @@
       tmuxPlugins.fzf-tmux-url
       tmuxPlugins.copycat
       tmuxPlugins.yank
+      tmuxPlugins.catppuccin
     ];
     extraConfig = ''
       # Switch between last used window
@@ -44,6 +45,9 @@
       setw -g window-status-current-format " #F#I:#W#F "
       # Set the display panes timeout
       set-option -g display-panes-time 4000
+      # catppuccin
+      # https://github.com/catppuccin/tmux
+      set -g @catppuccin_flavor 'frappe'
     '';
   };
   xdg.configFile = {

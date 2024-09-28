@@ -5,4 +5,5 @@
   ansel = pkgs.callPackage ./ansel {};
   zha_toolkit = pkgs.callPackage ./zha_toolkit {};
   custom-caddy = pkgs.callPackage ./caddy {};
+  catppuccin-alacritty = pkgs.callPackage ./catppuccin-alacritty {};
 }

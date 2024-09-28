@@ -13,6 +13,7 @@
     ./espanso.nix
     #./sway.nix
     ./i3.nix
+    ../alacritty.nix
   ];
 
   # TODO move to module
@@ -67,7 +68,6 @@
 
     # networking
     unstable.mullvad-vpn
-    transmission-gtk
 
     # music
     spotify
@@ -85,13 +85,13 @@
     gparted
     xorg.xhost # required by gparted
     heimdall
-    sway-contrib.grimshot # screenshots
+    #sway-contrib.grimshot # screenshots
     flameshot # screenshots
     grim # required for flameshot
     pavucontrol # volume controls
     xdg-utils # to fix programs launching other programs
     #pkgs.unstable.uair # pomodoro timer TODO: build error
-    libnotify # required to send notifications from uair to mako
+    #libnotify # required to send notifications from uair to mako
     gnome.pomodoro
 
     # work
@@ -132,25 +132,10 @@
 
   home.sessionVariables = {
     LIBSEAT_BACKEND = "logind";
-    TERMINAL = "kitty -1";
+    TERMINAL = "alacritty";
     BROWSER = "firefox-devedition";
   };
 
-  services.clipman.enable = true;
+  #services.clipman.enable = true;
   #services.udiskie.enable = true;
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      size = 11;
-      name = config.fontProfiles.monospace.family;
-    };
-    settings = {
-      scrollback_lines = 0;
-      scrollback_pager_history_size = 0;
-      #detect_urls = "yes";
-      input_delay = 0;
-      enable_audio_bell = "no";
-    };
-  };
 }
