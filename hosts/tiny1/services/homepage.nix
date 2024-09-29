@@ -120,6 +120,12 @@
             href = "https://mullvad.net";
           };
         }
+        {
+          "Adguard Home" = {
+            icon = "adguard-home.png";
+            href = "https://adguard.home.hyshka.com";
+          };
+        }
       ];
     }
     {
@@ -129,13 +135,23 @@
             icon = "home-assistant.svg";
             href = "https://hass.home.hyshka.com/";
           };
+        }
+        {
           "Silver Bullet" = {
             icon = "silverbullet.svg";
-            href = "https://cloud.home.hyshka.com/";
+            href = "https://silverbullet.home.hyshka.com/";
           };
+        }
+        {
           "Nextcloud" = {
             icon = "nextcloud.svg";
             href = "https://cloud.home.hyshka.com/";
+          };
+        }
+        {
+          "Paperless" = {
+            icon = "paperless.svg";
+            href = "https://paperless.home.hyshka.com/";
           };
         }
       ];

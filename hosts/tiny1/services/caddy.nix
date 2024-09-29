@@ -56,6 +56,11 @@
                         reverse_proxy http://127.0.0.1:3020
                }
 
+               @paperless host paperless.home.hyshka.com
+               handle @paperless {
+                        reverse_proxy http://127.0.0.1:28981
+               }
+
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
                @cloud host cloud.home.hyshka.com
