@@ -63,7 +63,7 @@
               {
                 name = "output";
                 type = "shell";
-                params = {cmd = "kitty nvim";};
+                params = {cmd = "alacritty nvim";};
               }
             ];
           }

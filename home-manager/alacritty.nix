@@ -17,9 +17,6 @@
           family = config.fontProfiles.monospace.family;
         };
       };
-      import = [
-        "${pkgs.catppuccin-alacritty}/catppuccin-frappe.toml"
-      ];
       scrolling = {
         history = 0;
       };
