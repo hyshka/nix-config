@@ -58,6 +58,7 @@ in {
           type = "loki";
           url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
         }
+        # TODO:
         #{ job_name = "alloy"; static_configs = [{ targets = [ "127.0.0.1:12345" ]; }]; }
       ];
       # TODO:

@@ -6,7 +6,8 @@
     ports = [38000];
     settings = {
       PasswordAuthentication = false;
-      PermitRootLogin = "no";
+      # permit root to enable remote deployment
+      #PermitRootLogin = "no";
     };
   };
 }

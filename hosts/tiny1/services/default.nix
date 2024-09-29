@@ -20,8 +20,10 @@
     ./acme.nix
     ./nextcloud.nix
     ./grafana.nix
+    ./adguard-home.nix
     #./tiddlywiki.nix
-    # TODO logseq https://github.com/NixOS/nixpkgs/pull/273532
-    # TODO immich https://github.com/NixOS/nixpkgs/pull/324127
+    # ./paperless.nix
+    # ./logseq.nix
+    # ./immich.nix
   ];
 }
