@@ -51,6 +51,11 @@
                         reverse_proxy http://127.0.0.1:3010
                }
 
+               @adguard host adguard.home.hyshka.com
+               handle @adguard {
+                        reverse_proxy http://127.0.0.1:3020
+               }
+
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
                @cloud host cloud.home.hyshka.com
