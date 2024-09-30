@@ -182,6 +182,9 @@ in {
   # https://grafana.com/docs/alloy/latest/
   services.alloy = {
     enable = true;
+    extraFlags = [
+      "--disable-reporting"
+    ];
   };
 
   environment.etc = {
