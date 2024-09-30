@@ -19,9 +19,6 @@
     };
     delta = {
       enable = true;
-      options = {
-        light = true;
-      };
     };
     lfs.enable = true;
     ignores = [".direnv" "result"];
