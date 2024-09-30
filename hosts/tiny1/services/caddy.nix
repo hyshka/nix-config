@@ -61,6 +61,11 @@
                         reverse_proxy http://127.0.0.1:28981
                }
 
+               @immich host immich.home.hyshka.com
+               handle @immich {
+                        reverse_proxy http://127.0.0.1:3003
+               }
+
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
                @cloud host cloud.home.hyshka.com

@@ -24,6 +24,6 @@
     #./tiddlywiki.nix
     ./paperless.nix
     # ./logseq.nix
-    # ./immich.nix
+    ./immich.nix
   ];
 }

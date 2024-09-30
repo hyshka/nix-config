@@ -154,6 +154,12 @@
             href = "https://paperless.home.hyshka.com/";
           };
         }
+        {
+          "Immich" = {
+            icon = "immich.svg";
+            href = "https://immich.home.hyshka.com/";
+          };
+        }
       ];
     }
     {
