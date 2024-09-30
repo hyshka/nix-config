@@ -27,7 +27,8 @@
     enable = true;
     mediaLocation = "/mnt/storage/immich/";
     secretsFile = config.sops.secrets.immich-secretsFile.path;
-    port = 3003;
+    port = 3005;
+    host = "127.0.0.1";
     environment = {
       IMMICH_TRUSTED_PROXIES = "127.0.0.1";
       IMMICH_METRICS = "true";

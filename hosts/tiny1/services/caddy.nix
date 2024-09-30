@@ -63,7 +63,7 @@
 
                @immich host immich.home.hyshka.com
                handle @immich {
-                        reverse_proxy http://127.0.0.1:3003
+                        reverse_proxy http://127.0.0.1:3005
                }
 
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
