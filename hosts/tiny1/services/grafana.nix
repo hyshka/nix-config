@@ -125,6 +125,7 @@ in {
   services.loki = {
     enable = true;
     configuration = {
+      analytics.reporting_enabled = false;
       server = {
         http_listen_port = 3030;
         log_level = "warn";
