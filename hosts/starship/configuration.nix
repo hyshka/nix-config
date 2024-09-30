@@ -62,6 +62,10 @@
 
   networking.hostName = "starship"; # Define your hostname.
   networking.firewall.enable = false;
+  networking.nameservers = [
+    # tiny1 adguardhome
+    "10.0.0.240"
+  ];
 
   sops.defaultSopsFile = ./secrets.yaml;
 
