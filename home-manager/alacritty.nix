@@ -1,8 +1,11 @@
 {
   config,
   pkgs,
+  lib,
   ...
-}: {
+}: let
+  isLinux = pkgs.stdenv.isLinux;
+in {
   programs.alacritty = {
     enable = true;
     # https://alacritty.org/config-alacritty.html
@@ -13,7 +16,7 @@
       };
       font = {
         size = 14.0;
-        normal = {
+        normal = lib.mkIf isLinux {
           family = config.fontProfiles.monospace.family;
         };
       };

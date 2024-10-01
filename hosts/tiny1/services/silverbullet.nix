@@ -1,4 +1,8 @@
-{config, pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   sops.secrets.silverbullet-envFile = {};
 
   services.silverbullet = {

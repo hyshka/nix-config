@@ -17,8 +17,8 @@
     # Extra
     ./plugins/kickstart/indent-blankline.nix
     #./plugins/kickstart/lint.nix
+    ./plugins/custom/rnvimr.nix
     # TODO
-    #./plugins/custom/ranger.nix
     #./plugins/custom/copilot.nix
   ];
 
@@ -268,7 +268,7 @@
       -- vim: ts=2 sts=2 sw=2 et
     '';
 
-    ## TODO MY STUFF
+    # TODO: REVIEW MY STUFF
     #plugins.lightline = {
     #  enable = true;
     #  colorscheme = "catppuccin";
