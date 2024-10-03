@@ -9,8 +9,6 @@
         highlight.enable = true;
         highlight.disable = ["vue"];
         indent.enable = true;
-        auto_install = false;
-        ensure_installed = "all";
         ignore_install = [
           "org"
         ];
