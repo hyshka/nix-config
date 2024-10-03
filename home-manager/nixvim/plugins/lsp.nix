@@ -58,6 +58,7 @@
     # https://nix-community.github.io/nixvim/plugins/lsp/index.html
     plugins.lsp = {
       enable = true;
+      package = pkgs.unstable.vimPlugins.nvim-lspconfig;
 
       # Enable the following language servers
       #  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -69,27 +70,37 @@
       #  - settings: Override the default settings passed when initializing the server.
       #        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       servers = {
-        # clangd = {
-        #  enable = true;
-        #}
-        # gopls = {
-        #  enable = true;
-        #}
-        # pyright = {
-        #  enable = true;
-        #}
-        # rust_analyzer = {
-        #  enable = true;
-        #}
-        # ...etc. See `https://nix-community.github.io/nixvim/plugins/lsp` for a list of pre-configured LSPs
+        # See `https://nix-community.github.io/nixvim/plugins/lsp` for a list of pre-configured LSPs
         #
         # Some languages (like typscript) have entire language plugins that can be useful:
         #    `https://nix-community.github.io/nixvim/plugins/typescript-tools/index.html?highlight=typescript-tools#pluginstypescript-toolspackage`
         #
-        # But for many setups the LSP (`tsserver`) will work just fine
-        # tsserver = {
-        #  enable = true;
-        #}
+        # But for many setups the LSP (`ts-ls`) will work just fine
+        ts-ls = {
+          enable = true;
+          package = pkgs.unstable.typescript-language-server;
+        };
+        volar = {
+          enable = true;
+        };
+
+        pylsp = {
+          enable = true;
+          # Python 3.10 for work
+          pythonPackage = pkgs.unstable.python310;
+          settings.plugins.ruff.enabled = true;
+        };
+
+        emmet-ls = {
+          enable = true;
+        };
+
+        nixd = {
+          enable = true;
+          settings.formatting.command = ["alejandra"];
+        };
+
+        # TODO: bashls, jsonls, yamlls, schemastore
 
         lua-ls = {
           enable = true;
