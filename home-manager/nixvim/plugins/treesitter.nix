@@ -5,9 +5,16 @@
     plugins.treesitter = {
       enable = true;
 
-      # TODO: migrate to unstable
-      indent = true;
-      disabledLanguages = ["vue"];
+      settings = {
+        highlight.enable = true;
+        highlight.disable = ["vue"];
+        indent.enable = true;
+        auto_install = false;
+        ensure_installed = "all";
+        ignore_install = [
+          "org"
+        ];
+      };
 
       # There are additional nvim-treesitter modules that you can use to interact
       # with nvim-treesitter. You should go explore a few and see what interests you:

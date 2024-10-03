@@ -24,10 +24,9 @@
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
-    # nixvim
-    # TODO: follow unstable? https://github.com/icodeforyou-dot-net/nix-dotfiles/blob/ed7a19b144ec73f4481c762a3867523b881fd90d/flake.nix#L14
-    nixvim.url = "github:nix-community/nixvim/nixos-24.05";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    # nixvim, follows unstable
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";

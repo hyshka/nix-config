@@ -1,4 +1,4 @@
-{
+{pkgs, ...}: {
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
   # https://nix-community.github.io/nixvim/search/
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
@@ -18,12 +18,14 @@
     ./plugins/kickstart/indent-blankline.nix
     #./plugins/kickstart/lint.nix
     ./plugins/custom/rnvimr.nix
+    ./plugins/custom/orgmode.nix
     # TODO
     #./plugins/custom/copilot.nix
   ];
 
   programs.nixvim = {
     enable = true;
+    package = pkgs.unstable.neovim-unwrapped;
     defaultEditor = true;
     vimAlias = true;
 
@@ -258,7 +260,14 @@
       # https://nix-community.github.io/nixvim/plugins/todo-comments/index.html
       todo-comments = {
         enable = true;
-        signs = true;
+        settings = {
+          signs = true;
+        };
+      };
+
+      # required for todo-comments signs
+      web-devicons = {
+        enable = true;
       };
     };
 

@@ -29,7 +29,7 @@
         #  You could remove this setup call if you don't like it,
         #  and try some other statusline plugin
         statusline = {
-          use_icons.__raw = "vim.g.have_nerd_font";
+          #use_icons.__raw = "vim.g.have_nerd_font";
         };
 
         # ... and there is more!
