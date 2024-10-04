@@ -82,6 +82,7 @@
         };
         volar = {
           enable = true;
+          package = pkgs.unstable.vue-language-server;
         };
 
         pylsp = {
