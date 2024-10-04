@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.nixvim = {
     # Linting
     # https://nix-community.github.io/nixvim/plugins/lint/index.html
