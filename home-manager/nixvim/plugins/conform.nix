@@ -15,6 +15,7 @@
     # https://nix-community.github.io/nixvim/plugins/conform-nvim.html
     plugins.conform-nvim = {
       enable = true;
+      package = pkgs.unstable.vimPlugins.conform-nvim;
       settings = {
         notify_on_error = false;
         format_on_save = ''
@@ -23,9 +24,15 @@
             -- have a well standardized coding style. You can add additional
             -- lanuages here or re-enable it for the disabled ones.
             local disable_filetypes = { c = true, cpp = true }
+            local lsp_format_opt
+            if disable_filetypes[vim.bo[bufnr].filetype] then
+              lsp_format_opt = 'never'
+            else
+              lsp_format_opt = 'fallback'
+            end
             return {
               timeout_ms = 500,
-              lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype]
+              lsp_format = lsp_format_opt,
             }
           end
         '';
