@@ -86,8 +86,9 @@
 
         pylsp = {
           enable = true;
-          # Python 3.10 for work
-          pythonPackage = pkgs.unstable.python310;
+          package = pkgs.unstable.python3Packages.python-lsp-server;
+          # TODO: Python 3.10 for work, but 3.10 is very slow to compile
+          #pythonPackage = pkgs.unstable.python310;
           settings.plugins.ruff.enabled = true;
         };
 
