@@ -52,14 +52,13 @@ in {
           jsonData = {
             timeInterval = scrapeInterval;
           };
+          isDefault = true;
         }
         {
           name = "Loki";
           type = "loki";
           url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
         }
-        # TODO:
-        #{ job_name = "alloy"; static_configs = [{ targets = [ "127.0.0.1:12345" ]; }]; }
       ];
       # TODO:
       # - https://grafana.com/grafana/dashboards/1860-node-exporter-full/
@@ -107,6 +106,14 @@ in {
             targets = ["127.0.0.1:2019"];
           }
         ];
+      }
+      {
+        job_name = "loki";
+        static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
+      }
+      {
+        job_name = "alloy";
+        static_configs = [{targets = ["127.0.0.1:12345"];}];
       }
     ];
 
@@ -187,9 +194,25 @@ in {
     ];
   };
 
+  systemd.services.alloy.serviceConfig.SupplementaryGroups = [
+    # Give alloy permission to read caddy logs
+    config.services.caddy.group
+  ];
   environment.etc = {
     "alloy/config.alloy" = {
+      # Alloy config:
+      # - https://github.com/tigorlazuardi/nixos/blob/33245512007158a98011a43d4eb7bb9206569229/system/services/caddy.nix#L74
+      # - https://github.com/esselius/cfg/blob/7c9f50df327b9c2b43b863efdbef5f08860eb6de/nixos-modules/profiles/monitoring.nix#L231C5-L263C5
+      # - https://github.com/esselius/cfg/blob/7c9f50df327b9c2b43b863efdbef5f08860eb6de/nixos-modules/profiles/monitoring.nix#L231C5-L263C5
+      # - https://grafana.github.io/alloy-configurator/
+      # - https://github.com/redxtech/nixfiles/blob/362dd60177f2fd096c4ec14277e6dde3e8102b01/modules/nixos/monitoring/default.nix#L276
       text = ''
+        loki.write "local" {
+          endpoint {
+            url = "http://127.0.0.1:3030/loki/api/v1/push"
+          }
+        }
+
         loki.relabel "journal" {
           forward_to = []
 
@@ -197,18 +220,103 @@ in {
             source_labels = ["__journal__systemd_unit"]
             target_label  = "unit"
           }
+          rule {
+            source_labels = [ "__journal__systemd_user_unit" ]
+            target_label = "user_unit"
+          }
+          rule {
+            source_labels = ["__journal__boot_id"]
+            target_label  = "boot_id"
+          }
+          rule {
+            source_labels = ["__journal__transport"]
+            target_label  = "transport"
+          }
+          rule {
+            source_labels = ["__journal_priority_keyword"]
+            target_label  = "level"
+          }
+          rule {
+            source_labels = ["__journal__hostname"]
+            target_label  = "instance"
+          }
         }
 
         loki.source.journal "read"  {
-          forward_to    = [loki.write.endpoint.receiver]
+          forward_to = [loki.process.general_json_pipeline.receiver]
           relabel_rules = loki.relabel.journal.rules
-          labels        = {component = "loki.source.journal"}
+          labels = {
+              job = "systemd-journal",
+              component = "loki.source.journal",
+          }
         }
 
-        loki.write "endpoint" {
-          endpoint {
-            url = "http://127.0.0.1:3030/loki/api/v1/push"
-          }
+        loki.process "general_json_pipeline" {
+            forward_to = [loki.write.local.receiver]
+
+            stage.json {
+                expressions = {
+                    level = "level",
+                }
+            }
+
+            stage.labels {
+                values = {
+                    level = "",
+                }
+            }
+        }
+
+        local.file_match "caddy_access_log" {
+            path_targets = [
+                {
+                    "__path__" = "/var/log/caddy/*.log",
+                },
+            ]
+            sync_period = "30s"
+        }
+
+        loki.source.file "caddy_access_log" {
+            targets = local.file_match.caddy_access_log.targets
+            forward_to = [loki.process.caddy_access_log.receiver]
+        }
+
+        loki.process "caddy_access_log" {
+            forward_to = [loki.write.local.receiver]
+
+            stage.json {
+                expressions = {
+                    level = "",
+                    host = "request.host",
+                    method = "request.method",
+                    proto = "request.proto",
+                    ts = "",
+                }
+            }
+
+            stage.labels {
+                values = {
+                    level = "",
+                    host = "",
+                    method = "",
+                    proto = "",
+                }
+            }
+
+            stage.label_drop {
+              values = ["service_name"]
+            }
+
+            stage.static_labels {
+              values = {
+                  job = "caddy_access_log",
+              }
+            }
+
+            stage.timestamp {
+              source = "ts"
+              format = "unix"
+            }
         }
       '';
       user = "alloy";

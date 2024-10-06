@@ -119,6 +119,8 @@
   systemd.services.caddy = {
     serviceConfig = {
       EnvironmentFile = config.sops.secrets.caddy-envFile.path;
+      # Allow caddy group to read logs, used for Grafana Alloy
+      LogsDirectoryMode = "0750";
     };
   };
 
