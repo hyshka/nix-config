@@ -1,10 +1,4 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./font.nix
     ./gtk.nix
@@ -95,14 +89,14 @@
     gnome.pomodoro
 
     # work
-    fontforge-gtk
-    zeal
+    #fontforge-gtk
+    #zeal
     # work build deps
     # TODO move to module
-    gnumake
-    awscli2
-    pre-commit
-    python310Packages.nodeenv # for node.js pre-commit hooks
+    #gnumake
+    #awscli2
+    #pre-commit
+    #python310Packages.nodeenv # for node.js pre-commit hooks
   ];
 
   xdg.configFile = {

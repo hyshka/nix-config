@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   lib,
   ...
 }: {
@@ -133,13 +132,13 @@
   };
 
   # TODO this didn't work in my home manager config
-  programs.openvpn3.enable = true; # work VPN access
-  services.openvpn.servers = {
-    workVPN = {
-      autoStart = false;
-      config = ''config /home/hyshka/work/MR/bryan.ovpn '';
-    };
-  };
+  #programs.openvpn3.enable = true; # work VPN access
+  #services.openvpn.servers = {
+  #  workVPN = {
+  #    autoStart = false;
+  #    config = ''config /home/hyshka/work/MR/bryan.ovpn '';
+  #  };
+  #};
 
   # TODO
   #systemd.services.wol = {

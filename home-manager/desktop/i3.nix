@@ -32,4 +32,38 @@ in {
       ];
     };
   };
+
+  programs.i3status = {
+    enable = true;
+    enableDefault = false;
+    modules = {
+      ipv6.enable = false;
+
+      "wireless _first_" = {
+        position = 1;
+        settings.format_up = "W: %quality %ip";
+      };
+
+      "ethernet _first_" = {
+        position = 2;
+      };
+
+      "disk /" = {
+        position = 3;
+        settings.format = "%used/%total (%avail)";
+      };
+
+      memory = {
+        position = 4;
+        settings.format = "%used/%total (%free)";
+      };
+
+      load.enable = false;
+
+      "tztime local" = {
+        position = 5;
+        settings.format = "%a %d-%m-%Y %H:%M";
+      };
+    };
+  };
 }
