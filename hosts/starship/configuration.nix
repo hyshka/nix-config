@@ -3,9 +3,6 @@
 {
   inputs,
   outputs,
-  pkgs,
-  config,
-  lib,
   ...
 }: {
   imports = [
@@ -13,12 +10,9 @@
     # outputs.nixosModules.example
 
     # If you want to use modules from other flakes (such as nixos-hardware):
-    #inputs.hardware.nixosModules.common-pc
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.hardware.nixosModules.common-cpu-amd
-    #inputs.hardware.nixosModules.common-cpu-amd-pstate
+    inputs.hardware.nixosModules.common-cpu-amd-pstate
     inputs.hardware.nixosModules.common-gpu-amd
-    #inputs.hardware.nixosModules.common-hidpi
     inputs.sops-nix.nixosModules.sops
     inputs.lanzaboote.nixosModules.lanzaboote
 
@@ -60,7 +54,7 @@
     ];
   };
 
-  networking.hostName = "starship"; # Define your hostname.
+  networking.hostName = "starship";
   networking.firewall.enable = false;
   networking.nameservers = [
     # tiny1 adguardhome
@@ -71,10 +65,6 @@
 
   # Set your time zone.
   time.timeZone = "America/Edmonton";
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  #environment.systemPackages = with pkgs; [];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
