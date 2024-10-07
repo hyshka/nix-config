@@ -26,11 +26,11 @@
           }
           {
             trigger = ":pdb";
-            replace = "__import__('pdb').set_trace()  # FIXME";
+            replace = "__import__('pdb').set_trace() # fmt: skip";
           }
           {
             trigger = ":pudb";
-            replace = "import pudb; pu.db  # FIXME";
+            replace = "from pudb import set_trace; set_trace() # fmt: skip";
           }
           {
             # Dates
