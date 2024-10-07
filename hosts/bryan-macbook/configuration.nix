@@ -2,9 +2,7 @@
 {
   inputs,
   outputs,
-  pkgs,
   lib,
-  config,
   ...
 }: {
   imports = [
@@ -71,15 +69,10 @@
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
-  # Install packages from nix's official package repository.
-  #
-  # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
-  # But on macOS, it's less stable than homebrew.
-  #
-  # Related Discussion: https://discourse.nixos.org/t/darwin-again/29331
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  #environment.systemPackages = with pkgs; [];
+  # Optimise on schedule instead of during build due to MacOS bug
+  # Ref: https://github.com/NixOS/nix/issues/7273
+  nix.settings.auto-optimise-store = lib.mkForce false;
+  nix.optimise.automatic = true;
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
