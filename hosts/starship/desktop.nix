@@ -17,6 +17,7 @@
     enable = true;
     package = lib.mkForce pkgs.gnome3.gvfs;
   };
+  services.tumbler.enable = true; # Thumbnail support for images
 
   # video support
   hardware = {
@@ -47,7 +48,7 @@
         enableXfwm = false;
       };
     };
-    # i3 is configured through home manage but this must be enabled so that it's
+    # i3 is configured through home manager but this must be enabled so that it's
     # an option in the display manager
     windowManager.i3.enable = true;
   };

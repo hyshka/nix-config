@@ -99,27 +99,27 @@
     #python310Packages.nodeenv # for node.js pre-commit hooks
   ];
 
-  xdg.configFile = {
-    "uair" = {
-      text = ''
-        [defaults]
-        format = "{time}\n"
+  #xdg.configFile = {
+  #  "uair" = {
+  #    text = ''
+  #      [defaults]
+  #      format = "{time}\n"
 
-        [[sessions]]
-        id = "work"
-        name = "Work"
-        duration = "50m"
-        command = "notify-send 'Work Done!'"
+  #      [[sessions]]
+  #      id = "work"
+  #      name = "Work"
+  #      duration = "50m"
+  #      command = "notify-send 'Work Done!'"
 
-        [[sessions]]
-        id = "rest"
-        name = "Rest"
-        duration = "10m"
-        command = "notify-send 'Rest Done!'"
-      '';
-      target = "uair/uair.toml";
-    };
-  };
+  #      [[sessions]]
+  #      id = "rest"
+  #      name = "Rest"
+  #      duration = "10m"
+  #      command = "notify-send 'Rest Done!'"
+  #    '';
+  #    target = "uair/uair.toml";
+  #  };
+  #};
 
   # Enable font discovery
   fonts.fontconfig.enable = true;

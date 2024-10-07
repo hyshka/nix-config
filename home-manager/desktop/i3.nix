@@ -62,7 +62,7 @@ in {
 
       "tztime local" = {
         position = 5;
-        settings.format = "%a %d-%m-%Y %H:%M";
+        settings.format = "%Y-%m-%d %a %H:%M";
       };
     };
   };

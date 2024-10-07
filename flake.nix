@@ -38,8 +38,6 @@
     self,
     nixpkgs,
     home-manager,
-    hardware,
-    lanzaboote,
     nix-darwin,
     sops-nix,
     nixvim,
