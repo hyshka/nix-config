@@ -116,8 +116,9 @@
               callSnippet = "Replace";
             };
             #diagnostics = {
-            #  disable = {
+            #  disable = [
             #    "missing-fields";
+            #  ];
             #};
           };
         };

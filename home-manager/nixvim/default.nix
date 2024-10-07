@@ -250,6 +250,9 @@
     ];
 
     plugins = {
+      # Adds icons for plugins to utilize in ui
+      web-devicons.enable = true;
+
       # Detect tabstop and shiftwidth automatically
       # https://nix-community.github.io/nixvim/plugins/sleuth/index.html
       sleuth = {
@@ -263,11 +266,6 @@
         settings = {
           signs = true;
         };
-      };
-
-      # required for todo-comments signs
-      web-devicons = {
-        enable = true;
       };
     };
 
