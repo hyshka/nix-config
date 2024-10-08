@@ -80,6 +80,18 @@
       maplocalleader = " ";
     };
 
+    #  See `:help 'clipboard'`
+    clipboard = {
+      providers = {
+        wl-copy.enable = true; # For Wayland
+        xsel.enable = true; # For X11
+      };
+
+      # Sync clipboard between OS and Neovim
+      # Remove this option if you want your OS clipboard to remain independent.
+      register = "unnamedplus";
+    };
+
     # [[ Setting options ]]
     # See `:help vim.opt`
     # NOTE: You can change these options as you wish!
@@ -96,18 +108,6 @@
 
       # Don't show the mode, since it's already in the statusline
       showmode = false;
-
-      #  See `:help 'clipboard'`
-      clipboard = {
-        providers = {
-          wl-copy.enable = true; # For Wayland
-          xsel.enable = true; # For X11
-        };
-
-        # Sync clipboard between OS and Neovim
-        #  Remove this option if you want your OS clipboard to remain independent.
-        register = "unnamedplus";
-      };
 
       # Enable break indent
       breakindent = true;
@@ -152,13 +152,13 @@
       # See `:help hlsearch`
       hlsearch = true;
 
+      # Enables 24-bit RGB color in the |TUI|
+      termguicolors = true;
+
       # TODO
-      #autoindent = true;
       #expandtab = true;
       #smartindent = true;
-      #incsearch = true;
       #wildmode = "list:longest";
-      #termguicolors = true;
     };
 
     # [[ Basic Keymaps ]]
@@ -219,6 +219,14 @@
         action = "<C-w><C-k>";
         options = {
           desc = "Move focus to the upper window";
+        };
+      }
+      {
+        mode = "n";
+        key = "<C-e>";
+        action = "<cmd>e#<CR>";
+        options = {
+          desc = "Edit previous buffer";
         };
       }
     ];
