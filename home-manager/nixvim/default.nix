@@ -221,12 +221,30 @@
           desc = "Move focus to the upper window";
         };
       }
+      # Edit previous buffer
       {
         mode = "n";
         key = "<C-e>";
         action = "<cmd>e#<CR>";
         options = {
           desc = "Edit previous buffer";
+        };
+      }
+      # Navigiate the quickfix list
+      {
+        mode = "n";
+        key = "[q";
+        action = "<cmd>cprev<CR>";
+        options = {
+          desc = "Move to previous quicklist buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "]q";
+        action = "<cmd>cnext<CR>";
+        options = {
+          desc = "Move to next quicklist buffer";
         };
       }
     ];
