@@ -78,7 +78,7 @@ in {
   };
 
   config = mkIf cfg.zimfw.enable {
-    home.packages = [pkgs.zimfw];
+    home.packages = [pkgs.zimfw pkgs.git];
     programs.zsh.localVariables = {
       ZIM_HOME = cfg.zimfw.homeDir;
       ZIM_CONFIG_FILE = cfg.zimfw.configFile;

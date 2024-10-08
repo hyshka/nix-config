@@ -19,6 +19,7 @@
       home-manager
       git
       neovim
+      tmux
 
       # For CI
       alejandra

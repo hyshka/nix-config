@@ -28,7 +28,6 @@ in {
   };
 
   sops.secrets.hyshka_password = {
-    sopsFile = ./secrets.yaml;
     neededForUsers = true;
   };
 }
