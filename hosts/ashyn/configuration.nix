@@ -89,7 +89,7 @@
   environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";}; # Force intel-media-driver
 
   # Screen sharing under wayland
-  programs.firefox.package = pkgs.wrapFirefox (pkgs.firefox-devedition-bin-unwrapped.override {pipewireSupport = true;}) {};
+  programs.firefox.package = pkgs.wrapFirefox (pkgs.firefox-devedition-unwrapped.override {pipewireSupport = true;}) {};
   xdg = {
     portal = {
       enable = true;

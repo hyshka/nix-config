@@ -6,7 +6,7 @@
     # https://nixos.wiki/wiki/Discord#Screensharing_with_audio_on_wayland
     vesktop
     slack
-    vimv-qt
+    imv
     jellyfin-media-player
     libreoffice-qt
     zathura
