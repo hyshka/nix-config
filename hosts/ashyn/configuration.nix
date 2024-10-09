@@ -20,7 +20,6 @@
 
     # TODO
     #./desktop.nix
-    #./synergy.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -86,6 +85,33 @@
 
   # Bluetooth
   hardware.bluetooth.enable = true;
+
+  # Synergy
+  services.synergy.server = {
+    # TODO: over SSH or TLS
+    enable = true;
+    # default port is 24800
+    address = "10.0.0.230";
+    screenName = "ashyn";
+    configFile = pkgs.writeText "synergy.conf" ''
+      section: screens
+          macbook:
+          ashyn:
+      end
+
+      section: links
+          ashyn:
+              left = macbook
+          macbook:
+              right = ashyn
+      end
+
+      section: options
+          keystroke(control+super+right) = switchInDirection(right)
+          keystroke(control+super+left) = switchInDirection(left)
+      end
+    '';
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
