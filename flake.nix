@@ -135,12 +135,15 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
-        modules = [./home-manager/home.nix];
+        modules = [
+          ./home-manager/home.nix
+          ./home-manager/desktop
+        ];
       };
       "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home-manager/home.nix];
+        modules = [./home-manager/home-cli.nix];
       };
       "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -155,7 +158,12 @@
       "hyshka@ashyn" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home-manager/home-cli.nix];
+        modules = [
+          ./home-manager/home-cli.nix
+          ./home-manager/desktop/font.nix
+          ./home-manager/alacritty.nix
+          ./home-manager/desktop-ashyn.nix
+        ];
       };
     };
   };

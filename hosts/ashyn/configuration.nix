@@ -1,6 +1,7 @@
 {
   inputs,
   outputs,
+  pkgs,
   ...
 }: {
   imports = [
@@ -8,9 +9,8 @@
     # outputs.nixosModules.example
 
     # If you want to use modules from other flakes (such as nixos-hardware):
-    #inputs.hardware.nixosModules.common-pc-ssd
-    #inputs.hardware.nixosModules.common-cpu-amd-pstate
-    #inputs.hardware.nixosModules.common-gpu-amd
+    #inputs.hardware.nixosModules.common-cpu-intel
+    #inputs.hardware.nixosModules.common-pc-laptop
     inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
@@ -20,6 +20,7 @@
     ../common/catppuccin.nix
     ../starship/users.nix
     ../starship/bluetooth.nix
+
     # TODO
     #./desktop.nix
     #./synergy.nix
@@ -45,6 +46,34 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
+    ];
+  };
+
+  # TODO: move to modules
+  # KDE
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.defaultSession = "plasma";
+  services.desktopManager.plasma6.enable = true;
+  environment.plasma6.excludePackages = [pkgs.kdePackages.konsole];
+
+  # Audio
+  security.rtkit.enable = true;
+  hardware.pulseaudio.enable = false;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  # Accellerated video
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # this is for jasper lake
+      intel-media-sdk
     ];
   };
 
