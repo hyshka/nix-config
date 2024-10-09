@@ -1,12 +1,14 @@
 {pkgs, ...}: {
   # TODO: desktop home manager stuff
   home.packages = with pkgs; [
-    firefox-devedition-bin
+    #firefox-devedition-bin
     discord
+    # https://nixos.wiki/wiki/Discord#Screensharing_with_audio_on_wayland
+    vesktop
     slack
-    imv
+    vimv-qt
     jellyfin-media-player
-    libreoffice
+    libreoffice-qt
     zathura
     unstable.mullvad-vpn
     spotify
