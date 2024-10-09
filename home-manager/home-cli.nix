@@ -10,11 +10,13 @@
     [
       # If you want to use home-manager modules from other flakes:
       #inputs.zimfw.homeManagerModules.zimfw
+      inputs.nixvim.homeManagerModules.nixvim
       inputs.sops-nix.homeManagerModule
+      inputs.catppuccin.homeManagerModules.catppuccin
 
       # You can also split up your configuration and import pieces of it here:
       ./cli
-      ./nvim
+      ./nixvim
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 
@@ -44,6 +46,11 @@
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
     };
+  };
+
+  catppuccin = {
+    enable = true;
+    flavor = "frappe";
   };
 
   home = {
