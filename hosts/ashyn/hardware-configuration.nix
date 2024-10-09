@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -10,8 +9,12 @@
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "usb_storage" "sd_mod" "sdhci_pci"];
-  boot.initrd.kernelModules = [];
+  boot.initrd.kernelModules = ["i915"];
   boot.kernelModules = ["kvm-intel"];
+  boot.kernelParams = [
+    # offload some media encoding to the GPU
+    "i915.enable_guc=2"
+  ];
   boot.kernel.sysctl = {
     # optimize swap on zram
     # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram

@@ -9,8 +9,6 @@
     # outputs.nixosModules.example
 
     # If you want to use modules from other flakes (such as nixos-hardware):
-    #inputs.hardware.nixosModules.common-cpu-intel
-    #inputs.hardware.nixosModules.common-pc-laptop
     inputs.sops-nix.nixosModules.sops
 
     # You can also split up your configuration and import pieces of it here:
@@ -19,7 +17,6 @@
     ../common/tailscale.nix
     ../common/catppuccin.nix
     ../starship/users.nix
-    ../starship/bluetooth.nix
 
     # TODO
     #./desktop.nix
@@ -69,16 +66,26 @@
   };
 
   # Accellerated video
+  # https://nixos.wiki/wiki/Accelerated_Video_Playback
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override {enableHybridCodec = true;};
+  };
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
       # this is for jasper lake
-      intel-media-sdk
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      libvdpau-va-gl
     ];
   };
+  environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";}; # Force intel-media-driver
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  # Power management
+  powerManagement.powertop.enable = true;
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
