@@ -109,10 +109,10 @@
   hardware.bluetooth.enable = true;
 
   # Synergy
+  # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
   services.synergy.server = {
-    # TODO: over SSH or TLS
-    enable = true;
-    # default port is 24800
+    enable = false;
+    # The port overrides the default port, 24800.
     address = "10.0.0.230";
     screenName = "ashyn";
     configFile = pkgs.writeText "synergy.conf" ''
@@ -133,6 +133,8 @@
           keystroke(control+super+left) = switchInDirection(left)
       end
     '';
+    # TODO tls requires product key
+    # tls.enable = false;
   };
 
   # Keyboard

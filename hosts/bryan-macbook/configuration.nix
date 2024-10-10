@@ -55,14 +55,17 @@
   # https://github.com/FelixKratz/SketchyBar (status bar)
   # https://github.com/koekeishiya/skhd (hotkeys)
   # https://github.com/cmacrae/spacebar (status bar)
-  # https://symless.com/synergy (virtual kvm)
 
   # Synergy
-  # TODO tls/ssh
+  # https://symless.com/synergy (virtual kvm)
+  # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
   services.synergy.client = {
-    enable = true;
+    enable = false;
     screenName = "macbook";
-    serverAddress = "10.0.0.201";
+    # The port overrides the default port, 24800.
+    serverAddress = "10.0.0.230"; # ashyn
+    # TODO tls requires product key
+    # tls.enable = false;
   };
 
   # Auto upgrade nix package and the daemon service.
