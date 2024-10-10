@@ -76,6 +76,9 @@
       "widget.use-xdg-desktop-portal.file-picker" = 1;
     };
   };
+  # Tiling plugin for Kwin
+  # https://zeroxoneafour.github.io/polonium/usage.html
+  environment.systemPackages = [pkgs.unstable.polonium];
 
   # Audio
   security.rtkit.enable = true;
