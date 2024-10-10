@@ -152,7 +152,8 @@
     # TODO tls requires product key
     # tls.enable = false;
   };
-  environment.systemPackages = [pkgs.unstable.lan-mouse];
+  # TODO: try input-leap
+  # https://github.com/NixOS/nixpkgs/pull/341425
 
   # Keyboard
   # TODO
