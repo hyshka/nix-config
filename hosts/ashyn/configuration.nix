@@ -18,9 +18,6 @@
     ../common/catppuccin.nix
     ../starship/users.nix
 
-    # TODO
-    #./desktop.nix
-
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -44,6 +41,24 @@
       # })
     ];
   };
+
+  # Chromebook nixos references
+  # Custom audio scripts
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/chromebook-audio.nix#L5
+  # - https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L4
+  # Charge control
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/auto-stop-charging.nix
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/stop-charging-before-suspend.nix
+  # ectool pkg
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/cros-ectool.nix
+  # webcam
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/external-camera.nix
+  # keyboard
+  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/keyd.nix
+  # - https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L67
+  # - https://github.com/sflavelle/nixcfg/blob/96ac96621c06e6eda5bc69f4892250f48d157903/hosts/dweller.nix#L29
+  # - https://github.com/eli-sauvage/dotfiles/blob/b64147215c35cbd43caa41c2e3d292d803f86b1c/machines/chromebook/keyd.nix#L2
+  # - https://github.com/WeirdTreeThing/cros-keyboard-map
 
   # TODO: move to modules
   # KDE
@@ -110,6 +125,7 @@
 
   # Synergy
   # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
+  # networking.firewall.allowedTCPPorts = [24800];
   services.synergy.server = {
     enable = false;
     # The port overrides the default port, 24800.
