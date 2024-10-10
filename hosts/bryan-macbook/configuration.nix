@@ -67,6 +67,7 @@
     # TODO tls requires product key
     # tls.enable = false;
   };
+  environment.systemPackages = [pkgs.unstable.lan-mouse];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;

@@ -152,6 +152,7 @@
     # TODO tls requires product key
     # tls.enable = false;
   };
+  environment.systemPackages = [pkgs.unstable.lan-mouse];
 
   # Keyboard
   # TODO
