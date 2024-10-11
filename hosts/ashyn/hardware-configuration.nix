@@ -32,6 +32,7 @@
   # Allow cross-compiling for rpi4
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
+  # TODO: disk encryption
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/66cea03a-78bd-4dd1-b8f4-3c5b73e2f819";
     fsType = "ext4";

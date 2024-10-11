@@ -159,8 +159,49 @@
   # https://github.com/NixOS/nixpkgs/pull/341425
 
   # Keyboard
-  # TODO
-  # services.keyd
+  # https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L67
+  # Copy recommended config from ArchWiki: https://wiki.archlinux.org/title/Chrome_OS_devices#Hotkeys
+  services.keyd = {
+    enable = true;
+    keyboards.chromebook = {
+      ids = ["*"];
+      settings = {
+        main = {
+          meta = "overload(meta, esc)";
+          f1 = "back";
+          f2 = "forward";
+          f3 = "f5";
+          f4 = "f11";
+          f5 = "M-f8";
+          f6 = "brightnessdown";
+          f7 = "brightnessup";
+          f8 = "timeout(mute, 200, micmute)";
+          f9 = "volumedown";
+          f10 = "volumeup";
+        };
+        shift = {
+          meta = "capslock";
+        };
+        meta = {
+          f1 = "f1";
+          f2 = "f2";
+          f3 = "f3";
+          f4 = "f4";
+          f5 = "f5";
+          f6 = "f6";
+          f7 = "f7";
+          f8 = "f8";
+          f9 = "f9";
+          f10 = "f10";
+          left = "home";
+          right = "end";
+          up = "pageup";
+          down = "pagedown";
+          backspace = "delete";
+        };
+      };
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
