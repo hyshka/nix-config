@@ -53,12 +53,6 @@
   # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/cros-ectool.nix
   # webcam
   # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/external-camera.nix
-  # keyboard
-  # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/keyd.nix
-  # - https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L67
-  # - https://github.com/sflavelle/nixcfg/blob/96ac96621c06e6eda5bc69f4892250f48d157903/hosts/dweller.nix#L29
-  # - https://github.com/eli-sauvage/dotfiles/blob/b64147215c35cbd43caa41c2e3d292d803f86b1c/machines/chromebook/keyd.nix#L2
-  # - https://github.com/WeirdTreeThing/cros-keyboard-map
 
   # TODO: move to modules
   # KDE
@@ -159,45 +153,67 @@
   # https://github.com/NixOS/nixpkgs/pull/341425
 
   # Keyboard
-  # https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L67
-  # Copy recommended config from ArchWiki: https://wiki.archlinux.org/title/Chrome_OS_devices#Hotkeys
+  # Galtic is a 105 key ISO layout
+  # Visual layout with gkbd-keyboard-display application from libgnomekbd
+  # Test keyboard with: sudo keyd monitor
+  # Config references:
+  # - https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L67
+  # - https://wiki.archlinux.org/title/Chrome_OS_devices#Hotkeys
+  # - https://github.com/WeirdTreeThing/cros-keyboard-map
   services.keyd = {
     enable = true;
+    # Keyboard sends back, forward, etc. instead of f1, f2, etc.
     keyboards.chromebook = {
-      ids = ["*"];
+      ids = ["0001:0001"];
       settings = {
+        # Chromebook function keys
         main = {
+          # meta triggers esc, when held trigger meta
           meta = "overload(meta, esc)";
-          f1 = "back";
-          f2 = "forward";
-          f3 = "f5";
-          f4 = "f11";
-          f5 = "M-f8";
-          f6 = "brightnessdown";
-          f7 = "brightnessup";
-          f8 = "timeout(mute, 200, micmute)";
-          f9 = "volumedown";
-          f10 = "volumeup";
+          # TODO: Weird extra key beside left shift
+          "102nd" = "layer(shift)";
+
+          # TODO: tweak these to be more useful
+          #refresh = "f5";
+          #zoom = "M-f11";
+          #scale = "M-w";
         };
         shift = {
           meta = "capslock";
         };
+        # Allow F1-10 access through meta+fnX
+        # Allow TTY access, ex. ctrl+alt+meta+back == ctrl+alt+f1
         meta = {
-          f1 = "f1";
-          f2 = "f2";
-          f3 = "f3";
-          f4 = "f4";
-          f5 = "f5";
-          f6 = "f6";
-          f7 = "f7";
-          f8 = "f8";
-          f9 = "f9";
-          f10 = "f10";
+          back = "f1";
+          forward = "f2";
+          refresh = "f3";
+          zoom = "f4";
+          scale = "f5";
+          brightnessdown = "f6";
+          brightnessup = "f7";
+          mute = "f8";
+          volumedown = "f9";
+          volumeup = "f10";
+
           left = "home";
           right = "end";
           up = "pageup";
           down = "pagedown";
+        };
+        "alt" = {
           backspace = "delete";
+          # My keyboard doesn't have a backlight, but this is a good reference
+          # brightnessdown = "kbdillumdown";
+          # brightnessup = "kbdillumup";
+          # f6 = "kbdillumdown";
+          # f7 = "kbdillumup";
+        };
+        "control" = {
+          f5 = "sysrq";
+          scale = "sysrq";
+        };
+        "control+alt" = {
+          backspace = "C-A-delete";
         };
       };
     };
