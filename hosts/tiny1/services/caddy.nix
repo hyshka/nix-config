@@ -66,6 +66,15 @@
                         reverse_proxy http://127.0.0.1:3005
                }
 
+               # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
+               @cryptpad host cryptpad.home.hyshka.com cryptpad-ui.home.hyshka.com
+               handle @cryptpad {
+                        reverse_proxy http://127.0.0.1:3006
+                        handle /cryptpad_websocket/* {
+                          reverse_proxy http://127.0.0.1:3003
+                        }
+               }
+
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
                @cloud host cloud.home.hyshka.com

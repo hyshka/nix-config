@@ -160,6 +160,12 @@
             href = "https://immich.home.hyshka.com/";
           };
         }
+        {
+          "CryptPad" = {
+            icon = "cryptpad.svg";
+            href = "https://cryptpad.home.hyshka.com/";
+          };
+        }
       ];
     }
     {
