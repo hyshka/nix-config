@@ -26,6 +26,7 @@
       "homebrew/cask-fonts"
       "homebrew/services"
       "homebrew/cask-versions"
+      "nikitabobko/tap" # aerospace
     ];
 
     # `brew install`
@@ -41,6 +42,7 @@
     casks = [
       # productivity
       "amethyst" # tiling window manager
+      "aerospace" # tiling window manager, https://nikitabobko.github.io/AeroSpace/guide#installation
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       "tomatobar" # pomodoro timer
       "betterdisplay" # display manager

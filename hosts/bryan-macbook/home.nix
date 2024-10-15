@@ -11,6 +11,7 @@
     ../../home-manager/cli
     ../../home-manager/nixvim
     ../../home-manager/alacritty.nix
+    ./aerospace.nix
   ];
 
   nixpkgs = {
