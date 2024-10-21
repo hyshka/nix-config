@@ -94,7 +94,7 @@
     "tmuxp_muckrack" = {
       text = ''
         session_name: "muckrack"
-        start_directory: "''${HOME}/MuckRack/muckrack"
+        start_directory: "''${HOME}/Work/muckrack"
         windows:
           - window_name: code
             layout: main-horizontal
