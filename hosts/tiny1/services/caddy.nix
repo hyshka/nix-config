@@ -117,6 +117,11 @@
                         reverse_proxy http://127.0.0.1:8080
                }
 
+               @sabnzbd host sabnzbd.home.hyshka.com
+               handle @sabnzbd {
+                        reverse_proxy http://127.0.0.1:8085
+               }
+
                # Fallback for otherwise unhandled domains
                handle {
                  abort
