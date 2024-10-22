@@ -87,6 +87,7 @@
 
         # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
         # You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
+        # TODO: This isn't working for alacritty.
         alt-enter = ''''exec-and-forget osascript -e '
         tell application "Terminal"
             do script

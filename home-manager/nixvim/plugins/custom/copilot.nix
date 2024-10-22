@@ -6,7 +6,10 @@
     plugins.copilot-lua = {
       enable = true;
       package = pkgs.unstable.vimPlugins.copilot-lua;
-      suggestion.autoTrigger = true;
+      suggestion = {
+        autoTrigger = true;
+        keymap.accept = "<Right>";
+      };
     };
 
     plugins.copilot-chat = {
