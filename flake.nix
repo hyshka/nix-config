@@ -138,6 +138,7 @@
         modules = [
           ./home-manager/home-cli.nix
           ./home-manager/desktop
+          ./home-manager/zwift.nix
         ];
       };
       "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
