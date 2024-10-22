@@ -195,8 +195,10 @@ in {
   };
 
   systemd.services.alloy.serviceConfig.SupplementaryGroups = [
-    # Give alloy permission to read caddy logs
+    # Permission to read Caddy logs
     config.services.caddy.group
+    # Permission to read Docker logs
+    "docker"
   ];
   environment.etc = {
     "alloy/config.alloy" = {
@@ -210,6 +212,12 @@ in {
         loki.write "local" {
           endpoint {
             url = "http://127.0.0.1:3030/loki/api/v1/push"
+          }
+        }
+
+        prometheus.remote_write "metrics_service" {
+          endpoint {
+            url = "http://127.0.0.1:9090/api/v1/write"
           }
         }
 
@@ -317,6 +325,74 @@ in {
               source = "ts"
               format = "unix"
             }
+        }
+
+        prometheus.exporter.cadvisor "integrations_cadvisor" {
+            docker_only = true
+        }
+        discovery.relabel "integrations_cadvisor" {
+            targets = prometheus.exporter.cadvisor.integrations_cadvisor.targets
+
+            rule {
+                target_label = "job"
+                replacement  = "integrations/docker"
+            }
+
+            rule {
+                target_label = "instance"
+                replacement  = constants.hostname
+            }
+        }
+
+        prometheus.relabel "integrations_cadvisor" {
+                forward_to = [prometheus.remote_write.metrics_service.receiver]
+
+                rule {
+                        source_labels = ["__name__"]
+                        regex         = "up|container_cpu_usage_seconds_total|container_fs_inodes_free|container_fs_inodes_total|container_fs_limit_bytes|container_fs_usage_bytes|container_last_seen|container_memory_usage_bytes|container_network_receive_bytes_total|container_network_tcp_usage_total|container_network_transmit_bytes_total|container_spec_memory_reservation_limit_bytes|machine_memory_bytes|machine_scrape_error"
+                        action        = "keep"
+                }
+        }
+
+        prometheus.scrape "integrations_cadvisor" {
+            targets    = discovery.relabel.integrations_cadvisor.output
+            forward_to = [prometheus.relabel.integrations_cadvisor.receiver]
+        }
+
+        discovery.docker "logs_integrations_docker" {
+            host             = "unix:///var/run/docker.sock"
+            refresh_interval = "5s"
+        }
+        discovery.relabel "logs_integrations_docker" {
+            targets = []
+
+            rule {
+                target_label = "job"
+                replacement  = "integrations/docker"
+            }
+
+            rule {
+                target_label = "instance"
+                replacement  = constants.hostname
+            }
+
+            rule {
+                source_labels = ["__meta_docker_container_name"]
+                regex         = "/(.*)"
+                target_label  = "container"
+            }
+
+            rule {
+                source_labels = ["__meta_docker_container_log_stream"]
+                target_label  = "stream"
+            }
+        }
+        loki.source.docker "logs_integrations_docker" {
+            host             = "unix:///var/run/docker.sock"
+            targets          = discovery.docker.logs_integrations_docker.targets
+            forward_to       = [loki.write.local.receiver]
+            relabel_rules    = discovery.relabel.logs_integrations_docker.rules
+            refresh_interval = "5s"
         }
       '';
       user = "alloy";
