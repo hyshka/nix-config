@@ -19,8 +19,7 @@
     #./plugins/kickstart/lint.nix
     ./plugins/custom/rnvimr.nix
     ./plugins/custom/orgmode.nix
-    # TODO
-    #./plugins/custom/copilot.nix
+    ./plugins/custom/copilot.nix
   ];
 
   programs.nixvim = {

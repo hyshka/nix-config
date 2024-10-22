@@ -30,6 +30,7 @@
         #  and try some other statusline plugin
         statusline = {
           #use_icons.__raw = "vim.g.have_nerd_font";
+          use_icons = false;
         };
 
         # ... and there is more!
@@ -41,6 +42,7 @@
     # default behavior. For example, here we set the section for
     # cursor location to LINE:COLUMN
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraconfiglu#extraconfiglua
+    # TODO: git status line https://github.com/echasnovski/mini.nvim/blob/main/doc/mini-git.txt#L73
     extraConfigLua = ''
       require('mini.statusline').section_location = function()
         return '%2l:%-2v'
