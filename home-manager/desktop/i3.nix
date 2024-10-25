@@ -5,7 +5,7 @@
   ...
 }: let
   term = "${config.home.sessionVariables.TERMINAL}";
-  mod = "Mod4";
+  mod = "Mod1";
   exec = "exec --no-startup-id";
 in {
   xsession.windowManager.i3 = {
