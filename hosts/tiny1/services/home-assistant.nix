@@ -24,7 +24,6 @@
     package =
       pkgs.unstable.home-assistant.overrideAttrs
       (oldAttrs: {doInstallCheck = false;});
-    openFirewall = true;
     extraComponents = [
       # defaults
       "default_config"
