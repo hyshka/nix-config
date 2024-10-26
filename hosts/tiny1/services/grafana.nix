@@ -117,14 +117,28 @@ in {
       }
     ];
 
-    # TODO
-    # - https://github.com/msroest/sabnzbd_exporter
     exporters = {
       node = {
         enable = true;
         enabledCollectors = ["systemd"];
         listenAddress = "127.0.0.1";
       };
+      # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
+      #wireguard = {
+      #  enable = true;
+      #};
+      # TODO: https://github.com/msroest/sabnzbd_exporter
+      #sabnzbd = {
+      #  enable = true;
+      #};
+      # TODO: https://github.com/ngosang/restic-exporter
+      #restic = {
+      #  enable = true;
+      #};
+      # TODO: https://github.com/xperimental/nextcloud-exporter
+      #nextcloud = {
+      #  enable = true;
+      #};
     };
   };
 
