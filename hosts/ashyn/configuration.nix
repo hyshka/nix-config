@@ -70,9 +70,8 @@
       "widget.use-xdg-desktop-portal.file-picker" = 1;
     };
   };
-  # Tiling plugin for Kwin
-  # https://zeroxoneafour.github.io/polonium/usage.html
-  environment.systemPackages = [pkgs.unstable.polonium];
+  # TODO: krohnkite Kwin script
+  # TODO key binds
 
   # Audio
   security.rtkit.enable = true;
@@ -151,6 +150,7 @@
   };
   # TODO: try input-leap
   # https://github.com/NixOS/nixpkgs/pull/341425
+  environment.systemPackages = [pkgs.unstable.input-leap];
 
   # Keyboard
   # Galtic is a 105 key ISO layout
