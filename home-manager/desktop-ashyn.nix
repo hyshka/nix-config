@@ -10,7 +10,7 @@
     jellyfin-media-player
     libreoffice-qt
     zathura
-    unstable.mullvad-vpn
+    mullvad-vpn
     spotify
   ];
 

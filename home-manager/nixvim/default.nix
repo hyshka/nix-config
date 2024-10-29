@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
   # https://nix-community.github.io/nixvim/search/
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
@@ -24,7 +24,6 @@
 
   programs.nixvim = {
     enable = true;
-    package = pkgs.unstable.neovim-unwrapped;
     defaultEditor = true;
     vimAlias = true;
 

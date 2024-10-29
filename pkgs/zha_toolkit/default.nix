@@ -3,7 +3,7 @@
   pkgs,
   fetchFromGitHub,
 }:
-pkgs.unstable.buildHomeAssistantComponent rec {
+pkgs.buildHomeAssistantComponent rec {
   owner = "mdeweerd";
   domain = "zha_toolkit";
   version = "1.1.19";

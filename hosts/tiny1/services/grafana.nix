@@ -1,22 +1,6 @@
-{
-  inputs,
-  config,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   scrapeInterval = "15s";
 in {
-  # TODO alloy module only available in unstable
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/monitoring/alloy.nix"
-  ];
-  # Override package lookup from module with unstable
-  nixpkgs.config = {
-    packageOverrides = {
-      grafana-alloy = pkgs.unstable.grafana-alloy;
-    };
-  };
-
   sops.secrets = {
     grafana-adminPass = {
       owner = "grafana";

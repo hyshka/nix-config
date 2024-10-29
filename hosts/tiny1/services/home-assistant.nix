@@ -1,9 +1,4 @@
-{
-  inputs,
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   sops.secrets."home-assistant-secrets.yaml" = {
     owner = "hass";
     group = "hass";
@@ -11,18 +6,10 @@
     restartUnits = ["home-assistant.service"];
   };
 
-  # https://nixos.wiki/wiki/Home_Assistant#Running_a_recent_version_using_an_overlay
-  disabledModules = [
-    "services/home-automation/home-assistant.nix"
-  ];
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
-  ];
-
   services.home-assistant = {
     enable = true;
     package =
-      pkgs.unstable.home-assistant.overrideAttrs
+      pkgs.home-assistant.overrideAttrs
       (oldAttrs: {doInstallCheck = false;});
     extraComponents = [
       # defaults

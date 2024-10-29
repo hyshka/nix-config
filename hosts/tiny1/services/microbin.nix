@@ -1,24 +1,4 @@
-{
-  inputs,
-  config,
-  pkgs,
-  ...
-}: {
-  # Disable module in case an older version creeps into stable
-  disabledModules = [
-    "services/web-apps/microbin.nix"
-  ];
-  # Import nixos module from unstable
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/microbin.nix"
-  ];
-  # Override package lookup from module with unstable
-  nixpkgs.config = {
-    packageOverrides = {
-      microbin = pkgs.unstable.microbin;
-    };
-  };
-
+{config, ...}: {
   sops.secrets.microbin-passwordFile = {};
 
   services.microbin = {

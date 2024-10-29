@@ -1,6 +1,5 @@
 {
   inputs,
-  outputs,
   pkgs,
   ...
 }: {
@@ -28,7 +27,7 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       #outputs.overlays.additions
       #outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      #outputs.overlays.stable
 
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -88,7 +87,7 @@
   nixpkgs.config.packageOverrides = pkgs: {
     intel-vaapi-driver = pkgs.intel-vaapi-driver.override {enableHybridCodec = true;};
   };
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       # this is for jasper lake
@@ -150,7 +149,7 @@
   };
   # TODO: try input-leap
   # https://github.com/NixOS/nixpkgs/pull/341425
-  environment.systemPackages = [pkgs.unstable.input-leap];
+  environment.systemPackages = [pkgs.input-leap];
 
   # Keyboard
   # Galtic is a 105 key ISO layout

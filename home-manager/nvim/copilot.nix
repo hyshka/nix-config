@@ -3,7 +3,7 @@
     extraPackages = with pkgs; [
       nodejs_20
     ];
-    plugins = with pkgs.unstable.vimPlugins; [
+    plugins = with pkgs.vimPlugins; [
       {
         plugin = copilot-lua;
         type = "lua";

@@ -1,20 +1,4 @@
-{
-  config,
-  inputs,
-  pkgs,
-  ...
-}: {
-  # TODO immich module only available in unstable
-  imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/immich.nix"
-  ];
-  # Override package lookup from module with unstable
-  nixpkgs.config = {
-    packageOverrides = {
-      immich = pkgs.unstable.immich;
-    };
-  };
-
+{config, ...}: {
   sops.secrets = {
     immich-secretsFile = {
       owner = "immich";

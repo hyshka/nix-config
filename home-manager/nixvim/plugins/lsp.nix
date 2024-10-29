@@ -58,7 +58,6 @@
     # https://nix-community.github.io/nixvim/plugins/lsp/index.html
     plugins.lsp = {
       enable = true;
-      package = pkgs.unstable.vimPlugins.nvim-lspconfig;
 
       # Enable the following language servers
       #  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -78,16 +77,13 @@
         # But for many setups the LSP (`ts-ls`) will work just fine
         ts-ls = {
           enable = true;
-          package = pkgs.unstable.typescript-language-server;
         };
         volar = {
           enable = true;
-          package = pkgs.unstable.vue-language-server;
         };
 
         pylsp = {
           enable = true;
-          package = pkgs.unstable.python3Packages.python-lsp-server;
           # TODO: Python 3.10 for work, but 3.10 is very slow to compile
           #pythonPackage = pkgs.unstable.python310;
           settings.plugins.ruff.enabled = true;

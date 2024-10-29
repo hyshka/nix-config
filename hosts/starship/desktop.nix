@@ -82,7 +82,7 @@
 
     # sunshine
     # TODO: https://nixos.org/manual/nixos/stable/options#opt-services.sunshine.enable
-    unstable.sunshine
+    sunshine
     xorg.xrandr # required for sunshine
     util-linux # required for sunshine/setsid
 

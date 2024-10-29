@@ -37,7 +37,7 @@
     # imaging
     ansel
     #vkdt # TODO: fix
-    unstable.darktable
+    darktable
     hugin
     inkscape-with-extensions
     gimp-with-plugins
@@ -61,7 +61,7 @@
     xfce.thunar-archive-plugin
 
     # networking
-    unstable.mullvad-vpn
+    mullvad-vpn
 
     # music
     spotify
@@ -69,8 +69,7 @@
     # gaming
     #etlegacy # can't install 32 bit version on 64 bit OS for TC:E
     # TODO: yuzu
-    #unstable.yuzu-mainline
-    unstable.gzdoom
+    #yuzu-mainline
     lutris
 
     # misc
@@ -84,7 +83,7 @@
     grim # required for flameshot
     pavucontrol # volume controls
     xdg-utils # to fix programs launching other programs
-    #pkgs.unstable.uair # pomodoro timer TODO: build error
+    #pkgs.uair # pomodoro timer TODO: build error
     #libnotify # required to send notifications from uair to mako
     gnome.pomodoro
 

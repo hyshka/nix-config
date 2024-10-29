@@ -3,7 +3,7 @@
     rainbow-delimiters-nvim
     hmts-nvim
     {
-      plugin = pkgs.unstable.vimPlugins.nvim-treesitter.withAllGrammars;
+      plugin = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
       type = "lua";
       config =
         /*

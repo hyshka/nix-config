@@ -3,30 +3,32 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Nix-Darwin
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # sops-nix
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+    };
 
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
     # nixvim, follows unstable
     nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
@@ -47,51 +49,52 @@
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
     systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
+    # TODO rework this
     forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
     pkgsFor = nixpkgs.legacyPackages;
   in {
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
-    # Dev shells
-    # TODO
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+    inherit lib;
+
+    # Reusable modules you might want to export
+    # These are usually stuff you would upstream
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
-    # Reusable nixos modules you might want to export
-    # These are usually stuff you would upstream into nixpkgs
-    nixosModules = import ./modules/nixos;
-    # Reusable home-manager modules you might want to export
-    # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/home-manager;
+
+    # Your custom packages
+    # Accessible through 'nix build', 'nix shell', etc
+    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    # Dev shells
+    # TODO
+    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+    # Formatter for your nix files, available through 'nix fmt'
+    # Other options beside 'alejandra' include 'nixpkgs-fmt'
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      starship = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
+      starship = lib.nixosSystem {
         modules = [./hosts/starship/configuration.nix];
-      };
-      nixos-vm = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+      };
+      nixos-vm = lib.nixosSystem {
         modules = [./hosts/nixos-vm/configuration.nix];
-      };
-      rpi4 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+      };
+      rpi4 = lib.nixosSystem {
         modules = [./hosts/rpi4/configuration.nix];
-      };
-      tiny1 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+      };
+      tiny1 = lib.nixosSystem {
         modules = [./hosts/tiny1/configuration.nix];
-      };
-      ashyn = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
+      };
+      ashyn = lib.nixosSystem {
         modules = [./hosts/ashyn/configuration.nix];
+        specialArgs = {inherit inputs outputs;};
       };
     };
 
