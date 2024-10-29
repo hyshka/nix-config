@@ -120,7 +120,6 @@
 
   # Synergy
   # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
-  # networking.firewall.allowedTCPPorts = [24800];
   services.synergy.server = {
     enable = false;
     # The port overrides the default port, 24800.
@@ -150,6 +149,7 @@
   # TODO: try input-leap
   # https://github.com/NixOS/nixpkgs/pull/341425
   environment.systemPackages = [pkgs.input-leap];
+  networking.firewall.allowedTCPPorts = [24800];
 
   # Keyboard
   # Galtic is a 105 key ISO layout
