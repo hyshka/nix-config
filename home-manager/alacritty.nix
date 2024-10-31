@@ -8,6 +8,8 @@
 in {
   programs.alacritty = {
     enable = true;
+    # See: https://nix-community.github.io/home-manager/index.xhtml#sec-usage-gpu-non-nixos
+    package = config.lib.nixGL.wrap pkgs.alacritty;
     # https://alacritty.org/config-alacritty.html
     settings = {
       window = {

@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
+  nixGL.packages = inputs.nixGL.packages;
+
   # TODO: desktop home manager stuff
   home.packages = with pkgs; [
     #firefox-devedition-bin

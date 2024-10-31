@@ -23,6 +23,12 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
+    # nixGL
+    nixGL = {
+      url = "github:nix-community/nixgl";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
