@@ -74,8 +74,8 @@
         # Some languages (like typscript) have entire language plugins that can be useful:
         #    `https://nix-community.github.io/nixvim/plugins/typescript-tools/index.html?highlight=typescript-tools#pluginstypescript-toolspackage`
         #
-        # But for many setups the LSP (`ts-ls`) will work just fine
-        ts-ls = {
+        # But for many setups the LSP (`ts_ls`) will work just fine
+        ts_ls = {
           enable = true;
         };
         volar = {
@@ -89,7 +89,7 @@
           settings.plugins.ruff.enabled = true;
         };
 
-        emmet-ls = {
+        emmet_ls = {
           enable = true;
         };
 
@@ -100,7 +100,7 @@
 
         # TODO: bashls, jsonls, yamlls, schemastore
 
-        lua-ls = {
+        lua_ls = {
           enable = true;
 
           # cmd = {
