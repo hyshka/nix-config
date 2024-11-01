@@ -16,6 +16,7 @@
     ../common/tailscale.nix
     ../common/catppuccin.nix
     ../starship/users.nix
+    ../starship/android.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
