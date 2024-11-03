@@ -85,6 +85,9 @@
     sunshine
     xorg.xrandr # required for sunshine
     util-linux # required for sunshine/setsid
+    unstable.zandronum
+    unstable.zandronum-server
+    unstable.doomseeker
 
     # xfce4
     xfce.xfce4-pulseaudio-plugin
