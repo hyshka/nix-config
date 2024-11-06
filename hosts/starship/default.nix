@@ -12,11 +12,16 @@
     ../common/optional/android.nix
     ../common/optional/pipewire.nix
 
+    ./bluetooth.nix
     ./desktop.nix
     ./docker.nix
-    ./bluetooth.nix
+    ./doom.nix
+    ./gparted.nix
+    ./steam.nix
+    ./sunshine.nix
     ./syncthing.nix
     #./synergy.nix
+    #./wol.nix
   ];
 
   networking.hostName = "starship";
