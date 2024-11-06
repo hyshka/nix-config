@@ -4,16 +4,9 @@
   ...
 }: {
   imports = [
-    inputs.sops-nix.nixosModules.sops
-
     ./hardware-configuration.nix
 
-    #../common/global
-
-    ../common/nix.nix
-    ../common/zsh.nix
-    ../common/tailscale.nix
-    ../common/catppuccin.nix
+    ../common/global
 
     ../starship/users.nix
     ../starship/android.nix
@@ -204,22 +197,10 @@
     enableSSHSupport = true;
   };
 
-  services.openssh = {
-    enable = true;
-    # Obfuscate port
-    ports = [38002];
-  };
-
   networking.hostName = "ashyn";
-  networking.nameservers = [
-    # tiny1 adguardhome
-    "10.0.0.240"
-  ];
 
+  # TODO
   sops.defaultSopsFile = ./secrets.yaml;
-
-  # Set your time zone.
-  time.timeZone = "America/Edmonton";
 
   # https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
   system.stateVersion = "24.05";
