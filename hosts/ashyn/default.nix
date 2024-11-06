@@ -4,43 +4,20 @@
   ...
 }: {
   imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
-
-    # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.sops-nix.nixosModules.sops
 
-    # You can also split up your configuration and import pieces of it here:
+    ./hardware-configuration.nix
+
+    #../common/global
+
     ../common/nix.nix
     ../common/zsh.nix
     ../common/tailscale.nix
     ../common/catppuccin.nix
+
     ../starship/users.nix
     ../starship/android.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
   ];
-
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      #outputs.overlays.additions
-      #outputs.overlays.modifications
-      #outputs.overlays.stable
-
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-  };
 
   # Chromebook nixos references
   # Custom audio scripts
@@ -71,7 +48,7 @@
     };
   };
   # TODO: krohnkite Kwin script
-  # TODO key binds
+  # TODO krohnkite key binds
 
   # Audio
   security.rtkit.enable = true;

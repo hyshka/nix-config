@@ -73,7 +73,6 @@
     # Accessible through 'nix build', 'nix shell', etc
     packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
     # Dev shells
-    # TODO
     devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
@@ -86,10 +85,6 @@
         modules = [./hosts/starship/configuration.nix];
         specialArgs = {inherit inputs outputs;};
       };
-      nixos-vm = lib.nixosSystem {
-        modules = [./hosts/nixos-vm/configuration.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
       rpi4 = lib.nixosSystem {
         modules = [./hosts/rpi4/configuration.nix];
         specialArgs = {inherit inputs outputs;};
@@ -99,7 +94,7 @@
         specialArgs = {inherit inputs outputs;};
       };
       ashyn = lib.nixosSystem {
-        modules = [./hosts/ashyn/configuration.nix];
+        modules = [./hosts/ashyn];
         specialArgs = {inherit inputs outputs;};
       };
     };
@@ -134,7 +129,6 @@
       };
     };
     # Expose the package set, including overlays, for convenience.
-    # TODO: I'm not sure how this is helpful yet.
     darwinPackages = self.darwinConfigurations."hyshka-D5920DQ4RN".pkgs;
 
     # Standalone home-manager configuration entrypoint
@@ -145,34 +139,29 @@
         extraSpecialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [
-          ./home-manager/home-cli.nix
-          ./home-manager/desktop
-          ./home-manager/zwift.nix
+          ./home/home-cli.nix
+          ./home/desktop
+          ./home/zwift.nix
         ];
-      };
-      "hyshka@nixos-vm" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home-manager/home-cli.nix];
       };
       "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home-manager/home-cli.nix];
+        modules = [./home/home-cli.nix];
       };
       "hyshka@rpi4" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home-manager/home-cli.nix];
+        modules = [./home/home-cli.nix];
       };
       "hyshka@ashyn" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          ./home-manager/home-cli.nix
-          ./home-manager/desktop/font.nix
-          ./home-manager/alacritty.nix
-          ./home-manager/desktop-ashyn.nix
+          ./home/home-cli.nix
+          ./home/desktop/font.nix
+          ./home/alacritty.nix
+          ./home/desktop-ashyn.nix
         ];
       };
     };

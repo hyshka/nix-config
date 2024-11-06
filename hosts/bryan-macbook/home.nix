@@ -8,9 +8,9 @@
   # Import other home-manager modules in flake.nix
   imports = [
     # You can also split up your configuration and import pieces of it here:
-    ../../home-manager/cli
-    ../../home-manager/nixvim
-    ../../home-manager/alacritty.nix
+    ../../home/cli
+    ../../home/nixvim
+    ../../home/alacritty.nix
     ./aerospace.nix
   ];
 
