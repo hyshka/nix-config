@@ -15,7 +15,7 @@
   # Use full-featured version instead of XFCE version
   services.gvfs = {
     enable = true;
-    package = lib.mkForce pkgs.gnome3.gvfs;
+    package = lib.mkForce pkgs.gnome.gvfs;
   };
   services.tumbler.enable = true; # Thumbnail support for images
 
@@ -41,108 +41,7 @@
   };
   services.displayManager.defaultSession = "xfce+i3";
 
-  # Gparted support
-  security.polkit.enable = true;
-  systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-  };
-
-  # Enable steam
-  programs.steam = {
-    enable = true;
-  };
-
   environment.systemPackages = with pkgs; [
-    polkit_gnome # gparted support
-
-    # sunshine
-    # TODO: https://nixos.org/manual/nixos/stable/options#opt-services.sunshine.enable
-    sunshine
-    xorg.xrandr # required for sunshine
-    util-linux # required for sunshine/setsid
-    unstable.zandronum
-    unstable.zandronum-server
-    unstable.doomseeker
-
-    # xfce4
     xfce.xfce4-pulseaudio-plugin
   ];
-
-  # Enable avahi for Sunshine
-  services.avahi = {
-    enable = true;
-    reflector = true;
-    nssmdns4 = true;
-    publish = {
-      enable = true;
-      addresses = true;
-      userServices = true;
-      workstation = true;
-    };
-  };
-  hardware.steam-hardware.enable = true; # might replace uinput udev rule?
-  services.udev.extraRules = ''
-    KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess"
-  '';
-
-  # Enable KMS access for Sunshine
-  security.wrappers.sunshine = {
-    owner = "root";
-    group = "root";
-    capabilities = "cap_sys_admin+ep";
-    source = "${pkgs.sunshine}/bin/sunshine";
-  };
-  systemd.user.services.sunshine = {
-    enable = false;
-    script = "/run/current-system/sw/bin/env /run/wrappers/bin/sunshine";
-
-    unitConfig = {
-      Description = "Sunshine is a Game stream host for Moonlight.";
-      StartLimitIntervalSec = 500;
-      StartLimitBurst = 5;
-    };
-
-    serviceConfig = {
-      Restart = "on-failure";
-      RestartSec = "5s";
-      #ExecStart = "${config.security.wrapperDir}/sunshine";
-    };
-    wantedBy = ["graphical-session.target"];
-  };
-
-  # TODO this didn't work in my home manager config
-  #programs.openvpn3.enable = true; # work VPN access
-  #services.openvpn.servers = {
-  #  workVPN = {
-  #    autoStart = false;
-  #    config = ''config /home/hyshka/work/MR/bryan.ovpn '';
-  #  };
-  #};
-
-  # TODO
-  #systemd.services.wol = {
-  #  enable = true;
-  #  description = "Wake on LAN";
-  #  unitConfig = {
-  #    Requires = "network.target";
-  #    After = "network.target";
-  #  };
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    ExecStart = "${pkgs.ethtool}/bin/ethtool -s eno1 wol g";
-  #  };
-  #  wantedBy = [ "multi-user.target" ];
-  #};
 }

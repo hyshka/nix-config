@@ -78,10 +78,8 @@
     # Temporarily enabling iwd and user control can help debug new networks.
     #iwd.enable = true;
     #userControlled.enable = true;
-    environmentFile = config.sops.secrets.wireless.path;
-    networks."THENEST" = {
-      psk = "@PSK_THENEST@";
-    };
+    secretsFile = config.sops.secrets.wireless.path;
+    networks."THENEST".pskRaw = "ext:PSK_THENEST";
   };
   sops.secrets.wireless = {};
 
