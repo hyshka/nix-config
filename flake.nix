@@ -86,11 +86,11 @@
         specialArgs = {inherit inputs outputs;};
       };
       rpi4 = lib.nixosSystem {
-        modules = [./hosts/rpi4/configuration.nix];
+        modules = [./hosts/rpi4];
         specialArgs = {inherit inputs outputs;};
       };
       tiny1 = lib.nixosSystem {
-        modules = [./hosts/tiny1/configuration.nix];
+        modules = [./hosts/tiny1];
         specialArgs = {inherit inputs outputs;};
       };
       ashyn = lib.nixosSystem {
@@ -107,7 +107,7 @@
       # TODO: update weird company hostname?
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [
-          ./hosts/bryan-macbook/configuration.nix
+          ./hosts/bryan-macbook
           home-manager.darwinModules.home-manager
           {
             # If you want to use home-manager modules from other flakes:

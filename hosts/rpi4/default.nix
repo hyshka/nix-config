@@ -1,5 +1,3 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
   pkgs,
@@ -7,47 +5,17 @@
   ...
 }: {
   imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
-
-    # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.raspberry-pi-4
-    inputs.sops-nix.nixosModules.sops
 
-    # You can also split up your configuration and import pieces of it here:
-    ../common/nix.nix
-    ../common/zsh.nix
+    ./hardware-configuration.nix
+
+    ../common/global
+
     ./services
     ./bluetooth-audio.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      #outputs.overlays.additions
-      #outputs.overlays.modifications
-      #outputs.overlays.stable
-
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-  };
-
-  networking = {
-    hostName = "rpi4";
-    useDHCP = true;
-  };
+  networking.hostName = "rpi4";
 
   networking.wireless = {
     enable = true;
@@ -57,9 +25,6 @@
     };
   };
   sops.secrets.wireless = {};
-
-  # Set your time zone.
-  time.timeZone = "America/Edmonton";
 
   environment.systemPackages = with pkgs; [
     # rpi utils

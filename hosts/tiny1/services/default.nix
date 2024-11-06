@@ -1,6 +1,5 @@
 {
   imports = [
-    ../../common/tailscale.nix
     #./ddclient.nix
     ./docker.nix
     ./glances.nix
@@ -10,7 +9,6 @@
     #./microbin.nix
     #./n8n.nix
     #./ntfy.nix
-    ./openssh.nix
     ./restic.nix
     ./samba.nix
     ./snapraid.nix
