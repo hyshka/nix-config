@@ -35,13 +35,7 @@ creation_rules:
           - *tiny1
         pgp:
           - *hyshka
-  - path_regex: hosts/ashyn/secrets.ya?ml$
-    key_groups:
-      - age:
-          - *ashyn
-        pgp:
-          - *hyshka
-  - path_regex: home/secrets.ya?ml$
+  - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
       - age:
           - *starship

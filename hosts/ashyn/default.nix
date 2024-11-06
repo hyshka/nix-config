@@ -1,15 +1,11 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
 
     ../common/global
+    ../common/users/hyshka
 
-    ../starship/users.nix
-    ../starship/android.nix
+    ../common/optional/android.nix
   ];
 
   # Chromebook nixos references
@@ -198,9 +194,6 @@
   };
 
   networking.hostName = "ashyn";
-
-  # TODO
-  sops.defaultSopsFile = ./secrets.yaml;
 
   # https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
   system.stateVersion = "24.05";
