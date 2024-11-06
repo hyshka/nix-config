@@ -85,7 +85,7 @@
     xdg-utils # to fix programs launching other programs
     #pkgs.uair # pomodoro timer TODO: build error
     #libnotify # required to send notifications from uair to mako
-    gnome.pomodoro
+    gnome-pomodoro
 
     # work
     #fontforge-gtk
