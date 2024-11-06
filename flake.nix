@@ -82,7 +82,7 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       starship = lib.nixosSystem {
-        modules = [./hosts/starship/configuration.nix];
+        modules = [./hosts/starship];
         specialArgs = {inherit inputs outputs;};
       };
       rpi4 = lib.nixosSystem {

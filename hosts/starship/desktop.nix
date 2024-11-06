@@ -20,21 +20,8 @@
   services.tumbler.enable = true; # Thumbnail support for images
 
   # video support
-  hardware = {
-    opengl = {
-      enable = true;
-    };
-  };
+  hardware.graphics.enable = true;
 
-  # audio
-  security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
   # xfce hack: https://nixos.wiki/wiki/Xfce#Pulseaudio
   nixpkgs.config.pulseaudio = true;
 
