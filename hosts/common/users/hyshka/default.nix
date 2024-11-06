@@ -18,6 +18,7 @@ in {
     ];
 
     openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../../home/hyshka/ssh.pub);
+    # hash password with `mkpasswd <mypassword>`
     hashedPasswordFile = config.sops.secrets.hyshka_password.path;
     packages = [pkgs.home-manager];
   };

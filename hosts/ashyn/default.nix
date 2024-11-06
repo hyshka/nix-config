@@ -6,7 +6,14 @@
     ../common/users/hyshka
 
     ../common/optional/android.nix
+    ../common/optional/input-leap.nix
+    ../common/optional/pipewire.nix
+    ../common/optional/plasma.nix
+    ../common/optional/powertop.nix
+    ../common/optional/wireless.nix
   ];
+
+  networking.hostName = "ashyn";
 
   # Chromebook nixos references
   # Custom audio scripts
@@ -19,35 +26,6 @@
   # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/cros-ectool.nix
   # webcam
   # - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/external-camera.nix
-
-  # TODO: move to modules
-  # KDE
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.defaultSession = "plasma";
-  services.desktopManager.plasma6.enable = true;
-  environment.plasma6.excludePackages = [pkgs.kdePackages.konsole];
-  # Make Firefox use the KDE file picker.
-  # Preferences source: https://wiki.archlinux.org/title/firefox#KDE_integration
-  programs.firefox = {
-    enable = true;
-    preferences = {
-      "widget.use-xdg-desktop-portal.file-picker" = 1;
-    };
-  };
-  # TODO: krohnkite Kwin script
-  # TODO krohnkite key binds
-
-  # Audio
-  security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   # Accellerated video
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
@@ -64,59 +42,6 @@
     ];
   };
   environment.sessionVariables = {LIBVA_DRIVER_NAME = "iHD";}; # Force intel-media-driver
-
-  # Screen sharing under wayland
-  programs.firefox.package = pkgs.wrapFirefox (pkgs.firefox-devedition-unwrapped.override {pipewireSupport = true;}) {};
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-    };
-  };
-  # TODO: sway
-  # https://nixos.wiki/wiki/Firefox#Screen_Sharing_under_Wayland
-
-  # Power management
-  powerManagement.powertop.enable = true;
-
-  # Bluetooth
-  hardware.bluetooth.enable = true;
-
-  # Synergy
-  # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
-  services.synergy.server = {
-    enable = false;
-    # The port overrides the default port, 24800.
-    address = "10.0.0.230";
-    screenName = "ashyn";
-    configFile = pkgs.writeText "synergy.conf" ''
-      section: screens
-          macbook:
-          ashyn:
-      end
-
-      section: links
-          ashyn:
-              left = macbook
-          macbook:
-              right = ashyn
-      end
-
-      section: options
-          keystroke(control+super+right) = switchInDirection(right)
-          keystroke(control+super+left) = switchInDirection(left)
-      end
-    '';
-    # TODO tls requires product key
-    # tls.enable = false;
-  };
-  # TODO: try input-leap
-  # https://github.com/NixOS/nixpkgs/pull/341425
-  environment.systemPackages = [pkgs.input-leap];
-  networking.firewall.allowedTCPPorts = [24800];
 
   # Keyboard
   # Galtic is a 105 key ISO layout
@@ -184,16 +109,6 @@
       };
     };
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  networking.hostName = "ashyn";
 
   # https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion
   system.stateVersion = "24.05";
