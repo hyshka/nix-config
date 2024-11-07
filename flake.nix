@@ -135,33 +135,31 @@
     # Available through 'home-manager switch --flake .#your-username@your-hostname'
     homeConfigurations = {
       "hyshka@starship" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;}; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          ./home/home-cli.nix
-          ./home/desktop
-          ./home/zwift.nix
+          ./home/hyshka/starship.nix
+          ./home/hyshka/nixpkgs.nix
         ];
       };
       "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home/home-cli.nix];
+        # TODO
+        #modules = [./home/home-cli.nix];
       };
       "hyshka@rpi4" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home/home-cli.nix];
+        # TODO
+        #modules = [./home/home-cli.nix];
       };
       "hyshka@ashyn" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
-          ./home/home-cli.nix
-          ./home/desktop/font.nix
-          ./home/alacritty.nix
-          ./home/desktop-ashyn.nix
+          ./home/hyshka/ashyn.nix
+          ./home/hyshka/nixpkgs.nix
         ];
       };
     };

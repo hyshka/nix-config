@@ -10,7 +10,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../../home/cli
     ../../home/nixvim
-    ../../home/alacritty.nix
+    ../../home/hyshka/features/alacritty.nix
     ./aerospace.nix
   ];
 

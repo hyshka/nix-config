@@ -1,4 +1,11 @@
-{config, ...}: {
+{
+  inputs,
+  config,
+  ...
+}: {
+  imports = [
+    inputs.sops-nix.homeManagerModule
+  ];
   sops = {
     #age.keyFile = "/home/hyshka/.age-key.txt"; # must have no password!
     # It's also possible to use a ssh key, but only when it has no password:

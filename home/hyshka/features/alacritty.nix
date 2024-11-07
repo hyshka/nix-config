@@ -27,4 +27,8 @@ in {
       };
     };
   };
+
+  home.sessionVariables = {
+    TERMINAL = "alacritty";
+  };
 }

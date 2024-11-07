@@ -7,7 +7,6 @@
     ./espanso.nix
     #./sway.nix
     ./i3.nix
-    ../alacritty.nix
   ];
 
   # TODO move to module

@@ -1,9 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [nix-zsh-completions];
   programs.zsh = {
     enable = true;
