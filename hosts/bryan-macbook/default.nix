@@ -56,7 +56,6 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # nix.package = pkgs.nix;
 
   # Optimise on schedule instead of during build due to MacOS bug
   # Ref: https://github.com/NixOS/nix/issues/7273
