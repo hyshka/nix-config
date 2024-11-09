@@ -1,17 +1,43 @@
 {
   inputs,
+  outputs,
   lib,
   ...
 }: {
   imports = [
     inputs.home-manager.darwinModules.home-manager
 
-    ../common/global
+    # TODO: this probably won't wook for darwin as it includes nixosModules
+    #../common/global
+    ../common/global/nix.nix
+    ../common/global/zsh.nix
 
-    ./system.nix
     ./homebrew.nix
-    ./user.nix
+    ./system.nix
+    ./users.nix
   ];
+
+  home-manager.sharedModules =
+    [
+      inputs.catppuccin.homeManagerModules.catppuccin
+    ]
+    ++ (builtins.attrValues outputs.homeManagerModules);
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+  home-manager.extraSpecialArgs = {
+    inherit inputs outputs;
+  };
+  home-manager.users.hyshka = import ./home.nix;
+
+  # TODO: move to nixpkgs module in global?
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config = {
+      allowUnfree = true;
+    };
+  };
+
+  time.timeZone = "America/Edmonton";
 
   # Ref:
   # https://daiderd.com/nix-darwin/manual/index.html
@@ -23,17 +49,8 @@
   # https://github.com/koekeishiya/skhd (hotkeys)
   # https://github.com/cmacrae/spacebar (status bar)
 
-  # Synergy
-  # https://symless.com/synergy (virtual kvm)
+  # Virtual KVM
   # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
-  services.synergy.client = {
-    enable = false;
-    screenName = "macbook";
-    # The port overrides the default port, 24800.
-    serverAddress = "10.0.0.230"; # ashyn
-    # TODO tls requires product key
-    # tls.enable = false;
-  };
   # TODO: try input-leap
   # https://github.com/NixOS/nixpkgs/pull/341425
 
@@ -45,6 +62,7 @@
   # Ref: https://github.com/NixOS/nix/issues/7273
   nix.settings.auto-optimise-store = lib.mkForce false;
   nix.optimise.automatic = true;
+  nix.settings.trusted-users = ["hyshka"];
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;

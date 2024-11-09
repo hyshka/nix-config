@@ -104,27 +104,8 @@
     # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
     # nix run nix-darwin -- switch --flake .
     darwinConfigurations = {
-      # TODO: update weird company hostname?
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./hosts/bryan-macbook
-          home-manager.darwinModules.home-manager
-          {
-            # If you want to use home-manager modules from other flakes:
-            home-manager.sharedModules =
-              [
-                #zimfw.homeManagerModules.zimfw
-                sops-nix.homeManagerModule
-                catppuccin.homeManagerModules.catppuccin
-                nixvim.homeManagerModules.nixvim
-              ]
-              ++ (builtins.attrValues outputs.homeManagerModules);
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = inputs;
-            home-manager.users.hyshka = import ./hosts/bryan-macbook/home.nix;
-          }
-        ];
+        modules = [./hosts/bryan-macbook];
         specialArgs = {inherit inputs outputs;};
       };
     };

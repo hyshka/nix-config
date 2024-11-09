@@ -23,6 +23,7 @@
     inherit inputs outputs;
   };
 
+  # TODO: move to nixpkgs module in global?
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
