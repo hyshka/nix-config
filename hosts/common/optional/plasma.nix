@@ -5,8 +5,10 @@
   services.displayManager.defaultSession = "plasma";
   services.desktopManager.plasma6.enable = true;
   environment.plasma6.excludePackages = [
-    pkgs.kdePackages.konsole
+    pkgs.kdePackages.elisa
+    pkgs.kdePackages.kate
     pkgs.kdePackages.khelpcenter
+    pkgs.kdePackages.konsole
   ];
   # Make Firefox use the KDE file picker.
   # Preferences source: https://wiki.archlinux.org/title/firefox#KDE_integration

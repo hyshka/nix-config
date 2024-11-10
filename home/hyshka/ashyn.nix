@@ -24,7 +24,6 @@
     imv
     jellyfin-media-player
     libreoffice-qt
-    zathura
     mullvad-vpn
     spotify
   ];
