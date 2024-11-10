@@ -6,6 +6,7 @@
   imports = [
     ./global
     ./features/alacritty.nix
+    ./features/plasma.nix
     ./features/zwift.nix
 
     # TODO

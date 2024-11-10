@@ -29,6 +29,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Plasma Manager
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
