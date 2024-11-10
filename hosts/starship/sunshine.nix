@@ -18,7 +18,6 @@
       workstation = true;
     };
   };
-  hardware.steam-hardware.enable = true; # might replace uinput udev rule?
   services.udev.extraRules = ''
     KERNEL=="uinput", SUBSYSTEM=="misc", OPTIONS+="static_node=uinput", TAG+="uaccess"
   '';

@@ -11,22 +11,24 @@
 
     ../common/optional/android.nix
     ../common/optional/pipewire.nix
+    ../common/optional/plasma.nix
 
-    ./bluetooth.nix
-    ./desktop.nix
     ./docker.nix
     ./doom.nix
-    ./gparted.nix
     ./steam.nix
-    ./sunshine.nix
+    #./sunshine.nix
     ./syncthing.nix
     #./synergy.nix
     #./wol.nix
   ];
 
   networking.hostName = "starship";
-
   networking.firewall.enable = false;
+
+  hardware.graphics.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+  };
 
   sops.defaultSopsFile = ./secrets.yaml;
 

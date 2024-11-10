@@ -47,9 +47,6 @@
     nixpkgs,
     home-manager,
     nix-darwin,
-    sops-nix,
-    nixvim,
-    catppuccin,
     ...
   } @ inputs: let
     inherit (self) outputs;
