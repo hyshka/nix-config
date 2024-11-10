@@ -20,4 +20,7 @@
       IMMICH_METRICS = "true";
     };
   };
+
+  # Hardware Accelerated Transcoding
+  users.users.immich.extraGroups = ["video" "render"];
 }
