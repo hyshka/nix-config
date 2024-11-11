@@ -14,8 +14,10 @@
     kwin6-bismuth-decoration
   ];
 
-  # TODO plasma-manager
+  # plasma-manager
   # https://github.com/nix-community/plasma-manager
+  # https://nix-community.github.io/plasma-manager/options.xhtml
+
   # TODO krohnkite key binds
   # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L4
   # https://github.com/f-koehler/nix-configs/blob/3f346f598c5dab55cdb6fc42a067c705fb91ec9b/home/modules/plasma.nix#L8
@@ -70,6 +72,19 @@
         desktopSwitching.animation = "off";
       };
     };
+    panels = [
+      {
+        location = "top";
+        screen = "all";
+        widgets = [
+          "org.kde.plasma.pager"
+          "org.kde.plasma.icontasks"
+          "org.kde.plasma.marginsseparator"
+          "org.kde.plasma.systemtray"
+          "org.kde.plasma.digitalclock"
+        ];
+      }
+    ];
     shortcuts = {
       kwin = {
         "Kill Window" = "Alt+Shift+Q";
