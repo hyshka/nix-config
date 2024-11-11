@@ -2,6 +2,7 @@
   inputs,
   pkgs,
   config,
+  lib,
   ...
 }: {
   imports = [
@@ -28,20 +29,42 @@
 
   programs.plasma = {
     enable = true;
+    overrideConfig = true;
     workspace = {
       wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/Mountain/contents/images/5120x2880.png";
     };
-    kscreenlocker.appearance = {
-      wallpaper = config.programs.plasma.workspace.wallpaper;
-    };
-    input = {
-    };
     kscreenlocker = {
       lockOnResume = true;
-      timeout = 5;
+      timeout = lib.mkDefault 5; # TODO different for Starship
+      appearance = {
+        wallpaper = config.programs.plasma.workspace.wallpaper;
+      };
+    };
+    input = {
+      keyboard.model = lib.mkDefault "pc105"; # TODO different for Starship
+      mice = [
+        #"kcminputrc"."Libinput/1133/16500/Logitech G305"."PointerAcceleration" = "-0.800";
+        {
+          acceleration = -0.8;
+          enable = true;
+          name = "Logitech G305";
+          productId = "16500";
+          vendorId = "1133";
+        }
+      ];
+      touchpads = [
+        {
+          enable = true;
+          rightClickMethod = "twoFingers";
+          scrollMethod = "twoFingers";
+          name = "Elan Touchpad";
+          productId = "276";
+          vendorId = "1267";
+        }
+      ];
     };
     kwin = {
-      virtualDesktops.number = 4;
+      virtualDesktops.number = 5;
       effects = {
         minimization.animation = "off";
         desktopSwitching.animation = "off";
@@ -75,10 +98,8 @@
         "KrohnkiteStackedLayout" = "Alt+Shift+S";
         "KrohnkiteToggleFloat" = "Alt+Shift+Space";
       };
-      # Misc
-      "services/org.kde.spectacle.desktop"."RectangularRegionScreenShot" = ["Ctrl+Alt+P" "Print"];
     };
-    spectacle.shortcuts.launch = "Print";
+    spectacle.shortcuts.captureRectangularRegion = "Ctrl+Alt+P";
     hotkeys.commands."launch-alacritty" = {
       name = "Launch alacritty";
       key = "Alt+Return";
@@ -90,14 +111,10 @@
       command = "krunner";
     };
     configFile = {
-      "kcminputrc"."Libinput/1133/16500/Logitech G305"."PointerAcceleration" = "-0.800";
-      "kcminputrc"."Libinput/1267/276/Elan Touchpad"."ClickMethod" = 2;
       "kcminputrc"."Libinput/1267/276/Elan Touchpad"."ScrollFactor" = 0.3;
       "kdeglobals"."General"."TerminalApplication" = "alacritty";
       "kdeglobals"."General"."TerminalService" = "Alacritty.desktop";
       "kwinrc"."Plugins"."krohnkiteEnabled" = true;
-      "kwinrc"."Xwayland"."Scale" = 1.25;
-      "kxkbrc"."Layout"."Model" = "pc105";
       "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
       "plasmanotifyrc"."Notifications"."PopupTimeout" = 3000;
       "spectaclerc"."GuiConfig"."captureDelay" = 3;
