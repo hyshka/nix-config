@@ -7,7 +7,7 @@
   imports = [
     inputs.home-manager.darwinModules.home-manager
 
-    # TODO: this probably won't wook for darwin as it includes nixosModules
+    # TODO: this won't work for darwin as it includes nixosModules
     #../common/global
     ../common/global/nix.nix
     ../common/global/zsh.nix

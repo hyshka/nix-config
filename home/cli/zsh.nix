@@ -26,8 +26,6 @@
     localVariables = {
       # zsh-users config
       ZSH_HIGHLIGHT_HIGHLIGHTERS = ["main" "brackets" "cursor"];
-      # ZIM_HOME should be better baked into the zimfw module
-      ZIM_HOME = "$HOME/.zim";
     };
     zimfw = {
       enable = true;

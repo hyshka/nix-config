@@ -39,12 +39,14 @@
     # Lanzaboote for secure boot support
     lanzaboote.url = "github:nix-community/lanzaboote";
 
-    # nixvim, follows unstable
+    # nixvim
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Add any other flake you might need
+    # nixos-hardware
     hardware.url = "github:nixos/nixos-hardware";
+
+    # catppuccin color themes
     catppuccin.url = "github:catppuccin/nix";
   };
 

@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   programs.tmux = {
     enable = true;
+    #shell = "${pkgs.zsh}/bin/zsh";
+    shell = "/run/current-system/sw/bin/zsh";
     tmuxp.enable = true;
     mouse = true;
     keyMode = "vi";

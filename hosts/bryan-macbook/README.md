@@ -27,8 +27,6 @@ nix run nix-darwin -- switch --flake ~/nix-config
 
 5. After installing, you can run darwin-rebuild to apply changes to your system
 
-- TODO: darwin-rebuild is not yet installed
-
 ```
 darwin-rebuild switch --flake ~/nix-config
 ```

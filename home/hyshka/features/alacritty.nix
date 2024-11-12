@@ -5,11 +5,15 @@
   ...
 }: let
   isLinux = pkgs.stdenv.isLinux;
+  # See: https://nix-community.github.io/home-manager/index.xhtml#sec-usage-gpu-non-nixos
+  alacritty =
+    if isLinux
+    then {package = config.lib.nixGL.wrap pkgs.alacritty;}
+    else {package = pkgs.alacritty;};
 in {
   programs.alacritty = {
     enable = true;
-    # See: https://nix-community.github.io/home-manager/index.xhtml#sec-usage-gpu-non-nixos
-    package = config.lib.nixGL.wrap pkgs.alacritty;
+    package = alacritty.package;
     # https://alacritty.org/config-alacritty.html
     settings = {
       window = {
@@ -24,6 +28,11 @@ in {
       };
       scrolling = {
         history = 0;
+      };
+      cursor = {
+        vi_mode_style = {
+          blinking = "On";
+        };
       };
     };
   };
