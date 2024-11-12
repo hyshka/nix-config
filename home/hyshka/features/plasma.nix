@@ -18,16 +18,8 @@
   # https://github.com/nix-community/plasma-manager
   # https://nix-community.github.io/plasma-manager/options.xhtml
 
-  # TODO krohnkite key binds
-  # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L4
-  # https://github.com/f-koehler/nix-configs/blob/3f346f598c5dab55cdb6fc42a067c705fb91ec9b/home/modules/plasma.nix#L8
-
   # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L10
   # https://github.com/taj-ny/nix-config/blob/654491b314526e4d319aae5d2daaea09c8159bf2/home/config/_shared/programs/plasma/shortcuts.nix#L39
-
-  # krohnkite config
-  # https://github.com/taj-ny/nix-config/blob/654491b314526e4d319aae5d2daaea09c8159bf2/home/config/_shared/programs/plasma/kwin/krohnkite.nix
-  # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L119
 
   programs.plasma = {
     enable = true;
@@ -101,19 +93,32 @@
         "Window to Desktop 5" = "Alt+Shift+5";
         "Show Desktop" = "none";
         # Krohnkite
+        # TODO krohnkite key binds
+        # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L4
+        # https://github.com/f-koehler/nix-configs/blob/3f346f598c5dab55cdb6fc42a067c705fb91ec9b/home/modules/plasma.nix#L8
         "KrohnkiteColumnsLayout" = "Alt+Shift+C";
+        "KrohnkiteMonocleLayout" = "Alt+Shift+M";
+        "KrohnkiteStackedLayout" = "Alt+Shift+S";
+        "KrohnkiteFloatAll" = "Alt+Shift+F";
         "KrohnkiteFocusDown" = "Alt+J";
         "KrohnkiteFocusLeft" = "Alt+H";
         "KrohnkiteFocusRight" = "Alt+L";
         "KrohnkiteFocusUp" = "Alt+K";
-        "KrohnkiteIncrease" = "Alt+Shift+I";
-        "KrohnkiteMonocleLayout" = "Alt+Shift+M";
+        "KrohnkiteGrowHeight" = "Alt++";
+        "KrohnkiteGrowWidth" = "Alt+=";
+        "KrohnkiteNextLayout" = "Alt+]";
+        "KrohnkitePreviousLayout" = "Alt+[";
+        "KrohnkiteRotate" = "Alt+R";
+        "KrohnkiteSetMaster" = "Alt+M";
         "KrohnkiteShiftDown" = "Alt+Shift+J";
         "KrohnkiteShiftLeft" = "Alt+Shift+H";
         "KrohnkiteShiftRight" = "Alt+Shift+L";
         "KrohnkiteShiftUp" = "Alt+Shift+K";
-        "KrohnkiteStackedLayout" = "Alt+Shift+S";
-        "KrohnkiteToggleFloat" = "Alt+Shift+Space";
+        "KrohnkiteShrinkHeight" = "Alt+_";
+        "KrohnkiteShrinkWidth" = "Alt+-";
+        "KrohnkiteToggleFloat" = "Alt+F";
+        "KrohnkiteDecrease" = "Alt+D";
+        "KrohnkiteIncrease" = "Alt+I";
       };
     };
     spectacle.shortcuts.captureRectangularRegion = "Ctrl+Alt+P";
@@ -124,7 +129,7 @@
     };
     hotkeys.commands."launch-krunner" = {
       name = "Launch krunner";
-      key = "Alt+Space";
+      key = "Meta+Space";
       command = "krunner";
     };
     configFile = {
@@ -136,6 +141,14 @@
       "plasmanotifyrc"."Notifications"."PopupTimeout" = 3000;
       "spectaclerc"."GuiConfig"."captureDelay" = 3;
       "spectaclerc"."GuiConfig"."captureMode" = 0;
+      # TODO krohnkite config
+      # https://github.com/taj-ny/nix-config/blob/654491b314526e4d319aae5d2daaea09c8159bf2/home/config/_shared/programs/plasma/kwin/krohnkite.nix
+      # https://github.com/phrmendes/dotfiles/blob/0deb7f64e88c165e2a3db8bdf7491dc45209c8d6/modules/plasma.nix#L119
+      #"Script-krohnkite" = {
+      #    "enableBTreeLayout" = true;
+      #    "enableQuarterLayout" = true;
+      #    "enableStackedLayout" = true;
+      #};
     };
   };
 }
