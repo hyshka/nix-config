@@ -61,10 +61,11 @@
           - window_name: config
             layout: main-vertical
             options:
-              main-pane-height: 80%
+              main-pane-width: 80%
             panes:
               - shell_command:
                 - cd nix-config; nvim
+                focus: true
               - shell_command:
                 - cd nix-config; git fetch -a
       '';
