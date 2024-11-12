@@ -45,7 +45,6 @@
 
     # Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
-    zimfw.url = "github:joedevivo/zimfw.nix";
     catppuccin.url = "github:catppuccin/nix";
   };
 

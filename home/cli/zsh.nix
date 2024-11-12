@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [nix-zsh-completions];
   programs.zsh = {
     enable = true;
@@ -27,8 +31,8 @@
     };
     zimfw = {
       enable = true;
-      zmodules = [
-        #"$PATH_TO_LOCAL_MODULE" # path must exist as env var
+      zimHome = "${config.home.homeDirectory}/.zim";
+      modules = [
         "environment"
         "git"
         "input"
