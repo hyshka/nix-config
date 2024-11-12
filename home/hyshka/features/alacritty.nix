@@ -13,7 +13,7 @@ in {
     # https://alacritty.org/config-alacritty.html
     settings = {
       window = {
-        startup_mode = "Fullscreen";
+        startup_mode = "Maximized";
         option_as_alt = "Both";
       };
       font = {
