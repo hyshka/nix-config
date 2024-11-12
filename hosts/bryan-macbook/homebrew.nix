@@ -14,6 +14,7 @@
       "homebrew/services"
       "homebrew/cask-versions"
       "nikitabobko/tap" # aerospace
+      "deskflow/homebrew-tap" # deskflow
     ];
 
     # `brew install`
@@ -35,6 +36,7 @@
       #"betterdisplay" # display manager
       "espanso" # text expander
       "languagetool"
+      "deskflow"
 
       # mine
       "spotify"
