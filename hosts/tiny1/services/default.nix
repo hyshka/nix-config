@@ -5,7 +5,7 @@
     ./glances.nix
     ./home-assistant.nix
     ./homepage.nix
-    ./media.nix
+    ./media
     #./microbin.nix
     #./n8n.nix
     #./ntfy.nix

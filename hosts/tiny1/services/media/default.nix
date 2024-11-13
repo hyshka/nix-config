@@ -1,5 +1,10 @@
 {
+  imports = [
+    ./docker-compose.nix
+  ];
+
   # docker interface for mediacenter network, allows docker to access ntfy
+  # TODO: avoid hard-coding the interface
   networking.firewall.interfaces."br-65ee147cd7f3".allowedTCPPorts = [8010];
 
   users = {

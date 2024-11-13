@@ -1,10 +1,10 @@
 {pkgs, ...}: {
+  # TODO: remove once services are migrated to nix
   environment.systemPackages = with pkgs; [docker-compose];
 
-  virtualisation = {
-    docker.enable = true;
-    oci-containers = {
-      backend = "docker";
-    };
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
   };
+  virtualisation.oci-containers.backend = "docker";
 }
