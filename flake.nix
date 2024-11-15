@@ -131,8 +131,10 @@
       "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
-        # TODO
-        #modules = [./home/home-cli.nix];
+        modules = [
+          ./home/hyshka/tiny1.nix
+          ./home/hyshka/nixpkgs.nix
+        ];
       };
       "hyshka@rpi4" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.aarch64-linux;
