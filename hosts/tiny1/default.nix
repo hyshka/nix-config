@@ -25,11 +25,6 @@
 
   environment.systemPackages = with pkgs; [
     # utils
-    neovim
-    ncdu_1
-    ranger
-    htop
-    git
     pciutils
 
     # mergerfs tools
