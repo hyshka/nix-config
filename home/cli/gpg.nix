@@ -6,7 +6,7 @@
 }: let
   isLinux = pkgs.stdenv.isLinux;
   pinentry =
-    if config.programs.plasma.enable
+    if builtins.hasAttr "plasma" config.programs && config.programs.plasma.enable
     then {
       package = pkgs.pinentry-qt;
     }

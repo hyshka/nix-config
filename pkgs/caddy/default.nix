@@ -47,7 +47,7 @@ in
               cp -r --reflink=auto . $out
             '';
 
-            outputHash = "sha256-sHfcEXF39s2PTyOl6HX8lqHb/wv3k+VuEq61Wo8xtF4=";
+            outputHash = "sha256-43SOmmz/iAvUhbzFZ9THRqsys7/eK6Oo1xVGZcsmZIw=";
             outputHashMode = "recursive";
           };
 
