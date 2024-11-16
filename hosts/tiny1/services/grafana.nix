@@ -289,26 +289,10 @@ in {
           host = "unix:///var/run/docker.sock"
           targets = discovery.docker.linux.targets
           forward_to = [loki.write.local.receiver]
-          relabel_rules    = discovery.relabel.docker.rules
           labels = {
               job = "docker",
               component = "loki.source.docker",
           }
-        }
-
-        discovery.relabel "docker" {
-            targets = []
-
-            rule {
-                source_labels = ["__meta_docker_container_name"]
-                regex         = "/(.*)"
-                target_label  = "container"
-            }
-
-            rule {
-                source_labels = ["__meta_docker_container_log_stream"]
-                target_label  = "stream"
-            }
         }
 
         local.file_match "caddy_access_log" {
