@@ -197,6 +197,9 @@ in {
     config.services.caddy.group
     # Permission to read Docker logs
     "docker"
+    # Permission for loki.source.journal
+    "adm"
+    "systemd-journal"
   ];
   environment.etc = {
     "alloy/config.alloy" = {
@@ -206,16 +209,21 @@ in {
       # - https://github.com/esselius/cfg/blob/7c9f50df327b9c2b43b863efdbef5f08860eb6de/nixos-modules/profiles/monitoring.nix#L231C5-L263C5
       # - https://grafana.github.io/alloy-configurator/
       # - https://github.com/redxtech/nixfiles/blob/362dd60177f2fd096c4ec14277e6dde3e8102b01/modules/nixos/monitoring/default.nix#L276
+
+      # TODO
+      # prometheus exporters: https://grafana.com/docs/alloy/latest/reference/components/prometheus/
+      # - postgres
+      # - redis
       text = ''
-        loki.write "local" {
+        prometheus.remote_write "local" {
           endpoint {
-            url = "http://127.0.0.1:3030/loki/api/v1/push"
+            url = "http://127.0.0.1:9090/api/v1/write"
           }
         }
 
-        prometheus.remote_write "metrics_service" {
+        loki.write "local" {
           endpoint {
-            url = "http://127.0.0.1:9090/api/v1/write"
+            url = "http://127.0.0.1:3030/loki/api/v1/push"
           }
         }
 
@@ -273,6 +281,36 @@ in {
             }
         }
 
+        discovery.docker "linux" {
+          host = "unix:///var/run/docker.sock"
+        }
+
+        loki.source.docker "read"  {
+          host = "unix:///var/run/docker.sock"
+          targets = discovery.docker.linux.targets
+          forward_to = [loki.write.local.receiver]
+          relabel_rules    = discovery.relabel.docker.rules
+          labels = {
+              job = "docker",
+              component = "loki.source.docker",
+          }
+        }
+
+        discovery.relabel "docker" {
+            targets = []
+
+            rule {
+                source_labels = ["__meta_docker_container_name"]
+                regex         = "/(.*)"
+                target_label  = "container"
+            }
+
+            rule {
+                source_labels = ["__meta_docker_container_log_stream"]
+                target_label  = "stream"
+            }
+        }
+
         local.file_match "caddy_access_log" {
             path_targets = [
                 {
@@ -325,72 +363,14 @@ in {
             }
         }
 
-        prometheus.exporter.cadvisor "integrations_cadvisor" {
+        prometheus.exporter.cadvisor "cadvisor" {
+            docker_host = "unix:///var/run/docker.sock"
             docker_only = true
         }
-        discovery.relabel "integrations_cadvisor" {
-            targets = prometheus.exporter.cadvisor.integrations_cadvisor.targets
 
-            rule {
-                target_label = "job"
-                replacement  = "integrations/docker"
-            }
-
-            rule {
-                target_label = "instance"
-                replacement  = constants.hostname
-            }
-        }
-
-        prometheus.relabel "integrations_cadvisor" {
-                forward_to = [prometheus.remote_write.metrics_service.receiver]
-
-                rule {
-                        source_labels = ["__name__"]
-                        regex         = "up|container_cpu_usage_seconds_total|container_fs_inodes_free|container_fs_inodes_total|container_fs_limit_bytes|container_fs_usage_bytes|container_last_seen|container_memory_usage_bytes|container_network_receive_bytes_total|container_network_tcp_usage_total|container_network_transmit_bytes_total|container_spec_memory_reservation_limit_bytes|machine_memory_bytes|machine_scrape_error"
-                        action        = "keep"
-                }
-        }
-
-        prometheus.scrape "integrations_cadvisor" {
-            targets    = discovery.relabel.integrations_cadvisor.output
-            forward_to = [prometheus.relabel.integrations_cadvisor.receiver]
-        }
-
-        discovery.docker "logs_integrations_docker" {
-            host             = "unix:///var/run/docker.sock"
-            refresh_interval = "5s"
-        }
-        discovery.relabel "logs_integrations_docker" {
-            targets = []
-
-            rule {
-                target_label = "job"
-                replacement  = "integrations/docker"
-            }
-
-            rule {
-                target_label = "instance"
-                replacement  = constants.hostname
-            }
-
-            rule {
-                source_labels = ["__meta_docker_container_name"]
-                regex         = "/(.*)"
-                target_label  = "container"
-            }
-
-            rule {
-                source_labels = ["__meta_docker_container_log_stream"]
-                target_label  = "stream"
-            }
-        }
-        loki.source.docker "logs_integrations_docker" {
-            host             = "unix:///var/run/docker.sock"
-            targets          = discovery.docker.logs_integrations_docker.targets
-            forward_to       = [loki.write.local.receiver]
-            relabel_rules    = discovery.relabel.logs_integrations_docker.rules
-            refresh_interval = "5s"
+        prometheus.scrape "cadvisor" {
+            targets = prometheus.exporter.cadvisor.cadvisor.targets
+            forward_to = [prometheus.remote_write.local.receiver]
         }
       '';
       user = "alloy";
