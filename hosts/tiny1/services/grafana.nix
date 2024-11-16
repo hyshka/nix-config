@@ -192,6 +192,10 @@ in {
     ];
   };
 
+  systemd.services.prometheus.serviceConfig.SupplementaryGroups = [
+    # Permission to read Docker socket for metrics
+    "docker"
+  ];
   systemd.services.alloy.serviceConfig.SupplementaryGroups = [
     # Permission to read Caddy logs
     config.services.caddy.group
