@@ -84,20 +84,8 @@ in {
         ];
       }
       {
-        job_name = "caddy";
-        static_configs = [
-          {
-            targets = ["127.0.0.1:2019"];
-          }
-        ];
-      }
-      {
         job_name = "loki";
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
-      }
-      {
-        job_name = "alloy";
-        static_configs = [{targets = ["127.0.0.1:12345"];}];
       }
     ];
 
@@ -349,6 +337,21 @@ in {
               source = "ts"
               format = "unix"
             }
+        }
+
+        prometheus.exporter.self "alloy" {}
+
+        prometheus.scrape "alloy" {
+            targets     = prometheus.exporter.self.alloy.targets
+            forward_to = [prometheus.remote_write.local.receiver]
+        }
+
+        prometheus.scrape "caddy" {
+            targets = [{
+                __address__ = "localhost:2019",
+            }]
+            job_name = "caddy"
+            forward_to = [prometheus.remote_write.local.receiver]
         }
 
         prometheus.exporter.cadvisor "cadvisor" {
