@@ -277,10 +277,24 @@ in {
           host = "unix:///var/run/docker.sock"
         }
 
+        discovery.relabel "docker" {
+          targets = [{ __address__ = "unix:///var/run/docker.sock" }]
+          rule {
+            source_labels = ["__meta_docker_container_name"]
+            regex         = "/(.*)"
+            target_label  = "container_name"
+          }
+          rule {
+            source_labels = ["__meta_docker_container_id"]
+            target_label  = "container_id"
+          }
+        }
+
         loki.source.docker "read"  {
           host = "unix:///var/run/docker.sock"
           targets = discovery.docker.linux.targets
           forward_to = [loki.write.local.receiver]
+          relabel_rules = discovery.relabel.docker.rules
           labels = {
               job = "docker",
               component = "loki.source.docker",
