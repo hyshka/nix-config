@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   programs.nixvim = {
     # Dependencies
     # { 'Bilal2453/luvit-meta', lazy = true },
@@ -6,9 +10,9 @@
     #
     # Allows extra capabilities providied by nvim-cmp
     # https://nix-community.github.io/nixvim/plugins/cmp-nvim-lsp.html
-    #plugins.cmp-nvim-lsp = {
-    #  enable = true;
-    #};
+    plugins.cmp-nvim-lsp = {
+      enable = true;
+    };
 
     # Useful status updates for LSP.
     # https://nix-community.github.io/nixvim/plugins/fidget/index.html
@@ -80,12 +84,15 @@
         };
         volar = {
           enable = true;
+          tslsIntegration = true;
+          # use a global TypeScript Server installation
+          extraOptions.init_options.typescript.tsdk = "${lib.getBin pkgs.typescript}/lib/node_modules/typescript/lib";
         };
 
         pylsp = {
           enable = true;
-          # TODO: Python 3.10 for work, but 3.10 is very slow to compile
-          #pythonPackage = pkgs.unstable.python310;
+          # TODO: Python 3.11 for work, but 3.11 is very slow to compile
+          #pythonPackage = pkgs.unstable.python311;
           settings.plugins.ruff.enabled = true;
         };
 
