@@ -13,9 +13,6 @@
 
     plugins.copilot-chat = {
       enable = true;
-      luaConfig.pre = ''
-        require("CopilotChat.integrations.cmp").setup()
-      '';
       settings = {
         mappings = {
           complete = {

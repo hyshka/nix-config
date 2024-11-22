@@ -27,6 +27,7 @@
     libreoffice-qt
     mullvad-vpn
     spotify
+    deskflow
   ];
 
   home.sessionVariables = {
