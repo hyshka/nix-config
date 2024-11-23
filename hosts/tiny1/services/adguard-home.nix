@@ -39,6 +39,7 @@ in {
 
   sops.secrets.adguard-passwordFile = {};
 
+  # https://github.com/truxnell/nix-config/blob/675e682e2280da830a9268c9a7822f31936b789e/nixos/modules/nixos/services/adguardhome/default.nix#L139
   # add user, needed to access the secret
   users.users.${adguardUser} = {
     isSystemUser = true;
