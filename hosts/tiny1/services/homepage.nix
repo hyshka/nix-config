@@ -296,7 +296,7 @@
             container = "sabnzbd";
             widget = {
               type = "sabnzbd";
-              url = "http://sabnzbd:8085";
+              url = "http://wireguard:8085";
               key = "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}";
             };
           };
