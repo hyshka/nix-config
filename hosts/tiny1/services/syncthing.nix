@@ -121,6 +121,12 @@
           devices = ["starship" "rg353ps"];
           type = "receiveonly";
         };
+        "Seedvault" = {
+          id = "0w0v9-2amat";
+          path = "/mnt/storage/hyshka/Seedvault";
+          devices = ["bryan-pixel4"];
+          type = "receiveonly";
+        };
       };
     };
   };
