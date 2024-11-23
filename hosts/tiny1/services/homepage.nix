@@ -130,8 +130,8 @@
             href = "https://adguard.home.hyshka.com";
             widget = {
               type = "adguard";
-              url = "http://localhost:3020";
-              username = "hyshka";
+              url = "http://host.docker.internal:3020";
+              username = "admin";
               password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
             };
           };
@@ -170,7 +170,7 @@
             href = "https://immich.home.hyshka.com/";
             widget = {
               type = "immich";
-              url = "http://localhost:3005";
+              url = "http://host.docker.internal:3005";
               key = "{{HOMEPAGE_VAR_IMMICH_APIKEY}}";
               version = 2;
             };
