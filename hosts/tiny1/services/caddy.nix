@@ -17,6 +17,9 @@
     enable = true;
     package = pkgs.custom-caddy;
     email = "bryan@hyshka.com";
+    logFormat = ''
+      level INFO
+    '';
     globalConfig = ''
       servers {
         metrics
