@@ -102,6 +102,11 @@
                         reverse_proxy http://127.0.0.1:7878
                }
 
+               @readarr host readarr.home.hyshka.com
+               handle @readarr {
+                        reverse_proxy http://127.0.0.1:8787
+               }
+
                @sonarr host sonarr.home.hyshka.com
                handle @sonarr {
                         reverse_proxy http://127.0.0.1:8989
