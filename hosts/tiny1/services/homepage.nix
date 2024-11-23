@@ -128,6 +128,12 @@
           "Adguard Home" = {
             icon = "adguard-home.png";
             href = "https://adguard.home.hyshka.com";
+            widget = {
+              type = "adguard";
+              url = "http://localhost:3020";
+              username = "hyshka";
+              password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
+            };
           };
         }
       ];
@@ -162,6 +168,12 @@
           "Immich" = {
             icon = "immich.svg";
             href = "https://immich.home.hyshka.com/";
+            widget = {
+              type = "immich";
+              url = "http://localhost:3005";
+              key = "{{HOMEPAGE_VAR_IMMICH_APIKEY}}";
+              version = 2;
+            };
           };
         }
         {
@@ -273,6 +285,19 @@
               url = "http://wireguard:8080";
               username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
               password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
+            };
+          };
+        }
+        {
+          Sabnzbd = {
+            icon = "sabnzbd.svg";
+            href = "https://sabnzbd.home.hyshka.com";
+            server = "my-docker";
+            container = "sabnzbd";
+            widget = {
+              type = "sabnzbd";
+              url = "http://sabnzbd:8085";
+              key = "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}";
             };
           };
         }
