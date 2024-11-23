@@ -52,6 +52,7 @@ in {
   # insert password before service starts
   # password in sops is unencrypted, so we bcrypt it
   # and insert it as per config requirements
+  # Ref: https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#reset-web-password
   systemd.services.adguardhome = {
     preStart = lib.mkAfter ''
       HASH=$(cat ${config.sops.secrets.adguard-passwordFile.path} | ${pkgs.apacheHttpd}/bin/htpasswd -binBC 10 "" | cut -c 2-)
