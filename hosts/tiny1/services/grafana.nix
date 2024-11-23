@@ -201,6 +201,8 @@ in {
       # - https://github.com/esselius/cfg/blob/7c9f50df327b9c2b43b863efdbef5f08860eb6de/nixos-modules/profiles/monitoring.nix#L231C5-L263C5
       # - https://grafana.github.io/alloy-configurator/
       # - https://github.com/redxtech/nixfiles/blob/362dd60177f2fd096c4ec14277e6dde3e8102b01/modules/nixos/monitoring/default.nix#L276
+      # - https://github.com/redxtech/nixfiles/blob/15b9e0abe6f174a5ebc9c3758597653af93f58a7/modules/nixos/monitoring/default.nix#L157
+      # - https://github.com/tigorlazuardi/nixos/blob/31b8f592144ad9c3459143866bc4baab75897e4d/system/services/telemetry/alloy.nix#L66
 
       # TODO
       # prometheus exporters: https://grafana.com/docs/alloy/latest/reference/components/prometheus/
