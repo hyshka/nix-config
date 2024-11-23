@@ -229,6 +229,19 @@
           };
         }
         {
+          Readarr = {
+            icon = "readarr.svg";
+            href = "https://readarr.home.hyshka.com";
+            server = "my-docker";
+            container = "readarr";
+            widget = {
+              type = "readarr";
+              url = "http://readarr:8787";
+              key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
+            };
+          };
+        }
+        {
           Prowlarr = {
             icon = "prowlarr.svg";
             href = "https://prowlarr.home.hyshka.com";
