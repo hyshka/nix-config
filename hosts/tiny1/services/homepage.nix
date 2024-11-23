@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   # Ref: https://github.com/nikitawootten/infra/blob/main/hosts/hades/lab/homepage.nix
   settings = {
     title = "tiny1";
@@ -272,26 +276,48 @@
   ];
   servicesFile = builtins.toFile "homepage-services.yaml" (builtins.toJSON services);
 in {
-  virtualisation = {
-    oci-containers = {
-      containers.homepage = {
-        image = "ghcr.io/gethomepage/homepage:latest";
-        autoStart = true;
-        ports = ["127.0.0.1:3001:3000"];
-        volumes = [
-          "/var/run/docker.sock:/var/run/docker.sock:ro"
-          # TODO logs
-          #"${config.lib.lab.mkConfigDir "homepage"}/logs/:/config/logs/"
-          "${settingsFile}:/config/settings.yaml"
-          "${servicesFile}:/config/services.yaml"
-          "${bookmarksFile}:/config/bookmarks.yaml"
-          "${widgetsFile}:/config/widgets.yaml"
-          "${dockerFile}:/config/docker.yaml"
-        ];
-        environmentFiles = [config.sops.secrets.homepage.path];
-        extraOptions = ["--network=media_default"];
-      };
+  virtualisation.oci-containers.containers.homepage = {
+    image = "ghcr.io/gethomepage/homepage:latest";
+    environmentFiles = [config.sops.secrets.homepage.path];
+    volumes = [
+      "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # TODO logs
+      #"${config.lib.lab.mkConfigDir "homepage"}/logs/:/config/logs/:ro"
+      "${settingsFile}:/config/settings.yaml:ro"
+      "${servicesFile}:/config/services.yaml:ro"
+      "${bookmarksFile}:/config/bookmarks.yaml:ro"
+      "${widgetsFile}:/config/widgets.yaml:ro"
+      "${dockerFile}:/config/docker.yaml:ro"
+    ];
+    ports = [
+      "3001:3000/tcp"
+    ];
+    log-driver = "journald";
+    extraOptions = [
+      "--add-host=host.docker.internal:host-gateway"
+      "--network-alias=homepage"
+      "--network=media_default"
+    ];
+  };
+  systemd.services."docker-homepage" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+      RestartMaxDelaySec = lib.mkOverride 90 "1m";
+      RestartSec = lib.mkOverride 90 "100ms";
+      RestartSteps = lib.mkOverride 90 9;
     };
+    after = [
+      "docker-network-media_default.service"
+    ];
+    requires = [
+      "docker-network-media_default.service"
+    ];
+    partOf = [
+      "docker-compose-media-root.target"
+    ];
+    wantedBy = [
+      "docker-compose-media-root.target"
+    ];
   };
 
   sops.secrets = {
