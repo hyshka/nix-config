@@ -34,6 +34,11 @@
         uid = 13004;
         group = "mediacenter";
       };
+      readarr = {
+        isSystemUser = true;
+        uid = 13005;
+        group = "mediacenter";
+      };
       jellyfin = {
         isSystemUser = true;
         uid = 13006;

@@ -215,6 +215,64 @@
     ];
   };
 
+  systemd.tmpfiles.settings."readarr" = {
+    "/home/hyshka/media/readarr-config" = {
+      d = {
+        group = "mediacenter";
+        mode = "0755";
+        user = "readarr";
+      };
+    };
+    "/mnt/storage/mediacenter/media/books" = {
+      d = {
+        group = "mediacenter";
+        mode = "0755";
+        user = "hyshka";
+      };
+    };
+  };
+  virtualisation.oci-containers.containers."readarr" = {
+    image = "lscr.io/linuxserver/readarr:develop";
+    environment = {
+      "PGID" = "13000";
+      "PUID" = "13005";
+      "TZ" = "America/Edmonton";
+      "UMASK" = "002";
+    };
+    volumes = [
+      "/home/hyshka/media/readarr-config:/config:rw"
+      "/mnt/storage/mediacenter:/data:rw"
+    ];
+    ports = [
+      "8787:8787/tcp"
+    ];
+    log-driver = "journald";
+    extraOptions = [
+      "--network-alias=readarr"
+      "--network=media_default"
+    ];
+  };
+  systemd.services."docker-readarr" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+      RestartMaxDelaySec = lib.mkOverride 90 "1m";
+      RestartSec = lib.mkOverride 90 "100ms";
+      RestartSteps = lib.mkOverride 90 9;
+    };
+    after = [
+      "docker-network-media_default.service"
+    ];
+    requires = [
+      "docker-network-media_default.service"
+    ];
+    partOf = [
+      "docker-compose-media-root.target"
+    ];
+    wantedBy = [
+      "docker-compose-media-root.target"
+    ];
+  };
+
   virtualisation.oci-containers.containers."recyclarr" = {
     image = "ghcr.io/recyclarr/recyclarr";
     environment = {
