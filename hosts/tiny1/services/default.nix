@@ -1,5 +1,6 @@
 {
   imports = [
+    ./calibre.nix
     #./ddclient.nix
     ./docker.nix
     ./glances.nix

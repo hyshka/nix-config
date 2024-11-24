@@ -248,6 +248,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
+      "--add-host=host.docker.internal:host-gateway"
       "--network-alias=readarr"
       "--network=media_default"
     ];
