@@ -85,9 +85,5 @@
       t = "tmux";
       tpw = "tmuxp load ~/.config/tmuxp/dashboard.yml";
     };
-    sessionVariables = {
-      # TODO move to ledger module
-      LEDGER_FILE = "~/finance/2023/2023.journal";
-    };
   };
 }

@@ -7,6 +7,7 @@
     ./global
     ./features/alacritty.nix
     ./features/plasma.nix
+    ./features/ledger.nix
 
     # TODO
     ../nixvim
