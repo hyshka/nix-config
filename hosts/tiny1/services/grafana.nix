@@ -84,6 +84,14 @@ in {
         ];
       }
       {
+        job_name = "smartcl";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}"];
+          }
+        ];
+      }
+      {
         job_name = "loki";
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
       }
@@ -93,6 +101,14 @@ in {
       node = {
         enable = true;
         enabledCollectors = ["systemd"];
+        listenAddress = "127.0.0.1";
+      };
+      smartctl = {
+        enable = true;
+        devices = [
+          config.filesystems."/mnt/disk3".device
+          config.filesystems."/mnt/parity1".device
+        ];
         listenAddress = "127.0.0.1";
       };
       # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
