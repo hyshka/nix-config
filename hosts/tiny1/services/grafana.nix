@@ -106,8 +106,8 @@ in {
       smartctl = {
         enable = true;
         devices = [
-          config.filesystems."/mnt/disk3".device
-          config.filesystems."/mnt/parity1".device
+          config.fileSystems."/mnt/disk3".device
+          config.fileSystems."/mnt/parity1".device
         ];
         listenAddress = "127.0.0.1";
       };
