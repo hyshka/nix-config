@@ -209,6 +209,8 @@ in {
     "adm"
     "systemd-journal"
   ];
+  # Fix permission issue: https://github.com/grafana/alloy/issues/990
+  systemd.services.alloy.serviceConfig.User = "root";
   environment.etc = {
     "alloy/config.alloy" = {
       # Alloy config:
