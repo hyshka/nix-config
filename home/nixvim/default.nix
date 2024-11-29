@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
   # https://nix-community.github.io/nixvim/search/
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
@@ -77,6 +81,9 @@
       # See `:help mapleader`
       mapleader = " ";
       maplocalleader = " ";
+
+      # Set to true if you have a Nerd Font installed and selected in the terminal
+      have_nerd_font = false;
     };
 
     #  See `:help 'clipboard'`
@@ -146,7 +153,7 @@
       cursorline = true;
 
       # Minimal number of screen lines to keep above and below the cursor
-      #scrolloff = 10;
+      scrolloff = 1;
 
       # See `:help hlsearch`
       hlsearch = true;
@@ -294,6 +301,20 @@
       };
     };
 
+    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraplugins
+    extraPlugins = with pkgs.vimPlugins; [
+      # Useful for getting pretty icons, but requires a Nerd Font.
+      nvim-web-devicons # TODO: Figure out how to configure using this with telescope
+    ];
+
+    # TODO: Figure out where to move this
+    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapre
+    extraConfigLuaPre = ''
+      if vim.g.have_nerd_font then
+        require('nvim-web-devicons').setup {}
+      end
+    '';
+
     # The line beneath this is called `modeline`. See `:help modeline`
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapost
     extraConfigLuaPost = ''
@@ -334,32 +355,6 @@
     #};
 
     #plugins = {
-    #  copilot-lua = {
-    #    enable = true;
-    #    suggestion.autoTrigger = true;
-    #  };
-    #  copilot-chat = {
-    #    enable = true;
-    #  };
-    #};
-
-    #plugins = {
-    #  lsp = {
-    #    enable = true;
-    #    servers = {
-    #      tsserver.enable = true;
-    #      volar.enable = true;
-    #      eslint.enable = true;
-    #      pylsp.enable = true; # TODO python 3.10
-    #      bashls.enable = true;
-    #      jsonls.enable = true;
-    #      emmet-ls.enable = true;
-    #      html.enable = true;
-    #      yamlls.enable = true;
-    #      ruff-lsp.enable = true;
-    #      nixd.enable = true;
-    #    };
-    #  };
     #  schemastore.enable = true;
     #  trouble.enable = true;
     #  typescript-tools.enable = true;

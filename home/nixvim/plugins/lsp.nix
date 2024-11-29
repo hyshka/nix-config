@@ -105,7 +105,13 @@
           settings.formatting.command = ["alejandra"];
         };
 
-        # TODO: bashls, jsonls, yamlls, schemastore
+        # TODO: more servers
+        # - eslint
+        # - html
+        # - rufflsp
+        # - bashls
+        # - jsonls
+        # - yamlls
 
         lua_ls = {
           enable = true;
@@ -129,6 +135,7 @@
 
       keymaps = {
         # Diagnostic keymaps
+        # TODO: this isn't working in normal mode
         diagnostic = {
           "<leader>q" = {
             #mode = "n";

@@ -18,6 +18,14 @@
       pkgs.ranger
     ];
 
+    # TODO:
+    # - edit rifle.conf for ranger
+
+    extraConfigVim = ''
+      let g:rnvimr_enable_ex = 1
+      let g:rnvimr_enable_picker = 1
+    '';
+
     # TODO: ERROR Pynvim is not found in Python Lib
     extraPython3Packages = p: with p; [pynvim];
 
