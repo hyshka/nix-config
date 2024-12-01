@@ -120,6 +120,7 @@
         "KrohnkiteDecrease" = "Alt+D";
         "KrohnkiteIncrease" = "Alt+I";
       };
+      plasmashell."show-on-mouse-pos" = ["Meta+Shift+C"];
     };
     spectacle.shortcuts.captureRectangularRegion = "Ctrl+Alt+P";
     hotkeys.commands."launch-alacritty" = {
