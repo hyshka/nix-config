@@ -85,6 +85,7 @@
         };
         # TODO: automate symlink for stardew saves
         # ln -s ~/Games/Roms/ports/stardewvalley/savedata/Saves ~/.config/StardewValley/Saves
+        # https://nix-community.github.io/home-manager/options.xhtml#opt-home.file
         "Roms" = {
           id = "xgy3x-u2fhw";
           path = "/home/hyshka/Games/Roms/";
