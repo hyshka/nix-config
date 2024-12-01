@@ -40,7 +40,7 @@
   libwebp,
   libsecret,
   wrapGAppsHook,
-  gnome,
+  adwaita-icon-theme,
   xorg,
   osm-gps-map,
   ocl-icd,
@@ -62,8 +62,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [git];
 
   # xorg.libX11
-  # gnome.adwaita-icon-theme
-  buildInputs = with xorg; with gnome; [atk cairo cmake curl dbus-glib exiv2 glib gtk3 ilmbase intltool lcms lensfun libX11 libexif libjpeg libpng librsvg libtiff libxcb openexr pixman pkg-config sqlite libxslt libsoup graphicsmagick json-glib openjpeg lua5_3_compat pugixml colord colord-gtk libxshmfence libxkbcommon at-spi2-core libwebp libsecret wrapGAppsHook adwaita-icon-theme osm-gps-map ocl-icd];
+  buildInputs = with xorg; [atk cairo cmake curl dbus-glib exiv2 glib gtk3 ilmbase intltool lcms lensfun libX11 libexif libjpeg libpng librsvg libtiff libxcb openexr pixman pkg-config sqlite libxslt libsoup graphicsmagick json-glib openjpeg lua5_3_compat pugixml colord colord-gtk libxshmfence libxkbcommon at-spi2-core libwebp libsecret wrapGAppsHook osm-gps-map ocl-icd adwaita-icon-theme];
 
   cmakeFlags = ["-DBUILD_USERMANUAL=False"];
 
