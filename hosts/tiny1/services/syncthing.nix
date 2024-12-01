@@ -38,7 +38,7 @@
       devices = {
         "starship" = {id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";};
         "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
-        "rg353ps" = {id = "7NUMEKY-IPM4SAT-HXKSGQP-KFBVHZO-PTSC5HW-CK5FBYL-HR5NKL6-KYQNXAY";};
+        "rg353ps" = {id = "U4UPYDR-LVN7VTQ-3SOLQWP-QJFRKKN-IWGOXZR-2YOFOZL-OFEGGYA-ZMC6HAS";};
         "renee-pixel7a" = {id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";};
       };
       folders = {
@@ -115,9 +115,9 @@
           devices = ["bryan-pixel4"];
           type = "receiveonly";
         };
-        "StardewValley_Saves" = {
-          id = "j6n94-htfpu";
-          path = "/mnt/storage/hyshka/StardewValley_Saves";
+        "Roms" = {
+          id = "xgy3x-u2fhw";
+          path = "/mnt/storage/hyshka/Roms/";
           devices = ["starship" "rg353ps"];
           type = "receiveonly";
         };
