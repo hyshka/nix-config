@@ -22,7 +22,7 @@
     # - edit rifle.conf for ranger
 
     extraConfigVim = ''
-      let g:rnvimr_enable_ex = 1
+      let g:rnvimr_enable_ex = 0
       let g:rnvimr_enable_picker = 1
     '';
 

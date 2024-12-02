@@ -33,6 +33,11 @@
           use_icons = false;
         };
 
+        # Icon provider
+        # https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-icons.md#dependencies
+        icons = {
+        };
+
         # ... and there is more!
         # Check out: https://github.com/echasnovski/mini.nvim
       };
