@@ -20,6 +20,7 @@
       merge.ff = "only";
       merge.conflictstyle = "zdiff3";
       mergetool.keepBackup = false;
+      merge.tool = "nvimdiff2";
       merge.mergiraf.name = "mergiraf";
       merge.mergiraf.driver = "mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P";
     };
