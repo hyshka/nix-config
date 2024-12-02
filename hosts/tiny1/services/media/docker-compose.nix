@@ -234,7 +234,7 @@
     "/mnt/storage/mediacenter/media/books" = {
       d = {
         group = "mediacenter";
-        mode = "0755";
+        mode = "0775";
         user = "hyshka";
       };
     };
@@ -452,7 +452,7 @@
     environment = {
       "GID" = "13000";
       "UID" = "13010";
-      "readarr_address" = "readarr:8787";
+      "readarr_address" = "http://readarr:8787";
       "root_folder_path" = "/data/media/books";
     };
     environmentFiles = [
