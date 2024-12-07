@@ -147,7 +147,7 @@
 
                @ntfy host ntfy.home.hyshka.com
                handle @ntfy {
-                        reverse_proxy http://127.0.0.1:8010
+                        reverse_proxy http://127.0.0.1:2586
                }
 
                # Fallback for otherwise unhandled domains

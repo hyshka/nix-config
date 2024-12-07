@@ -384,7 +384,7 @@ in {
         local.file_match "ntfy_log" {
             path_targets = [
                 {
-                    "__path__" = "/var/log/ntfy.log",
+                    "__path__" = "/var/log/ntfy/ntfy.log",
                 },
             ]
             sync_period = "30s"
