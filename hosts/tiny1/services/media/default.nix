@@ -5,9 +5,9 @@
 
   # docker interface for mediacenter network, allows docker to access ntfy
   # TODO: avoid hard-coding the interface
-  # TODO: 8010 for ntfy
   networking.firewall.interfaces."br-0a93fdcc1a12".allowedTCPPorts = [
     config.services.calibre-server.port
+    2586 # ntfy
   ];
 
   users = {
