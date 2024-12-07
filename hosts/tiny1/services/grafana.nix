@@ -95,6 +95,14 @@ in {
         job_name = "loki";
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
       }
+      {
+        job_name = "ntfy";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:9091"];
+          }
+        ];
+      }
     ];
 
     exporters = {
@@ -371,6 +379,20 @@ in {
               source = "ts"
               format = "unix"
             }
+        }
+
+        local.file_match "ntfy_log" {
+            path_targets = [
+                {
+                    "__path__" = "/var/log/ntfy.log",
+                },
+            ]
+            sync_period = "30s"
+        }
+
+        loki.source.file "ntfy_log" {
+            targets = local.file_match.ntfy_log.targets
+            forward_to = [loki.write.local.receiver]
         }
 
         prometheus.exporter.self "alloy" {}

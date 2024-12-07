@@ -9,7 +9,7 @@
     ./media
     #./microbin.nix
     #./n8n.nix
-    #./ntfy.nix
+    ./ntfy.nix
     ./restic.nix
     ./samba.nix
     ./snapraid.nix
