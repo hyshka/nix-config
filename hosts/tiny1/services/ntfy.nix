@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       base-url = "https://ntfy.home.hyshka.com";
-      listen-http = "0.0.0.0:8010";
+      listen-http = "127.0.0.1:8010";
       cache-file = "/var/cache/ntfy/cache.db";
       attachment-cache-dir = "/var/cache/ntfy/attachments";
       behind-proxy = true;
