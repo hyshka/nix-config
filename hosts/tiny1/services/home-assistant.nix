@@ -26,7 +26,6 @@
       "sonarr" # https://www.home-assistant.io/integrations/sonarr/
       "syncthing" # https://www.home-assistant.io/integrations/syncthing/
       "glances" # https://www.home-assistant.io/integrations/glances/
-      "feedreader" # https://www.home-assistant.io/integrations/feedreader/
       "zha" # https://www.home-assistant.io/integrations/zha/
       "mqtt" # https://www.home-assistant.io/integrations/mqtt/
     ];
@@ -53,7 +52,6 @@
       frontend = {
         themes = "!include_dir_merge_named themes";
       };
-      feedreader.urls = ["https://nixos.org/blogs.xml"];
       http = {
         server_host = "127.0.0.1";
         use_x_forwarded_for = "true";
