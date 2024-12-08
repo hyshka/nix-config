@@ -1,10 +1,11 @@
 {
   services.ntfy-sh = {
     enable = true;
-    # default port 2586
     settings = {
       base-url = "https://ntfy.home.hyshka.com";
       behind-proxy = true;
+      # bind to all interfaces to receive connections from Docker containers
+      listen-http = "0.0.0.0:2586";
       log-format = "json";
       log-file = "/var/log/ntfy/ntfy.log";
       metrics-listen-http = "127.0.0.1:9091";
