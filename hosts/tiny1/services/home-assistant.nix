@@ -6,6 +6,8 @@
     restartUnits = ["home-assistant.service"];
   };
 
+  # https://github.com/ArdaXi/nixos/blob/dd6d3d8a9daef829a3e3de52a4ce79d1cad17984/profiles/nas/homeassistant.nix
+  # https://github.com/felschr/nixos-config/blob/6a0f0bf76e3ae80c1e180ba6f6c7fd3b8e91d2d3/services/home-assistant/default.nix
   services.home-assistant = {
     enable = true;
     package =
@@ -32,6 +34,18 @@
     customComponents = [
       pkgs.zha_toolkit
     ];
+    extraPackages = ps:
+      with ps; [
+        # Resolve aiohttp_fast_zlib logger warning
+        zlib-ng
+        isal
+
+        # zha_toolkit
+        setuptools
+
+        # HACS
+        #aiogithubapi
+      ];
 
     # todo writable until i know what to do
     configWritable = true;
