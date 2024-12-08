@@ -43,9 +43,11 @@
         ];
         deleteDatasources = [
           {
+            orgId = 1;
             name = "Prometheus";
           }
           {
+            orgId = 1;
             name = "Loki";
           }
         ];
