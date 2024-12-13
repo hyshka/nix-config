@@ -99,6 +99,18 @@
         emmet_ls = {
           enable = true;
         };
+        # https://github.com/fourdigits/django-template-lsp
+        #djlsp = {
+        #  enable = true;
+        #  # TODO: unpackaged pip install django-template-lsp
+        #  #package = pkgs.djlsp;
+        #  # TODO: specific to MR project
+        #  extraOptions.options.djlsp = {
+        #    django_settings_module = "muckrack.settings";
+        #    docker_compose_file = "docker-compose.yml";
+        #    docker_compose_service = "web";
+        #  };
+        #};
 
         nixd = {
           enable = true;
