@@ -29,7 +29,7 @@
     "/mnt/disk3" = {
       device = "/dev/disk/by-id/usb-ST4000VN_006-3CW104_152D00539000-0:1-part1";
       fsType = "btrfs";
-      options = ["defaults" "noatime"];
+      options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
     };
     "/mnt/storage" = {
       device = "/mnt/disk*";
@@ -44,6 +44,9 @@
         "fsname=mergerfs"
         # TODO enable once I actually have free space
         #"minfreespace=200G"
+        # Allow system to boot without this device
+        "nofail"
+        "x-systemd.device-timeout=4"
       ];
     };
     "/mnt/parity1" = {
@@ -51,7 +54,7 @@
       # https://www.snapraid.it/faq#fs
       # mkfs.ext4 -m 0 -T largefile4 DEVICE
       fsType = "ext4";
-      options = ["defaults" "noatime"];
+      options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
     };
   };
 
