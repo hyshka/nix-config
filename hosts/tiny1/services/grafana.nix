@@ -68,17 +68,17 @@
       #    }];
       #  }];
       #};
-      alerting.policies.settings = {
-        policies = [
-          {
-            receiver = "webhook";
-            group_by = ["grafana_folder" "alertname"];
-            group_wait = "30s";
-            group_interval = "5m";
-            repeat_interval = "4h";
-          }
-        ];
-      };
+      #alerting.policies.settings = {
+      #  policies = [
+      #    {
+      #      receiver = "webhook";
+      #      group_by = ["grafana_folder" "alertname"];
+      #      group_wait = "30s";
+      #      group_interval = "5m";
+      #      repeat_interval = "4h";
+      #    }
+      #  ];
+      #};
 
       # TODO:
       # - https://grafana.com/grafana/dashboards/1860-node-exporter-full/
