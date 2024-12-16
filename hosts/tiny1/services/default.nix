@@ -1,20 +1,18 @@
 {
   imports = [
     ./calibre.nix
-    #./ddclient.nix
     ./docker.nix
     ./glances.nix
     ./home-assistant.nix
     ./homepage.nix
     ./media
     #./microbin.nix
-    #./n8n.nix
     ./ntfy.nix
     ./restic.nix
     ./samba.nix
     ./snapraid.nix
     ./syncthing.nix
-    ./silverbullet.nix
+    #./silverbullet.nix
     ./caddy.nix
     ./acme.nix
     ./nextcloud.nix
