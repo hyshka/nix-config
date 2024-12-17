@@ -1,4 +1,4 @@
-{
+{, ...}: {
   # Ref:
   # - https://daiderd.com/nix-darwin/manual/index.html
   # - https://github.com/ryan4yin/nix-darwin-kickstarter/blob/main/rich-demo/modules/system.nix
@@ -13,17 +13,33 @@
     '';
 
     defaults = {
+      # Match mouse acceleration to Linux
+      ".GlobalPreferences"."com.apple.mouse.scaling" = 1;
+
+      universalaccess.reduceMotion = true;
       menuExtraClock.Show24Hour = true;
 
       dock = {
         autohide = true;
+        autohide-delay = 0.0;
+        autohide-time-modifier = 0.0;
+        dashboard-in-overlay = true;
+        expose-group-apps = true; # For Aerospace
         show-recents = false;
+        launchanim = false;
+        mru-spaces = false;
+        static-only = true;
+        wvous-tl-corner = 2;
+        wvous-tr-corner = 11;
+        wvous-br-corner = 1; # Disable Quick Note
       };
 
       finder = {
         _FXShowPosixPathInTitle = true;
         AppleShowAllExtensions = true;
+        AppleShowAllFiles = true;
         FXEnableExtensionChangeWarning = false;
+        FXDefaultSearchScope = "SCcf"; # Search current folder by default
         QuitMenuItem = true;
         ShowPathbar = true;
         ShowStatusBar = true;
@@ -36,10 +52,12 @@
       };
 
       NSGlobalDomain = {
+        AppleICUForce24HourTime = true;
         "com.apple.swipescrolldirection" = false;
         "com.apple.sound.beep.feedback" = 0;
-        AppleInterfaceStyleSwitchesAutomatically = true;
-        AppleKeyboardUIMode = 3; # TODO full keyboard control, not sure what this does
+        AppleFontSmoothing = 0;
+        AppleInterfaceStyle = null; # Force light mode
+        AppleKeyboardUIMode = 3;
         NSAutomaticCapitalizationEnabled = false;
         NSAutomaticDashSubstitutionEnabled = false;
         NSAutomaticPeriodSubstitutionEnabled = false;

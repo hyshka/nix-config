@@ -1,52 +1,46 @@
 {
-  description = "NixOS configuration";
+  description = "NixOS and macOS configurations";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
-    # Home manager
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nix-Darwin
-    nix-darwin.url = "github:lnl7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # sops-nix
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
-    # nixGL
     nixGL = {
       url = "github:nix-community/nixgl";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Plasma Manager
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
 
-    # Lanzaboote for secure boot support
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lanzaboote.url = "github:nix-community/lanzaboote";
 
-    # nixvim
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
-
-    # nixos-hardware
     hardware.url = "github:nixos/nixos-hardware";
 
-    # catppuccin color themes
     catppuccin.url = "github:catppuccin/nix";
   };
 
@@ -105,7 +99,6 @@
     };
 
     # Nix-Darwin configuration entrypoint
-    # TODO: darwin-rebuild is not installed
     # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
     # nix run nix-darwin -- switch --flake .
     darwinConfigurations = {

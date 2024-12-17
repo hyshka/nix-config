@@ -31,7 +31,5 @@ in {
       # Delete older generations too
       options = "--delete-older-than 7d";
     };
-    gc.dates = lib.mkIf isLinux "weekly";
-    # gc.interval defaults to daily on darwin
   };
 }
