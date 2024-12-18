@@ -22,6 +22,7 @@
     ./paperless.nix
     # ./logseq.nix
     ./immich.nix
+    ./incus.nix
     # TODO: hitting errors
     # ./cryptpad.nix
   ];
