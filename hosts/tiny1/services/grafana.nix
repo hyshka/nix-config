@@ -145,10 +145,6 @@
       };
       smartctl = {
         enable = true;
-        devices = [
-          config.fileSystems."/mnt/disk3".device
-          config.fileSystems."/mnt/parity1".device
-        ];
         listenAddress = "127.0.0.1";
       };
       # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
@@ -230,7 +226,7 @@
   # https://github.com/esselius/cfg/blob/7c9f50df327b9c2b43b863efdbef5f08860eb6de/nixos-modules/profiles/monitoring.nix#L231C5-L263C5
   # https://grafana.com/docs/alloy/latest/
   services.alloy = {
-    enable = true;
+    enable = false;
     extraFlags = [
       "--disable-reporting"
     ];
