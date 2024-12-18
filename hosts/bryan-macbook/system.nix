@@ -1,4 +1,4 @@
-{, ...}: {
+{
   # Ref:
   # - https://daiderd.com/nix-darwin/manual/index.html
   # - https://github.com/ryan4yin/nix-darwin-kickstarter/blob/main/rich-demo/modules/system.nix
