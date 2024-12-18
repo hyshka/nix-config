@@ -6,7 +6,9 @@
 }: let
   adguardUser = "adguardhome";
 in {
-  networking.firewall.allowedUDPPorts = [53];
+  # This will conflict with Incus if we bind to all interfaces
+  networking.firewall.interfaces.enp0s31f6.allowedUDPPorts = [53];
+  networking.firewall.interfaces.tailscale0.allowedUDPPorts = [53];
 
   services.adguardhome = {
     enable = true;
@@ -27,13 +29,19 @@ in {
       ];
       auth_attempts = 3;
       block_auth_min = 3600;
-      #dns = {
-      #  bootstrap_dns = [
-      #    "9.9.9.9"
-      #    "8.8.8.8"
-      #    "1.1.1.1"
-      #  ];
-      #};
+      dns = {
+        # This will conflict with Incus if we bind to all interfaces
+        bind_hosts = [
+          "127.0.0.1"
+          "::1"
+          "100.116.243.20" # tailscale0
+        ];
+        #  bootstrap_dns = [
+        #    "9.9.9.9"
+        #    "8.8.8.8"
+        #    "1.1.1.1"
+        #  ];
+      };
     };
   };
 
