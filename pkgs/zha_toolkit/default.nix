@@ -6,13 +6,13 @@
 pkgs.buildHomeAssistantComponent rec {
   owner = "mdeweerd";
   domain = "zha_toolkit";
-  version = "1.1.19";
+  version = "1.1.22";
 
   src = fetchFromGitHub {
     inherit owner;
     repo = "zha-toolkit";
     rev = "refs/tags/v${version}";
-    hash = "sha256-cMCGLDngtIFuEiXZiHBUf6ltW9u0LY81un/Igd9Ai6Y=";
+    hash = "sha256-MOa3YxKUSmaNQAcMp2HXSi1BjYO2sbVcOCNrrEFUUMY=";
   };
 
   dontBuild = true;
