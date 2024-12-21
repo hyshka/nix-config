@@ -11,7 +11,6 @@
   # https://github.com/nix-community/nur-combined/blob/3652fac2e8a82268eb4dcf6099144669ae253e22/repos/alarsyo/services/monitoring.nix#L40
   services.grafana = {
     enable = true;
-    dataDir = "/mnt/storage/grafana";
 
     settings = {
       analytics.reporting_enabled = false;
