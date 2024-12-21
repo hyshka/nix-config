@@ -3,7 +3,7 @@
 
   services.paperless = {
     enable = true;
-    dataDir = "/mnt/storage/paperless/";
+    mediaDir = "/mnt/storage/paperless/";
     passwordFile = config.sops.secrets.paperless-passwordFile.path;
     # https://docs.paperless-ngx.com/configuration/
     settings = {
