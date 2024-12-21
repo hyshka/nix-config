@@ -23,7 +23,7 @@
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud30;
-    home = "/mnt/storage/nextcloud";
+    datadir = "/mnt/storage/nextcloud";
     https = true;
     autoUpdateApps.enable = true;
     hostName = "localhost";

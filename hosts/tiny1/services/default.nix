@@ -15,7 +15,7 @@
     #./silverbullet.nix
     ./caddy.nix
     ./acme.nix
-    ./nextcloud.nix
+    #./nextcloud.nix
     ./grafana.nix
     ./adguard-home.nix
     #./tiddlywiki.nix

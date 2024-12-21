@@ -80,10 +80,10 @@
 
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
-        @cloud host cloud.home.hyshka.com
-        handle @cloud {
-                 reverse_proxy http://127.0.0.1:8082
-        }
+        #@cloud host cloud.home.hyshka.com
+        #handle @cloud {
+        #         reverse_proxy http://127.0.0.1:8082
+        #}
 
         @grafana host grafana.home.hyshka.com
         handle @grafana {
