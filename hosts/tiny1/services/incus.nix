@@ -1,16 +1,26 @@
-{
-  virtualisation.incus.enable = true;
+{pkgs, ...}: {
+  environment.systemPackages = [pkgs.incus]; # provides incus-migrate, etc.
+  virtualisation.incus = {
+    enable = true;
+    package = pkgs.incus; # use latest instead of LTS
+  };
   networking.nftables.enable = true;
   users.users.hyshka.extraGroups = ["incus-admin"];
+  # Incus remote access
+  networking.firewall.allowedTCPPorts = [8443];
   # Enable networking rules after initialization
-  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
-    53
-    67
-  ];
-  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
-    53
-    67
-  ];
+  # Allowing the entire interface _should_ be safe as incus has its own firewall
+  networking.firewall.trustedInterfaces = ["incusbr*"];
+  #networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
+  #  53
+  #  67
+
+  #  8123 # hass
+  #];
+  #networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
+  #  53
+  #  67
+  #];
 
   # incus admin init
   #yaml = ''
