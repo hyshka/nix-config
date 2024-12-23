@@ -26,7 +26,7 @@
   pkg-config,
   sqlite,
   libxslt,
-  libsoup,
+  libsoup_2_4,
   graphicsmagick,
   json-glib,
   openjpeg,
@@ -62,7 +62,7 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [git];
 
   # xorg.libX11
-  buildInputs = with xorg; [atk cairo cmake curl dbus-glib exiv2 glib gtk3 ilmbase intltool lcms lensfun libX11 libexif libjpeg libpng librsvg libtiff libxcb openexr pixman pkg-config sqlite libxslt libsoup graphicsmagick json-glib openjpeg lua5_3_compat pugixml colord colord-gtk libxshmfence libxkbcommon at-spi2-core libwebp libsecret wrapGAppsHook osm-gps-map ocl-icd adwaita-icon-theme];
+  buildInputs = with xorg; [atk cairo cmake curl dbus-glib exiv2 glib gtk3 ilmbase intltool lcms lensfun libX11 libexif libjpeg libpng librsvg libtiff libxcb openexr pixman pkg-config sqlite libxslt libsoup_2_4 graphicsmagick json-glib openjpeg lua5_3_compat pugixml colord colord-gtk libxshmfence libxkbcommon at-spi2-core libwebp libsecret wrapGAppsHook osm-gps-map ocl-icd adwaita-icon-theme];
 
   cmakeFlags = ["-DBUILD_USERMANUAL=False"];
 
