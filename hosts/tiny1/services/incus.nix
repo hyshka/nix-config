@@ -1,4 +1,10 @@
 {pkgs, ...}: {
+  disabledModules = ["virtualisation/incus.nix"];
+
+  imports = [
+    ../../../overlays/incus.nix
+  ];
+
   environment.systemPackages = [pkgs.incus]; # provides incus-migrate, etc.
   virtualisation.incus = {
     enable = true;
