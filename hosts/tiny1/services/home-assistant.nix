@@ -9,7 +9,7 @@
   # https://github.com/ArdaXi/nixos/blob/dd6d3d8a9daef829a3e3de52a4ce79d1cad17984/profiles/nas/homeassistant.nix
   # https://github.com/felschr/nixos-config/blob/6a0f0bf76e3ae80c1e180ba6f6c7fd3b8e91d2d3/services/home-assistant/default.nix
   services.home-assistant = {
-    enable = true;
+    enable = false;
     package =
       pkgs.home-assistant.overrideAttrs
       (oldAttrs: {doInstallCheck = false;});

@@ -19,7 +19,7 @@
     ./grafana.nix
     ./adguard-home.nix
     #./tiddlywiki.nix
-    ./paperless.nix
+    #./paperless.nix
     # ./logseq.nix
     ./immich.nix
     ./incus.nix
