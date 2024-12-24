@@ -1,9 +1,13 @@
-{
+{pkgs, ...}: {
   imports = [
     ./global
 
     # TODO
-    ../nixvim
+    #../nixvim
     ../cli
+  ];
+
+  home.packages = with pkgs; [
+    neovim
   ];
 }
