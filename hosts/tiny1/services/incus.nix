@@ -5,6 +5,9 @@
     ../../../overlays/incus.nix
   ];
 
+  # References
+  # - https://github.com/viperML/dotfiles/blob/5002378af7d3e1f898b2eac9ff80ef9512d68587/modules/nixos/incus.nix#L45
+
   environment.systemPackages = [pkgs.incus]; # provides incus-migrate, etc.
   virtualisation.incus = {
     enable = true;
