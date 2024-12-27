@@ -180,6 +180,30 @@
       "docker-compose-media-root.target"
     ];
   };
+  systemd.services."docker-qbittorrent-pause" = {
+    path = [pkgs.docker];
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      docker pause qbittorrent
+    '';
+    startAt = "*-*-* 00:55:00";
+    partOf = ["docker-compose-media-root.target"];
+    wantedBy = ["docker-compose-media-root.target"];
+  };
+  systemd.services."docker-qbittorrent-unpause" = {
+    path = [pkgs.docker];
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      docker unpause qbittorrent
+    '';
+    startAt = "*-*-* 02:00:00";
+    partOf = ["docker-compose-media-root.target"];
+    wantedBy = ["docker-compose-media-root.target"];
+  };
 
   virtualisation.oci-containers.containers."radarr" = {
     image = "lscr.io/linuxserver/radarr:latest";
