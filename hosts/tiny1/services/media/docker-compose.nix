@@ -198,7 +198,7 @@
       Type = "oneshot";
     };
     script = ''
-      docker unpause qbittorrent
+      docker unpause qbittorrent || 0
     '';
     startAt = "*-*-* 02:00:00";
     partOf = ["docker-compose-media-root.target"];
