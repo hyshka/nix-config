@@ -36,12 +36,9 @@
     # otherwise, the sub-second timestamps will be marked as a local change and
     # prevent syncs.
     touchBeforeSync = false;
-    #sync.interval = "01:00"; # defaults to daily at 1 am
     scrub = {
-      # TODO these PMS values may be out-of-date, snapraid recommends scrub once/week
-      #plan = 22; # 22%
-      #olderThan = 8;
-      # interval = "Mon *-*-* 02:00:00"; # defaults to every Monday at 2 am
+      # scrub entire array about once a month
+      plan = 16;
     };
     # TODO healthcheck notification for sync & scrub
   };
