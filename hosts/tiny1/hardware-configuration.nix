@@ -67,5 +67,5 @@
   zramSwap.enable = true;
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 }
