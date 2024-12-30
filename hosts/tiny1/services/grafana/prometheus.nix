@@ -1,8 +1,9 @@
 {config, ...}: {
-  systemd.services.prometheus.serviceConfig.SupplementaryGroups = [
-    # Permission to read Docker socket for metrics
-    "docker"
-  ];
+  services.cadvisor = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+    port = 9101;
+  };
 
   # https://wiki.nixos.org/wiki/Prometheus
   # https://github.com/Misterio77/nix-config/blob/692aca80fad823de5d39333a8ff10c271c1388f2/hosts/alcyone/services/prometheus.nix#L10
@@ -51,7 +52,7 @@
         job_name = "cadvisor";
         static_configs = [
           {
-            targets = ["127.0.0.1:9101"];
+            targets = ["127.0.0.1:${toString config.services.cadvisor.port}"];
           }
         ];
       }
@@ -66,11 +67,6 @@
       smartctl = {
         enable = true;
         listenAddress = "127.0.0.1";
-      };
-      cadvisor = {
-        enable = true;
-        listenAddress = "127.0.0.1";
-        port = 9101;
       };
       # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
       #wireguard = {
