@@ -16,7 +16,7 @@
     ./caddy.nix
     ./acme.nix
     #./nextcloud.nix
-    ./grafana.nix
+    ./grafana
     ./adguard-home.nix
     #./tiddlywiki.nix
     #./paperless.nix

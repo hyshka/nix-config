@@ -42,6 +42,7 @@
     smartmontools
     fio
     hdparm
+    sdparm
     iozone
     parted
 
