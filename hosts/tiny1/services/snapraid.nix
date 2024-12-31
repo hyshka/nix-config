@@ -1,4 +1,8 @@
 {
+  config,
+  pkgs,
+  ...
+}: {
   services.snapraid = {
     enable = true;
     parityFiles = [
@@ -42,5 +46,28 @@
       plan = 16;
     };
     # TODO healthcheck notification for sync & scrub
+  };
+
+  systemd.services = {
+    snapraid-scrub.serviceConfig = with config.services.snapraid; {
+      # TODO: pkgs.snapraid-collector
+      #ExecStart = "${pkgs.snapraid}/bin/snapraid scrub -p ${toString scrub.plan} -o ${toString scrub.olderThan}";
+    };
+    snapraid-sync.serviceConfig = {
+      # TODO: pkgs.snapraid-collector
+      #ExecStart = "${pkgs.snapraid}/bin/snapraid sync";
+    };
+    # Added by me
+    snapraid-smart = {
+      description = "Log SMART attributes of the SnapRAID array";
+      startAt = "05:00";
+      serviceConfig =
+        config.systemd.services.snapraid-scrub.serviceConfig
+        // {
+          ExecStart = "${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom
+";
+        };
+      unitConfig.After = "snapraid-sync.service";
+    };
   };
 }
