@@ -12,7 +12,6 @@
   services.promtail = {
     enable = true;
     configuration = {
-      analytics.reporting_enabled = false;
       server = {
         http_listen_port = 3031;
         grpc_listen_port = 0;
