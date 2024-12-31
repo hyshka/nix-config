@@ -2,7 +2,6 @@
   imports = [
     ./calibre.nix
     ./docker.nix
-    ./glances.nix
     #./home-assistant.nix
     ./homepage.nix
     ./media
