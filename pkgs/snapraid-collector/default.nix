@@ -15,11 +15,9 @@
 in
   symlinkJoin {
     name = "snapraid-collector";
-    paths =
-      [
-        scriptContent
-      ]
-      ++ dependencies;
+    paths = [
+      scriptContent
+    ];
     buildInputs = [pkgs.makeWrapper];
     postBuild = ''
       wrapProgram $out/bin/snapraid_metrics_collector.sh \
