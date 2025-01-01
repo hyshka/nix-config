@@ -66,7 +66,8 @@
       serviceConfig =
         config.systemd.services.snapraid-scrub.serviceConfig
         // {
-          ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
+          ExecStart = "${pkgs.snapraid}/bin/snapraid smart";
+          #ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
           ReadWritePaths = config.systemd.services.snapraid-sync.serviceConfig.ReadWritePaths ++ ["/var/lib/prometheus-node-exporter-text-files"];
         };
       unitConfig.After = "snapraid-sync.service";
