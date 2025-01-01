@@ -61,7 +61,7 @@
     snapraid-smart = {
       description = "Log SMART attributes of the SnapRAID array";
       startAt = "05:00";
-      path = [pkgs.snapraid pkgs.which pkgs.gawk]; # The systemd unit seems to override the PATH in the wrapper
+      path = [pkgs.snapraid pkgs.which pkgs.gawk pkgs.smartmontools]; # The systemd unit seems to override the PATH in the wrapper
       serviceConfig =
         config.systemd.services.snapraid-scrub.serviceConfig
         // {

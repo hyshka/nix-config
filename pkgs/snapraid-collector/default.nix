@@ -11,7 +11,7 @@
     sha256 = "sha256-/rlB3h14iebyxUssOcsYFuMml0b3F5+7JgAZwogYHmA=";
   };
   scriptContent = writeShellScriptBin "snapraid_metrics_collector.sh" (builtins.readFile "${repo}/snapraid_metrics_collector.sh");
-  dependencies = [pkgs.snapraid pkgs.which pkgs.gawk];
+  dependencies = [pkgs.snapraid pkgs.which pkgs.gawk pkgs.smartmontools];
 in
   symlinkJoin {
     name = "snapraid-collector";
