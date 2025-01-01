@@ -3,5 +3,6 @@
     zandronum
     zandronum-server
     doomseeker
+    fluidsynth
   ];
 }
