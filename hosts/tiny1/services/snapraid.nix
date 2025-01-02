@@ -62,13 +62,16 @@
     snapraid-smart = {
       description = "Log SMART attributes of the SnapRAID array";
       startAt = "05:00";
-      #path = [pkgs.snapraid pkgs.which pkgs.gawk pkgs.smartmontools]; # The systemd unit seems to override the PATH in the wrapper
       serviceConfig =
+        # Copy hardened unit config
         config.systemd.services.snapraid-scrub.serviceConfig
         // {
-          ExecStart = "${pkgs.snapraid}/bin/snapraid smart";
-          #ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
-          ReadWritePaths = config.systemd.services.snapraid-sync.serviceConfig.ReadWritePaths ++ ["/var/lib/prometheus-node-exporter-text-files"];
+          ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
+          ReadWritePaths = "/var/lib/prometheus-node-exporter-text-files";
+          # Allow unit to access SMART attributes of all "sd" block devices
+          PrivateDevices = false;
+          DeviceAllow = "block-sd rw";
+          CapabilityBoundingSet = "CAP_SYS_RAWIO";
         };
       unitConfig.After = "snapraid-sync.service";
     };
