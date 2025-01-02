@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   services.snapraid = {
@@ -49,13 +50,15 @@
 
   # Override Snapraid services to use snapraid-collector
   systemd.services = {
-    snapraid-scrub.serviceConfig = with config.services.snapraid; {
+    snapraid-scrub.serviceConfig = {
       # TODO: snapraid-collector does not support CLI options
-      #ExecStart = "${pkgs.snapraid}/bin/snapraid scrub -p ${toString scrub.plan} -o ${toString scrub.olderThan}";
-      ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh scrub > /var/lib/prometheus-node-exporter-text-files/snapraid_scrub.prom'";
+      # https://github.com/ljmerza/snapraid-collector/blob/main/snapraid_metrics_collector.sh#L164C43-L164C48
+      # with config.services.snapraid;
+      # ExecStart = "${pkgs.snapraid}/bin/snapraid scrub -p ${toString scrub.plan} -o ${toString scrub.olderThan}";
+      ExecStart = lib.mkForce "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh scrub > /var/lib/prometheus-node-exporter-text-files/snapraid_scrub.prom'";
     };
     snapraid-sync.serviceConfig = {
-      ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh sync > /var/lib/prometheus-node-exporter-text-files/snapraid_sync.prom'";
+      ExecStart = lib.mkForce "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh sync > /var/lib/prometheus-node-exporter-text-files/snapraid_sync.prom'";
     };
     # The script will attempt to write logs to the working directory, but will lack permissions in this unit. That should be okay.
     snapraid-smart = {
