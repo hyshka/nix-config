@@ -55,6 +55,14 @@
           desc = "[C]opilot[C]hat: [Q]uick chat";
         };
       }
+      {
+        mode = "n";
+        key = "<leader>cct";
+        action = "<cmd>CopilotChatToggle<CR>";
+        options = {
+          desc = "[C]opilot[C]hat: [T]oggle";
+        };
+      }
     ];
   };
 }
