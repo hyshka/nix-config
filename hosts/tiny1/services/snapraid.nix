@@ -45,19 +45,18 @@
       # scrub entire array about once a month
       plan = 16;
     };
-    # TODO healthcheck notification for sync & scrub
   };
 
+  # Override Snapraid services to use snapraid-collector
   systemd.services = {
     snapraid-scrub.serviceConfig = with config.services.snapraid; {
-      # TODO: pkgs.snapraid-collector
+      # TODO: snapraid-collector does not support CLI options
       #ExecStart = "${pkgs.snapraid}/bin/snapraid scrub -p ${toString scrub.plan} -o ${toString scrub.olderThan}";
+      ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh scrub > /var/lib/prometheus-node-exporter-text-files/snapraid_scrub.prom'";
     };
     snapraid-sync.serviceConfig = {
-      # TODO: pkgs.snapraid-collector
-      #ExecStart = "${pkgs.snapraid}/bin/snapraid sync";
+      ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh sync > /var/lib/prometheus-node-exporter-text-files/snapraid_sync.prom'";
     };
-    # Added by me
     # The script will attempt to write logs to the working directory, but will lack permissions in this unit. That should be okay.
     snapraid-smart = {
       description = "Log SMART attributes of the SnapRAID array";
