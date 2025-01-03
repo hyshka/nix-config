@@ -4,6 +4,10 @@
       owner = "grafana";
       group = "grafana";
     };
+    grafana-ntfy-access-token = {
+      owner = "grafana";
+      group = "grafana";
+    };
   };
 
   # https://wiki.nixos.org/wiki/Grafana
@@ -26,7 +30,9 @@
 
     provision = {
       enable = true;
+
       datasources.settings = {
+        apiVersion = 1;
         datasources = [
           {
             name = "Prometheus";
@@ -51,38 +57,61 @@
           }
         ];
       };
-      # TODO
-      # https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring.nix#L241
-      #alerting.contactPoints.settings = {
-      #  contactPoints = [{
-      #    name = "ntfy";
-      #    receivers = [{
-      #      uid = "sysadmin";
-      #      type = "webhook";
-      #      settings = {
-      #        url = "http://localhost:2586/grafana";
-      #        http_method = "POST";
-      #        authorization_header = secret_token;
-      #      };
-      #    }];
-      #  }];
-      #};
-      #alerting.policies.settings = {
-      #  policies = [
-      #    {
-      #      receiver = "webhook";
-      #      group_by = ["grafana_folder" "alertname"];
-      #      group_wait = "30s";
-      #      group_interval = "5m";
-      #      repeat_interval = "4h";
-      #    }
-      #  ];
-      #};
+
+      alerting.contactPoints.settings = {
+        apiVersion = 1;
+        contactPoints = [
+          {
+            orgId = 1;
+            name = "Ntfy";
+            receivers = [
+              # https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/
+              {
+                uid = "admin";
+                type = "webhook";
+                settings = {
+                  url = "http://localhost:2586/grafana";
+                  http_method = "POST";
+                  authorization_credentials = "$__file{${config.sops.secrets.grafana-ntfy-access-token.path}}";
+                };
+              }
+            ];
+          }
+        ];
+      };
+
+      alerting.policies.settings = {
+        apiVersion = 1;
+        policies = [
+          {
+            orgId = 1;
+            receiver = "Ntfy";
+            group_by = ["grafana_folder" "alertname"];
+            group_wait = "30s";
+            group_interval = "5m";
+            repeat_interval = "4h";
+          }
+        ];
+      };
+
+      alerting.rules.settings = {
+        apiVersion = 1;
+        groups = [
+          {
+            orgId = 1;
+            name = "SysAdmin";
+            folder = "My Alerts";
+            interval = "10m";
+            # TODO: https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring/rules.json
+            rules = [];
+          }
+        ];
+      };
 
       # TODO:
       # - https://grafana.com/grafana/dashboards/1860-node-exporter-full/
       # - https://grafana.com/grafana/dashboards/20802-caddy-monitoring/
-      #
+      # - https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring.nix#L205
       # Example: https://github.com/Misterio77/nix-config/blob/692aca80fad823de5d39333a8ff10c271c1388f2/hosts/alcyone/services/grafana/default.nix#L39
       #dashboards.settings.providers = [
       #  {
