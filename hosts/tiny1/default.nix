@@ -46,6 +46,7 @@
     sdparm
     iozone
     parted
+    usbutils
 
     # for intel_gpu_top
     intel-gpu-tools
