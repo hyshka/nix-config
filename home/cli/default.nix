@@ -27,5 +27,6 @@
     silver-searcher # Better ack
     sd # Better sed
     unzip
+    ctop # container stats
   ];
 }

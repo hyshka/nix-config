@@ -47,6 +47,7 @@
         }
       ];
       touchpads = [
+        # TODO: only for ashyn
         {
           enable = true;
           rightClickMethod = "twoFingers";
@@ -86,11 +87,11 @@
         "Switch to Desktop 3" = "Alt+3";
         "Switch to Desktop 4" = "Alt+4";
         "Switch to Desktop 5" = "Alt+5";
-        "Window to Desktop 1" = "Alt+!";
-        "Window to Desktop 2" = "Alt+@";
-        "Window to Desktop 3" = "Alt+#";
-        "Window to Desktop 4" = "Alt+$";
-        "Window to Desktop 5" = "Alt+%";
+        "Window to Desktop 1" = "Alt+Shift+!";
+        "Window to Desktop 2" = "Alt+Shift+@";
+        "Window to Desktop 3" = "Alt+Shift+#";
+        "Window to Desktop 4" = "Alt+Shift+$";
+        "Window to Desktop 5" = "Alt+Shift+%";
         "Show Desktop" = "none";
         # Krohnkite
         # TODO krohnkite key binds
