@@ -1,0 +1,11 @@
+## References
+- Custom audio scripts
+    - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/chromebook-audio.nix#L5
+    - https://github.com/baduhai/nix-config/blob/6a000a2a460ab01213d744ad294ba57f6c69ad7e/hosts/desktops/io.nix#L4
+- Charge control
+    - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/auto-stop-charging.nix
+    - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/stop-charging-before-suspend.nix
+- ectool pkg
+    - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/cros-ectool.nix
+- webcam
+    - https://github.com/ChocolateLoverRaj/nixos-system-config/blob/43ca84bd1440473a388a633bd1bd0ca1f3fee2e8/external-camera.nix
