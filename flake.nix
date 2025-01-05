@@ -41,6 +41,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hardware.url = "github:nixos/nixos-hardware";
 
     catppuccin.url = "github:catppuccin/nix";
