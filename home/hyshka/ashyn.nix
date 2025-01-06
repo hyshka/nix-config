@@ -30,6 +30,10 @@
     deskflow
   ];
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "deskflow-1.18.0"
+  ];
+
   home.sessionVariables = {
     BROWSER = "firefox-devedition";
   };
