@@ -28,6 +28,7 @@
     mullvad-vpn
     spotify
     deskflow
+    brave
   ];
 
   nixpkgs.config.permittedInsecurePackages = [
