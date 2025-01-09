@@ -26,9 +26,6 @@
   boot.loader.systemd-boot.memtest86.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # utils
-    pciutils
-
     # mergerfs tools
     mergerfs
     mergerfs-tools
@@ -44,16 +41,17 @@
     fio
     hdparm
     sdparm
-    iozone
-    parted
-    usbutils
+    #iozone # TODO: build error
 
     # for intel_gpu_top
     intel-gpu-tools
 
-    # misc?
-    fontconfig
-    glibc
+    # misc utils
+    parted
+    usbutils # lsusb
+    pciutils # lspci
+    fontconfig # fc-list
+    glibc # ldd, sprof
   ];
 
   # For remote deployments as root
