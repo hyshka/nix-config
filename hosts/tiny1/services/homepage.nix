@@ -63,12 +63,6 @@
         disk = "/";
       };
     }
-    {
-      search = {
-        provider = "duckduckgo";
-        target = "_blank";
-      };
-    }
   ];
   widgetsFile = builtins.toFile "homepage-widgets.yaml" (builtins.toJSON widgets);
 
@@ -107,12 +101,6 @@
     {
       Infrastructure = [
         {
-          Glances = {
-            icon = "glances.png";
-            href = "https://glances.home.hyshka.com";
-          };
-        }
-        {
           Grafana = {
             icon = "grafana.png";
             href = "https://grafana.home.hyshka.com";
@@ -146,24 +134,24 @@
             href = "https://hass.home.hyshka.com/";
           };
         }
-        {
-          "Silver Bullet" = {
-            icon = "silverbullet.svg";
-            href = "https://silverbullet.home.hyshka.com/";
-          };
-        }
-        {
-          "Nextcloud" = {
-            icon = "nextcloud.svg";
-            href = "https://cloud.home.hyshka.com/";
-          };
-        }
-        {
-          "Paperless" = {
-            icon = "paperless.svg";
-            href = "https://paperless.home.hyshka.com/";
-          };
-        }
+        #{
+        #  "Silver Bullet" = {
+        #    icon = "silverbullet.svg";
+        #    href = "https://silverbullet.home.hyshka.com/";
+        #  };
+        #}
+        #{
+        #  "Nextcloud" = {
+        #    icon = "nextcloud.svg";
+        #    href = "https://cloud.home.hyshka.com/";
+        #  };
+        #}
+        #{
+        #  "Paperless" = {
+        #    icon = "paperless.svg";
+        #    href = "https://paperless.home.hyshka.com/";
+        #  };
+        #}
         {
           "Immich" = {
             icon = "immich.svg";
@@ -176,10 +164,28 @@
             };
           };
         }
+        #{
+        #  "CryptPad" = {
+        #    icon = "cryptpad.svg";
+        #    href = "https://cryptpad.home.hyshka.com/";
+        #  };
+        #}
         {
-          "CryptPad" = {
-            icon = "cryptpad.svg";
-            href = "https://cryptpad.home.hyshka.com/";
+          "Calibre" = {
+            icon = "calibre.svg";
+            href = "https://library.home.hyshka.com/";
+          };
+        }
+        {
+          "Calibre Web" = {
+            icon = "calibre-web.svg";
+            href = "https://books.home.hyshka.com/";
+          };
+        }
+        {
+          "Ntfy" = {
+            icon = "ntfy.svg";
+            href = "https://ntfy.home.hyshka.com/";
           };
         }
       ];
@@ -251,6 +257,14 @@
               url = "http://readarr:8787";
               key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
             };
+          };
+        }
+        {
+          EbookBuddy = {
+            icon = "sh-eBookBuddy";
+            href = "https://ebookbuddy.home.hyshka.com";
+            server = "my-docker";
+            container = "ebookbuddy";
           };
         }
         {

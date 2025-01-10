@@ -16,7 +16,7 @@
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e" ];
+      plugins = ["github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e"];
       hash = "sha256-WGV/Ve7hbVry5ugSmTYWDihoC9i+D3Ct15UKgdpYc9U=";
     };
     email = "bryan@hyshka.com";
@@ -57,10 +57,10 @@
                   reverse_proxy http://127.0.0.1:3020
          }
 
-         @paperless host paperless.home.hyshka.com
-         handle @paperless {
-                  reverse_proxy http://127.0.0.1:28981
-         }
+         #@paperless host paperless.home.hyshka.com
+         #handle @paperless {
+         #         reverse_proxy http://127.0.0.1:28981
+         #}
 
          @immich host immich.home.hyshka.com
          handle @immich {
