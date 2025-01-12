@@ -459,7 +459,7 @@
   # Not using the NixOS module because I don't know how to expose the Docker interface
   # https://github.com/MindFlavor/prometheus_wireguard_exporter
   virtualisation.oci-containers.containers."wireguard-exporter" = {
-    image = "mindflavor/prometheus-wireguard-exporter:lastest";
+    image = "mindflavor/prometheus-wireguard-exporter:latest";
     environment = {
       "PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES" = "/config/wg_confs/wg0.conf";
     };
