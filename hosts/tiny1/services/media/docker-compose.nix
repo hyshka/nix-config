@@ -469,11 +469,13 @@
     ports = [
       "9586:9586/tcp"
     ];
+    dependsOn = [
+      "wireguard"
+    ];
     log-driver = "journald";
     extraOptions = [
       "--cap-add=NET_ADMIN"
-      "--network-alias=wireguard-exporter"
-      "--network=media_default"
+      "--network=container:wireguard"
     ];
   };
   systemd.services."docker-wireguard-exporter" = {
@@ -483,12 +485,6 @@
       RestartSec = lib.mkOverride 90 "100ms";
       RestartSteps = lib.mkOverride 90 9;
     };
-    after = [
-      "docker-network-media_default.service"
-    ];
-    requires = [
-      "docker-network-media_default.service"
-    ];
     partOf = [
       "docker-compose-media-root.target"
     ];
