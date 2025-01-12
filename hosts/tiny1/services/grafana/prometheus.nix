@@ -41,6 +41,14 @@
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
       }
       {
+        job_name = "syncthing";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:8384"];
+          }
+        ];
+      }
+      {
         job_name = "ntfy";
         static_configs = [
           {
