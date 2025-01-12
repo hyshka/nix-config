@@ -424,6 +424,7 @@
     ports = [
       "8080:8080/tcp"
       "8085:8085/tcp"
+      "9586:9586/tcp" # wireguard-exporter
     ];
     log-driver = "journald";
     extraOptions = [
@@ -465,9 +466,6 @@
     };
     volumes = [
       "/home/hyshka/media/wireguard-config:/config:ro"
-    ];
-    ports = [
-      "9586:9586/tcp"
     ];
     dependsOn = [
       "wireguard"
