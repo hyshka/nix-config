@@ -18,6 +18,9 @@
     environment = {
       IMMICH_TRUSTED_PROXIES = "127.0.0.1";
       IMMICH_METRICS = "true";
+      IMMICH_TELEMETRY_INCLUDE = "all"; # enable prometheus metrics
+      IMMICH_API_METRICS_PORT = "8091";
+      IMMICH_MICROSERVICES_METRICS_PORT = "8092";
     };
   };
 

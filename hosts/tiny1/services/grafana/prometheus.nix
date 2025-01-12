@@ -73,6 +73,22 @@
         ];
       }
       {
+        job_name = "immich_api";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:8091"];
+          }
+        ];
+      }
+      {
+        job_name = "immich_microservices";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:8092"];
+          }
+        ];
+      }
+      {
         job_name = "cadvisor";
         static_configs = [
           {
