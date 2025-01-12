@@ -8,11 +8,11 @@
   sops.secrets = {
     restic_password = {
       owner = config.users.users.hyshka.name;
-      group = config.users.users.hyshka.group;
+      group = "restic";
     };
     restic_environmentFile = {
       owner = config.users.users.hyshka.name;
-      group = config.users.users.hyshka.group;
+      group = "restic";
     };
   };
 

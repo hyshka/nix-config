@@ -15,6 +15,7 @@ in {
       "docker"
       "video"
       "wheel"
+      "restic"
     ];
 
     openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../../home/hyshka/ssh.pub);

@@ -29,6 +29,14 @@
         ];
       }
       {
+        job_name = "restic";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:${toString config.services.prometheus.exporters.restic.port}"];
+          }
+        ];
+      }
+      {
         job_name = "loki";
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
       }
@@ -69,16 +77,21 @@
         enable = true;
         listenAddress = "127.0.0.1";
       };
+      restic = {
+        enable = true;
+        listenAddress = "127.0.0.1";
+        repository = config.services.restic.backups.hyshka.repository;
+        passwordFile = config.sops.secrets.restic_password.path;
+        environmentFile = config.sops.secrets.restic_environmentFile.path;
+        group = "restic";
+        refreshInterval = 60 * 60 * 24; # every 24hrs
+      };
       # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
       #wireguard = {
       #  enable = true;
       #};
       # TODO: https://github.com/msroest/sabnzbd_exporter
       #sabnzbd = {
-      #  enable = true;
-      #};
-      # TODO: https://github.com/ngosang/restic-exporter
-      #restic = {
       #  enable = true;
       #};
       # TODO: https://github.com/xperimental/nextcloud-exporter
