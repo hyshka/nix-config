@@ -90,9 +90,9 @@
       }
       {
         job_name = "incus";
+        metrics_path = "/1.0/metrics";
         static_configs = [
           {
-            metrics_path = "/1.0/metrics";
             targets = ["127.0.0.1:8444"];
           }
         ];
