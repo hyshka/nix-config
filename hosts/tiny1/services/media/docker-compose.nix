@@ -461,9 +461,9 @@
   # https://github.com/MindFlavor/prometheus_wireguard_exporter
   virtualisation.oci-containers.containers."wireguard-exporter" = {
     image = "mindflavor/prometheus-wireguard-exporter:latest";
+    cmd = ["-a true"]; # fix broken cmd
     environment = {
       "PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES" = "/config/wg_confs/wg0.conf";
-      "PROMETHEUS_WIREGUARD_EXPORTER_PREPEND_SUDO_ENABLED" = false;
     };
     volumes = [
       "/home/hyshka/media/wireguard-config:/config:ro"
