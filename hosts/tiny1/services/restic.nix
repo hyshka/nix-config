@@ -5,6 +5,8 @@
 }: {
   environment.systemPackages = with pkgs; [restic];
 
+  users.groups.restic = {};
+
   sops.secrets = {
     restic_password = {
       owner = config.users.users.hyshka.name;
