@@ -92,6 +92,7 @@
         job_name = "incus";
         metrics_path = "/1.0/metrics";
         scheme = "https";
+        tls_config.insecure_skip_verify = true;
         static_configs = [
           {
             targets = ["127.0.0.1:8444"];
