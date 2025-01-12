@@ -159,7 +159,7 @@
   systemd.services.caddy = {
     serviceConfig = {
       EnvironmentFile = config.sops.secrets.caddy-envFile.path;
-      # Allow caddy group to read logs, used for Grafana Alloy
+      # Allow caddy group to read logs, used by Promtail
       LogsDirectoryMode = "0750";
     };
   };
