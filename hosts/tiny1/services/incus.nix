@@ -24,6 +24,11 @@
   #  53
   #  67
 
+  # Expose Incus metrics on localhost
+  # incus config set core.metrics_address "127.0.0.1:8444"
+  # Disable metrics auth (NOT RECOMMENDED)
+  # incus config set core.metrics_authentication false
+
   #  8123 # hass
   #];
   #networking.firewall.interfaces.incusbr0.allowedUDPPorts = [

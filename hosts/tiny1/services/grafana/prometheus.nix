@@ -89,6 +89,15 @@
         ];
       }
       {
+        job_name = "incus";
+        static_configs = [
+          {
+            matrics_path = "/1.0/metrics";
+            targets = ["127.0.0.1:8444"];
+          }
+        ];
+      }
+      {
         job_name = "cadvisor";
         static_configs = [
           {
