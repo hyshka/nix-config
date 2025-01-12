@@ -463,6 +463,7 @@
     image = "mindflavor/prometheus-wireguard-exporter:latest";
     environment = {
       "PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES" = "/config/wg_confs/wg0.conf";
+      "PROMETHEUS_WIREGUARD_EXPORTER_PREPEND_SUDO_ENABLED" = "false";
     };
     volumes = [
       "/home/hyshka/media/wireguard-config:/config:ro"
