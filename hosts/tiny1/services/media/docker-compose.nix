@@ -456,6 +456,47 @@
     ];
   };
 
+  # Not using the NixOS module because I don't know how to expose the Docker interface
+  # https://github.com/MindFlavor/prometheus_wireguard_exporter
+  virtualisation.oci-containers.containers."wireguard-exporter" = {
+    image = "mindflavor/prometheus-wireguard-exporter:lastest";
+    environment = {
+      "PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES" = "/config/wg_confs/wg0.conf";
+    };
+    volumes = [
+      "/home/hyshka/media/wireguard-config:/config:ro"
+    ];
+    ports = [
+      "9586:9586/tcp"
+    ];
+    log-driver = "journald";
+    extraOptions = [
+      "--cap-add=NET_ADMIN"
+      "--network-alias=wireguard-exporter"
+      "--network=media_default"
+    ];
+  };
+  systemd.services."docker-wireguard-exporter" = {
+    serviceConfig = {
+      Restart = lib.mkOverride 90 "always";
+      RestartMaxDelaySec = lib.mkOverride 90 "1m";
+      RestartSec = lib.mkOverride 90 "100ms";
+      RestartSteps = lib.mkOverride 90 9;
+    };
+    after = [
+      "docker-network-media_default.service"
+    ];
+    requires = [
+      "docker-network-media_default.service"
+    ];
+    partOf = [
+      "docker-compose-media-root.target"
+    ];
+    wantedBy = [
+      "docker-compose-media-root.target"
+    ];
+  };
+
   systemd.tmpfiles.settings."ebookbuddy" = {
     "/home/hyshka/media/ebookbuddy-config" = {
       d = {

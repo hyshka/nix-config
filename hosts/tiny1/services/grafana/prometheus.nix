@@ -41,6 +41,14 @@
         static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
       }
       {
+        job_name = "wireguard";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:9586"];
+          }
+        ];
+      }
+      {
         job_name = "syncthing";
         static_configs = [
           {
@@ -94,18 +102,7 @@
         group = "restic";
         refreshInterval = 60 * 60 * 24; # every 24hrs
       };
-      # TODO: https://github.com/MindFlavor/prometheus_wireguard_exporter
-      #wireguard = {
-      #  enable = true;
-      #};
-      # TODO: https://github.com/msroest/sabnzbd_exporter
-      #sabnzbd = {
-      #  enable = true;
-      #};
-      # TODO: https://github.com/xperimental/nextcloud-exporter
-      #nextcloud = {
-      #  enable = true;
-      #};
+      # TODO: not in nixpkgs https://github.com/henrywhitaker3/adguard-exporter
     };
   };
 
