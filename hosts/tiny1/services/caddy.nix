@@ -45,7 +45,7 @@
          @hass host hass.home.hyshka.com
          handle @hass {
              # TODO: Couldn't proxy from Incus to localhost
-                  reverse_proxy http://10.223.27.45:8123
+             reverse_proxy http://10.223.27.45:8123
          }
 
          #@silverbullet host silverbullet.home.hyshka.com

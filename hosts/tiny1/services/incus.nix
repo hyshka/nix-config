@@ -16,21 +16,21 @@
   networking.nftables.enable = true;
   users.users.hyshka.extraGroups = ["incus-admin"];
   # Incus remote access
-  networking.firewall.allowedTCPPorts = [8443];
+  networking.firewall.allowedTCPPorts = [8443 8123];
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = ["incusbr*"];
-  #networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
-  #  53
-  #  67
+  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
+    #  53
+    #  67
+    8123 # hass
+  ];
 
   # Expose Incus metrics on localhost
   # incus config set core.metrics_address "127.0.0.1:8444"
   # Disable metrics auth (NOT RECOMMENDED)
   # incus config set core.metrics_authentication false
 
-  #  8123 # hass
-  #];
   #networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
   #  53
   #  67
