@@ -149,6 +149,11 @@
                  reverse_proxy http://127.0.0.1:2586
         }
 
+        @pinchflat host pinchflat.home.hyshka.com
+        handle @pinchflat {
+                 reverse_proxy http://127.0.0.1:8945
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort

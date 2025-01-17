@@ -74,6 +74,11 @@
         uid = 13011;
         group = "mediacenter";
       };
+      pinchflat = {
+        isSystemUser = true;
+        uid = 13012;
+        group = "mediacenter";
+      };
     };
   };
 }
