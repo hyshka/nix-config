@@ -45,6 +45,7 @@
     lutris
     yubikey-manager
     corectrl
+    brave
   ];
 
   home.sessionVariables = {
