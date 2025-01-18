@@ -112,6 +112,17 @@
         modules = [./hosts/ashyn];
         specialArgs = {inherit inputs outputs;};
       };
+      container = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
+          (
+            {pkgs, ...}: {
+              environment.systemPackages = [pkgs.vim];
+            }
+          )
+        ];
+      };
     };
 
     # Nix-Darwin configuration entrypoint
