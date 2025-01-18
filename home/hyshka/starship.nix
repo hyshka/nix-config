@@ -29,7 +29,7 @@
     darktable
     hugin
     inkscape-with-extensions
-    gimp-with-plugins
+    #gimp-with-plugins # TODO: build failed
     digikam
     jellyfin-media-player
     mpv
