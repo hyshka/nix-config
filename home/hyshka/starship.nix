@@ -46,6 +46,7 @@
     yubikey-manager
     corectrl
     brave
+    incus
   ];
 
   home.sessionVariables = {

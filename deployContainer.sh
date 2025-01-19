@@ -7,6 +7,9 @@ if [ -z "$containers" ]; then
     exit 2
 fi
 
+# TODO: I only have one remote, but I could add the host as a param to the script
+incus remote switch tiny1
+
 for container in ${containers//,/ }; do
     incus image import --alias nixos/custom/$container \
     $(nix build ".#nixosConfigurations.$container.config.system.build.metadata" --print-out-paths)/tarball/nixos-image-lxc-25.05.20250102.6df2492-x86_64-linux.tar.xz \
