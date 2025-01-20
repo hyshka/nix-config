@@ -11,6 +11,7 @@
       ./locale.nix
       ./nameservers.nix
       ./nix.nix
+      ./nixpkgs.nix
       ./openssh.nix
       ./sops.nix
       ./tailscale.nix
@@ -21,14 +22,6 @@
   home-manager.useGlobalPkgs = true;
   home-manager.extraSpecialArgs = {
     inherit inputs outputs;
-  };
-
-  # TODO: move to nixpkgs module in global?
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
   };
 
   hardware.enableRedistributableFirmware = true;

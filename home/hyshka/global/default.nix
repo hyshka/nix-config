@@ -5,7 +5,9 @@
   config,
   outputs,
   ...
-}: {
+}: let
+  isLinux = pkgs.stdenv.isLinux;
+in {
   imports =
     [
       inputs.catppuccin.homeManagerModules.catppuccin
@@ -27,7 +29,7 @@
   };
 
   # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
+  systemd.user.startServices = lib.mkIf isLinux "sd-switch";
 
   # Enable home-manager
   programs = {

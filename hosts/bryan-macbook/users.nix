@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   ...
 }: {
   users.users.hyshka = {
@@ -12,5 +11,5 @@
     packages = [pkgs.home-manager];
   };
 
-  #home-manager.users.hyshka = import ../../home/hyshka/${config.networking.hostName}.nix;
+  home-manager.users.hyshka = import ../../home/hyshka/macbook.nix;
 }

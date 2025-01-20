@@ -7,9 +7,9 @@
   imports = [
     inputs.home-manager.darwinModules.home-manager
 
-    # TODO: this won't work for darwin as it includes nixosModules
-    #../common/global
+    # ../common/global/default.nix doesn't work for darwin as it includes nixosModules
     ../common/global/nix.nix
+    ../common/global/nixpkgs.nix
     ../common/global/zsh.nix
 
     ./homebrew.nix
@@ -17,24 +17,9 @@
     ./users.nix
   ];
 
-  home-manager.sharedModules =
-    [
-      inputs.catppuccin.homeManagerModules.catppuccin
-    ]
-    ++ (builtins.attrValues outputs.homeManagerModules);
-  home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
   home-manager.extraSpecialArgs = {
     inherit inputs outputs;
-  };
-  home-manager.users.hyshka = import ./home.nix;
-
-  # TODO: move to nixpkgs module in global?
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
   };
 
   time.timeZone = "America/Edmonton";
