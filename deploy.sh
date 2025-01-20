@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 export NIX_SSHOPTS="-A"
 
-#build_remote=false
-
 hosts="$1"
 shift
 

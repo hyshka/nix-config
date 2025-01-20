@@ -34,11 +34,6 @@
   # https://github.com/koekeishiya/skhd (hotkeys)
   # https://github.com/cmacrae/spacebar (status bar)
 
-  # Virtual KVM
-  # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
-  # TODO: try input-leap
-  # https://github.com/NixOS/nixpkgs/pull/341425
-
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 

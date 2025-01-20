@@ -20,21 +20,13 @@
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = ["incusbr*"];
-  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [
-    #  53
-    #  67
-  ];
 
   # Expose Incus metrics on localhost
   # incus config set core.metrics_address "127.0.0.1:8444"
   # Disable metrics auth (NOT RECOMMENDED)
   # incus config set core.metrics_authentication false
 
-  #networking.firewall.interfaces.incusbr0.allowedUDPPorts = [
-  #  53
-  #  67
-  #];
-
+  # TODO: set as preseed
   # incus admin init
   #yaml = ''
   #  config: {}

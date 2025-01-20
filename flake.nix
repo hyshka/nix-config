@@ -112,6 +112,8 @@
         modules = [./hosts/ashyn];
         specialArgs = {inherit inputs outputs;};
       };
+
+      # LXC containers
       container = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -128,47 +130,11 @@
     # Nix-Darwin configuration entrypoint
     # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
     # nix run nix-darwin -- switch --flake .
+    # darwin-rebuild switch --flake .
     darwinConfigurations = {
       "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
         modules = [./hosts/bryan-macbook];
         specialArgs = {inherit inputs outputs;};
-      };
-    };
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."hyshka-D5920DQ4RN".pkgs;
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager switch --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "hyshka@starship" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home/hyshka/starship.nix
-          ./home/hyshka/nixpkgs.nix
-        ];
-      };
-      "hyshka@tiny1" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home/hyshka/tiny1.nix
-          ./home/hyshka/nixpkgs.nix
-        ];
-      };
-      "hyshka@rpi4" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        # TODO
-        #modules = [./home/home-cli.nix];
-      };
-      "hyshka@ashyn" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [
-          ./home/hyshka/ashyn.nix
-          ./home/hyshka/nixpkgs.nix
-        ];
       };
     };
   };

@@ -1,4 +1,5 @@
 # Until this PR is in unstable: https://nixpk.gs/pr-tracker.html?pr=365778
+# TODO: it is in unstable now
 {
   config,
   lib,

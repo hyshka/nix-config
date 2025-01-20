@@ -3,7 +3,6 @@
 {pkgs ? import <nixpkgs> {}}: rec {
   # example = pkgs.callPackage ./example { };
   ansel = pkgs.callPackage ./ansel {};
-  zha_toolkit = pkgs.callPackage ./zha_toolkit {};
   kwin6-bismuth-decoration = pkgs.callPackage ./kwin6-bismuth-decoration {};
   snapraid-collector = pkgs.callPackage ./snapraid-collector {};
 }
