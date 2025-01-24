@@ -13,6 +13,7 @@
   # https://wiki.nixos.org/wiki/Grafana
   # https://xeiaso.net/blog/prometheus-grafana-loki-nixos-2020-11-20/
   # https://github.com/nix-community/nur-combined/blob/3652fac2e8a82268eb4dcf6099144669ae253e22/repos/alarsyo/services/monitoring.nix#L40
+  # https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring.nix
   services.grafana = {
     enable = true;
 
@@ -24,7 +25,6 @@
         http_port = 3002;
         domain = "grafana.home.hyshka.com";
         root_url = "https://grafana.home.hyshka.com";
-        serve_from_sub_path = true;
       };
     };
 
@@ -35,15 +35,19 @@
         apiVersion = 1;
         datasources = [
           {
+            orgId = 1;
             name = "Prometheus";
             type = "prometheus";
             url = "http://${config.services.prometheus.listenAddress}:${builtins.toString config.services.prometheus.port}";
             isDefault = true;
+            version = 1;
           }
           {
+            orgId = 1;
             name = "Loki";
             type = "loki";
             url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
+            version = 1;
           }
         ];
         deleteDatasources = [
@@ -69,13 +73,20 @@
               {
                 uid = "admin";
                 type = "webhook";
+                disableResolveMessage = true;
                 settings = {
                   url = "http://localhost:2586/grafana";
-                  http_method = "POST";
+                  httpMethod = "POST";
                   authorization_credentials = "$__file{${config.sops.secrets.grafana-ntfy-access-token.path}}";
                 };
               }
             ];
+          }
+        ];
+        deleteContactPoints = [
+          {
+            orgId = 1;
+            uid = "";
           }
         ];
       };
@@ -112,19 +123,23 @@
       # - https://grafana.com/grafana/dashboards/1860-node-exporter-full/
       # - https://grafana.com/grafana/dashboards/20802-caddy-monitoring/
       # - https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring.nix#L205
+      # - https://github.com/esselius/cfg/blob/387dd36093655d9fee1d9087118191a2d82d9a5b/nixos-modules/profiles/monitoring.nix#L131
       # Example: https://github.com/Misterio77/nix-config/blob/692aca80fad823de5d39333a8ff10c271c1388f2/hosts/alcyone/services/grafana/default.nix#L39
-      #dashboards.settings.providers = [
-      #  {
-      #    name = "Node Exporter";
-      #    options.path = pkgs.packages.grafanaDashboards.node-exporter;
-      #    disableDeletion = true;
-      #  }
-      #  {
-      #    name = "NGINX";
-      #    options.path = pkgs.packages.grafanaDashboards.nginx;
-      #    disableDeletion = true;
-      #  }
-      #];
+      dashboards.settings = {
+        apiVersion = 1;
+        providers = [
+          #  {
+          #    name = "Node Exporter";
+          #    options.path = pkgs.packages.grafanaDashboards.node-exporter;
+          #    disableDeletion = true;
+          #  }
+          #  {
+          #    name = "NGINX";
+          #    options.path = pkgs.packages.grafanaDashboards.nginx;
+          #    disableDeletion = true;
+          #  }
+        ];
+      };
     };
   };
 }
