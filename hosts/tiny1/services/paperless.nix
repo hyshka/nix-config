@@ -1,6 +1,7 @@
 {config, ...}: {
   sops.secrets.paperless-passwordFile = {};
 
+  # default port 28981
   services.paperless = {
     enable = false;
     mediaDir = "/mnt/storage/paperless/";
