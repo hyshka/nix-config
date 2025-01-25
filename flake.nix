@@ -113,17 +113,19 @@
         specialArgs = {inherit inputs outputs;};
       };
 
-      # LXC containers
+      # LXC demo container
       container = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
+          {system.stateVersion = "23.11";}
           (
             {pkgs, ...}: {
               environment.systemPackages = [pkgs.vim];
             }
           )
         ];
+        specialArgs = {inherit inputs outputs;};
       };
     };
 
