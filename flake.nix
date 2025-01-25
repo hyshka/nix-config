@@ -4,9 +4,11 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://microvm.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "microvm.cachix.org-1:oXnBc6hRE3eX5rSYdRyMYXnfzcCxC7yKPTbZXALsqys="
     ];
   };
 
@@ -52,6 +54,11 @@
 
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    microvm = {
+      url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -106,15 +113,73 @@
       };
       tiny1 = lib.nixosSystem {
         modules = [./hosts/tiny1];
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit self inputs outputs;};
       };
       ashyn = lib.nixosSystem {
         modules = [./hosts/ashyn];
         specialArgs = {inherit inputs outputs;};
       };
 
+      # MicroVMs
+      microvm = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          inputs.microvm.nixosModules.microvm
+          ({pkgs, ...}: {
+            networking.hostName = "microvm";
+            users.users.root.password = "";
+            microvm = {
+              interfaces = [
+                {
+                  type = "tap";
+                  id = "vm-qemu-1";
+                  mac = "02:00:00:00:00:01";
+                }
+              ];
+              #volumes = [
+              #  {
+              #    mountPoint = "/";
+              #    image = "root.img";
+              #    size = 1 * 1024;
+              #  }
+              #];
+              shares = [
+                {
+                  proto = "virtiofs";
+                  tag = "ro-store";
+                  source = "/nix/store";
+                  mountPoint = "/nix/.ro-store";
+                }
+              ];
+            };
+
+            systemd.network = {
+              enable = true;
+
+              networks."20-lan" = {
+                matchConfig.Type = "ether";
+                networkConfig = {
+                  Address = ["192.168.1.3/24" "2001:db8::b/64"];
+                  Gateway = "192.168.1.1";
+                  DNS = ["192.168.1.1"];
+                  IPv6AcceptRA = true;
+                  DHCP = "no";
+                };
+              };
+            };
+            networking.firewall.allowedTCPPorts = [80 22];
+            services.openssh.enable = true;
+            services.httpd = {
+              enable = true;
+              adminAddr = "morty@example.org";
+            };
+            system.stateVersion = "24.11";
+          })
+        ];
+      };
+
       # NixOS Containers
-      demo = nixpkgs.lib.nixosSystem {
+      demo = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ({pkgs, ...}: {
