@@ -159,9 +159,9 @@
               networks."20-lan" = {
                 matchConfig.Type = "ether";
                 networkConfig = {
-                  Address = ["192.168.1.3/24" "2001:db8::b/64"];
-                  Gateway = "192.168.1.1";
-                  DNS = ["192.168.1.1"];
+                  Address = ["10.0.0.241/24"];
+                  Gateway = "10.0.0.1";
+                  DNS = ["10.0.0.240"];
                   IPv6AcceptRA = true;
                   DHCP = "no";
                 };

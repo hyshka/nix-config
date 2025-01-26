@@ -14,11 +14,12 @@
     ../common/optional/glances.nix
 
     ./services
-    ./microvm.nix
+    #./microvm.nix
   ];
 
   networking = {
     hostName = "tiny1";
+    useNetworkd = true; # required for microvm
   };
 
   # Use the systemd-boot EFI boot loader.
