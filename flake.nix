@@ -145,33 +145,15 @@
               #];
               shares = [
                 {
-                  proto = "9p";
+                  proto = "virtiofs";
                   tag = "ro-store";
                   source = "/nix/store";
                   mountPoint = "/nix/.ro-store";
                 }
               ];
             };
-
             systemd.network.enable = true;
-            #systemd.network = {
-            #  enable = true;
-            #  networks."10-lan" = {
-            #    matchConfig.Type = "ether";
-            #    #networkConfig = {
-            #    #  Address = ["10.1.0.2/24"];
-            #    #  Gateway = "10.1.0.1";
-            #    #  #DNS = ["10.1.0.1"];
-            #    #  DNS = ["1.1.1.1" "8.8.8.8"];
-            #    #  DHCP = "no";
-            #    #};
-            #    addresses = [{Address = "10.1.0.2/24";}];
-            #    linkConfig.RequiredForOnline = "routable";
-            #  };
-            #};
-            #networking = {
-            #  useNetworkd = true;
-            #};
+
             networking.firewall.allowedTCPPorts = [80];
             services.httpd = {
               enable = true;
