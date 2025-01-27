@@ -133,7 +133,7 @@
                 {
                   type = "tap";
                   id = "vm-qemu-1";
-                  mac = "02:00:00:00:00:01";
+                  mac = "02:00:00:00:00:02";
                 }
               ];
               #volumes = [
@@ -153,21 +153,26 @@
               ];
             };
 
-            systemd.network = {
-              enable = true;
-              networks."20-lan" = {
-                matchConfig.Type = "ether";
-                networkConfig = {
-                  Address = ["192.168.0.2/24"];
-                  Gateway = "192.168.0.1";
-                  DNS = ["192.168.0.1"];
-                  IPv6AcceptRA = true;
-                  DHCP = "no";
-                };
-              };
-            };
-            networking.firewall.allowedTCPPorts = [80 22];
-            services.openssh.enable = true;
+            systemd.network.enable = true;
+            #systemd.network = {
+            #  enable = true;
+            #  networks."10-lan" = {
+            #    matchConfig.Type = "ether";
+            #    #networkConfig = {
+            #    #  Address = ["10.1.0.2/24"];
+            #    #  Gateway = "10.1.0.1";
+            #    #  #DNS = ["10.1.0.1"];
+            #    #  DNS = ["1.1.1.1" "8.8.8.8"];
+            #    #  DHCP = "no";
+            #    #};
+            #    addresses = [{Address = "10.1.0.2/24";}];
+            #    linkConfig.RequiredForOnline = "routable";
+            #  };
+            #};
+            #networking = {
+            #  useNetworkd = true;
+            #};
+            networking.firewall.allowedTCPPorts = [80];
             services.httpd = {
               enable = true;
               adminAddr = "morty@example.org";

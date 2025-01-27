@@ -7,9 +7,29 @@ in {
       "10-virbr0" = {
         matchConfig.Name = "virbr0";
         networkConfig = {
-          Address = "192.168.0.1/24";
+          DHCPServer = true;
           IPv6SendRA = true;
         };
+        addresses = [
+          {
+            Address = "10.1.0.1/24";
+          }
+          {
+            Address = "fd12:3456:789a::1/64";
+          }
+        ];
+        # https://github.com/astro/microvm.nix/blob/main/examples/microvms-host.nix#L111
+        dhcpServerStaticLeases = [
+          {
+            MACAddress = "02:00:00:00:00:02";
+            Address = "10.1.0.2";
+          }
+        ];
+        ipv6Prefixes = [
+          {
+            Prefix = "fd12:3456:789a::/64";
+          }
+        ];
       };
       "11-virbr0" = {
         matchConfig.Name = "vm-*";
@@ -26,10 +46,11 @@ in {
     };
   };
 
+  networking.firewall.allowedUDPPorts = [67];
   networking.nat = {
     enable = true;
     enableIPv6 = true;
-    externalInterface = netinterface;
+    #externalInterface = netinterface;
     internalInterfaces = ["virbr0"];
   };
 }
