@@ -14,7 +14,7 @@
     ../common/optional/glances.nix
 
     ./services
-    #./microvm.nix
+    ./microvm.nix
   ];
 
   networking = {

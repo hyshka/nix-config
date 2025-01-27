@@ -153,20 +153,7 @@
               ];
             };
 
-            systemd.network = {
-              enable = true;
-
-              networks."20-lan" = {
-                matchConfig.Type = "ether";
-                networkConfig = {
-                  Address = ["10.0.0.241/24"];
-                  Gateway = "10.0.0.1";
-                  DNS = ["10.0.0.240"];
-                  IPv6AcceptRA = true;
-                  DHCP = "no";
-                };
-              };
-            };
+            systemd.network.enable = true;
             networking.firewall.allowedTCPPorts = [80 22];
             services.openssh.enable = true;
             services.httpd = {
