@@ -27,8 +27,8 @@ in {
           password = "ADGUARDPASS"; # placeholder
         }
       ];
-      auth_attempts = 3;
-      block_auth_min = 3600;
+      auth_attempts = 5;
+      block_auth_min = 60;
       dns = {
         # This will conflict with Incus if we bind to all interfaces
         bind_hosts = [
@@ -42,11 +42,7 @@ in {
           "100.116.243.20"
           "fe80::7c87:836a:67a6:803d"
         ];
-        #  bootstrap_dns = [
-        #    "9.9.9.9"
-        #    "8.8.8.8"
-        #    "1.1.1.1"
-        #  ];
+        bootstrap_dns = ["1.1.1.2" "1.0.0.2"];
       };
     };
   };
