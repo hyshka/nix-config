@@ -32,9 +32,15 @@ in {
       dns = {
         # This will conflict with Incus if we bind to all interfaces
         bind_hosts = [
+          # Localhost
           "127.0.0.1"
           "::1"
-          "100.116.243.20" # tailscale0
+          # LAN
+          "192.168.1.200"
+          "fe80::6e4b:90ff:fe4f:b69c"
+          # Tailnet
+          "100.116.243.20"
+          "fe80::7c87:836a:67a6:803d"
         ];
         #  bootstrap_dns = [
         #    "9.9.9.9"
