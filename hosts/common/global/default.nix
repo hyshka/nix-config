@@ -9,7 +9,7 @@
       inputs.home-manager.nixosModules.home-manager
       ./catppuccin.nix
       ./locale.nix
-      ./nameservers.nix
+      #./nameservers.nix
       ./nix.nix
       ./nixpkgs.nix
       ./openssh.nix
