@@ -11,13 +11,13 @@
 
   microvm = {
     vms = {
-      microvm = {
+      paperless = {
         flake = self;
         updateFlake = "git+file:///home/hyshka/nix-config";
       };
     };
     autostart = [
-      "microvm"
+      "paperless"
     ];
   };
 }

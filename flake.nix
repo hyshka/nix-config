@@ -123,22 +123,37 @@
       };
 
       # MicroVMs
-      microvm = lib.nixosSystem {
+      paperless = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           inputs.microvm.nixosModules.microvm
           inputs.sops-nix.nixosModules.sops
           inputs.impermanence.nixosModules.impermanence
           ({config, ...}: {
-            networking.hostName = "microvm";
-            users.users.root.password = "";
+            networking.hostName = "paperless";
+            sops.secrets.root_password = {
+              sopsFile = ./hosts/tiny1/services/paperless/secrets.yaml;
+              neededForUsers = true;
+            };
+            #users.users.root.hashedPasswordFile = config.sops.secrets.root_password.path;
+            users.users.root.password = "toor";
             systemd.network.enable = true;
             system.stateVersion = "24.11";
+            systemd.sockets.sshd = {
+              socketConfig = {
+                ListenStream = [
+                  "vsock:1337:22"
+                ];
+              };
+            };
             microvm = {
+              mem = 2000;
+              vsock.cid = 1337;
               interfaces = [
                 {
                   type = "tap";
                   id = "vm-qemu-1";
+                  # TODO: requires manual sudo ip link set vm-qemu-1 address 02:00:00:00:00:02
                   mac = "02:00:00:00:00:02";
                 }
               ];
@@ -158,23 +173,24 @@
                 }
                 {
                   tag = "persist";
-                  # TODO: requires sudo mkdir -p /persist/microvms/microvm first
+                  # TODO: requires sudo mkdir -p /persist/microvms/paperless first
                   source = "/persist/microvms/${config.networking.hostName}";
                   mountPoint = "/persist";
                   proto = "virtiofs";
                 }
-                #{
-                #  proto = "virtiofs";
-                #  tag = "paperless-mediadir";
-                #  source = "/mnt/storage/paperless";
-                #  mountPoint = "/mnt/paperless";
-                #}
+                {
+                  proto = "virtiofs";
+                  tag = "paperless-mediadir";
+                  source = "/mnt/storage/paperless";
+                  mountPoint = "/mnt/paperless";
+                }
               ];
             };
 
             # Persistent host key for secrets
             services.openssh = {
               enable = true;
+              settings.PermitRootLogin = "yes";
               hostKeys = [
                 {
                   path = "/etc/ssh/ssh_host_ed25519_key";
@@ -191,19 +207,23 @@
             };
 
             # Service definition
+            # TODO: disable ssh when stable
             networking.firewall.allowedTCPPorts = [22 28981];
-            #sops.secrets.paperless-passwordFile = {};
+            sops.secrets.paperless-passwordFile = {
+              sopsFile = ./hosts/tiny1/services/paperless/secrets.yaml;
+            };
 
-            #services.paperless = {
-            #  enable = false;
-            #  mediaDir = "/mnt/paperless/";
-            #  passwordFile = config.sops.secrets.paperless-passwordFile.path;
-            #  # https://docs.paperless-ngx.com/configuration/
-            #  settings = {
-            #    PAPERLESS_URL = "https://paperless.home.hyshka.com";
-            #    PAPERLESS_TRUSTED_PROXIES = "127.0.0.1";
-            #  };
-            #};
+            services.paperless = {
+              enable = true;
+              mediaDir = "/mnt/paperless/";
+              passwordFile = config.sops.secrets.paperless-passwordFile.path;
+              address = "0.0.0.0";
+              # https://docs.paperless-ngx.com/configuration/
+              settings = {
+                PAPERLESS_URL = "https://paperless.home.hyshka.com";
+                PAPERLESS_TRUSTED_PROXIES = "127.0.0.1,10.1.0.2";
+              };
+            };
           })
         ];
       };
