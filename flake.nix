@@ -62,6 +62,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence.url = "github:nix-community/impermanence";
+
     hardware.url = "github:nixos/nixos-hardware";
 
     catppuccin.url = "github:catppuccin/nix";
@@ -125,9 +127,13 @@
         system = "x86_64-linux";
         modules = [
           inputs.microvm.nixosModules.microvm
-          ({pkgs, ...}: {
+          inputs.sops-nix.nixosModules.sops
+          inputs.impermanence.nixosModules.impermanence
+          ({config, ...}: {
             networking.hostName = "microvm";
             users.users.root.password = "";
+            systemd.network.enable = true;
+            system.stateVersion = "24.11";
             microvm = {
               interfaces = [
                 {
@@ -145,21 +151,57 @@
               #];
               shares = [
                 {
-                  proto = "virtiofs";
                   tag = "ro-store";
                   source = "/nix/store";
                   mountPoint = "/nix/.ro-store";
+                  proto = "virtiofs";
+                }
+                {
+                  tag = "persist";
+                  source = "/persist/microvms/${config.networking.hostName}";
+                  mountPoint = "/persist";
+                  proto = "virtiofs";
+                }
+                #{
+                #  proto = "virtiofs";
+                #  tag = "paperless-mediadir";
+                #  source = "/mnt/storage/paperless";
+                #  mountPoint = "/mnt/paperless";
+                #}
+              ];
+            };
+
+            # Persistent host key for secrets
+            services.openssh = {
+              enable = true;
+              hostKeys = [
+                {
+                  path = "/etc/ssh/ssh_host_ed25519_key";
+                  type = "ed25519";
                 }
               ];
             };
-            systemd.network.enable = true;
-
-            networking.firewall.allowedTCPPorts = [80];
-            services.httpd = {
-              enable = true;
-              adminAddr = "morty@example.org";
+            fileSystems."/persist".neededForBoot = lib.mkForce true;
+            environment.persistence."/persist" = {
+              files = [
+                "/etc/ssh/ssh_host_ed25519_key"
+              ];
             };
-            system.stateVersion = "24.11";
+
+            # Service definition
+            networking.firewall.allowedTCPPorts = [22 28981];
+            #sops.secrets.paperless-passwordFile = {};
+
+            #services.paperless = {
+            #  enable = false;
+            #  mediaDir = "/mnt/paperless/";
+            #  passwordFile = config.sops.secrets.paperless-passwordFile.path;
+            #  # https://docs.paperless-ngx.com/configuration/
+            #  settings = {
+            #    PAPERLESS_URL = "https://paperless.home.hyshka.com";
+            #    PAPERLESS_TRUSTED_PROXIES = "127.0.0.1";
+            #  };
+            #};
           })
         ];
       };
