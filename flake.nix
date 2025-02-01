@@ -158,6 +158,7 @@
                 }
                 {
                   tag = "persist";
+                  # TODO: requires sudo mkdir -p /persist/microvms/microvm first
                   source = "/persist/microvms/${config.networking.hostName}";
                   mountPoint = "/persist";
                   proto = "virtiofs";
@@ -185,6 +186,7 @@
             environment.persistence."/persist" = {
               files = [
                 "/etc/ssh/ssh_host_ed25519_key"
+                "/etc/ssh/ssh_host_ed25519_key.pub"
               ];
             };
 
