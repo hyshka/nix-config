@@ -25,8 +25,5 @@
   ];
   zramSwap.enable = true;
 
-  # Enable modesetting driver
-  #hardware.raspberry-pi."4".fkms-3d.enable = true;
-
   nixpkgs.hostPlatform.system = "aarch64-linux";
 }

@@ -28,5 +28,7 @@
     AIDER_CHECK_UPDATE = "false";
     AIDER_SHOW_RELEASE_NOTES = "false";
     AIDER_VIM = "true";
+    AIDER_GITIGNORE = "false";
+    AIDER_CODE_THEME = "solarized-dark";
   };
 }
