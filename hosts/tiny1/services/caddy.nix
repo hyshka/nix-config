@@ -39,119 +39,125 @@
 
          @dashboard host dashboard.home.hyshka.com
          handle @dashboard {
-                  reverse_proxy http://127.0.0.1:3001
+           reverse_proxy http://127.0.0.1:3001
          }
 
          @hass host hass.home.hyshka.com
          handle @hass {
-             # TODO: Couldn't proxy from Incus to localhost
-             reverse_proxy http://10.223.27.45:8123
+           reverse_proxy http://10.223.27.45:8123
          }
 
          #@silverbullet host silverbullet.home.hyshka.com
          #handle @silverbullet {
-         #         reverse_proxy http://127.0.0.1:3010
+         # reverse_proxy http://127.0.0.1:3010
          #}
 
          @adguard host adguard.home.hyshka.com
          handle @adguard {
-                  reverse_proxy http://127.0.0.1:3020
+           reverse_proxy http://127.0.0.1:3020
          }
 
          @paperless host paperless.home.hyshka.com
          handle @paperless {
-                  reverse_proxy http://10.223.27.210:28981
+           reverse_proxy http://10.223.27.210:28981
          }
 
          @immich host immich.home.hyshka.com
          handle @immich {
-                  reverse_proxy http://127.0.0.1:3005
+           reverse_proxy http://127.0.0.1:3005
          }
 
          # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
          #@cryptpad host cryptpad.home.hyshka.com cryptpad-ui.home.hyshka.com
          #handle @cryptpad {
-         #         reverse_proxy http://127.0.0.1:3006
-         #         handle /cryptpad_websocket/* {
-         #           reverse_proxy http://127.0.0.1:3003
-         #         }
+         #  reverse_proxy http://127.0.0.1:3006
+         #  handle /cryptpad_websocket/* {
+         #    reverse_proxy http://127.0.0.1:3003
+         #  }
          #}
 
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
         #@cloud host cloud.home.hyshka.com
         #handle @cloud {
-        #         reverse_proxy http://127.0.0.1:8082
+        #  reverse_proxy http://127.0.0.1:8082
         #}
 
         @grafana host grafana.home.hyshka.com
         handle @grafana {
-                 reverse_proxy http://127.0.0.1:3002
+          reverse_proxy http://127.0.0.1:3002
         }
 
         @jellyseerr host jellyseerr.home.hyshka.com
         handle @jellyseerr {
-                 reverse_proxy http://127.0.0.1:5055
+          reverse_proxy http://127.0.0.1:5055
         }
 
         @jellyfin host jellyfin.home.hyshka.com
         handle @jellyfin {
-                 reverse_proxy http://127.0.0.1:8096
+          reverse_proxy http://127.0.0.1:8096
         }
 
         @radarr host radarr.home.hyshka.com
         handle @radarr {
-                 reverse_proxy http://127.0.0.1:7878
+          reverse_proxy http://127.0.0.1:7878
         }
 
         @readarr host readarr.home.hyshka.com
         handle @readarr {
-                 reverse_proxy http://127.0.0.1:8787
+          reverse_proxy http://127.0.0.1:8787
         }
 
         @ebookbuddy host ebookbuddy.home.hyshka.com
         handle @ebookbuddy {
-                 reverse_proxy http://127.0.0.1:5000
+          reverse_proxy http://127.0.0.1:5000
         }
 
         @sonarr host sonarr.home.hyshka.com
         handle @sonarr {
-                 reverse_proxy http://127.0.0.1:8989
+          reverse_proxy http://127.0.0.1:8989
         }
 
         @prowlarr host prowlarr.home.hyshka.com
         handle @prowlarr {
-                 reverse_proxy http://127.0.0.1:9696
+          reverse_proxy http://127.0.0.1:9696
         }
 
         @qbittorrent host qbittorrent.home.hyshka.com
         handle @qbittorrent {
-                 reverse_proxy http://127.0.0.1:8080
+          reverse_proxy http://127.0.0.1:8080
         }
 
         @sabnzbd host sabnzbd.home.hyshka.com
         handle @sabnzbd {
-                 reverse_proxy http://127.0.0.1:8085
+          reverse_proxy http://127.0.0.1:8085
         }
 
         @library host library.home.hyshka.com
         handle @library {
-                 reverse_proxy http://127.0.0.1:8083
+          reverse_proxy http://127.0.0.1:8083
         }
 
         @books host books.home.hyshka.com
         handle @books {
-                 reverse_proxy http://127.0.0.1:8084
+          reverse_proxy http://127.0.0.1:8084
         }
 
         @ntfy host ntfy.home.hyshka.com
         handle @ntfy {
-                 reverse_proxy http://127.0.0.1:2586
+          reverse_proxy http://127.0.0.1:2586
         }
 
         @pinchflat host pinchflat.home.hyshka.com
         handle @pinchflat {
-                 reverse_proxy http://127.0.0.1:8945
+          reverse_proxy http://127.0.0.1:8945
+        }
+
+        @syncthing host syncthing.home.hyshka.com
+        handle @syncthing {
+          reverse_proxy http://127.0.0.1:8384 {
+            header_up Host {upstream_hostport}
+          }
         }
 
         # Fallback for otherwise unhandled domains
