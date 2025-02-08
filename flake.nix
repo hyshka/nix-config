@@ -85,12 +85,18 @@
 
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    packages = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in import ./pkgs {inherit pkgs;});
+
     # Dev shells
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
+    devShells = forEachSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in import ./shell.nix {inherit pkgs;});
+
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
+    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
