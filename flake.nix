@@ -87,12 +87,14 @@
     # Accessible through 'nix build', 'nix shell', etc
     packages = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-    in import ./pkgs {inherit pkgs;});
+    in
+      import ./pkgs {inherit pkgs;});
 
     # Dev shells
     devShells = forEachSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-    in import ./shell.nix {inherit pkgs;});
+    in
+      import ./shell.nix {inherit pkgs;});
 
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
@@ -118,67 +120,10 @@
         specialArgs = {inherit inputs outputs;};
       };
 
-      # LXC demo container
+      # Incus LXC containers
       paperless = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
-          inputs.sops-nix.nixosModules.sops
-          inputs.impermanence.nixosModules.impermanence
-          (
-            {config, ...}: {
-              # Base
-              networking.hostName = "paperless";
-              system.stateVersion = "23.11";
-
-              # Persistent host key for secrets
-              # incus config device add paperless persist disk source=/persist/microvms/paperless path=/persist shift=true
-              services.openssh = {
-                hostKeys = [
-                  {
-                    path = "/etc/ssh/ssh_host_ed25519_key";
-                    type = "ed25519";
-                  }
-                ];
-              };
-              fileSystems."/persist" = {
-                mountPoint = "/persist";
-                # Device only exists at runtime, fake it for now to build the rootfs
-                device = "none";
-                fsType = "none";
-                options = ["bind"];
-                neededForBoot = lib.mkForce true;
-              };
-              environment.persistence."/persist" = {
-                files = [
-                  "/etc/ssh/ssh_host_ed25519_key"
-                  "/etc/ssh/ssh_host_ed25519_key.pub"
-                ];
-              };
-
-              # Application
-              networking.firewall.allowedTCPPorts = [28981];
-              sops.secrets.paperless-passwordFile = {
-                sopsFile = ./hosts/tiny1/services/paperless/secrets.yaml;
-              };
-
-              services.paperless = {
-                enable = true;
-                # map root on host to paperless (315) in the container
-                # incus config device add paperless data disk source=/mnt/storage/paperless path=/mnt/paperless/ raw.mount.options=idmap=b:315:0:1
-                # incus config set paperless raw.idmap=both 0 315
-                mediaDir = "/mnt/paperless/";
-                passwordFile = config.sops.secrets.paperless-passwordFile.path;
-                address = "0.0.0.0";
-                # https://docs.paperless-ngx.com/configuration/
-                settings = {
-                  PAPERLESS_URL = "https://paperless.home.hyshka.com";
-                  PAPERLESS_TRUSTED_PROXIES = "127.0.0.1,10.223.27.210";
-                };
-              };
-            }
-          )
-        ];
+        modules = [./containers/paperless.nix];
         specialArgs = {inherit inputs outputs;};
       };
     };
