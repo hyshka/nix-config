@@ -58,10 +58,10 @@
                   reverse_proxy http://127.0.0.1:3020
          }
 
-         #@paperless host paperless.home.hyshka.com
-         #handle @paperless {
-         #         reverse_proxy http://127.0.0.1:28981
-         #}
+         @paperless host paperless.home.hyshka.com
+         handle @paperless {
+                  reverse_proxy http://10.223.27.210:28981
+         }
 
          @immich host immich.home.hyshka.com
          handle @immich {
