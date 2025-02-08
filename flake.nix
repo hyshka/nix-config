@@ -71,10 +71,7 @@
   } @ inputs: let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
-    systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
-    # TODO rework this
-    forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
-    pkgsFor = nixpkgs.legacyPackages;
+    forEachSystem = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
   in {
     inherit lib;
 
