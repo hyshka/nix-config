@@ -19,7 +19,6 @@
         {
           name = "Steam Gamescope";
           image-path = "steam.png";
-          output = "/home/hyshka/steam.txt";
           detached = [
             "setsid steam-gamescope"
           ];
