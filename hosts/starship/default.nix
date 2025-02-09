@@ -16,7 +16,7 @@
     ./docker.nix
     ./doom.nix
     ./steam.nix
-    #./sunshine.nix
+    ./sunshine.nix
     ./syncthing.nix
     ./wol.nix
   ];
@@ -26,6 +26,11 @@
   hardware.graphics.enable = true;
   hardware.bluetooth = {
     enable = true;
+  };
+
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "hyshka";
   };
 
   sops.defaultSopsFile = ./secrets.yaml;

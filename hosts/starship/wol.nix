@@ -1,4 +1,6 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  interface = "enp37s0";
+in {
   systemd.services.wol = {
     enable = true;
     description = "Wake on LAN";
@@ -8,10 +10,8 @@
     };
     serviceConfig = {
       Type = "oneshot";
-      # Enable WoL on both physical and tailscale interfaces
       ExecStart = ''
-        ${pkgs.ethtool}/bin/ethtool -s enp37s0 wol g
-        ${pkgs.ethtool}/bin/ethtool -s tailscale0 wol g
+        ${pkgs.ethtool}/bin/ethtool -s ${interface} wol g
       '';
     };
     wantedBy = ["multi-user.target"];
