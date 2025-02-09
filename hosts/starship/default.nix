@@ -18,7 +18,7 @@
     ./steam.nix
     #./sunshine.nix
     ./syncthing.nix
-    #./wol.nix
+    ./wol.nix
   ];
 
   networking.hostName = "starship";

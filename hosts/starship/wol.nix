@@ -1,4 +1,3 @@
-# TODO
 {pkgs, ...}: {
   systemd.services.wol = {
     enable = true;
@@ -9,7 +8,11 @@
     };
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s eno1 wol g";
+      # Enable WoL on both physical and tailscale interfaces
+      ExecStart = ''
+        ${pkgs.ethtool}/bin/ethtool -s enp37s0 wol g
+        ${pkgs.ethtool}/bin/ethtool -s tailscale0 wol g
+      '';
     };
     wantedBy = ["multi-user.target"];
   };
