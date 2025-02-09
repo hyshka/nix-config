@@ -18,12 +18,10 @@
     ./steam.nix
     #./sunshine.nix
     ./syncthing.nix
-    #./synergy.nix
     #./wol.nix
   ];
 
   networking.hostName = "starship";
-  networking.firewall.enable = false;
 
   hardware.graphics.enable = true;
   hardware.bluetooth = {

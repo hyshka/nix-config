@@ -11,7 +11,6 @@
 
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = ["kvm-amd"];
   boot.kernel.sysctl = {
     # optimize swap on zram

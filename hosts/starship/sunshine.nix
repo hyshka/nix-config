@@ -6,6 +6,11 @@
     util-linux # required for sunshine/setsid
   ];
 
+  networking.firewall.allowedTCPPorts = [
+    47989 # streaming
+    47990 # web ui
+  ];
+
   # Enable avahi for Sunshine
   services.avahi = {
     enable = true;
