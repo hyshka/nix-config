@@ -13,7 +13,7 @@ in
     # Application
     networking.firewall.allowedTCPPorts = [28981];
     sops.secrets.paperless-passwordFile = {
-      sopsFile = ../hosts/tiny1/services/paperless/secrets.yaml;
+      sopsFile = ./secrets/paperless.yaml;
     };
 
     services.paperless = {
