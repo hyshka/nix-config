@@ -5,8 +5,8 @@
   programs.nixvim = {
     plugins.copilot-lua = {
       enable = true;
-      suggestion = {
-        autoTrigger = true;
+      settings.suggestion = {
+        auto_trigger = true;
         keymap.accept = "<Right>";
       };
     };

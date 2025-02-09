@@ -9,8 +9,8 @@ in {
   home.packages = with pkgs;
   with haskellPackages; [
     # https://hledger.org/
-    hledger_1_40
-    hledger-ui_1_40
+    hledger_1_41
+    hledger-ui_1_41
     # https://github.com/apauley/hledger-flow
     # TODO
     #hledger-flow

@@ -8,7 +8,7 @@
     ./features/alacritty.nix
     ./features/plasma.nix
     ./features/zwift.nix
-    ./features/ledger.nix
+    #./features/ledger.nix
 
     # TODO
     ../nixvim
