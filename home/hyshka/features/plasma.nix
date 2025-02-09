@@ -139,6 +139,7 @@
       "kdeglobals"."General"."TerminalApplication" = "alacritty";
       "kdeglobals"."General"."TerminalService" = "Alacritty.desktop";
       "kwinrc"."Plugins"."krohnkiteEnabled" = true;
+      "kwinrc"."Script-krohnkite"."ignoreClass" = "krunner,yakuake,spectacle,kded5,xwaylandvideobridge,plasmashell,ksplashqml,org.kde.plasmashell,org.kde.polkit-kde-authentication-agent-1,org.kde.kruler,kruler,gamescope";
       "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
       "plasmanotifyrc"."Notifications"."PopupTimeout" = 3000;
       "spectaclerc"."GuiConfig"."captureDelay" = 3;
