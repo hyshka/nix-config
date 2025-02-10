@@ -40,7 +40,7 @@ in {
           "fe80::6e4b:90ff:fe4f:b69c%enp0s31f6"
           # Tailnet
           "100.116.243.20"
-          "fe80::7c87:836a:67a6:803d%tailscale0"
+          "fe80::7a1b:5eb3:caa0:2eef%tailscale0"
         ];
         bootstrap_dns = ["1.1.1.2" "1.0.0.2"];
       };
