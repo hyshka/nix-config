@@ -22,10 +22,6 @@
     # Extra
     ./plugins/kickstart/indent-blankline.nix
     #./plugins/kickstart/lint.nix
-    # TODO: try these instead of rnvimr
-    # - https://github.com/stevearc/oil.nvim
-    # - https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-files.md
-    ./plugins/custom/rnvimr.nix
     ./plugins/custom/orgmode.nix
     ./plugins/custom/copilot.nix
     ./plugins/custom/oil.nix
