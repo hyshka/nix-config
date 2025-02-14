@@ -27,13 +27,13 @@
     libreoffice-qt
     mullvad-vpn
     spotify
-    deskflow
+    #deskflow
     brave
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "deskflow-1.18.0"
-  ];
+  #nixpkgs.config.permittedInsecurePackages = [
+  #  "deskflow-1.18.0"
+  #];
 
   home.sessionVariables = {
     BROWSER = "firefox-devedition";
