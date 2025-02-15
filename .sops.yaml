@@ -36,6 +36,12 @@ creation_rules:
           - *tiny1
         pgp:
           - *hyshka
+  - path_regex: hosts/ashyn/secrets.ya?ml$
+    key_groups:
+      - age:
+          - *ashyn
+        pgp:
+          - *hyshka
   - path_regex: hosts/tiny1/services/[^/]+\.(sqlite)$
     key_groups:
       - age:
