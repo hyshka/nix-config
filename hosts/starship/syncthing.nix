@@ -31,6 +31,7 @@
         "tiny1" = {id = "SBU2DEZ-MEVLQ2S-2HN6L6N-3VILABR-Z3C5NWU-UD36AF7-4HVFWZ7-W2QJWQB";};
         "rg353ps" = {id = "U4UPYDR-LVN7VTQ-3SOLQWP-QJFRKKN-IWGOXZR-2YOFOZL-OFEGGYA-ZMC6HAS";};
         "renee-pixel7a" = {id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";};
+        "ashyn" = {id = "YPGYO6J-3JUHLKP-ZHGEUFE-WCG2VWT-KHQ3HGV-MMSGGZF-2WXXVMC-6DT2ZQA";};
       };
       folders = {
         "Home Notes" = {
@@ -90,6 +91,11 @@
           id = "xgy3x-u2fhw";
           path = "/home/hyshka/Games/Roms/";
           devices = ["tiny1" "rg353ps"];
+        };
+        "Logseq" = {
+          id = "uogke-lyndg";
+          path = "/home/hyshka/Logseq";
+          devices = ["ashyn" "tiny1" "bryan-pixel4"];
         };
       };
     };
