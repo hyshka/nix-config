@@ -5,5 +5,5 @@
     doomseeker
     fluidsynth
   ];
-  networking.firewall.allowedTCPPorts = [10666];
+  networking.firewall.allowedUDPPorts = [10666];
 }
