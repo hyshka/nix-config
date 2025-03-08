@@ -5,7 +5,7 @@
       global = {
         "server string" = "tiny1";
         # restrict access to LAN, localhost, and tailnet
-        "hosts allow" = ["10.0.0." "127." "100."];
+        "hosts allow" = ["192.168.1." "127." "100."];
         # limit connects to LAN and tailnet, lo always required
         "bind interfaces only" = "yes";
         "interfaces" = ["lo" "enp0s31f6" "tailscale0"];
