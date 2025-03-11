@@ -16,7 +16,6 @@
       # Match mouse acceleration to Linux
       ".GlobalPreferences"."com.apple.mouse.scaling" = 1.0;
 
-      universalaccess.reduceMotion = true;
       menuExtraClock.Show24Hour = true;
 
       dock = {

@@ -15,7 +15,13 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
+    # mine
+    spotify
+    # work
+    curl
     gimp
     logseq
+    brave
+    google-chrome
   ];
 }
