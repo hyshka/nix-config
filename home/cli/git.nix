@@ -13,16 +13,46 @@
     };
     extraConfig = {
       init.defaultBranch = "main";
-      pull.rebase = true;
-      push.default = "simple";
-      push.autoSetupRemote = true;
       status.showUntrackedFiles = "all";
-      merge.ff = "only";
-      merge.conflictstyle = "zdiff3";
+      pull.rebase = true;
+      merge = {
+        ff = "only";
+        conflictstyle = "zdiff3";
+        tool = "nvimdiff2";
+        mergiraf.name = "mergiraf";
+        mergiraf.driver = "mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P";
+      };
       mergetool.keepBackup = false;
-      merge.tool = "nvimdiff2";
-      merge.mergiraf.name = "mergiraf";
-      merge.mergiraf.driver = "mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P";
+      column.ui = "auto";
+      branch.sort = "-committerdate";
+      tag.sort = "version:refname";
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = true;
+        renames = true;
+      };
+      push = {
+        default = "simple";
+        autoSetupRemote = true;
+        followTags = true;
+      };
+      fetch = {
+        prune = true;
+        pruneTags = true;
+        all = true;
+      };
+      help.autoCorrect = "prompt";
+      commit.verbose = true;
+      rerere = {
+        enabled = true;
+        autoUpdate = true;
+      };
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+        updateRefs = true;
+      };
     };
     attributes = [
       "*.js merge=mergiraf"
