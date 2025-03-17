@@ -1,14 +1,10 @@
 {pkgs, ...}: {
   programs.tmux = {
     enable = true;
-    #shell = "${pkgs.zsh}/bin/zsh";
-    shell = "/run/current-system/sw/bin/zsh";
-    tmuxp.enable = true;
+    shell = "${pkgs.zsh}/bin/zsh";
     mouse = true;
     keyMode = "vi";
-    # TODO install tmux-256color profile on mac
-    # https://gist.github.com/bbqtd/a4ac060d6f6b9ea6fe3aabe735aa9d95
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     customPaneNavigationAndResize = true;
     shortcut = "Space";
     baseIndex = 1;
@@ -16,6 +12,7 @@
     escapeTime = 10;
     disableConfirmationPrompt = true;
     reverseSplit = true;
+    tmuxp.enable = true;
     plugins = with pkgs; [
       tmuxPlugins.sensible
       tmuxPlugins.sessionist
@@ -37,7 +34,7 @@
       bind-key -T copy-mode-vi 'Space' send -X halfpage-down
       bind-key -T copy-mode-vi 'BSpace' send -X halfpage-up
       # 24 bit color
-      set-option -sa terminal-features ',screen-256color:RGB'
+      set -as terminal-features ",alacritty*:RGB"
       # statusline
       set -g status-left '#{prefix_highlight}'
       set -g status-right '#{?pane_synchronized, #[bg=blue]#[fg=white] SYNCHRONIZED #[default],} #S '

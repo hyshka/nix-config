@@ -39,5 +39,6 @@ in {
 
   home.sessionVariables = {
     TERMINAL = "alacritty";
+    TERM = "alacritty";
   };
 }
