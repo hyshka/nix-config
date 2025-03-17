@@ -66,6 +66,9 @@
       enable = true;
       options = {
         navigate = true;
+        "side-by-side" = true;
+        hyperlinks = true;
+        "map-styles" = "bold purple => syntax magenta, bold cyan => syntax blue";
       };
     };
     lfs.enable = true;
