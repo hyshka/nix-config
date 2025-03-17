@@ -34,8 +34,7 @@
   # https://github.com/koekeishiya/skhd (hotkeys)
   # https://github.com/cmacrae/spacebar (status bar)
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # Optimise on schedule instead of during build due to MacOS bug
   # Ref: https://github.com/NixOS/nix/issues/7273
