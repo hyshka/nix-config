@@ -320,7 +320,6 @@
 
     # TODO: REVIEW MY STUFF
     #plugins = {
-    #  schemastore.enable = true;
     #  trouble.enable = true;
     #  typescript-tools.enable = true;
     #};

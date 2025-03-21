@@ -20,6 +20,9 @@
       enable = true;
     };
 
+    # https://nix-community.github.io/nixvim/plugins/schemastore/index.html
+    plugins.schemastore.enable = true;
+
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugi#extraplugins
     extraPlugins = with pkgs.vimPlugins; [
       # NOTE: This is where you would add a vim plugin that is not implemented in Nixvim, also see extraConfigLuaPre below
@@ -117,13 +120,34 @@
           settings.formatting.command = ["alejandra"];
         };
 
+        jsonls = {
+          enable = true;
+          settings = {
+            json = {
+              schemas.__raw = ''require('schemastore').json.schemas()'';
+              validate = {enable = true;};
+            };
+          };
+        };
+
+        yamlls = {
+          enable = true;
+          settings = {
+            yaml = {
+              schemas.__raw = ''require('schemastore').yaml.schemas()'';
+              schemaStore = {
+                enable = false;
+                url = "";
+              };
+            };
+          };
+        };
+
         # TODO: more servers
         # - eslint
         # - html
         # - rufflsp
         # - bashls
-        # - jsonls
-        # - yamlls
 
         lua_ls = {
           enable = true;
