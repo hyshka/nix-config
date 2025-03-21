@@ -67,8 +67,8 @@
           };
           mini.enabled = true;
           treesitter = true;
-          #treesitter_context = true;
-          #rainbow_delimiters = true;
+          treesitter_context = true;
+          rainbow_delimiters = true;
           telescope.enabled = true;
           lsp_trouble = true;
           which_key = true;
@@ -319,38 +319,6 @@
     '';
 
     # TODO: REVIEW MY STUFF
-    #plugins.lightline = {
-    #  enable = true;
-    #  colorscheme = "catppuccin";
-    #  active = {
-    #    right = [
-    #      [
-    #        "linter_checking"
-    #        "linter_errors"
-    #        "linter_warnings"
-    #        "linter_ok"
-    #        "lineinfo"
-    #        "percent"
-    #        "fileformat"
-    #        "fileencoding"
-    #        "filetype"
-    #      ]
-    #    ];
-    #  };
-    #  component = {filename = "%{expand('%:p:h:t')}/%t";};
-    #};
-
-    #plugins.nvim-colorizer.enable = true;
-
-    #plugins = {
-    #  treesitter-context = {
-    #    enable = true;
-    #    settings = {max_lines = 2;};
-    #  };
-    #  rainbow-delimiters.enable = true;
-    #  hmts.enable = true;
-    #};
-
     #plugins = {
     #  schemastore.enable = true;
     #  trouble.enable = true;

@@ -18,7 +18,6 @@
       # with nvim-treesitter. You should go explore a few and see what interests you:
       #
       #    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      #    - Show your current context: https://nix-community.github.io/nixvim/plugins/treesitter-context/index.html
       #    - Treesitter + textobjects: https://nix-community.github.io/nixvim/plugins/treesitter-textobjects/index.html
     };
 
@@ -31,5 +30,16 @@
         end
       '';
     };
+
+    # https://nix-community.github.io/nixvim/plugins/treesitter-context/index.html
+    plugins.treesitter-context = {
+      enable = true;
+      settings = {
+        max_lines = 2;
+      };
+    };
+
+    # https://nix-community.github.io/nixvim/plugins/rainbow-delimiters/index.html
+    plugins.rainbow-delimiters.enable = true;
   };
 }
