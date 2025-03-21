@@ -323,24 +323,5 @@
     #  trouble.enable = true;
     #  typescript-tools.enable = true;
     #};
-
-    #plugins.none-ls = {
-    #  enable = true;
-    #  sources = {
-    #    completion = {
-    #      tags.enable = true;
-    #    };
-    #    diagnostics = {
-    #      editorconfig_checker.enable = true;
-    #      trail_space.enable = true;
-    #    };
-    #    formatting = {
-    #      #blackd.enable = true; # TODO is this needed with ruff-lsp?
-    #      prettierd.enable = true;
-    #      alejandra.enable = true;
-    #      markdownlint.enable = true;
-    #    };
-    #  };
-    #};
   };
 }
