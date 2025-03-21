@@ -21,5 +21,15 @@
       #    - Show your current context: https://nix-community.github.io/nixvim/plugins/treesitter-context/index.html
       #    - Treesitter + textobjects: https://nix-community.github.io/nixvim/plugins/treesitter-textobjects/index.html
     };
+
+    # Support dockerfile type for files with periods in their name, e.g. Dockerfile.dev
+    filetype.pattern = {
+      "*.dockerignore" = "gitignore";
+      "Dockerfile.*".__raw = ''
+        function(path)
+          return path:match("%.dockerignore%*?$") and "gitignore" or "dockerfile"
+        end
+      '';
+    };
   };
 }
