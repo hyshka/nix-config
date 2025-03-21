@@ -1,23 +1,5 @@
 {
   programs.nixvim = {
-    # Dependencies
-    #
-    # Snippet Engine & its associated nvim-cmp source
-    # https://nix-community.github.io/nixvim/plugins/luasnip/index.html
-    plugins.luasnip = {
-      enable = true;
-    };
-
-    # https://nix-community.github.io/nixvim/plugins/cmp-nvim-lsp.html
-    plugins.cmp-nvim-lsp = {
-      enable = true;
-    };
-
-    # https://nix-community.github.io/nixvim/plugins/cmp-path.html
-    plugins.cmp-path = {
-      enable = true;
-    };
-
     # `friendly-snippets` contains a variety of premade snippets
     #    See the README about individual language/framework/plugin snippets:
     #    https://github.com/rafamadriz/friendly-snippets
@@ -25,6 +7,12 @@
     # plugins.friendly-snippets = {
     #   enable = true;
     # };
+
+    plugins.lazydev.enable = true; # autoEnableSources not enough
+    plugins.luasnip.enable = true; # autoEnableSources not enough
+    plugins.cmp-nvim-lsp.enable = true; # autoEnableSources not enough
+    plugins.cmp-path.enable = true; # autoEnableSources not enough
+    plugins.cmp-nvim-lsp-signature-help.enable = true; # autoEnableSources not enough
 
     # Autocompletion
     # See `:help cmp`
@@ -105,7 +93,9 @@
         # plugins in your nixvim configuration.
         sources = [
           {
-            name = "luasnip";
+            name = "lazydev";
+            # set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+            group_index = 0;
           }
           # Adds other completion capabilites.
           #  nvim-cmp does not ship with all sources by default. They are split
@@ -114,7 +104,14 @@
             name = "nvim_lsp";
           }
           {
+            name = "luasnip";
+          }
+          {
             name = "path";
+          }
+          # https://nix-community.github.io/nixvim/plugins/cmp-nvim-lsp-signature-help.html
+          {
+            name = "nvim_lsp_signature_help";
           }
         ];
       };

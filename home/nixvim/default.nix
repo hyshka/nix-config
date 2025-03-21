@@ -17,6 +17,7 @@
     ./plugins/lsp.nix
     ./plugins/nvim-cmp.nix
     ./plugins/mini.nix
+    ./plugins/todo-comments.nix
     ./plugins/treesitter.nix
 
     # Extra
@@ -155,6 +156,11 @@
       # Minimal number of screen lines to keep above and below the cursor
       scrolloff = 1;
 
+      # if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+      # instead raise a dialog asking if you wish to save the current file(s)
+      # See `:help 'confirm'`
+      confirm = true;
+
       # See `:help hlsearch`
       hlsearch = true;
 
@@ -289,15 +295,6 @@
       # https://nix-community.github.io/nixvim/plugins/sleuth/index.html
       sleuth = {
         enable = true;
-      };
-
-      # Highlight todo, notes, etc in comments
-      # https://nix-community.github.io/nixvim/plugins/todo-comments/index.html
-      todo-comments = {
-        enable = true;
-        settings = {
-          signs = true;
-        };
       };
     };
 

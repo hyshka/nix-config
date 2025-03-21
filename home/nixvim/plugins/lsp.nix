@@ -129,28 +129,27 @@
           enable = true;
 
           # cmd = {
-          #};
-          # filetypes = {
-          #};
+          # };
+          #  filetypes = {
+          # };
           settings = {
             completion = {
               callSnippet = "Replace";
             };
-            #diagnostics = {
-            #  disable = [
-            #    "missing-fields";
-            #  ];
-            #};
+            # diagnostics = {
+            #   disable = [
+            #     "missing-fields";
+            #   ];
+            # };
           };
         };
       };
 
       keymaps = {
         # Diagnostic keymaps
-        # TODO: this isn't working in normal mode
         diagnostic = {
           "<leader>q" = {
-            #mode = "n";
+            mode = "n";
             action = "setloclist";
             desc = "Open diagnostic [Q]uickfix list";
           };
@@ -230,7 +229,7 @@
           # Execute a code action, usually your cursor needs to be on top of an error
           # or a suggestion from your LSP for this to activate.
           "<leader>ca" = {
-            #mode = "n";
+            mode = ["n" "x"];
             action = "code_action";
             desc = "LSP: [C]ode [A]ction";
           };
