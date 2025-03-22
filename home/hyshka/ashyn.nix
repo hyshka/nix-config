@@ -37,6 +37,6 @@
   #];
 
   home.sessionVariables = {
-    BROWSER = "firefox-devedition";
+    BROWSER = "brave";
   };
 }
