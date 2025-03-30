@@ -1,6 +1,7 @@
 {
   services.samba = {
     enable = true;
+    openFirewall = true;
     settings = {
       global = {
         "server string" = "tiny1";
