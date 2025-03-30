@@ -120,7 +120,7 @@
           id = "xgy3x-u2fhw";
           path = "/mnt/storage/hyshka/Roms/";
           devices = ["starship" "rg353ps"];
-          type = "receiveonly";
+          type = "sendreceive";
         };
         "Seedvault" = {
           id = "0w0v9-2amat";
