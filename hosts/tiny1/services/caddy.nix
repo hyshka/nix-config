@@ -16,7 +16,7 @@
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
-      plugins = ["github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e"];
+      plugins = ["github.com/caddy-dns/cloudflare@bbf79111721a977fbd13dfe1f5b7aacaf7871a75"];
       hash = "sha256-JVkUkDKdat4aALJHQCq1zorJivVCdyBT+7UhqTvaFLw=";
     };
     email = "bryan@hyshka.com";
@@ -26,6 +26,13 @@
     globalConfig = ''
       servers {
         metrics
+      }
+      log {
+        ${config.services.caddy.logFormat}
+        # Allow caddy group to read logs, used by Promtail
+        output file {
+          mode 640
+        }
       }
     '';
     # Cloudflare DNS config for hyshka.com
@@ -171,8 +178,6 @@
   systemd.services.caddy = {
     serviceConfig = {
       EnvironmentFile = config.sops.secrets.caddy-envFile.path;
-      # Allow caddy group to read logs, used by Promtail
-      LogsDirectoryMode = "0750";
     };
   };
 
