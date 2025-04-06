@@ -331,6 +331,9 @@ in {
   virtualisation.oci-containers.containers.homepage = {
     image = "ghcr.io/gethomepage/homepage:latest";
     environmentFiles = [config.sops.secrets.homepage.path];
+    environment = {
+      HOMEPAGE_ALLOWED_HOSTS = "dashboard.home.hyshka.com";
+    };
     volumes = [
       "/var/run/docker.sock:/var/run/docker.sock:ro"
       # TODO logs
