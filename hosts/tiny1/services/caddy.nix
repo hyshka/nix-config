@@ -27,18 +27,17 @@
       servers {
         metrics
       }
-      log {
-        ${config.services.caddy.logFormat}
-        # Allow caddy group to read logs, used by Promtail
-        output file {
-          mode 640
-        }
-      }
     '';
     # Cloudflare DNS config for hyshka.com
     # A *.home => tiny1 tailscale IP
     # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650
     virtualHosts."https://*.home.hyshka.com" = {
+      logFormat = ''
+        output file ${config.services.caddy.logDir}/access-*.home.hyshka.com.log {
+          # Allow caddy group to read logs, used by Promtail
+	  mode 640
+	}
+      '';
       extraConfig = ''
          tls {
            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
