@@ -1,39 +1,29 @@
 # https://github.com/Ramblurr/nixcfg/blob/main/pkgs/kwin6-bismuth-decoration.nix
 {
   lib,
-  #, mkDerivation
   fetchFromGitHub,
   stdenv,
   pkgs,
-  #, kdePackages
-  #, kcoreaddons
-  #, kwindowsystem
-  #, plasma-framework
-  #, systemsettings
-  #, cmake
-  #, extra-cmake-modules
 }:
 stdenv.mkDerivation rec {
   pname = "kwin6-bismuth-decoration";
-  version = "603f3cca4d9b1c383a352f6e570a2e56138ecedb";
+  version = "ab6755fa1ca8d61535ff41e6a60d82b680847008";
 
   src = fetchFromGitHub {
     owner = "ivan-cukic";
     repo = pname;
     rev = "${version}";
-    hash = "sha256-4M8LwnR7Cl/iN2PR+pX0vauOyyilbPEtzFxTxD2ouA8=";
+    hash = "sha256-AXIyBRAW16pPVxWbhRcecCi9Lf3MsQMakSZD+a+BtSU=";
   };
 
   nativeBuildInputs = [
     pkgs.cmake
     pkgs.extra-cmake-modules
-    #esbuild
   ];
 
   buildInputs = [
     pkgs.kdePackages.kcoreaddons
     pkgs.kdePackages.kwindowsystem
-    #pkgs.kdePackages.plasma-framework
     pkgs.kdePackages.systemsettings
     pkgs.kdePackages.wrapQtAppsHook
     pkgs.kdePackages.qtbase
@@ -48,7 +38,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Bismuth window decoration for kwin 6";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [maintainers.hyshka];
     homepage = "https://github.com/ivan-cukic/kwin6-bismuth-decoration";
     inherit (pkgs.kdePackages.kwindowsystem.meta) platforms;
   };
