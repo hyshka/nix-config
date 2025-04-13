@@ -5,21 +5,12 @@
 }: {
   environment.systemPackages = with pkgs; [restic];
 
-  users.groups.restic = {};
-
   sops.secrets = {
-    restic_password = {
-      owner = config.users.users.hyshka.name;
-      group = "restic";
-    };
-    restic_environmentFile = {
-      owner = config.users.users.hyshka.name;
-      group = "restic";
-    };
+    restic_password = {};
+    restic_environmentFile = {};
   };
 
   services.restic.backups.hyshka = {
-    user = "hyshka";
     passwordFile = config.sops.secrets.restic_password.path;
     environmentFile = config.sops.secrets.restic_environmentFile.path;
     initialize = true;
@@ -35,5 +26,11 @@
       OnCalendar = "03:00";
       Persistent = true;
     };
+    pruneOpts = [
+      "--keep-daily 7"
+      "--keep-weekly 5"
+      "--keep-monthly 12"
+      "--keep-yearly 2"
+    ];
   };
 }
