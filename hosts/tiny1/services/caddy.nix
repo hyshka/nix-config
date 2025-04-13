@@ -33,10 +33,10 @@
     # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650
     virtualHosts."https://*.home.hyshka.com" = {
       logFormat = ''
-        output file ${config.services.caddy.logDir}/access-*.home.hyshka.com.log {
-          # Allow caddy group to read logs, used by Promtail
-	  mode 640
-	}
+               output file ${config.services.caddy.logDir}/access-*.home.hyshka.com.log {
+                 # Allow caddy group to read logs, used by Promtail
+          mode 640
+        }
       '';
       extraConfig = ''
          tls {
