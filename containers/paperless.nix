@@ -29,5 +29,10 @@ in
         PAPERLESS_URL = "https://paperless.home.hyshka.com";
         PAPERLESS_TRUSTED_PROXIES = "127.0.0.1,10.223.27.210";
       };
+      # Full backup run at 01:30
+      exporter = {
+        enable = true;
+        directory = "/mnt/paperless/export";
+      };
     };
   }

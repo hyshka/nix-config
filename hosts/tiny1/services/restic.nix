@@ -16,6 +16,8 @@
     initialize = true;
     paths = [
       "/mnt/storage/hyshka"
+      # TODO: create better system for backing up data from LXC containers
+      "/mnt/storage/paperless/export"
     ];
     exclude = [
       ".snapshots"
