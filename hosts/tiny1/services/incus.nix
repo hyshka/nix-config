@@ -6,6 +6,7 @@
   virtualisation.incus = {
     enable = true;
     package = pkgs.incus; # use latest instead of LTS
+    ui.enable = true;
   };
   networking.nftables.enable = true;
   users.users.hyshka.extraGroups = ["incus-admin"];
