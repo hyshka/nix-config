@@ -23,7 +23,7 @@
 
     # https://aider.chat/docs/config/options.html
     # OpenAPI models: https://aider.chat/docs/llms/openai.html
-    AIDER_MODEL = "openrouter/anthropic/claude-3.5-sonnet";
+    AIDER_MODEL = "openrouter/anthropic/claude-3.7-sonnet";
     AIDER_ANALYTICS_DISABLE = "true";
     AIDER_CHECK_UPDATE = "false";
     AIDER_SHOW_RELEASE_NOTES = "false";
