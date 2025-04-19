@@ -125,6 +125,11 @@
         modules = [./containers/paperless.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      immich = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/immich.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Nix-Darwin configuration entrypoint
