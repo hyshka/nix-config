@@ -1,16 +1,17 @@
+# TODO: deprecated by LXC container
 {config, ...}: {
-  sops.secrets = {
-    immich-secretsFile = {
-      owner = "immich";
-      group = "immich";
-    };
-  };
+  #sops.secrets = {
+  #  immich-secretsFile = {
+  #    owner = "immich";
+  #    group = "immich";
+  #  };
+  #};
 
   # Database backups are taken nightly at 2am
   # /mnt/storage/immich/backups
   # Ref: https://immich.app/docs/administration/backup-and-restore
   services.immich = {
-    enable = true;
+    enable = false;
     # Original media stored in library, upload, and profile subdirectories
     mediaLocation = "/mnt/storage/immich/";
     secretsFile = config.sops.secrets.immich-secretsFile.path;
@@ -27,7 +28,7 @@
   };
 
   # Hardware Accelerated Transcoding
-  users.users.immich.extraGroups = ["video" "render"];
+  #users.users.immich.extraGroups = ["video" "render"];
 
   # Nightly backups at 3am
   services.restic.backups.hyshka.paths = [
