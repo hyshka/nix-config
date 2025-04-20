@@ -6,14 +6,14 @@
     ./media
     ./ntfy.nix
     ./restic.nix
-    ./samba.nix
+    #./samba.nix
     ./snapraid.nix
     ./syncthing.nix
     ./caddy.nix
     ./acme.nix
     #./nextcloud.nix
     ./grafana
-    ./adguard-home.nix
+    ./adguard-home.nix # TODO: move to rpi4
     ./incus.nix
   ];
 }
