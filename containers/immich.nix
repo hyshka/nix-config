@@ -25,22 +25,23 @@ in
     # sudo -u postgres pg_dumpall --clean --if-exists --username=postgres | gzip > "../immich-dump.sql.gz"
     # Restore backup
     # incus exec --user 71 immich -- psql -U immich -W -d immich
-    # gunzip --stdout "./immich-dump.sql.gz" \
+    # sudo gunzip --stdout "/mnt/storage/immich/backups/immich-db-backup-1745049600009.sql.gz" \
     # | sed "s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g" \
-    # | incus exec --user 71 immich -- psql --dbname=postgres --username=postgres
+    # | incus exec --user 998 immich -- psql --dbname=immich --username=immich
 
     networking.firewall.allowedTCPPorts = [2283 8091 8092];
     sops.secrets.secretsFile = {
       sopsFile = ./secrets/immich.yaml;
     };
 
+    # TODO: restarting incus container deletes the database
     # Database backups are taken nightly at 2am
-    # /mnt/immich/backups
+    # /mnt/storage/immich/backups
     # Ref: https://immich.app/docs/administration/backup-and-restore
     services.immich = {
       enable = true;
       # Original media stored in library, upload, and profile subdirectories
-      mediaLocation = "/mnt/immich/";
+      mediaLocation = "/mnt/storage/immich/";
       secretsFile = config.sops.secrets.secretsFile.path;
       host = "0.0.0.0";
       # https://immich.app/docs/install/environment-variables
