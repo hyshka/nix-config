@@ -71,6 +71,8 @@
          @immich host immich.home.hyshka.com
          handle @immich {
            reverse_proxy http://127.0.0.1:3005
+           # TODO: LXC container
+           #reverse_proxy http://10.223.27.125:2283
          }
 
          # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
