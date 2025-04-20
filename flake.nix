@@ -130,6 +130,11 @@
         modules = [./containers/immich.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      samba = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/samba.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Nix-Darwin configuration entrypoint

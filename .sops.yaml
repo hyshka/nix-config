@@ -14,6 +14,7 @@ keys:
     - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
     - &lxc-paperless age10xhslkeewm6ltp7fz5rxecjsscj6nj27xc0xkxeekzn8sv63nf2srv6yld
     - &lxc-immich age14vd6j6zclech4c942awwcn0hq6gz824hlpt2pwzel3qh3r7v4g2qlwmunz
+    - &lxc-samba age18kcmyg4j5w5u60nd2w6mcr2v7809n0xjnrf5j3anwldae3p9jv4sp5sam4
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
@@ -59,6 +60,12 @@ creation_rules:
     key_groups:
       - age:
           - *lxc-immich
+        pgp:
+          - *hyshka
+  - path_regex: containers/secrets/samba.ya?ml$
+    key_groups:
+      - age:
+          - *lxc-samba
         pgp:
           - *hyshka
   - path_regex: hosts/common/secrets.ya?ml$
