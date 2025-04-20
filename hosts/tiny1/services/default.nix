@@ -14,7 +14,6 @@
     #./nextcloud.nix
     ./grafana
     ./adguard-home.nix
-    ./immich.nix
     ./incus.nix
   ];
 }

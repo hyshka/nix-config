@@ -18,10 +18,14 @@
       "/mnt/storage/hyshka"
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
+      "/mnt/storage/immich"
     ];
     exclude = [
       ".snapshots"
       ".Trash-1000"
+      # TODO: create better system for backing up data from LXC containers
+      "/mnt/storage/immich/encoded-video"
+      "/mnt/storage/immich/thumbs"
     ];
     repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
     timerConfig = {
