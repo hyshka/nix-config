@@ -19,8 +19,21 @@ in
     # 7. Update nix-config with static IP and age key, rebuild the image
     # 8. Add data storage: incus config device add samba storage disk source=/mnt/storage path=/mnt/storage/ raw.mount.options=idmap=b:998:0:1
 
-    # Add users
-    # sudo smbpasswd -a my_user
+    # Add users just for samba authentication
+    users.groups.samba = {};
+    users.users = {
+      bryan = {
+        isSystemUser = true;
+        group = "samba";
+      };
+      renee = {
+        isSystemUser = true;
+        group = "samba";
+      };
+    };
+
+    # Set password for samba users
+    # incus exec samba -- smbpasswd -a bryan
     # TODO: declarative users: https://discourse.nixos.org/t/nixos-configuration-for-samba/17079/6
     # https://github.com/dudeofawesome/nix-config/blob/994b57a7b4057d9b63a36614af9e83756a7464d1/modules/configurable/os/samba-users.nix#L77
 
@@ -46,7 +59,7 @@ in
         };
         hyshka = {
           path = "/mnt/storage/hyshka";
-          "valid users" = "hyshka";
+          "valid users" = "bryan";
           browseable = "yes";
           "read only" = "no";
           "guest ok" = "no";
@@ -57,10 +70,10 @@ in
         # https://blog.jhnr.ch/2023/01/09/setup-apple-time-machine-network-drive-with-samba-on-ubuntu-22.04/
         tm_share = {
           path = "/mnt/storage/tm_share";
-          "valid users" = "username";
+          "valid users" = "renee";
           public = "no";
           writeable = "yes";
-          "force user" = "username";
+          "force user" = "renee";
           # Below are the most imporant for macOS compatibility
           "fruit:aapl" = "yes";
           "fruit:time machine" = "yes";
