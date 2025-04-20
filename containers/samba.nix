@@ -43,8 +43,8 @@ in
       settings = {
         global = {
           "server string" = "samba";
-          # restrict access to LAN, localhost
-          "hosts allow" = ["10.223.27." "127."];
+          # restrict access to Incus network, Host LAN, localhost
+          "hosts allow" = ["10.223.27." "192.168.1." "127."];
           # limit connects to LAN and tailnet, lo always required
           "bind interfaces only" = "yes";
           "interfaces" = ["lo" "eth0"];
