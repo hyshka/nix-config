@@ -29,6 +29,16 @@ in
     # | sed "s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g" \
     # | incus exec --user 998 immich -- psql --dbname=immich --username=immich
 
+    # Move database to custom volume
+    # 1. incus storage volume create default immich_db
+    # 2. attach to tmp path: incus storage volume attach default immich_db immich /mnt/immich_db/
+    # 3. stop services
+    # 4. copy data: incus exec immich -- cp -r /var/lib/postgresql/* /mnt/immich_db/
+    # 5. backup: incus exec immich -- mv /var/lib/postgresql /postgresql_bak
+    # 6. incus config device set immich immich_db path=/var/lib/postgresql
+    # 7. start services
+    # 8. incus exec immich -- rm -rf /postgresql_bak
+
     networking.firewall.allowedTCPPorts = [2283 8091 8092];
     sops.secrets.secretsFile = {
       sopsFile = ./secrets/immich.yaml;

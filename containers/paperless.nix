@@ -10,7 +10,17 @@ in
     name = "paperless";
   }
   // {
-    # Application
+    # Set up steps
+    # map root on host to paperless (315) in the container
+    # incus config device add paperless data disk source=/mnt/storage/paperless path=/mnt/paperless/ raw.mount.options=idmap=b:315:0:1
+    # incus config set paperless raw.idmap=both 0 315
+
+    # Before upgrade
+    # incus file pull paperless/var/lib/paperless/db.sqlite3 .
+    # After upgrade
+    # incus file push ../db.sqlite3 paperless/var/lib/paperless/db.sqlite3
+    # incus exec paperless -- paperless-manage migrate
+
     networking.firewall.allowedTCPPorts = [28981];
     sops.secrets.paperless-passwordFile = {
       sopsFile = ./secrets/paperless.yaml;
@@ -18,9 +28,6 @@ in
 
     services.paperless = {
       enable = true;
-      # map root on host to paperless (315) in the container
-      # incus config device add paperless data disk source=/mnt/storage/paperless path=/mnt/paperless/ raw.mount.options=idmap=b:315:0:1
-      # incus config set paperless raw.idmap=both 0 315
       mediaDir = "/mnt/paperless/";
       passwordFile = config.sops.secrets.paperless-passwordFile.path;
       address = "0.0.0.0";
