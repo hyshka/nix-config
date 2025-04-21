@@ -1,9 +1,21 @@
 {
   lib,
   inputs,
+  pkgs,
+  config,
   ...
 }: let
   container = import ./default.nix {inherit lib inputs;};
+  sambaUsers = {
+    bryan = {
+      name = "bryan";
+      passwordFile = config.sops.secrets.bryan-passwordFile.path;
+    };
+    renee = {
+      name = "renee";
+      passwordFile = config.sops.secrets.renee-passwordFile.path;
+    };
+  };
 in
   container.mkContainer {
     name = "samba";
@@ -23,18 +35,31 @@ in
     # incus config device add samba tcp_proxy proxy listen=tcp:0.0.0.0:139,445 connect=tcp:10.223.27.82:139,445
     # incus config device add samba udp_proxy proxy listen=udp:0.0.0.0:137,138 connect=udp:10.223.27.82:137,138
 
+    sops.secrets.bryan-passwordFile = {
+      sopsFile = ./secrets/samba.yaml;
+    };
+    sops.secrets.renee-passwordFile = {
+      sopsFile = ./secrets/samba.yaml;
+    };
+
     # Add users just for samba authentication
     users.groups.samba = {};
-    users.users = {
-      bryan = {
+    users.users =
+      builtins.mapAttrs
+      (key: val: {
+        name = val.name;
         isSystemUser = true;
         group = "samba";
-      };
-      renee = {
-        isSystemUser = true;
-        group = "samba";
-      };
-    };
+      })
+      sambaUsers;
+    system.activationScripts.setSambaPasswords = lib.concatMapStringsSep "; " (
+      key: let
+        val = sambaUsers.${key};
+      in ''
+        { cat '${val.passwordFile}'; echo ""; cat '${val.passwordFile}'; echo ""; } \
+          | "${pkgs.samba}/bin/smbpasswd" -s -a '${val.name}'
+      ''
+    ) (builtins.attrNames sambaUsers);
 
     # Set password for samba users
     # TODO: have to reset passwords after every restart
