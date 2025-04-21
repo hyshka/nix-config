@@ -6,7 +6,7 @@
     ./media
     ./ntfy.nix
     ./restic.nix
-    #./samba.nix
+    ./samba.nix
     ./snapraid.nix
     ./syncthing.nix
     ./caddy.nix

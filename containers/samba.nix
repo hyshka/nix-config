@@ -33,6 +33,7 @@ in
     };
 
     # Set password for samba users
+    # TODO: have to reset passwords after every restart
     # incus exec samba -- smbpasswd -a bryan
     # TODO: declarative users: https://discourse.nixos.org/t/nixos-configuration-for-samba/17079/6
     # https://github.com/dudeofawesome/nix-config/blob/994b57a7b4057d9b63a36614af9e83756a7464d1/modules/configurable/os/samba-users.nix#L77
@@ -43,12 +44,11 @@ in
       settings = {
         global = {
           "server string" = "samba";
-          # restrict access to Incus network, Host LAN, localhost
-          "hosts allow" = ["10.223.27." "192.168.1." "127."];
-          # limit connects to LAN and tailnet, lo always required
-          "bind interfaces only" = "yes";
-          "interfaces" = ["lo" "eth0"];
-          # limit log size to 50kb
+          # TODO: Limit hosts and interfaces to those that are allowed to connect
+          # Supports LAN and Tailscale connections
+          #"hosts allow" = ["10.223.27." "192.168.1." "127." "100."];
+          #"bind interfaces only" = "yes";
+          #"interfaces" = ["lo" "eth0" "enp0s31f6" "tailscale0"];
           "max log size" = 50;
           # disable printer support
           "load printers" = "no";
