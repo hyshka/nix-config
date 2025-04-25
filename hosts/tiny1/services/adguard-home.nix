@@ -40,7 +40,8 @@ in {
           "fe80::6e4b:90ff:fe4f:b69c%enp0s31f6"
           # Tailnet
           "100.116.243.20"
-          "fe80::c3d3:fec6:e2d6:88d9%tailscale0"
+	  # TODO: ipv6 changes every boot
+          "fe80::4ce0:2180:b5ec:8ec2%tailscale0"
         ];
         bootstrap_dns = ["1.1.1.2" "1.0.0.2"];
       };
