@@ -64,11 +64,15 @@ in
       settings = {
         global = {
           "server string" = "samba";
-          # TODO: Limit hosts and interfaces to those that are allowed to connect
-          # Supports LAN and Tailscale connections
-          #"hosts allow" = ["10.223.27." "192.168.1." "127." "100."];
-          #"bind interfaces only" = "yes";
-          #"interfaces" = ["lo" "eth0" "enp0s31f6" "tailscale0"];
+          "hosts allow" = ["10.223.27." "192.168.1." "127." "100."];
+          "hosts deny" = ["ALL"];
+          "bind interfaces only" = "yes";
+          "interfaces" = ["lo" "eth0"];
+          "server role" = "standalone server";
+          "client max protocol" = "SMB3";
+          "client min protocol" = "SMB2";
+          "server min protocol" = "SMB2";
+          "smb encrypt" = "desired";
           "max log size" = 50;
           # disable printer support
           "load printers" = "no";
