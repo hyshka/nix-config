@@ -1,21 +1,11 @@
 {
   lib,
   inputs,
-  pkgs,
   config,
+  pkgs,
   ...
 }: let
   container = import ./default.nix {inherit lib inputs;};
-  sambaUsers = {
-    bryan = {
-      name = "bryan";
-      passwordFile = config.sops.secrets.bryan-passwordFile.path;
-    };
-    renee = {
-      name = "renee";
-      passwordFile = config.sops.secrets.renee-passwordFile.path;
-    };
-  };
 in
   container.mkContainer {
     name = "samba";
@@ -44,28 +34,29 @@ in
 
     # Add users just for samba authentication
     users.groups.samba = {};
-    users.users =
-      builtins.mapAttrs
-      (key: val: {
-        name = val.name;
+    users.users = {
+      bryan = {
+        name = "bryan";
         isSystemUser = true;
         group = "samba";
-      })
-      sambaUsers;
-    system.activationScripts.setSambaPasswords = lib.concatMapStringsSep "; " (
-      key: let
-        val = sambaUsers.${key};
-      in ''
-        { cat '${val.passwordFile}'; echo ""; cat '${val.passwordFile}'; echo ""; } \
-          | "${pkgs.samba}/bin/smbpasswd" -s -a '${val.name}'
-      ''
-    ) (builtins.attrNames sambaUsers);
+      };
+      renee = {
+        name = "renee";
+        isSystemUser = true;
+        group = "samba";
+      };
+    };
 
-    # Set password for samba users
-    # TODO: have to reset passwords after every restart
+    # Set Samba passwords via activation script
+    system.activationScripts.setSambaPasswords = ''
+      { cat '${config.sops.secrets.bryan-passwordFile.path}'; echo ""; cat '${config.sops.secrets.bryan-passwordFile.path}'; echo ""; } \
+        | "${pkgs.samba}/bin/smbpasswd" -s -a 'bryan'
+      { cat '${config.sops.secrets.renee-passwordFile.path}'; echo ""; cat '${config.sops.secrets.renee-passwordFile.path}'; echo ""; } \
+        | "${pkgs.samba}/bin/smbpasswd" -s -a 'renee'
+    '';
+
+    # Set password for samba users manually
     # incus exec samba -- smbpasswd -a bryan
-    # TODO: declarative users: https://discourse.nixos.org/t/nixos-configuration-for-samba/17079/6
-    # https://github.com/dudeofawesome/nix-config/blob/994b57a7b4057d9b63a36614af9e83756a7464d1/modules/configurable/os/samba-users.nix#L77
 
     services.samba = {
       enable = true;
@@ -94,9 +85,6 @@ in
           "guest ok" = "no";
           comment = "hyshka home folder";
         };
-        # TODO: timemachine share
-        # https://wiki.nixos.org/wiki/Samba#Apple_Time_Machine
-        # https://blog.jhnr.ch/2023/01/09/setup-apple-time-machine-network-drive-with-samba-on-ubuntu-22.04/
         tm_share = {
           path = "/mnt/storage/tm_share";
           "valid users" = "renee";
