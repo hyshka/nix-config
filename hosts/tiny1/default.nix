@@ -18,7 +18,7 @@
 
   networking = {
     hostName = "tiny1";
-    useNetworkd = true; # required for microvm
+    useNetworkd = true; # required for incus
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -37,6 +37,7 @@
     snapper
 
     # disk tools
+    parted
     nvme-cli
     smartmontools
     fio
@@ -48,10 +49,8 @@
     intel-gpu-tools
 
     # misc utils
-    parted
     usbutils # lsusb
     pciutils # lspci
-    fontconfig # fc-list
     glibc # ldd, sprof
   ];
 
