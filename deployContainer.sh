@@ -18,5 +18,5 @@ for container in ${containers//,/ }; do
     $(nix build ".#nixosConfigurations.$container.config.system.build.squashfs" --print-out-paths)/nixos-lxc-image-x86_64-linux.squashfs
 
     incus rebuild nixos/custom/$container $container --force
-    incus start $container
+    incus restart $container
 done

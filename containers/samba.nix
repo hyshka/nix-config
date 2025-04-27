@@ -25,11 +25,13 @@ in
     # incus config device add samba tcp_proxy proxy listen=tcp:0.0.0.0:139,445 connect=tcp:10.223.27.82:139,445
     # incus config device add samba udp_proxy proxy listen=udp:0.0.0.0:137,138 connect=udp:10.223.27.82:137,138
 
-    sops.secrets.bryan-passwordFile = {
+    sops.secrets."samba-passwords/bryan" = {
       sopsFile = ./secrets/samba.yaml;
+      restartUnits = ["update-samba-passwords.service"];
     };
-    sops.secrets.renee-passwordFile = {
+    sops.secrets."samba-passwords/renee" = {
       sopsFile = ./secrets/samba.yaml;
+      restartUnits = ["update-samba-passwords.service"];
     };
 
     # Add users just for samba authentication
@@ -47,13 +49,27 @@ in
       };
     };
 
-    # Set Samba passwords via activation script
-    system.activationScripts.setSambaPasswords = ''
-      { cat '${config.sops.secrets.bryan-passwordFile.path}'; echo ""; cat '${config.sops.secrets.bryan-passwordFile.path}'; echo ""; } \
-        | "${pkgs.samba}/bin/smbpasswd" -s -a 'bryan'
-      { cat '${config.sops.secrets.renee-passwordFile.path}'; echo ""; cat '${config.sops.secrets.renee-passwordFile.path}'; echo ""; } \
-        | "${pkgs.samba}/bin/smbpasswd" -s -a 'renee'
-    '';
+    # Set Samba passwords via shell script
+    systemd.services.update-samba-passwords = {
+      script = ''
+        set -euxo pipefail
+        double() {
+          ${pkgs.coreutils}/bin/cat $1
+          echo
+          ${pkgs.coreutils}/bin/cat $1
+          echo
+        }
+        shopt -s nullglob
+        for file in /run/secrets/samba-passwords/*; do
+          user=$(basename $file)
+          double $file | ${pkgs.samba}/bin/smbpasswd -L -a -s $user
+          rm -f $file
+        done
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+      };
+    };
 
     # Set password for samba users manually
     # incus exec samba -- smbpasswd -a bryan
@@ -69,9 +85,6 @@ in
           "bind interfaces only" = "yes";
           "interfaces" = ["lo" "eth0"];
           "server role" = "standalone server";
-          "client max protocol" = "SMB3";
-          "client min protocol" = "SMB2";
-          "server min protocol" = "SMB2";
           "smb encrypt" = "desired";
           "max log size" = 50;
           # disable printer support
