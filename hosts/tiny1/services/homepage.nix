@@ -3,9 +3,19 @@
   lib,
   ...
 }: {
+  # TODO: remove after flake upgrade
+  systemd.services.homepage-dashboard.environment = {
+    HOMEPAGE_ALLOWED_HOSTS = "dashboard.home.hyshka.com";
+  };
+
+  sops.secrets = {
+    homepage = {};
+  };
+
   services.homepage-dashboard = {
     enable = true;
-    allowedHosts = "dashboard.home.hyshka.com";
+    # TODO: after flake upgrade
+    #allowedHosts = "dashboard.home.hyshka.com";
     environmentFile = config.sops.secrets.homepage.path;
     settings = {
       title = "tiny1";
@@ -341,9 +351,5 @@
         ];
       }
     ];
-  };
-
-  sops.secrets = {
-    homepage = {};
   };
 }
