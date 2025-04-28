@@ -1,11 +1,12 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{config, ...}: {
   # TODO: remove after flake upgrade
   systemd.services.homepage-dashboard.environment = {
-    HOMEPAGE_ALLOWED_HOSTS = "dashboard.home.hyshka.com";
+    HOMEPAGE_ALLOWED_HOSTS = "localhost:8082,127.0.0.1:8082,dashboard.home.hyshka.com";
+  };
+
+  systemd.services.homepage-dashboard.serviceConfig = {
+    # Give unit access to the Docker socket
+    SupplementaryGroups = ["docker"];
   };
 
   sops.secrets = {
@@ -20,6 +21,12 @@
     settings = {
       title = "tiny1";
       showStats = true;
+      layout = {
+        Media = {
+          style = "row";
+          columns = 2;
+        };
+      };
     };
     docker = {
       my-docker.socket = "/var/run/docker.sock";
@@ -78,10 +85,12 @@
             ];
           }
           {
-            Mullvad = {
-              icon = "mullvad.svg";
-              href = "https://mullvad.net";
-            };
+            Mullvad = [
+              {
+                icon = "mullvad.svg";
+                href = "https://mullvad.net";
+              }
+            ];
           }
         ];
       }
@@ -132,7 +141,7 @@
               href = "https://adguard.home.hyshka.com";
               widget = {
                 type = "adguard";
-                url = "http://host.docker.internal:3020";
+                url = "http://localhost:3020";
                 username = "admin";
                 password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
               };
@@ -180,13 +189,12 @@
             "Immich" = {
               icon = "immich.svg";
               href = "https://immich.home.hyshka.com/";
-              # TODO: move to LXC
-              #widget = {
-              #  type = "immich";
-              #  url = "http://host.docker.internal:3005";
-              #  key = "{{HOMEPAGE_VAR_IMMICH_APIKEY}}";
-              #  version = 2;
-              #};
+              widget = {
+                type = "immich";
+                url = "http://10.223.27.125:2283";
+                key = "{{HOMEPAGE_VAR_IMMICH_APIKEY}}";
+                version = 2;
+              };
             };
           }
           #{
@@ -226,7 +234,7 @@
               container = "jellyfin";
               widget = {
                 type = "jellyfin";
-                url = "http://jellyfin:8096";
+                url = "http://localhost:8096";
                 key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
                 enableNowPlaying = true;
               };
@@ -240,7 +248,7 @@
               container = "jellyseerr";
               widget = {
                 type = "jellyseerr";
-                url = "http://jellyseerr:5055";
+                url = "http://localhost:5055";
                 key = "{{HOMEPAGE_VAR_JELLYSEERR_APIKEY}}";
               };
             };
@@ -253,7 +261,7 @@
               container = "radarr";
               widget = {
                 type = "radarr";
-                url = "http://radarr:7878";
+                url = "http://localhost:7878";
                 key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
               };
             };
@@ -266,7 +274,7 @@
               container = "sonarr";
               widget = {
                 type = "sonarr";
-                url = "http://sonarr:8989";
+                url = "http://localhost:8989";
                 key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
               };
             };
@@ -279,7 +287,7 @@
               container = "readarr";
               widget = {
                 type = "readarr";
-                url = "http://readarr:8787";
+                url = "http://localhost:8787";
                 key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
               };
             };
@@ -300,7 +308,7 @@
               container = "prowlarr";
               widget = {
                 type = "prowlarr";
-                url = "http://prowlarr:9696";
+                url = "http://localhost:9696";
                 key = "{{HOMEPAGE_VAR_PROWLARR_APIKEY}}";
               };
             };
@@ -321,7 +329,7 @@
               container = "qbittorrent";
               widget = {
                 type = "qbittorrent";
-                url = "http://wireguard:8080";
+                url = "http://localhost:8080";
                 username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
                 password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
               };
@@ -335,17 +343,9 @@
               container = "sabnzbd";
               widget = {
                 type = "sabnzbd";
-                url = "http://wireguard:8085";
+                url = "http://localhost:8085";
                 key = "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}";
               };
-            };
-          }
-          {
-            Wireguard = {
-              icon = "wireguard.svg";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "wireguard";
             };
           }
         ];
