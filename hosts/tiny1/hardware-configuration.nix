@@ -57,6 +57,7 @@
       options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
     };
     "/mnt/parity2" = {
+      # Replace parity disk: https://www.snapraid.it/faq#reppardisk
       device = "/dev/disk/by-id/ata-ST8000NM0045-1RL112_ZA190CJ5-part1";
       # https://www.snapraid.it/faq#fs
       # mkfs.ext4 -m 0 -T largefile4 DEVICE

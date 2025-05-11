@@ -7,7 +7,7 @@
   services.snapraid = {
     enable = true;
     parityFiles = [
-      "/mnt/parity1/snapraid.parity"
+      "/mnt/parity2/snapraid.parity"
     ];
     contentFiles = [
       "/var/snapraid.content"
