@@ -49,11 +49,9 @@
         "x-systemd.device-timeout=4"
       ];
     };
-    "/mnt/parity1" = {
+    "/mnt/disk1" = {
       device = "/dev/disk/by-id/usb-WDC_WD40_EFPX-68C6CN0_152D00539000-0:0-part1";
-      # https://www.snapraid.it/faq#fs
-      # mkfs.ext4 -m 0 -T largefile4 DEVICE
-      fsType = "ext4";
+      fsType = "btrfs";
       options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
     };
     "/mnt/parity2" = {
