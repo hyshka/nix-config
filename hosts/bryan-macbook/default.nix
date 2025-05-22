@@ -11,6 +11,7 @@
     ../common/global/nix.nix
     ../common/global/nixpkgs.nix
     ../common/global/zsh.nix
+    ../common/global/fonts.nix
 
     ./homebrew.nix
     ./system.nix

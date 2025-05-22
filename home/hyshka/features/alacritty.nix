@@ -10,6 +10,10 @@
     if isLinux
     then {package = config.lib.nixGL.wrap pkgs.alacritty;}
     else {package = pkgs.alacritty;};
+  fontFamily =
+    if isLinux
+    then config.fontProfiles.monospace.family
+    else "IosevkaTerm NFM";
 in {
   programs.alacritty = {
     enable = true;
@@ -21,10 +25,9 @@ in {
         option_as_alt = "Both";
       };
       font = {
-        size = 14.0;
-        # TODO: pkgs.nerd-fonts.iosevka-term
-        normal = lib.mkIf isLinux {
-          family = config.fontProfiles.monospace.family;
+        size = 16.0;
+        normal = {
+          family = fontFamily;
         };
       };
       scrolling = {

@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   fontProfiles = {
     enable = true;
-    # TODO: pkgs.nerd-fonts.iosevka-term
     monospace = {
       family = "Iosevka Comfy";
       package = pkgs.iosevka-comfy.comfy;
