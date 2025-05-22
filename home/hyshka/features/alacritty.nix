@@ -22,6 +22,7 @@ in {
       };
       font = {
         size = 14.0;
+        # TODO: pkgs.nerd-fonts.iosevka-term
         normal = lib.mkIf isLinux {
           family = config.fontProfiles.monospace.family;
         };

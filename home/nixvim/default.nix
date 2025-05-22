@@ -13,14 +13,15 @@
     ./plugins/gitsigns.nix
     ./plugins/which-key.nix
     ./plugins/telescope.nix
-    ./plugins/conform.nix
     ./plugins/lsp.nix
+    ./plugins/conform.nix
     ./plugins/nvim-cmp.nix
-    ./plugins/mini.nix
     ./plugins/todo-comments.nix
+    ./plugins/mini.nix
     ./plugins/treesitter.nix
 
     # Extra
+    ./plugins/kickstart/autopairs.nix
     ./plugins/kickstart/indent-blankline.nix
     #./plugins/kickstart/lint.nix
     ./plugins/custom/orgmode.nix
