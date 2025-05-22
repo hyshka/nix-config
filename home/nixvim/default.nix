@@ -85,7 +85,7 @@
       maplocalleader = " ";
 
       # Set to true if you have a Nerd Font installed and selected in the terminal
-      have_nerd_font = false;
+      have_nerd_font = true;
     };
 
     #  See `:help 'clipboard'`
@@ -241,23 +241,6 @@
         action = "<cmd>e#<CR>";
         options = {
           desc = "Edit previous buffer";
-        };
-      }
-      # Navigiate the quickfix list
-      {
-        mode = "n";
-        key = "[q";
-        action = "<cmd>cprev<CR>";
-        options = {
-          desc = "Move to previous quicklist buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "]q";
-        action = "<cmd>cnext<CR>";
-        options = {
-          desc = "Move to next quicklist buffer";
         };
       }
     ];
