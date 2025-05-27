@@ -5,11 +5,13 @@
   # https://github.com/LnL7/nix-darwin/blob/master/modules/examples/lnl.nix
 
   system = {
+    primaryUser = "hyshka";
+
     # activationScripts are executed every time you boot the system or run `nixos-rebuild` / `darwin-rebuild`.
-    activationScripts.postUserActivation.text = ''
+    activationScripts.postActivation.text = ''
       # activateSettings -u will reload the settings from the database and apply them to the current session,
       # so we do not need to logout and login again to make the changes take effect.
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+      sudo -u hyshka /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
     '';
 
     defaults = {
@@ -28,9 +30,10 @@
         launchanim = false;
         mru-spaces = false;
         static-only = true;
-        wvous-tl-corner = 2;
-        wvous-tr-corner = 11;
-        wvous-br-corner = 1; # Disable Quick Note
+        # Disable hot corners
+        wvous-tl-corner = 1;
+        wvous-tr-corner = 1;
+        wvous-br-corner = 1;
       };
 
       finder = {

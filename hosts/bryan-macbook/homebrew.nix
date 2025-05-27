@@ -24,13 +24,14 @@
 
     # `brew install --cask`
     casks = [
-      # TODO: config https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/darwin-aerospace.nix
+      # TODO: aerospace config
+      # https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-services.aerospace.enable
+      # https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/darwin-aerospace.nix
       "aerospace" # tiling window manager, https://nikitabobko.github.io/AeroSpace/guide#installation
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       "tomatobar"
       "espanso"
       "languagetool"
-      "firefox"
       "slack"
       "obs"
       "handbrake"
