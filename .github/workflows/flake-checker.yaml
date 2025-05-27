@@ -13,5 +13,5 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v16
+      - uses: DeterminateSystems/nix-installer-action@v17
       - uses: DeterminateSystems/flake-checker-action@v9
