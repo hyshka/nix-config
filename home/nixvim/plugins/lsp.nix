@@ -87,7 +87,6 @@
         };
         volar = {
           enable = true;
-          tslsIntegration = true;
           # use a global TypeScript Server installation
           extraOptions.init_options.typescript.tsdk = "${lib.getBin pkgs.typescript}/lib/node_modules/typescript/lib";
         };
