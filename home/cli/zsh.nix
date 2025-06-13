@@ -51,7 +51,7 @@
         "zsh-users/zsh-history-substring-search"
       ];
     };
-    initExtra =
+    initContent =
       /*
       bash
       */
