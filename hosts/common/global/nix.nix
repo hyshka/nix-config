@@ -16,7 +16,7 @@ in {
     # Making legacy nix commands consistent as well, awesome!
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
-    package = pkgs.nixVersions.nix_2_24;
+    package = pkgs.nixVersions.latest;
 
     settings = {
       # Enable flakes and new 'nix' command
