@@ -5,7 +5,7 @@
 
   # Allow containers to access services running on the host
   # TODO: avoid hard-coding the Docker interface
-  networking.firewall.interfaces."br-0a93fdcc1a12".allowedTCPPorts = [
+  networking.firewall.interfaces."docker0".allowedTCPPorts = [
     config.services.calibre-server.port
     2586 # ntfy
   ];
