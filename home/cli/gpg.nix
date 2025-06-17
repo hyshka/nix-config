@@ -16,7 +16,7 @@
 in {
   services.gpg-agent = lib.mkIf isLinux {
     enable = true;
-    pinentryPackage = pinentry.package;
+    pinentry.package = pinentry.package;
     defaultCacheTtl = 1800; # 30 min
     defaultCacheTtlSsh = 1800; # 30 min
   };
