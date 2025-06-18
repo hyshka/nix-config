@@ -1,9 +1,4 @@
 {config, ...}: {
-  # TODO: remove after flake upgrade
-  systemd.services.homepage-dashboard.environment = {
-    HOMEPAGE_ALLOWED_HOSTS = "localhost:8082,127.0.0.1:8082,dashboard.home.hyshka.com";
-  };
-
   systemd.services.homepage-dashboard.serviceConfig = {
     # Give unit access to the Docker socket
     SupplementaryGroups = ["docker"];
@@ -15,8 +10,7 @@
 
   services.homepage-dashboard = {
     enable = true;
-    # TODO: after flake upgrade
-    #allowedHosts = "dashboard.home.hyshka.com";
+    allowedHosts = "dashboard.home.hyshka.com";
     environmentFile = config.sops.secrets.homepage.path;
     settings = {
       title = "tiny1";
