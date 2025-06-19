@@ -14,10 +14,12 @@
     ];
 
     # Base configuration
-    networking.hostName = name;
-    networking.dhcpcd.enable = false;
-    networking.useHostResolvConf = false;
-    networking.useNetworkd = true;
+    networking = {
+      useDHCP = false;
+      useHostResolvConf = false;
+      useNetworkd = true;
+      hostName = name;
+    };
     system.stateVersion = stateVersion;
 
     # Persistent host key for secrets
