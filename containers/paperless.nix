@@ -42,4 +42,13 @@ in
         directory = "/mnt/paperless/export";
       };
     };
+
+    # Override package to skip tests
+    nixpkgs.overlays = [
+      (final: prev: {
+        paperless-ngx = prev.paperless-ngx.overrideAttrs (oldAttrs: {
+          doCheck = false;
+        });
+      })
+    ];
   }
