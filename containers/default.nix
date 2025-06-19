@@ -15,6 +15,8 @@
 
     # Base configuration
     networking.hostName = name;
+    networking.dhcpcd.enable = false;
+    networking.useNetworkd = true;
     system.stateVersion = stateVersion;
 
     # Persistent host key for secrets
