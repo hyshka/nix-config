@@ -16,6 +16,7 @@
     # Base configuration
     networking.hostName = name;
     networking.dhcpcd.enable = false;
+    networking.useHostResolvConf = false;
     networking.useNetworkd = true;
     system.stateVersion = stateVersion;
 
