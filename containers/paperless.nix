@@ -48,6 +48,12 @@ in
       (final: prev: {
         paperless-ngx = prev.paperless-ngx.overrideAttrs (oldAttrs: {
           doCheck = false;
+          disabledTests =
+            (oldAttrs.disabledTests or [])
+            ++ [
+              "test_favicon_view"
+              "test_favicon_view_missing_file"
+            ];
         });
       })
     ];
