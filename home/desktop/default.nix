@@ -9,24 +9,11 @@
     ./i3.nix
   ];
 
-  # TODO move to module
-  xdg = {
-    mime.enable = true;
-    mimeApps = {
-      enable = true;
-      defaultApplications = {
-        "text/html" = ["firefox-devedition.desktop"];
-        "text/xml" = ["firefox-devedition.desktop"];
-        "x-scheme-handler/http" = ["firefox-devedition.desktop"];
-        "x-scheme-handler/https" = ["firefox-devedition.desktop"];
-      };
-    };
-  };
-
   home.packages = with pkgs; [
     # web
     firefox-devedition-bin
     ungoogled-chromium
+    brave
 
     # comms
     discord
@@ -125,7 +112,7 @@
   home.sessionVariables = {
     LIBSEAT_BACKEND = "logind";
     TERMINAL = "alacritty";
-    BROWSER = "firefox-devedition";
+    BROWSER = "brave";
   };
 
   #services.clipman.enable = true;

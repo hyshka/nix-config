@@ -29,14 +29,9 @@
     mullvad-vpn
     spotify
     #deskflow
-    brave
   ];
 
   #nixpkgs.config.permittedInsecurePackages = [
   #  "deskflow-1.18.0"
   #];
-
-  home.sessionVariables = {
-    BROWSER = "brave";
-  };
 }

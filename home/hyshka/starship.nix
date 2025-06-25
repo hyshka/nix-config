@@ -46,11 +46,6 @@
     lutris
     yubikey-manager
     corectrl
-    brave
     incus
   ];
-
-  home.sessionVariables = {
-    BROWSER = "firefox-devedition";
-  };
 }

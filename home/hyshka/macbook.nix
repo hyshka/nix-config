@@ -21,8 +21,5 @@
     curl
     gimp
     logseq
-    firefox
-    brave
-    google-chrome
   ];
 }
