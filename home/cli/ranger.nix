@@ -17,8 +17,11 @@
         '';
     });
     extraPackages = with pkgs; [
-      python312Packages.chardet # encoding detection
-      python312Packages.pygments # syntax highlighting
+      (python3.withPackages (python-pkgs:
+        with python-pkgs; [
+          pygments # syntax highlighting
+          setuptools # for building ranger plugins
+        ]))
       bat # syntax highlighting
       w3m # image preview
       librsvg # svg preview
