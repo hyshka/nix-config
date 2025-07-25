@@ -47,5 +47,6 @@
     yubikey-manager
     corectrl
     incus
+    brave
   ];
 }

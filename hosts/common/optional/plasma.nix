@@ -18,6 +18,10 @@
       "widget.use-xdg-desktop-portal.file-picker" = 1;
     };
   };
+  programs.chromium = {
+    enable = true;
+    enablePlasmaBrowserIntegration = true;
+  };
 
   # Screen sharing under wayland
   # https://nixos.wiki/wiki/Firefox#Screen_Sharing_under_Wayland
