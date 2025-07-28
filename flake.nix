@@ -54,11 +54,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
-
     hardware.url = "github:nixos/nixos-hardware";
-
-    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs = {
