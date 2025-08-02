@@ -147,6 +147,11 @@
         modules = [./containers/samba.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      silverbullet = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/silverbullet.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Nix-Darwin configuration entrypoint
