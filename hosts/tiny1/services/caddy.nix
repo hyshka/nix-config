@@ -53,10 +53,10 @@
            reverse_proxy http://10.223.27.45:8123
          }
 
-         #@silverbullet host silverbullet.home.hyshka.com
-         #handle @silverbullet {
-         # reverse_proxy http://127.0.0.1:3010
-         #}
+         @silverbullet host silverbullet.home.hyshka.com
+         handle @silverbullet {
+          reverse_proxy http://10.223.27.35:3000
+         }
 
          @adguard host adguard.home.hyshka.com
          handle @adguard {
