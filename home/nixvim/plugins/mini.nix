@@ -29,13 +29,19 @@
         #  You could remove this setup call if you don't like it,
         #  and try some other statusline plugin
         statusline = {
-          #use_icons.__raw = "vim.g.have_nerd_font";
-          use_icons = false;
+          use_icons.__raw = "vim.g.enable_nerds_fonts";
         };
 
         # Icon provider
         # https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-icons.md#dependencies
         icons = {
+        };
+
+        diff = {
+          view = {
+            style = "sign";
+          };
+          source.__raw = "require('mini.diff').gen_source.none()";
         };
 
         # ... and there is more!
@@ -46,8 +52,7 @@
     # You can configure sections in the statusline by overriding their
     # default behavior. For example, here we set the section for
     # cursor location to LINE:COLUMN
-    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraconfiglu#extraconfiglua
-    # TODO: git status line https://github.com/echasnovski/mini.nvim/blob/main/doc/mini-git.txt#L73
+    # https://nix-community.github.io/nixvim/NeovimOptions/index.html#extraconfiglua
     extraConfigLua = ''
       require('mini.statusline').section_location = function()
         return '%2l:%-2v'

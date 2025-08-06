@@ -7,11 +7,12 @@
       enable = true;
       settings = {
         signs = {
-          add = {text = "+";};
-          change = {text = "~";};
-          delete = {text = "_";};
-          topdelete = {text = "‾";};
-          changedelete = {text = "~";};
+          add.text = "+";
+          change.text = "~";
+          changedelete.text = "~";
+          delete.text = "_";
+          topdelete.text = "‾";
+          untracked.text = "┆";
         };
       };
     };
@@ -204,12 +205,10 @@
       }
       {
         mode = "n";
-        key = "<leader>tD";
-        # `toggle_deleted` is deprecated. See https://github.com/nvim-lua/kickstart.nvim/issues/1319
-        #  Replacement `preview_hunk_inline` was accidentally merged. See https://github.com/nvim-lua/kickstart.nvim/pull/1321#issuecomment-2664265962
+        key = "<leader>hi";
         action.__raw = ''
           function()
-            require('gitsigns').toggle_deleted()
+            require('gitsigns').preview_hunk_inline()
           end
         '';
         options = {

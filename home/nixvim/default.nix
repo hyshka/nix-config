@@ -1,8 +1,11 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
-}: {
+}: let
+  isLinux = pkgs.stdenv.isLinux;
+in {
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
   # https://nix-community.github.io/nixvim/search/
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
@@ -15,7 +18,7 @@
     ./plugins/telescope.nix
     ./plugins/lsp.nix
     ./plugins/conform.nix
-    ./plugins/nvim-cmp.nix
+    ./plugins/blink-cmp.nix
     ./plugins/todo-comments.nix
     ./plugins/mini.nix
     ./plugins/treesitter.nix
@@ -87,14 +90,14 @@
       maplocalleader = " ";
 
       # Set to true if you have a Nerd Font installed and selected in the terminal
-      have_nerd_font = true;
+      enable_nerds_fonts = true;
     };
 
     #  See `:help 'clipboard'`
     clipboard = {
       providers = {
-        wl-copy.enable = true; # For Wayland
-        xsel.enable = true; # For X11
+        wl-copy.enable = lib.mkIf isLinux true; # For Wayland
+        xsel.enable = lib.mkIf isLinux true; # For X11
       };
 
       # Sync clipboard between OS and Neovim
@@ -260,54 +263,72 @@
     autoCmd = [
       # Highlight when yanking (copying) text
       #  Try it with `yap` in normal mode
-      #  See `:help vim.highlight.on_yank()`
+      #  See `:help vim.hl.on_yank()`
       {
         event = ["TextYankPost"];
         desc = "Highlight when yanking (copying) text";
         group = "kickstart-highlight-yank";
         callback.__raw = ''
           function()
-            vim.highlight.on_yank()
+            vim.hl.on_yank()
           end
         '';
       }
     ];
+
+    diagnostic = {
+      settings = {
+        severity_sort = true;
+        float = {
+          border = "rounded";
+          source = "if_many";
+        };
+        underline = {
+          severity.__raw = ''vim.diagnostic.severity.ERROR'';
+        };
+        signs.__raw = ''
+          vim.g.enable_nerds_fonts and {
+            text = {
+              [vim.diagnostic.severity.ERROR] = '󰅚 ',
+              [vim.diagnostic.severity.WARN] = '󰀪 ',
+              [vim.diagnostic.severity.INFO] = '󰋽 ',
+              [vim.diagnostic.severity.HINT] = '󰌶 ',
+            },
+          } or {}
+        '';
+        virtual_text = {
+          source = "if_many";
+          spacing = 2;
+          format.__raw = ''
+            function(diagnostic)
+              local diagnostic_message = {
+                [vim.diagnostic.severity.ERROR] = diagnostic.message,
+                [vim.diagnostic.severity.WARN] = diagnostic.message,
+                [vim.diagnostic.severity.INFO] = diagnostic.message,
+                [vim.diagnostic.severity.HINT] = diagnostic.message,
+              }
+              return diagnostic_message[diagnostic.severity]
+            end
+          '';
+        };
+      };
+    };
 
     plugins = {
       # Adds icons for plugins to utilize in ui
       web-devicons.enable = true;
 
       # Detect tabstop and shiftwidth automatically
-      # https://nix-community.github.io/nixvim/plugins/sleuth/index.html
-      sleuth = {
+      # https://nix-community.github.io/nixvim/plugins/guess-indent/index.html
+      guess-indent = {
         enable = true;
       };
     };
-
-    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraplugins
-    extraPlugins = with pkgs.vimPlugins; [
-      # Useful for getting pretty icons, but requires a Nerd Font.
-      nvim-web-devicons # TODO: Figure out how to configure using this with telescope
-    ];
-
-    # TODO: Figure out where to move this
-    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapre
-    extraConfigLuaPre = ''
-      if vim.g.have_nerd_font then
-        require('nvim-web-devicons').setup {}
-      end
-    '';
 
     # The line beneath this is called `modeline`. See `:help modeline`
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapost
     extraConfigLuaPost = ''
       -- vim: ts=2 sts=2 sw=2 et
     '';
-
-    # TODO: REVIEW MY STUFF
-    #plugins = {
-    #  trouble.enable = true;
-    #  typescript-tools.enable = true;
-    #};
   };
 }

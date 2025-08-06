@@ -7,26 +7,13 @@
 
       # Document existing key chains
       settings = {
+        # delay between pressing a key and opening which-key (milliseconds)
+        # this setting is independent of vim.opt.timeoutlen
+        delay = 0;
         spec = [
-          {
-            __unkeyed-1 = "<leader>c";
-            group = "[C]ode";
-          }
-          {
-            __unkeyed-1 = "<leader>d";
-            group = "[D]ocument";
-          }
-          {
-            __unkeyed-1 = "<leader>r";
-            group = "[R]ename";
-          }
           {
             __unkeyed-1 = "<leader>s";
             group = "[S]earch";
-          }
-          {
-            __unkeyed-1 = "<leader>w";
-            group = "[W]orkspace";
           }
           {
             __unkeyed-1 = "<leader>t";
@@ -38,25 +25,12 @@
             mode = [
               "n"
               "v"
+              "o"
+              "x"
             ];
           }
         ];
       };
-
-      # TODO: Fix conflicting keymaps
-      #WhichKey: checking conflicting keymaps
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **"sh"**
-      #rhs: `
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **"sf"**
-      #rhs: `
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **"sd"**
-      #rhs: `
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **"sr"**
-      #rhs: `
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **"sF"**
-      # rhs: `
-      #WARNING conflicting keymap exists for mode **"n"**, lhs: **" s"**
-      # rhs: <Cmd>Telescope oldfiles<CR>
     };
   };
 }
