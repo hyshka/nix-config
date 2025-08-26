@@ -23,12 +23,11 @@
       tmuxPlugins.yank
       tmuxPlugins.resurrect
       tmuxPlugins.continuum
-      (tmuxPlugins.catppuccin.override {
-        # Flavour can be one of: latte, frappe, macchiato, mocha
-        flavour = "mocha";
-      })
+      tmuxPlugins.catppuccin
     ];
     extraConfig = ''
+      # Configure theme options
+      set -g @catppuccin_flavour "mocha"
       # Switch between last used window
       bind-key C-Space last-window
       # Synchronize mode, send same command to all panes
