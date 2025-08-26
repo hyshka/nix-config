@@ -56,17 +56,21 @@
             panes:
               - glances
               - focus: true
-              - blank
           - window_name: config
             layout: main-vertical
             options:
-              main-pane-width: 80%
+              main-pane-width: 50%
             panes:
               - shell_command:
                 - cd nix-config; nvim
                 focus: true
               - shell_command:
                 - cd nix-config; git fetch -a
+          - window_name: ai
+            layout: main-vertical
+            panes:
+              - shell_command:
+                - cd nix-config; nix-shell shell-aider.nix
       '';
       target = "tmuxp/dashboard.yml";
     };
