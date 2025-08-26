@@ -21,6 +21,12 @@
       tmuxPlugins.fzf-tmux-url
       tmuxPlugins.copycat
       tmuxPlugins.yank
+      tmuxPlugins.resurrect
+      tmuxPlugins.continuum
+      (tmuxPlugins.catppuccin.override {
+        # Flavour can be one of: latte, frappe, macchiato, mocha
+        flavour = "mocha";
+      })
     ];
     extraConfig = ''
       # Switch between last used window
@@ -35,14 +41,11 @@
       bind-key -T copy-mode-vi 'BSpace' send -X halfpage-up
       # 24 bit color
       set -as terminal-features ",alacritty*:RGB"
-      # statusline
-      set -g status-left '#{prefix_highlight}'
-      set -g status-right '#{?pane_synchronized, #[bg=blue]#[fg=white] SYNCHRONIZED #[default],} #S '
-      # window status
-      setw -g window-status-format " #F#I:#W#F "
-      setw -g window-status-current-format " #F#I:#W#F "
       # Set the display panes timeout
       set-option -g display-panes-time 4000
+      # Enable persistent sessions
+      set -g @continuum-restore 'on'
+      set -g @resurrect-capture-pane-contents 'on'
     '';
   };
   xdg.configFile = {
