@@ -21,29 +21,28 @@
       tmuxPlugins.fzf-tmux-url
       tmuxPlugins.copycat
       tmuxPlugins.yank
-      tmuxPlugins.resurrect
-      tmuxPlugins.continuum
-      (tmuxPlugins.catppuccin.override {
-        # Flavour can be one of: latte, frappe, macchiato, mocha
-        flavour = "mocha";
-      })
-    ];
-    extraOptions = [
-      "display-panes-time 4000"
-    ];
-    extraBinds = [
-      { key = "C-Space"; command = "last-window"; }
-      { key = "a"; command = "set-window-option synchronize-panes"; }
-      { key = "Escape"; command = "copy-mode"; }
-      { key = "v"; table = "copy-mode-vi"; command = "send -X begin-selection"; }
-      { key = "Space"; table = "copy-mode-vi"; command = "send -X halfpage-down"; }
-      { key = "BSpace"; table = "copy-mode-vi"; command = "send -X halfpage-up"; }
     ];
     extraConfig = ''
-      set -g @continuum-restore 'on'
-      set -g @resurrect-capture-pane-contents 'on'
+      # Switch between last used window
+      bind-key C-Space last-window
+      # Synchronize mode, send same command to all panes
+      # I hate the default map
+      bind a set-window-option synchronize-panes
+      # Make copy mode like visual mode in vim
+      bind Escape copy-mode
+      bind-key -T copy-mode-vi 'v' send -X begin-selection
+      bind-key -T copy-mode-vi 'Space' send -X halfpage-down
+      bind-key -T copy-mode-vi 'BSpace' send -X halfpage-up
       # 24 bit color
       set -as terminal-features ",alacritty*:RGB"
+      # statusline
+      set -g status-left '#{prefix_highlight}'
+      set -g status-right '#{?pane_synchronized, #[bg=blue]#[fg=white] SYNCHRONIZED #[default],} #S '
+      # window status
+      setw -g window-status-format " #F#I:#W#F "
+      setw -g window-status-current-format " #F#I:#W#F "
+      # Set the display panes timeout
+      set-option -g display-panes-time 4000
     '';
   };
   xdg.configFile = {
