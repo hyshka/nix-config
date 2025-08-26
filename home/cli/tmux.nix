@@ -24,7 +24,7 @@
     ];
     extraConfig = ''
       # Switch between last used window
-      bind-key C-a last-window
+      bind-key C-Space last-window
       # Synchronize mode, send same command to all panes
       # I hate the default map
       bind a set-window-option synchronize-panes
