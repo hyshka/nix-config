@@ -4,9 +4,15 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://mic92.cachix.org"
+      "https://nix-darwin.cachix.org"
+      "https://catppuccin.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "mic92.cachix.org-1:Fhn3812iR2y2BvD4sU5vUIp9gJ232o1Z2e/s06Mv22o="
+      "nix-darwin.cachix.org-1:5_2rI+3hRmy7M9rQpDIFj3y7a2b/G42iLY6S+Gfa32c="
+      "catppuccin.cachix.org-1:aU5vjCfsS1Z1t1I9nC42cQli42QGj28H3/2SYe2d320="
     ];
   };
 
