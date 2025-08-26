@@ -22,8 +22,8 @@
 
     # https://aider.chat/docs/config/options.html
     # OpenAPI models: https://aider.chat/docs/llms/openai.html
-    AIDER_MODEL = "openrouter/openai/gpt-4o-mini";
-    AIDER_REASONING_EFFORT = "high";
+    AIDER_MODEL = "openrouter/google/gemini-2.5-pro";
+    #AIDER_REASONING_EFFORT = "high";
 
     AIDER_ANALYTICS_DISABLE = "true";
     AIDER_CHECK_UPDATE = "false";
