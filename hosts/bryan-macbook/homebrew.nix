@@ -40,6 +40,7 @@
       "openvpn-connect"
       "fontforge"
       "orbstack"
+      "logseq"
     ];
   };
 

@@ -20,6 +20,6 @@
     # work
     curl
     gimp
-    logseq
+    brave
   ];
 }
