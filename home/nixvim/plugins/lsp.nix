@@ -64,6 +64,11 @@
     plugins.lsp = {
       enable = true;
 
+      # HACK until nixvim supports `vue_ls` properly
+      luaConfig.content = ''
+        vim.lsp.enable('vue_ls')
+      '';
+
       # Enable the following language servers
       #  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       #
@@ -81,12 +86,27 @@
         #
         # But for many setups the LSP (`ts_ls`) will work just fine
         ts_ls = {
-          enable = true;
+          enable = false;
+          package = pkgs.typescript-language-server;
         };
+
         volar = {
           enable = true;
           # use a global TypeScript Server installation
           extraOptions.init_options.typescript.tsdk = "${lib.getBin pkgs.typescript}/lib/node_modules/typescript/lib";
+        };
+
+        vtsls = {
+          enable = true;
+          filetypes = ["typescript" "javascript" "javascriptreact" "typescriptreact" "vue"];
+          extraOptions.settings.vtsls.tsserver.globalPlugins = [
+            {
+              name = "@vue/typescript-plugin";
+              location = "${lib.getBin pkgs.vue-language-server}/lib/node_modules/@vue/language-server";
+              languages = ["vue"];
+              configNamespace = "typescript";
+            }
+          ];
         };
 
         pylsp = {
