@@ -8,8 +8,8 @@
   home.file = {
     "zwift.sh" = {
       source = pkgs.fetchurl {
-        url = "https://raw.githubusercontent.com/netbrain/zwift/master/zwift.sh";
-        hash = "sha256-+iD3Af/23siXAYXjwFnElHeUbC+SEJ+ag2I660kIpfI=";
+        url = "https://raw.githubusercontent.com/netbrain/zwift/c17f3d180113b6934d84a9b92d0c6ccd932e2c6c/zwift.sh";
+        hash = "sha256-2VH+SaX1k7L52eq8RhczD2yjq+tpu3u9m29EI6VX5DM=";
       };
       target = ".local/bin/zwift";
       executable = true;
