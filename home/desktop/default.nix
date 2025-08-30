@@ -11,8 +11,6 @@
 
   home.packages = with pkgs; [
     # web
-    firefox-devedition-bin
-    ungoogled-chromium
     brave
 
     # comms
