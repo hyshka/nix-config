@@ -161,12 +161,12 @@
               href = "https://hass.home.hyshka.com/";
             };
           }
-          #{
-          #  "Silver Bullet" = {
-          #    icon = "silverbullet.svg";
-          #    href = "https://silverbullet.home.hyshka.com/";
-          #  };
-          #}
+          {
+            "Silver Bullet" = {
+              icon = "silverbullet.svg";
+              href = "https://silverbullet.home.hyshka.com/";
+            };
+          }
           #{
           #  "Nextcloud" = {
           #    icon = "nextcloud.svg";
@@ -191,12 +191,12 @@
               };
             };
           }
-          #{
-          #  "CryptPad" = {
-          #    icon = "cryptpad.svg";
-          #    href = "https://cryptpad.home.hyshka.com/";
-          #  };
-          #}
+          {
+            "CryptPad" = {
+              icon = "cryptpad.svg";
+              href = "https://cryptpad.home.hyshka.com/";
+            };
+          }
           {
             "Calibre" = {
               icon = "calibre.svg";
@@ -213,6 +213,12 @@
             "Ntfy" = {
               icon = "ntfy.svg";
               href = "https://ntfy.home.hyshka.com/";
+            };
+          }
+          {
+            "Incus" = {
+              icon = "incus.svg";
+              href = "https://incus.home.hyshka.com/";
             };
           }
         ];
@@ -340,6 +346,14 @@
                 url = "http://localhost:8085";
                 key = "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}";
               };
+            };
+          }
+          {
+            Pinchflat = {
+              icon = "pinchflat.svg";
+              href = "https://pinchflat.home.hyshka.com";
+              server = "my-docker";
+              container = "pinchflat";
             };
           }
         ];
