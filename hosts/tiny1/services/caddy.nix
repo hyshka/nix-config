@@ -73,6 +73,11 @@
            reverse_proxy http://10.223.27.125:2283
          }
 
+         @incus host incus.home.hyshka.com
+         handle @incus {
+           reverse_proxy http://127.0.0.1:8443
+         }
+
          # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
          #@cryptpad host cryptpad.home.hyshka.com cryptpad-ui.home.hyshka.com
          #handle @cryptpad {
