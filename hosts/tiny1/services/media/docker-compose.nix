@@ -410,7 +410,7 @@
   };
 
   # wireguard container requires ip_tables kernal module for internal use
-  boot.kernelModules = ["ip_tables"];
+  boot.kernelModules = ["ip_tables"]; # TODO: I still have to manually modprobe after reboots
   virtualisation.oci-containers.containers."wireguard" = {
     image = "lscr.io/linuxserver/wireguard:latest";
     environment = {
