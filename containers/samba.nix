@@ -119,6 +119,7 @@ in
 
     services.samba-wsdd = {
       enable = true;
+      # TODO: need to expose this on tiny1 for this to work
       openFirewall = true;
     };
 
@@ -126,6 +127,7 @@ in
       publish.enable = true;
       publish.userServices = true;
       enable = true;
+      # TODO: need to expose this on tiny1 for this to work
       openFirewall = true;
       extraServiceFiles = {
         timemachine = ''

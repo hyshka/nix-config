@@ -44,7 +44,6 @@ in
       sopsFile = ./secrets/immich.yaml;
     };
 
-    # TODO: restarting incus container deletes the database
     # Database backups are taken nightly at 2am
     # /mnt/storage/immich/backups
     # Ref: https://immich.app/docs/administration/backup-and-restore
