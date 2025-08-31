@@ -61,6 +61,11 @@ in
         IMMICH_API_METRICS_PORT = "8091";
         IMMICH_MICROSERVICES_METRICS_PORT = "8092";
       };
+      # Fix /var/empty permission issues
+      # Ref: https://github.com/nixos/nixpkgs/issues/418799
+      machine-learning.environment = {
+        HF_XET_CACHE = "/var/cache/immich/huggingface-xet";
+      };
     };
 
     # Hardware Accelerated Transcoding
