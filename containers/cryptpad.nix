@@ -21,22 +21,15 @@ in
 
     networking.firewall.allowedTCPPorts = [3003 3006];
 
-    sops.secrets.cryptpad_admin_keys = {
-      sopsFile = ./secrets/cryptpad.yaml;
-      owner = config.services.cryptpad.user;
-      group = config.services.cryptpad.group;
-    };
-
     services.cryptpad = {
       enable = true;
       settings = {
         dataRoot = "/mnt/cryptad";
         httpAddress = "0.0.0.0";
         httpPort = 3006;
-        httpUnsafeOrigin = "https://cryptpad.home.hyshka.com";
-        httpSafeOrigin = "https://cryptpad-ui.home.hyshka.com";
+        httpUnsafeOrigin = "https://cryptpad-sandbox.home.hyshka.com";
+        httpSafeOrigin = "https://cryptpad.home.hyshka.com";
         websocketPort = 3003;
-        adminKeysFile = config.sops.secrets.cryptpad_admin_keys.path;
       };
     };
   }

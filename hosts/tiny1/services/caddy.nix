@@ -80,7 +80,7 @@
 
          # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
          # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/web-apps/cryptpad.nix#L266
-         #@cryptpad host cryptpad.home.hyshka.com cryptpad-ui.home.hyshka.com
+         #@cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
          #handle @cryptpad {
          #  reverse_proxy http://127.0.0.1:3006 # TODO incus IP
          #  handle /cryptpad_websocket/* {
