@@ -4,17 +4,22 @@
 
 # Prints usage information
 usage() {
-    echo "Usage: $0 <command> <containers> [--remote <remote_name>]"
+    echo "Usage: $0 <command> [arguments...] [--remote <remote_name>]"
     echo
-    echo "Commands:"
-    echo "  build      Builds the container image(s)."
-    echo "  import     Imports the built image(s) into Incus."
-    echo "  rebuild    Rebuilds the container(s) on the remote."
-    echo "  restart    Restarts the container(s)."
-    echo "  deploy     Performs import, rebuild, and restart for container(s)."
+    echo "Deployment Commands (support comma-separated list of containers):"
+    echo "  build      <containers>                Builds the container image(s)."
+    echo "  import     <containers>                Imports the built image(s) into Incus."
+    echo "  rebuild    <containers>                Rebuilds the container(s) on the remote."
+    echo "  restart    <containers>                Restarts the container(s)."
+    echo "  deploy     <containers>                Performs import, rebuild, and restart for container(s)."
     echo
-    echo "Arguments:"
-    echo "  <containers>        A comma-separated list of container names."
+    echo "Setup Commands (operate on a single container):"
+    echo "  create     <container> [--nesting]     Creates a new container from a nixos/custom/<container> image."
+    echo "  add-persist-disk <container>           Adds a standard persist disk for the container."
+    echo "  set-ip     <container> [ip_address]    Sets a static IP. Detects current IP if not provided."
+    echo "  get-age-key <container>                Computes the age public key from the container's SSH host key."
+    echo
+    echo "Options:"
     echo "  --remote <remote>   The Incus remote to use (default: tiny1)."
     exit 1
 }
@@ -60,64 +65,127 @@ restart_container() {
     incus restart "$container"
 }
 
+# --- Setup functions ---
+
+create_container() {
+    local container=$1
+    local remote=$2
+    local nesting_arg=$3
+    echo "Creating container $container on remote $remote..."
+    incus remote switch "$remote"
+    # shellcheck disable=SC2086
+    incus create "nixos/custom/$container" "$container" $nesting_arg
+}
+
+add_persist_disk() {
+    local container=$1
+    local remote=$2
+    echo "Adding persist disk to $container on remote $remote..."
+    incus remote switch "$remote"
+    incus config device add "$container" persist disk "source=/persist/microvms/$container" "path=/persist" "shift=true"
+}
+
+set_ip() {
+    local container=$1
+    local remote=$2
+    local ip_address=$3
+    local device=${4:-eth0}
+
+    incus remote switch "$remote"
+
+    if [ -z "$ip_address" ]; then
+        command -v jq >/dev/null 2>&1 || { echo >&2 "jq is required for IP detection but it's not installed. Aborting."; exit 1; }
+        echo "IP address not provided. Detecting current IP for $container..."
+        ip_address=$(incus list "$container" --format=json | jq -r ".[] | .state.network.${device}.addresses[] | select(.family == \"inet\") | .address")
+        if [ -z "$ip_address" ] || [ "$ip_address" == "null" ]; then
+            echo "Error: Could not detect an IPv4 address for $container."
+            echo "Please ensure the container is running and has a network lease."
+            exit 1
+        fi
+        echo "Detected IP: $ip_address"
+    fi
+
+    echo "Setting static IP $ip_address on $device for container $container..."
+    incus config device override "$container" "$device" "ipv4.address=$ip_address"
+}
+
+get_age_key() {
+    local container=$1
+    local remote=$2
+    command -v ssh-to-age >/dev/null 2>&1 || { echo >&2 "ssh-to-age is required but it's not installed. Aborting."; exit 1; }
+    echo "Computing age key for $container from remote $remote..."
+    incus exec "$remote": -- cat "/persist/microvms/$container/etc/ssh/ssh_host_ed25519_key.pub" | ssh-to-age
+}
+
 # --- Main logic ---
 
-if [[ $# -lt 2 ]]; then
+if [[ $# -lt 1 ]]; then
     usage
 fi
 
 COMMAND=$1
 shift
-CONTAINERS=$1
-shift
 REMOTE="tiny1" # Default remote
 
-# Parse options
-while [[ $# -gt 0 ]]; do
-    case $1 in
-        --remote)
-            REMOTE="$2"
-            shift 2
-            ;;
-        *)
-            echo "Unknown option: $1"
-            usage
-            ;;
-    esac
-done
+case "$COMMAND" in
+    build|import|rebuild|restart|deploy)
+        CONTAINERS=$1
+        shift
+        # Parse options
+        while [[ $# -gt 0 ]]; do case $1 in --remote) REMOTE="$2"; shift 2;; *) echo "Unknown option: $1"; usage;; esac; done
+        if [ -z "$CONTAINERS" ]; then echo "No containers specified."; usage; fi
 
-if [ -z "$CONTAINERS" ]; then
-    echo "No containers specified."
-    usage
-fi
+        for container in ${CONTAINERS//,/ }; do
+            echo "--- Processing container: $container ---"
+            case "$COMMAND" in
+                build) build_image "$container";;
+                import) import_image "$container" "$REMOTE";;
+                rebuild) rebuild_container "$container" "$REMOTE";;
+                restart) restart_container "$container" "$REMOTE";;
+                deploy)
+                    import_image "$container" "$REMOTE" && \
+                    rebuild_container "$container" "$REMOTE" && \
+                    restart_container "$container" "$REMOTE"
+                    ;;
+            esac
+            echo "--- Finished processing $container ---"
+        done
+        ;;
 
-# Execute command for each container
-for container in ${CONTAINERS//,/ }; do
-    echo "--- Processing container: $container ---"
-    case "$COMMAND" in
-        build)
-            build_image "$container"
-            ;;
-        import)
-            import_image "$container" "$REMOTE"
-            ;;
-        rebuild)
-            rebuild_container "$container" "$REMOTE"
-            ;;
-        restart)
-            restart_container "$container" "$REMOTE"
-            ;;
-        deploy)
-            import_image "$container" "$REMOTE" && \
-            rebuild_container "$container" "$REMOTE" && \
-            restart_container "$container" "$REMOTE"
-            ;;
-        *)
-            echo "Invalid command: $COMMAND"
-            usage
-            ;;
-    esac
-    echo "--- Finished processing $container ---"
-done
+    create)
+        CONTAINER=$1; shift
+        NESTING_ARG=""
+        if [[ "$1" == "--nesting" ]]; then NESTING_ARG="-c security.nesting=true"; shift; fi
+        while [[ $# -gt 0 ]]; do case $1 in --remote) REMOTE="$2"; shift 2;; *) echo "Unknown option: $1"; usage;; esac; done
+        if [ -z "$CONTAINER" ]; then echo "No container specified."; usage; fi
+        create_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
+        ;;
+
+    add-persist-disk)
+        CONTAINER=$1; shift
+        while [[ $# -gt 0 ]]; do case $1 in --remote) REMOTE="$2"; shift 2;; *) echo "Unknown option: $1"; usage;; esac; done
+        if [ -z "$CONTAINER" ]; then echo "No container specified."; usage; fi
+        add_persist_disk "$CONTAINER" "$REMOTE"
+        ;;
+
+    set-ip)
+        CONTAINER=$1; shift; IP_ADDRESS=$1; shift
+        while [[ $# -gt 0 ]]; do case $1 in --remote) REMOTE="$2"; shift 2;; *) echo "Unknown option: $1"; usage;; esac; done
+        if [ -z "$CONTAINER" ]; then echo "No container specified."; usage; fi
+        set_ip "$CONTAINER" "$REMOTE" "$IP_ADDRESS"
+        ;;
+
+    get-age-key)
+        CONTAINER=$1; shift
+        while [[ $# -gt 0 ]]; do case $1 in --remote) REMOTE="$2"; shift 2;; *) echo "Unknown option: $1"; usage;; esac; done
+        if [ -z "$CONTAINER" ]; then echo "No container specified."; usage; fi
+        get_age_key "$CONTAINER" "$REMOTE"
+        ;;
+
+    *)
+        echo "Invalid command: $COMMAND"
+        usage
+        ;;
+esac
 
 echo "All tasks completed."

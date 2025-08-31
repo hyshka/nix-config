@@ -11,15 +11,15 @@ in
   }
   // {
     # Set up steps
-    # 1. Deploy image to Incus
-    # 2. Create container: incus create nixos/custom/immich immich -c security.nesting=true
-    # 3. Add persist disk: incus config device add immich persist disk source=/persist/microvms/immich path=/persist shift=true
+    # 1. Deploy image to Incus: ./incus-manager.sh deploy immich
+    # 2. Create container: ./incus-manager.sh create immich --nesting
+    # 3. Add persist disk: ./incus-manager.sh add-persist-disk immich
     # 4. Start container: incus start immich --console
-    # 5. Configure static ip: Grab IPv4 from incus list, then incus config device override immich eth0 ipv4.address=10.223.27.125
-    # 6. Compute age key: nix-shell -p ssh-to-age --run 'sudo cat /persist/microvms/immich/etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
-    # 7. Update nix-config with static IP and age key, rebuild the image
+    # 5. Configure static ip: ./incus-manager.sh set-ip immich
+    # 6. Compute age key: ./incus-manager.sh get-age-key immich
+    # 7. Update nix-config with static IP and age key, then run: ./incus-manager.sh deploy immich
     # 8. Add data storage: incus config device add immich data disk source=/mnt/storage/immich path=/mnt/immich/ raw.mount.options=idmap=b:998:0:1
-    # 9. Set raw.idmap: incus config set immich raw.idmap=both 0 998
+    # 9. Set raw.idmap: incus config set immich raw.idmap='both 0 998'
 
     # Manual backup on NixOS host
     # sudo -u postgres pg_dumpall --clean --if-exists --username=postgres | gzip > "../immich-dump.sql.gz"
