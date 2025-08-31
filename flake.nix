@@ -158,6 +158,11 @@
         modules = [./containers/silverbullet.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      cryptpad = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/cryptpad.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Nix-Darwin configuration entrypoint
