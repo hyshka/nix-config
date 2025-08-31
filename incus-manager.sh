@@ -77,6 +77,7 @@ create_container() {
     incus create "nixos/custom/$container" "$container" $nesting_arg
 }
 
+# TODO: requires sudo mkdir /persist/microvms/<container> on the remote first
 add_persist_disk() {
     local container=$1
     local remote=$2
