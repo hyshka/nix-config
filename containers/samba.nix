@@ -12,13 +12,6 @@ in
   }
   // {
     # Set up steps
-    # 1. Deploy image to Incus
-    # 2. Create container: incus create nixos/custom/samba samba -c security.nesting=true
-    # 3. Add persist disk: incus config device add samba persist disk source=/persist/microvms/samba path=/persist shift=true
-    # 4. Start container: incus start samba --console
-    # 5. Configure static ip: Grab IPv4 from incus list, then incus config device override samba eth0 ipv4.address=10.223.27.X
-    # 6. Compute age key: nix-shell -p ssh-to-age --run 'sudo cat /persist/microvms/samba/etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
-    # 7. Update nix-config with static IP and age key, rebuild the image
     # 8. Add data storage: incus config device add samba storage disk source=/mnt/storage path=/mnt/storage/ raw.mount.options=idmap=b:998:0:1
 
     # Proxy ports from host to container
