@@ -78,15 +78,13 @@
            reverse_proxy http://127.0.0.1:8443
          }
 
-         # https://github.com/cryptpad/cryptpad/blob/main/docs/community/example.caddy.conf
-         # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/web-apps/cryptpad.nix#L266
-         #@cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
-         #handle @cryptpad {
-         #  reverse_proxy http://127.0.0.1:3006 # TODO incus IP
-         #  handle /cryptpad_websocket/* {
-         #    reverse_proxy http://127.0.0.1:3003 # TODO incus IP
-         #  }
-         #}
+         @cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
+         handle @cryptpad {
+           reverse_proxy http://10.223.27.23:3006
+           handle /cryptpad_websocket/* {
+             reverse_proxy http://10.223.27.23:3003
+           }
+         }
 
         # The Caddy rules for Nextcloud were too complex. Reverse proxy the
         # buit-in Nginx configuration instead.
