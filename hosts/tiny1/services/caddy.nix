@@ -73,11 +73,6 @@
            reverse_proxy http://10.223.27.125:2283
          }
 
-         @incus host incus.home.hyshka.com
-         handle @incus {
-           reverse_proxy http://127.0.0.1:8443
-         }
-
          @cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
          handle @cryptpad {
            reverse_proxy http://10.223.27.23:3006

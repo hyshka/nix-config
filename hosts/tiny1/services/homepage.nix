@@ -215,12 +215,6 @@
               href = "https://ntfy.home.hyshka.com/";
             };
           }
-          {
-            "Incus" = {
-              icon = "incus.svg";
-              href = "https://incus.home.hyshka.com/";
-            };
-          }
         ];
       }
       {
