@@ -10,6 +10,7 @@
   services.prometheus = {
     enable = true;
     listenAddress = "127.0.0.1";
+    retentionTime = "31d";
 
     scrapeConfigs = [
       {
