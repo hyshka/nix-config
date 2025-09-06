@@ -8,6 +8,10 @@
       owner = "grafana";
       group = "grafana";
     };
+    grafana-smtp-password = {
+      owner = "grafana";
+      group = "grafana";
+    };
   };
 
   # https://wiki.nixos.org/wiki/Grafana
@@ -25,6 +29,12 @@
         http_port = 3002;
         domain = "grafana.home.hyshka.com";
         root_url = "https://grafana.home.hyshka.com";
+      };
+      smtp = {
+        enabled = true;
+        host = "smtp.protonmail.ch:587";
+        user = "noreply@hyshka.com";
+        password = "$__file{${config.sops.secrets.grafana-smtp-password.path}}";
       };
     };
 
@@ -67,6 +77,19 @@
         contactPoints = [
           {
             orgId = 1;
+            name = "grafana-default-email";
+            receivers = [
+              {
+                uid = "sysadmin";
+                type = "email";
+                settings = {
+                  addresses = "bryan@hyshka.com";
+                };
+              }
+            ];
+          }
+          {
+            orgId = 1;
             name = "Ntfy";
             receivers = [
               # https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/
@@ -83,12 +106,6 @@
             ];
           }
         ];
-        deleteContactPoints = [
-          {
-            orgId = 1;
-            uid = "";
-          }
-        ];
       };
 
       alerting.policies.settings = {
@@ -96,11 +113,19 @@
         policies = [
           {
             orgId = 1;
-            receiver = "Ntfy";
+            receiver = "grafana-default-email";
             group_by = ["grafana_folder" "alertname"];
             group_wait = "30s";
             group_interval = "5m";
             repeat_interval = "4h";
+            routes = [
+              {
+                receiver = "Ntfy";
+                matchers = [
+                  "priority = low"
+                ];
+              }
+            ];
           }
         ];
       };
