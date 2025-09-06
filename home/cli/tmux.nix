@@ -57,7 +57,6 @@
             layout: even-vertical
             panes:
               - glances
-              - focus: true
           - window_name: config
             layout: main-vertical
             options:
