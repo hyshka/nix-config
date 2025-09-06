@@ -111,11 +111,11 @@
         deleteContactPoints = [
           {
             orgId = 1;
-            name = "grafana-default-email";
+            uid = "ae68iv7a4sdmob";
           }
           {
             orgId = 1;
-            name = "Ntfy";
+            uid = "ae68iv7a4sdmpc";
           }
         ];
       };
