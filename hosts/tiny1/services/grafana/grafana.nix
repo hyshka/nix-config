@@ -35,6 +35,8 @@
         host = "smtp.protonmail.ch:587";
         user = "noreply@hyshka.com";
         password = "$__file{${config.sops.secrets.grafana-smtp-password.path}}";
+        from_address = "noreply@hyshka.com";
+        from_name = "No Reply";
       };
     };
 
