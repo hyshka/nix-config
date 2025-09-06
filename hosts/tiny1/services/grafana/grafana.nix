@@ -108,6 +108,16 @@
             ];
           }
         ];
+        deleteContactPoints = [
+          {
+            orgId = 1;
+            name = "grafana-default-email";
+          }
+          {
+            orgId = 1;
+            name = "Ntfy";
+          }
+        ];
       };
 
       alerting.policies.settings = {
