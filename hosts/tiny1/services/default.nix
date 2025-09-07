@@ -1,6 +1,6 @@
 {
   imports = [
-    ./calibre.nix # TODO: move to incus
+    ./calibre.nix
     ./docker.nix
     ./homepage.nix # TODO: move to incus
     ./media # TODO: move to incus

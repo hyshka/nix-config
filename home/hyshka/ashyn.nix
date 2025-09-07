@@ -30,6 +30,7 @@
     spotify
     #deskflow
     brave
+    incus
   ];
 
   #nixpkgs.config.permittedInsecurePackages = [
