@@ -15,9 +15,6 @@
 
     # Base configuration
     networking = {
-      useDHCP = false;
-      useHostResolvConf = false;
-      useNetworkd = true;
       hostName = name;
     };
     system.stateVersion = stateVersion;

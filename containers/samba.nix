@@ -69,14 +69,14 @@ in
 
     services.samba = {
       enable = true;
+      # Use avahi for discoverability instead of nmbd
+      nmbd.enable = false;
       openFirewall = true;
       settings = {
         global = {
           "server string" = "samba";
           "hosts allow" = ["10.223.27." "192.168.1." "127." "100."];
           "hosts deny" = ["ALL"];
-          "bind interfaces only" = "yes";
-          "interfaces" = ["lo" "eth0"];
           "server role" = "standalone server";
           "smb encrypt" = "desired";
           "max log size" = 50;
@@ -110,17 +110,12 @@ in
       };
     };
 
-    services.samba-wsdd = {
-      enable = true;
-      # TODO: need to expose this on tiny1 for this to work
-      openFirewall = true;
-    };
-
+    # TODO: fix discoverability on LAN
+    # We'd need to expose the same ports from the tiny1 host as this container
     services.avahi = {
       publish.enable = true;
       publish.userServices = true;
       enable = true;
-      # TODO: need to expose this on tiny1 for this to work
       openFirewall = true;
       extraServiceFiles = {
         timemachine = ''
