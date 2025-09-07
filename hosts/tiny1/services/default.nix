@@ -4,7 +4,6 @@
     ./docker.nix
     ./homepage.nix # TODO: move to incus
     ./media # TODO: move to incus
-    ./ntfy.nix # TODO: move to incus
     ./restic.nix
     ./samba.nix
     ./snapraid.nix

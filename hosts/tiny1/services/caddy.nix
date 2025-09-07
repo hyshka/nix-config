@@ -150,7 +150,7 @@
 
         @ntfy host ntfy.home.hyshka.com
         handle @ntfy {
-          reverse_proxy http://127.0.0.1:2586
+          reverse_proxy http://10.223.27.234:2586
         }
 
         @pinchflat host pinchflat.home.hyshka.com

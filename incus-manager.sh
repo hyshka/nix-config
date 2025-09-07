@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#!nix-shell -i bash -p ssh-to-age
 
 # --- Helper functions ---
 
@@ -113,9 +114,12 @@ set_ip() {
 get_age_key() {
     local container=$1
     local remote=$2
+
+    incus remote switch "$remote"
+
     command -v ssh-to-age >/dev/null 2>&1 || { echo >&2 "ssh-to-age is required but it's not installed. Aborting."; exit 1; }
     echo "Computing age key for $container from remote $remote..."
-    incus exec "$remote": -- cat "/persist/microvms/$container/etc/ssh/ssh_host_ed25519_key.pub" | ssh-to-age
+    incus exec "$container" -- cat "/persist/etc/ssh/ssh_host_ed25519_key.pub" | ssh-to-age
 }
 
 # --- Main logic ---
