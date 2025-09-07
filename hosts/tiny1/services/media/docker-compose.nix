@@ -272,8 +272,8 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
       "--add-host=host.incus.calibre:10.223.27.241"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=readarr"
       "--network=media_default"
     ];

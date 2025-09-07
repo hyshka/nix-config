@@ -3,14 +3,6 @@
     ./docker-compose.nix
   ];
 
-  # Allow containers to access services running on the host
-  # TODO: avoid hard-coding the Docker interface
-  # TODO: Create better pattern for exposing ports from LXC containers
-  networking.firewall.interfaces."docker0".allowedTCPPorts = [
-    8083 # calibre
-    2586 # ntfy
-  ];
-
   users = {
     groups = {
       mediacenter = {
