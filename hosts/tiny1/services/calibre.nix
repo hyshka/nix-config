@@ -29,19 +29,5 @@
   };
 
   # Open port to sync with koreader
-  networking.firewall.allowedTCPPorts = [8083 8084];
-  services.calibre-web = {
-    enable = true;
-    group = "mediacenter";
-    listen = {
-      ip = "0.0.0.0";
-      port = 8084;
-    };
-    options = {
-      enableBookConversion = true;
-      enableBookUploading = true;
-      calibreLibrary = "/mnt/storage/mediacenter/media/books";
-      reverseProxyAuth.enable = true;
-    };
-  };
+  networking.firewall.allowedTCPPorts = [8083];
 }
