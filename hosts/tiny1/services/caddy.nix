@@ -140,7 +140,7 @@
 
         @books host books.home.hyshka.com
         handle @books {
-          reverse_proxy http://10.223.27.241:8084
+          reverse_proxy http://10.223.27.241:8083
         }
 
         @ntfy host ntfy.home.hyshka.com
