@@ -1,4 +1,4 @@
-{config, ...}: {
+{
   imports = [
     ./docker-compose.nix
   ];

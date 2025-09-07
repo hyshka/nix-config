@@ -15,8 +15,8 @@ in
     # 2. Create container: ./incus-manager.sh create calibre --nesting
     # 3. On host machine, sudo mkdir /persist/microvms/calibre
     # 4. Add persist disk for media: ./incus-manager.sh add-persist-disk calibre
-    # 5. Add data storage: incus config device add calibre data disk source=/mnt/storage/mediacenter/media/books/ path=/mnt/books/ raw.mount.options=idmap=b:998:0:1
-    # 6. Set raw.idmap: incus config set calibre raw.idmap='both 0 998'
+    # 5. Add data storage: incus config device add calibre data disk source=/mnt/storage/mediacenter/media/books/ path=/mnt/books/
+    # 6. Set raw.idmap: incus config set calibre raw.idmap='uid 1000 213\ngid 13000 213'
     # 7. Start container: incus start calibre --console
     # 8. Configure static ip: ./incus-manager.sh set-ip calibre
     # 9. Compute age key: ./incus-manager.sh get-age-key calibre
