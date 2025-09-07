@@ -76,7 +76,7 @@ creation_rules:
           - *lxc-silverbullet
         pgp:
           - *hyshka
-  - path_regex: containers/secrets/ntfy.ya?ml$
+  - path_regex: containers/secrets/ntfy_user.db$
     key_groups:
       - age:
           - *lxc-ntfy

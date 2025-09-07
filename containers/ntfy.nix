@@ -21,9 +21,12 @@ in
 
     networking.firewall.allowedTCPPorts = [2586 9091];
 
-    sops.secrets.ntfy_user_db = {
-      sopsFile = ./secrets/ntfy.yaml;
-      key = "user_db";
+    sops.secrets."ntfy_user.db" = {
+      sopsFile = ./secrets/ntfy_user.db;
+      format = "binary";
+      owner = config.services.ntfy-sh.user;
+      group = config.services.ntfy-sh.group;
+      mode = "0600";
     };
 
     services.ntfy-sh = {
@@ -36,7 +39,7 @@ in
         log-format = "json";
         log-file = "/var/log/ntfy/ntfy.log";
         metrics-listen-http = "0.0.0.0:9091";
-        auth-file = config.sops.secrets.ntfy_user_db.path;
+        auth-file = config.sops.secrets."ntfy_user.db".path;
         auth-default-access = "deny-all";
       };
     };
