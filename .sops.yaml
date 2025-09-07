@@ -15,6 +15,7 @@ keys:
     - &lxc-paperless age10xhslkeewm6ltp7fz5rxecjsscj6nj27xc0xkxeekzn8sv63nf2srv6yld
     - &lxc-immich age14vd6j6zclech4c942awwcn0hq6gz824hlpt2pwzel3qh3r7v4g2qlwmunz
     - &lxc-samba age18kcmyg4j5w5u60nd2w6mcr2v7809n0xjnrf5j3anwldae3p9jv4sp5sam4
+    - &lxc-calibre todo
     - &lxc-silverbullet todo
     - &lxc-ntfy age18yjh20qsh4s3n8d5v6qqudhs7qjnadrejqxwfdjqqrxvl4v3uatqd4lhaw
     # not easy to find ssh host key on macos
@@ -46,12 +47,6 @@ creation_rules:
           - *ashyn
         pgp:
           - *hyshka
-  - path_regex: hosts/tiny1/services/[^/]+\.(sqlite)$
-    key_groups:
-      - age:
-          - *tiny1
-        pgp:
-          - *hyshka
   - path_regex: containers/secrets/paperless.ya?ml$
     key_groups:
       - age:
@@ -68,6 +63,12 @@ creation_rules:
     key_groups:
       - age:
           - *lxc-samba
+        pgp:
+          - *hyshka
+  - path_regex: containers/secrets/calibre-users.sqlite$
+    key_groups:
+      - age:
+          - *lxc-calibre
         pgp:
           - *hyshka
   - path_regex: containers/secrets/silverbullet.ya?ml$

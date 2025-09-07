@@ -163,6 +163,11 @@
         modules = [./containers/cryptpad.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      calibre = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/calibre.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
       ntfy = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [./containers/ntfy.nix];
