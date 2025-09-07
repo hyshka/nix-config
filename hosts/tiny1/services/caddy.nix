@@ -138,8 +138,8 @@
           reverse_proxy http://127.0.0.1:8085
         }
 
-        @books host books.home.hyshka.com
-        handle @books {
+        @library host library.home.hyshka.com
+        handle @library {
           reverse_proxy http://10.223.27.241:8083
         }
 
