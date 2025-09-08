@@ -37,6 +37,7 @@ Here are the typical steps to create and configure a new container from scratch.
     ```
 
 3.  **Create Container**: Create the container instance and add its persistent disk for the SSH host key.
+    **Note:** You still need to manually create the persistent directory on the host machine. E.g. mkdir /persist/microvms/my-container. Eventually, we'll be able to script this.
     ```bash
     ./incus-manager.sh create my-container
     ./incus-manager.sh add-persist-disk my-container

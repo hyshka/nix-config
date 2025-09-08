@@ -424,8 +424,8 @@
       "/home/hyshka/media/wireguard-config:/config:rw"
     ];
     ports = [
-      "8080:8080/tcp"
-      "8085:8085/tcp"
+      "8080:8080/tcp" # qbittorrent web ui
+      "8085:8085/tcp" # sabnzbd web ui
       "9586:9586/tcp" # wireguard-exporter
     ];
     log-driver = "journald";

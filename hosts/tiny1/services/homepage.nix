@@ -14,11 +14,10 @@
     environmentFile = config.sops.secrets.homepage.path;
     settings = {
       title = "tiny1";
-      showStats = true;
       layout = {
         Media = {
           style = "row";
-          columns = 2;
+          columns = 3;
         };
       };
     };
@@ -204,12 +203,6 @@
             };
           }
           {
-            "Calibre Web" = {
-              icon = "calibre-web.svg";
-              href = "https://books.home.hyshka.com/";
-            };
-          }
-          {
             "Ntfy" = {
               icon = "ntfy.svg";
               href = "https://ntfy.home.hyshka.com/";
@@ -226,6 +219,7 @@
               description = "Jellyfin: Media server";
               server = "my-docker";
               container = "jellyfin";
+              siteMonitor = "https://jellyfin.home.hyshka.com";
               widget = {
                 type = "jellyfin";
                 url = "http://localhost:8096";
@@ -240,6 +234,7 @@
               href = "https://jellyseerr.home.hyshka.com";
               server = "my-docker";
               container = "jellyseerr";
+              siteMonitor = "https://jellyseerr.home.hyshka.com";
               widget = {
                 type = "jellyseerr";
                 url = "http://localhost:5055";
@@ -253,6 +248,7 @@
               href = "https://radarr.home.hyshka.com";
               server = "my-docker";
               container = "radarr";
+              siteMonitor = "https://radarr.home.hyshka.com";
               widget = {
                 type = "radarr";
                 url = "http://localhost:7878";
@@ -266,6 +262,7 @@
               href = "https://sonarr.home.hyshka.com";
               server = "my-docker";
               container = "sonarr";
+              siteMonitor = "https://sonarr.home.hyshka.com";
               widget = {
                 type = "sonarr";
                 url = "http://localhost:8989";
@@ -279,6 +276,7 @@
               href = "https://readarr.home.hyshka.com";
               server = "my-docker";
               container = "readarr";
+              siteMonitor = "https://readarr.home.hyshka.com";
               widget = {
                 type = "readarr";
                 url = "http://localhost:8787";
@@ -287,19 +285,12 @@
             };
           }
           {
-            EbookBuddy = {
-              icon = "sh-eBookBuddy";
-              href = "https://ebookbuddy.home.hyshka.com";
-              server = "my-docker";
-              container = "ebookbuddy";
-            };
-          }
-          {
             Prowlarr = {
               icon = "prowlarr.svg";
               href = "https://prowlarr.home.hyshka.com";
               server = "my-docker";
               container = "prowlarr";
+              siteMonitor = "https://prowlarr.home.hyshka.com";
               widget = {
                 type = "prowlarr";
                 url = "http://localhost:9696";
@@ -308,19 +299,12 @@
             };
           }
           {
-            Recyclarr = {
-              icon = "trash-guides.png";
-              href = "https://tbd.hyshka.com";
-              server = "my-docker";
-              container = "recyclarr";
-            };
-          }
-          {
             Qbittorrent = {
               icon = "qbittorrent.svg";
               href = "https://qbittorrent.home.hyshka.com";
               server = "my-docker";
               container = "qbittorrent";
+              siteMonitor = "https://qbittorrent.home.hyshka.com";
               widget = {
                 type = "qbittorrent";
                 url = "http://localhost:8080";
@@ -335,6 +319,7 @@
               href = "https://sabnzbd.home.hyshka.com";
               server = "my-docker";
               container = "sabnzbd";
+              siteMonitor = "https://sabnzbd.home.hyshka.com";
               widget = {
                 type = "sabnzbd";
                 url = "http://localhost:8085";
@@ -343,11 +328,36 @@
             };
           }
           {
+            EbookBuddy = {
+              icon = "sh-eBookBuddy";
+              href = "https://ebookbuddy.home.hyshka.com";
+              server = "my-docker";
+              container = "ebookbuddy";
+              siteMonitor = "https://ebookbuddy.home.hyshka.com";
+            };
+          }
+          {
             Pinchflat = {
               icon = "pinchflat.svg";
               href = "https://pinchflat.home.hyshka.com";
               server = "my-docker";
               container = "pinchflat";
+              siteMonitor = "https://pinchflat.home.hyshka.com";
+            };
+          }
+          {
+            Wireguard = {
+              icon = "wireguard.svg";
+              server = "my-docker";
+              container = "wireguard";
+              # TODO: check if wireguard is up?
+            };
+          }
+          {
+            Recyclarr = {
+              icon = "trash-guides.png";
+              server = "my-docker";
+              container = "recyclarr";
             };
           }
         ];
