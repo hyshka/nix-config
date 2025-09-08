@@ -37,7 +37,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--device=/dev/dri:/dev/dri:rwm"
       "--network-alias=jellyfin"
       "--network=media_default"
@@ -78,7 +78,7 @@
     user = "13008:13000";
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=jellyseerr"
       "--network=media_default"
     ];
@@ -120,7 +120,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=prowlarr"
       "--network=media_default"
     ];
@@ -213,7 +213,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=radarr"
       "--network=media_default"
     ];
@@ -384,7 +384,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=sonarr"
       "--network=media_default"
     ];
@@ -528,7 +528,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=ebookbuddy"
       "--network=media_default"
     ];
@@ -578,7 +578,7 @@
     ];
     log-driver = "journald";
     extraOptions = [
-      "--add-host=host.docker.internal:host-gateway"
+      "--add-host=host.incus.ntfy:10.223.27.234"
       "--network-alias=pinchflat"
       "--network=media_default"
       "--user=13012:13000"
