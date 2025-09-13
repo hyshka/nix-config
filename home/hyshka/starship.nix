@@ -48,5 +48,6 @@
     corectrl
     incus
     brave
+    solaar
   ];
 }
