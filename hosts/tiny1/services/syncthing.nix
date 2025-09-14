@@ -14,8 +14,10 @@
       owner = config.users.users.hyshka.name;
       group = config.users.users.hyshka.group;
     };
+    # used by prometheus
     syncthing_bearer_token = {
-      group = "prometheus"; # used by prometheus
+      user = "prometheus";
+      group = "prometheus";
     };
   };
 
