@@ -11,7 +11,7 @@ in {
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
   # https://nix-community.github.io/nixvim/user-guide/config-examples.html
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     # Plugins
     ./plugins/gitsigns.nix
     ./plugins/which-key.nix
