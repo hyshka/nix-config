@@ -51,7 +51,7 @@
       }
       {
         job_name = "syncthing";
-        bearer_token_file = config.sops.secrets.syncthing_bearer_token.path;
+        authorization.credentials_file = config.sops.secrets.syncthing_bearer_token.path;
         static_configs = [
           {
             targets = ["127.0.0.1:8384"];
