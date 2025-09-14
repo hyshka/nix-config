@@ -16,7 +16,7 @@
     };
     # used by prometheus
     syncthing_bearer_token = {
-      user = "prometheus";
+      owner = "prometheus";
       group = "prometheus";
     };
   };
