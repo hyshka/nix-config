@@ -34,21 +34,6 @@
         "ashyn" = {id = "YPGYO6J-3JUHLKP-ZHGEUFE-WCG2VWT-KHQ3HGV-MMSGGZF-2WXXVMC-6DT2ZQA";};
       };
       folders = {
-        "Home Notes" = {
-          id = "ljd5z-m6qfp";
-          path = "/home/hyshka/Notes/Home Notes";
-          devices = ["tiny1" "renee-pixel7a" "bryan-pixel4"];
-        };
-        "Notes" = {
-          id = "36eka-bxxix";
-          path = "/home/hyshka/Notes";
-          devices = ["bryan-pixel4" "tiny1"];
-        };
-        "Finance" = {
-          id = "4rqlm-lmagt";
-          path = "/home/hyshka/Finance";
-          devices = ["tiny1"];
-        };
         "Videos" = {
           id = "xjkcs-vzunq";
           path = "/home/hyshka/Videos";
@@ -62,11 +47,6 @@
         "Music" = {
           id = "ijjkj-sfe6a";
           path = "/home/hyshka/Music";
-          devices = ["tiny1"];
-        };
-        "Pictures" = {
-          id = "nnvzz-njc6m";
-          path = "/home/hyshka/Pictures";
           devices = ["tiny1"];
         };
         "Ansel" = {

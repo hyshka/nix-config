@@ -66,12 +66,6 @@
           devices = ["starship"];
           type = "receiveonly";
         };
-        "Pictures" = {
-          id = "nnvzz-njc6m";
-          path = "/mnt/storage/hyshka/Pictures";
-          devices = ["starship"];
-          type = "receiveonly";
-        };
         "Documents" = {
           id = "vzqdy-afqjw";
           path = "/mnt/storage/hyshka/Documents";
@@ -84,41 +78,10 @@
           devices = ["starship"];
           type = "receiveonly";
         };
-        "Finance" = {
-          id = "4rqlm-lmagt";
-          path = "/mnt/storage/hyshka/Finance";
-          devices = ["starship"];
-          type = "receiveonly";
-        };
         "Work" = {
           id = "dwgeq-drahv";
           path = "/mnt/storage/hyshka/work";
           devices = ["starship"];
-          type = "receiveonly";
-        };
-        "Home Notes" = {
-          id = "ljd5z-m6qfp";
-          path = "/mnt/storage/hyshka/Home Notes";
-          devices = ["starship" "renee-pixel7a" "bryan-pixel4"];
-          type = "sendreceive";
-        };
-        "Notes" = {
-          id = "36eka-bxxix";
-          path = "/mnt/storage/hyshka/Notes";
-          devices = ["bryan-pixel4" "starship"];
-          type = "sendreceive";
-        };
-        "Phone Camera" = {
-          enable = false;
-          id = "sm-g930f_pwyw-photos";
-          path = "/mnt/storage/hyshka/phone-camera";
-          devices = [];
-          type = "receiveonly";
-        };
-        "Phone Pictures" = {
-          id = "ti8iw-ywmhx";
-          path = "/mnt/storage/hyshka/Phone Pictures";
-          devices = ["bryan-pixel4"];
           type = "receiveonly";
         };
         "Roms" = {
