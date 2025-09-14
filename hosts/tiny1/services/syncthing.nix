@@ -14,7 +14,9 @@
       owner = config.users.users.hyshka.name;
       group = config.users.users.hyshka.group;
     };
-    syncthing_bearer_token = {}; # used by prometheus
+    syncthing_bearer_token = {
+      group = "prometheus"; # used by prometheus
+    };
   };
 
   networking.firewall.allowedTCPPorts = [22000];
