@@ -10,6 +10,7 @@
     pkgs.kdePackages.khelpcenter
     pkgs.kdePackages.konsole
   ];
+  programs.partition-manager.enable = true;
 
   # Screen sharing under wayland
   xdg = {
