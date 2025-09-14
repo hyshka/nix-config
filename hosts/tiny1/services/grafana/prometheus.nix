@@ -11,6 +11,10 @@
     enable = true;
     listenAddress = "127.0.0.1";
     retentionTime = "31d";
+    # By default the check verifies also if all referenced paths exist.
+    # This however cannot work if any of these paths refers to age/sops secrets as these files are created during the activation phase.
+    # See: https://search.nixos.org/options?channel=24.05&show=services.prometheus.checkConfig&from=0&size=50&sort=relevance&type=packages&query=services.prometheus.checkConfig
+    checkConfig = "syntax-only";
 
     scrapeConfigs = [
       {
