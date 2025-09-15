@@ -13,6 +13,6 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v5
-      - uses: DeterminateSystems/nix-installer-action@v19
+      - uses: DeterminateSystems/nix-installer-action@v20
       - name: Lint nix files
         run: nix develop --command alejandra --check .
