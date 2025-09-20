@@ -72,12 +72,6 @@
           devices = ["starship"];
           type = "receiveonly";
         };
-        "Videos" = {
-          id = "xjkcs-vzunq";
-          path = "/mnt/storage/hyshka/Videos";
-          devices = ["starship"];
-          type = "receiveonly";
-        };
         "Work" = {
           id = "dwgeq-drahv";
           path = "/mnt/storage/hyshka/work";

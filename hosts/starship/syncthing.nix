@@ -34,11 +34,6 @@
         "ashyn" = {id = "YPGYO6J-3JUHLKP-ZHGEUFE-WCG2VWT-KHQ3HGV-MMSGGZF-2WXXVMC-6DT2ZQA";};
       };
       folders = {
-        "Videos" = {
-          id = "xjkcs-vzunq";
-          path = "/home/hyshka/Videos";
-          devices = ["tiny1"];
-        };
         "Documents" = {
           id = "vzqdy-afqjw";
           path = "/home/hyshka/Documents";
