@@ -16,6 +16,12 @@
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = ["incusbr*"];
 
+  # Temp fix for "Failed getting os.UserHomeDir(): $HOME is not defined"
+  # https://github.com/lxc/incus/issues/2439
+  systemd.services.incus.environment = {
+    HOME = "/var/lib/incus";
+  };
+
   # Expose Incus metrics on localhost
   # incus config set core.metrics_address "127.0.0.1:8444"
   # Disable metrics auth (NOT RECOMMENDED)
