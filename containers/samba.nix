@@ -91,6 +91,7 @@ in
           path = "/mnt/storage/hyshka";
           "valid users" = "bryan";
           browseable = "yes";
+          writeable = "yes";
           "read only" = "no";
           "guest ok" = "no";
           comment = "hyshka home folder";
