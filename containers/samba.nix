@@ -74,6 +74,8 @@ in
       openFirewall = true;
       settings = {
         global = {
+          # netbios name should match hostname that server is accessed from
+          "netbios name" = "tiny1";
           "server string" = "samba";
           "hosts allow" = ["10.223.27." "192.168.1." "127." "100."];
           "hosts deny" = ["ALL"];
