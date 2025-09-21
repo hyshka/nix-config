@@ -173,6 +173,11 @@
         modules = [./containers/ntfy.nix];
         specialArgs = {inherit inputs outputs;};
       };
+      homepage = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [./containers/homepage.nix];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     # Nix-Darwin configuration entrypoint

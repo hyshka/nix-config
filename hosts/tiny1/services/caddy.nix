@@ -45,7 +45,7 @@
 
          @dashboard host dashboard.home.hyshka.com
          handle @dashboard {
-           reverse_proxy http://127.0.0.1:8082
+           reverse_proxy http://10.223.27.114:8082
          }
 
          @hass host hass.home.hyshka.com

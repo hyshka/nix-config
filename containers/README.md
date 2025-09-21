@@ -55,6 +55,11 @@ Here are the typical steps to create and configure a new container from scratch.
     ```
     The output is the age public key for this container.
 
+    TODO: I've been having to generate the SSH host key manually.
+    ```bash
+    incus exec my-container -- ssh-keygen -t ed25519 -N "" -f /persist/etc/ssh/ssh_host_ed25519_key
+    ```
+
 6.  **Add Secrets**: Create a `secrets/my-container.yaml` file and add the age key from the previous step to the `sops.age` list. You can now add secrets to this file. See the "Adding Secrets" section below.
 
 7.  **Final Deploy**: Re-deploy the container to include the secrets.

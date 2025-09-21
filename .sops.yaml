@@ -18,6 +18,7 @@ keys:
     - &lxc-calibre age197fur8ukwnzmqhdeflhsrhjr0lcxf4qp4mpc44pyhxpskx2jjv7qjsucye
     - &lxc-silverbullet todo
     - &lxc-ntfy age18yjh20qsh4s3n8d5v6qqudhs7qjnadrejqxwfdjqqrxvl4v3uatqd4lhaw
+    - &lxc-homepage age1msvehv4dw0a297pfdsxa2e84p7drnpkwvjpzxvzmv2uuswegrp9suwxd9z
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
@@ -81,6 +82,12 @@ creation_rules:
     key_groups:
       - age:
           - *lxc-ntfy
+        pgp:
+          - *hyshka
+  - path_regex: containers/secrets/homepage.ya?ml$
+    key_groups:
+      - age:
+          - *lxc-homepage
         pgp:
           - *hyshka
   - path_regex: hosts/common/secrets.ya?ml$
