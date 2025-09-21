@@ -113,14 +113,13 @@
           {
             Samba = {
               abbr = "SMB";
-              href = "https://tbd.hyshka.com";
+              href = "smb://bryan@tiny1/hyshka/";
               description = "Time machine shares";
             };
           }
           {
             Restic = {
               icon = "restic.svg";
-              href = "https://tbd.hyshka.com";
               description = "Remote backup service";
             };
           }

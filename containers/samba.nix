@@ -43,6 +43,7 @@ in
     };
 
     # Set Samba passwords via shell script
+    # TODO: this still isn't working properly
     systemd.services.update-samba-passwords = {
       script = ''
         set -euxo pipefail
