@@ -16,6 +16,7 @@
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = ["incusbr*"];
 
+  # TODO: create a better system for managing idmapped disks
   users.users.root = {
     subUidRanges = [
       # hyshka user

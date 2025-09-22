@@ -22,6 +22,7 @@ in
 
     services.homepage-dashboard = {
       enable = true;
+      openFirewall = true;
       allowedHosts = "dashboard.home.hyshka.com";
       environmentFile = config.sops.secrets.environmentFile.path;
       settings = {
