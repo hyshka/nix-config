@@ -16,6 +16,28 @@
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = ["incusbr*"];
 
+  users.users.root = {
+    subUidRanges = [
+      # hyshka user
+      {
+        count = 1;
+        startUid = 1000;
+      }
+    ];
+    subGidRanges = [
+      # users group
+      {
+        count = 1;
+        startGid = 100;
+      }
+      # mediacenter group
+      {
+        count = 1;
+        startGid = 13000;
+      }
+    ];
+  };
+
   # Temp fix for "Failed getting os.UserHomeDir(): $HOME is not defined"
   # https://github.com/lxc/incus/issues/2439
   systemd.services.incus.environment = {
