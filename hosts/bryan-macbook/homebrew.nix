@@ -14,7 +14,6 @@
       "homebrew/services"
       "homebrew/cask-versions"
       "nikitabobko/tap" # aerospace
-      "deskflow/homebrew-tap" # deskflow
     ];
 
     # `brew install`

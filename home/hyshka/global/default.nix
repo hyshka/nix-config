@@ -11,8 +11,6 @@ in {
   imports =
     [
       inputs.catppuccin.homeModules.catppuccin
-      #../features/cli
-      #../features/nvim
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 

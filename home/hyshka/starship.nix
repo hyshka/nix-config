@@ -9,7 +9,6 @@
     ./features/plasma.nix
     ./features/zwift.nix
     ./features/logseq.nix
-    #./features/ledger.nix
 
     # TODO
     ../nixvim

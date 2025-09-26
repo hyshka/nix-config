@@ -3,8 +3,6 @@
     ./global
     ./features/aerospace.nix
     ./features/alacritty.nix
-
-    # TODO
     ../nixvim
     ../cli
   ];
@@ -13,10 +11,9 @@
     homeDirectory = "/Users/hyshka";
   };
 
-  # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
     # mine
-    spotify
+    spotify-player
     # work
     curl
     gimp
