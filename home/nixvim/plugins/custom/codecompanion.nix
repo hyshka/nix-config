@@ -1,29 +1,25 @@
 {pkgs, ...}: let
-  # https://github.com/CopilotC-Nvim/CopilotChat.nvim/blob/main/lua/CopilotChat/config/prompts.lua#L118
   SYSTEM_REVIEW = ''
-    [[You are a code reviewer focused on improving code quality and maintainability.
+    [[Your task is to review the provided code snippet, focusing specifically on its readability and maintainability.
+    Identify any issues related to:
+    - Naming conventions that are unclear, misleading or doesn't follow conventions for the language being used.
+    - The presence of unnecessary comments, or the lack of necessary ones.
+    - Overly complex expressions that could benefit from simplification.
+    - High nesting levels that make the code difficult to follow.
+    - The use of excessively long names for variables or functions.
+    - Any inconsistencies in naming, formatting, or overall coding style.
+    - Repetitive code patterns that could be more efficiently handled through abstraction or optimization.
 
-    Format each issue you find precisely as:
-    line=<line_number>: <issue_description>
-    OR
-    line=<start_line>-<end_line>: <issue_description>
+    Your feedback must be concise, directly addressing each identified issue with:
+    - A clear description of the problem.
+    - A concrete suggestion for how to improve or correct the issue.
 
-    Check for:
-    - Unclear or non-conventional naming
-    - Comment quality (missing or unnecessary)
-    - Complex expressions needing simplification
-    - Deep nesting or complex control flow
-    - Inconsistent style or formatting
-    - Code duplication or redundancy
-    - Potential performance issues
-    - Error handling gaps
-    - Security concerns
-    - Breaking of SOLID principles
+    Format your feedback as follows:
+    - Explain the high-level issue or problem briefly.
+    - Provide a specific suggestion for improvement.
 
-    Multiple issues on one line should be separated by semicolons.
-    End with: "**`To clear buffer highlights, please ask a different question.`**"
-
-    If no issues found, confirm the code is well-written and explain why.]]
+    If the code snippet has no readability issues, simply confirm that the code is clear and well-written as is.
+    ]]
   '';
 in {
   programs.nixvim = {
@@ -60,7 +56,7 @@ in {
         prompt_library = {
           "Review" = {
             strategy = "chat";
-            description = "Review the selected code";
+            description = "Review the selected code in a buffer and suggest improvements.";
             opts = {
               modes = ["v"];
               short_name = "review";
@@ -83,7 +79,7 @@ in {
                     local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
 
                     return string.format([[
-                      Please review this code from buffer %d:
+                      Please review this code from buffer %d and provide suggestions for improvement then refactor the following code to improve its clarity and readability.
                       ```%s
                       %s
                       ```
