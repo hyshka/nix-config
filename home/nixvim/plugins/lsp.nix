@@ -35,6 +35,11 @@
       };
     };
 
+    # TODO: move to vue_ls once nixvim has renamed volar
+    extraPackages = [
+      pkgs.vue-language-server
+    ];
+
     # Brief aside: **What is LSP?**
     #
     # LSP is an initialism you've probably heard, but might not understand what it is.
@@ -64,9 +69,11 @@
     plugins.lsp = {
       enable = true;
 
-      # HACK until nixvim supports `vue_ls` properly
+      # TODO: move to vue_ls once nixvim has renamed volar
+      # https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#L10187
       luaConfig.content = ''
-        vim.lsp.enable('vue_ls')
+        vim.lsp.config('vue_ls', {})
+        vim.lsp.enable({'ts_ls', 'vue_ls'})
       '';
 
       # Enable the following language servers
@@ -86,27 +93,20 @@
         #
         # But for many setups the LSP (`ts_ls`) will work just fine
         ts_ls = {
-          enable = false;
-          package = pkgs.typescript-language-server;
-        };
-
-        volar = {
           enable = true;
-          # use a global TypeScript Server installation
-          extraOptions.init_options.typescript.tsdk = "${lib.getBin pkgs.typescript}/lib/node_modules/typescript/lib";
-        };
-
-        vtsls = {
-          enable = true;
-          filetypes = ["typescript" "javascript" "javascriptreact" "typescriptreact" "vue"];
-          extraOptions.settings.vtsls.tsserver.globalPlugins = [
-            {
-              name = "@vue/typescript-plugin";
-              location = "${lib.getBin pkgs.vue-language-server}/lib/node_modules/@vue/language-server";
-              languages = ["vue"];
-              configNamespace = "typescript";
-            }
-          ];
+          filetypes = ["vue"];
+          extraOptions = {
+            init_options = {
+              plugins = [
+                {
+                  name = "@vue/typescript-plugin";
+                  location = "${lib.getBin pkgs.vue-language-server}/lib/language-tools/packages/language-server";
+                  languages = ["vue"];
+                  configNamespace = "typescript";
+                }
+              ];
+            };
+          };
         };
 
         pylsp = {
@@ -119,6 +119,7 @@
         emmet_ls = {
           enable = true;
         };
+
         # https://github.com/fourdigits/django-template-lsp
         #djlsp = {
         #  enable = true;
@@ -169,19 +170,10 @@
         lua_ls = {
           enable = true;
 
-          # cmd = {
-          # };
-          #  filetypes = {
-          # };
           settings = {
             completion = {
               callSnippet = "Replace";
             };
-            # diagnostics = {
-            #   disable = [
-            #     "missing-fields";
-            #   ];
-            # };
           };
         };
       };
