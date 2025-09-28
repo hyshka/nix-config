@@ -28,12 +28,7 @@
     libreoffice-qt
     mullvad-vpn
     spotify
-    #deskflow
     brave
     incus
   ];
-
-  #nixpkgs.config.permittedInsecurePackages = [
-  #  "deskflow-1.18.0"
-  #];
 }

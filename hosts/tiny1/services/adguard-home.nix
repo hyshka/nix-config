@@ -14,7 +14,7 @@ in {
     enable = true;
     host = "127.0.0.1";
     port = 3020;
-    # TODO: use declarative config only
+    # TODO: this desperately need an update
     mutableSettings = true;
     #allowDHCP = true;
     # https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file

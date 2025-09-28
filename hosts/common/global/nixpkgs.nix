@@ -3,9 +3,8 @@
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
-      # TODO: move to logseq.nix module
       permittedInsecurePackages = [
-        "electron-27.3.11"
+        "qtwebengine-5.15.19" # TODO: remove when home-manager font config is fixed
       ];
     };
   };
