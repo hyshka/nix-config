@@ -121,6 +121,7 @@ in
                 icon = "syncthing.svg";
                 href = "https://syncthing.home.hyshka.com";
                 description = "Main backup service, syncs all devices to the NAS";
+                siteMonitor = "https://syncthing.home.hyshka.com";
               };
             }
             {
@@ -144,9 +145,10 @@ in
               "Adguard Home" = {
                 icon = "adguard-home.png";
                 href = "https://adguard.home.hyshka.com";
+                siteMonitor = "https://adguard.home.hyshka.com";
                 widget = {
                   type = "adguard";
-                  url = "http://10.223.27.1:3020";
+                  url = "https://adguard.home.hyshka.com";
                   username = "admin";
                   password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
                 };
@@ -160,6 +162,7 @@ in
               Grafana = {
                 icon = "grafana.png";
                 href = "https://grafana.home.hyshka.com";
+                siteMonitor = "https://grafana.home.hyshka.com";
               };
             }
           ];
@@ -170,12 +173,14 @@ in
               "Home Assistant" = {
                 icon = "home-assistant.svg";
                 href = "https://hass.home.hyshka.com/";
+                siteMonitor = "https://hass.home.hyshka.com";
               };
             }
             {
               "Silver Bullet" = {
                 icon = "silverbullet.svg";
                 href = "https://silverbullet.home.hyshka.com/";
+                siteMonitor = "https://silverbullet.home.hyshka.com";
               };
             }
             #{
@@ -188,15 +193,17 @@ in
               "Paperless" = {
                 icon = "paperless.svg";
                 href = "https://paperless.home.hyshka.com/";
+                siteMonitor = "https://paperless.home.hyshka.com";
               };
             }
             {
               "Immich" = {
                 icon = "immich.svg";
-                href = "https://immich.home.hyshka.com/";
+                href = "https://immich.home.hyshka.com";
+                siteMonitor = "https://immich.home.hyshka.com";
                 widget = {
                   type = "immich";
-                  url = "http://10.223.27.1:2283";
+                  url = "https://immich.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_IMMICH_APIKEY}}";
                   version = 2;
                 };
@@ -206,18 +213,21 @@ in
               "CryptPad" = {
                 icon = "cryptpad.svg";
                 href = "https://cryptpad.home.hyshka.com/";
+                siteMonitor = "https://cryptpad.home.hyshka.com";
               };
             }
             {
               "Calibre" = {
                 icon = "calibre.svg";
                 href = "https://library.home.hyshka.com/";
+                siteMonitor = "https://library.home.hyshka.com";
               };
             }
             {
               "Ntfy" = {
                 icon = "ntfy.svg";
                 href = "https://ntfy.home.hyshka.com/";
+                siteMonitor = "https://ntfy.home.hyshka.com";
               };
             }
           ];
@@ -234,7 +244,7 @@ in
                 siteMonitor = "https://jellyfin.home.hyshka.com";
                 widget = {
                   type = "jellyfin";
-                  url = "http://10.223.27.1:8096";
+                  url = "https://jellyfin.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_JELLYFIN_APIKEY}}";
                   enableNowPlaying = true;
                 };
@@ -249,7 +259,7 @@ in
                 siteMonitor = "https://jellyseerr.home.hyshka.com";
                 widget = {
                   type = "jellyseerr";
-                  url = "http://10.223.27.1:5055";
+                  url = "https://jellyseerr.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_JELLYSEERR_APIKEY}}";
                 };
               };
@@ -263,7 +273,7 @@ in
                 siteMonitor = "https://radarr.home.hyshka.com";
                 widget = {
                   type = "radarr";
-                  url = "http://10.223.27.1:7878";
+                  url = "https://radarr.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
                 };
               };
@@ -277,7 +287,7 @@ in
                 siteMonitor = "https://sonarr.home.hyshka.com";
                 widget = {
                   type = "sonarr";
-                  url = "http://10.223.27.1:8989";
+                  url = "https://sonarr.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
                 };
               };
@@ -291,7 +301,7 @@ in
                 siteMonitor = "https://readarr.home.hyshka.com";
                 widget = {
                   type = "readarr";
-                  url = "http://10.223.27.1:8787";
+                  url = "https://readarr.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
                 };
               };
@@ -305,7 +315,7 @@ in
                 siteMonitor = "https://prowlarr.home.hyshka.com";
                 widget = {
                   type = "prowlarr";
-                  url = "http://10.223.27.1:9696";
+                  url = "https://prowlarr.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_PROWLARR_APIKEY}}";
                 };
               };
@@ -319,7 +329,7 @@ in
                 siteMonitor = "https://qbittorrent.home.hyshka.com";
                 widget = {
                   type = "qbittorrent";
-                  url = "http://10.223.27.1:8080";
+                  url = "https://qbittorrent.home.hyshka.com";
                   username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
                   password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
                 };
@@ -334,7 +344,7 @@ in
                 siteMonitor = "https://sabnzbd.home.hyshka.com";
                 widget = {
                   type = "sabnzbd";
-                  url = "http://10.223.27.1:8085";
+                  url = "https://sabnzbd.home.hyshka.com";
                   key = "{{HOMEPAGE_VAR_SABNZBD_APIKEY}}";
                 };
               };
