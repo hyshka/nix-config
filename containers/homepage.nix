@@ -39,19 +39,10 @@ in
       };
       widgets = [
         {
-          resources = {
-            label = "System";
-            cpu = true;
-            memory = true;
-            cputemp = true;
-            uptime = true;
-            disk = "/";
-          };
-        }
-        {
-          resources = {
-            label = "Storage";
-            disk = "/mnt/storage";
+          search = {
+            provider = "brave";
+            focus = true;
+            target = "_self";
           };
         }
       ];
