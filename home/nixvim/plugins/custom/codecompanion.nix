@@ -80,13 +80,44 @@ in {
 
                     return string.format([[
                       Please review this code from buffer %d and provide suggestions for improvement then refactor the following code to improve its clarity and readability.
-                      ```%s
-                      %s
-                      ```
-                      ]],
+
+```%s
+%s
+```
+]],
                       context.bufnr,
                       context.filetype,
                       code
+                    )
+                  end
+                '';
+                opts = {
+                  contains_code = true;
+                };
+              }
+            ];
+          };
+          "Generate a Commit Message" = {
+            strategy = "chat";
+            description = "Generate a commit message";
+            opts = {
+              is_slash_cmd = true;
+              short_name = "commit";
+              auto_submit = true;
+            };
+            prompts = [
+              {
+                role = "user";
+                content.__raw = ''
+                  function()
+                    return string.format(
+                      [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me. If the branch name contains "sc-" with a number following it, include that tag on a separately line at the bottom of the commit message. E.g. "Issue: [sc-12345]"
+
+```diff
+%s
+```
+]],
+                      vim.fn.system("git diff --no-ext-diff --staged")
                     )
                   end
                 '';
