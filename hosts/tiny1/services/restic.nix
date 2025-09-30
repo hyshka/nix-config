@@ -10,6 +10,7 @@
     restic_environmentFile = {};
   };
 
+  # TODO: regularly run the "check" command and alert if there are issues
   services.restic.backups.hyshka = {
     passwordFile = config.sops.secrets.restic_password.path;
     environmentFile = config.sops.secrets.restic_environmentFile.path;
