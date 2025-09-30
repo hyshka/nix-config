@@ -3,6 +3,7 @@
     ./global
     ./features/aerospace.nix
     ./features/alacritty.nix
+    ./features/opencode.nix
     ../nixvim
     ../cli
   ];
