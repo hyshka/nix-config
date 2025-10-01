@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{ ...}: let
   SYSTEM_REVIEW = ''
     [[Your task is to review the provided code snippet, focusing specifically on its readability and maintainability.
     Identify any issues related to:

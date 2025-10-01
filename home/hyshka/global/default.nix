@@ -5,14 +5,15 @@
   config,
   outputs,
   ...
-}: let
+}:
+let
   isLinux = pkgs.stdenv.isLinux;
-in {
-  imports =
-    [
-      inputs.catppuccin.homeModules.catppuccin
-    ]
-    ++ (builtins.attrValues outputs.homeManagerModules);
+in
+{
+  imports = [
+    inputs.catppuccin.homeModules.catppuccin
+  ]
+  ++ (builtins.attrValues outputs.homeManagerModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;

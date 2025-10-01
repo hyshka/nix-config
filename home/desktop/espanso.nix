@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ ... }:
+{
   services.espanso = {
     enable = true;
     matches = {
@@ -40,7 +41,9 @@
               {
                 name = "mydate";
                 type = "date";
-                params = {format = "%Y-%m-%d";};
+                params = {
+                  format = "%Y-%m-%d";
+                };
               }
             ];
           }
@@ -52,7 +55,9 @@
               {
                 name = "output";
                 type = "shell";
-                params = {cmd = "echo Hello from your shell";};
+                params = {
+                  cmd = "echo Hello from your shell";
+                };
               }
             ];
           }
@@ -63,7 +68,9 @@
               {
                 name = "output";
                 type = "shell";
-                params = {cmd = "alacritty nvim";};
+                params = {
+                  cmd = "alacritty nvim";
+                };
               }
             ];
           }

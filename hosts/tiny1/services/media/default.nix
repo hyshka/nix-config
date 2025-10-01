@@ -40,7 +40,10 @@
         uid = 13006;
         group = "mediacenter";
         # Unsure if video is required for hardware accel
-        extraGroups = ["video" "render"];
+        extraGroups = [
+          "video"
+          "render"
+        ];
       };
       recyclarr = {
         isSystemUser = true;

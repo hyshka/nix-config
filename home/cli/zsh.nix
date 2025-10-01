@@ -2,8 +2,9 @@
   pkgs,
   config,
   ...
-}: {
-  home.packages = with pkgs; [nix-zsh-completions];
+}:
+{
+  home.packages = with pkgs; [ nix-zsh-completions ];
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -25,7 +26,11 @@
     };
     localVariables = {
       # zsh-users config
-      ZSH_HIGHLIGHT_HIGHLIGHTERS = ["main" "brackets" "cursor"];
+      ZSH_HIGHLIGHT_HIGHLIGHTERS = [
+        "main"
+        "brackets"
+        "cursor"
+      ];
     };
     zimfw = {
       enable = true;
@@ -52,9 +57,7 @@
       ];
     };
     initContent =
-      /*
-      bash
-      */
+      # bash
       ''
         # zimfw config
         zstyle ':zim:input' double-dot-expand yes

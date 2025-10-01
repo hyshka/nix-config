@@ -1,6 +1,8 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   interface = "enp37s0";
-in {
+in
+{
   systemd.services.wol = {
     enable = true;
     description = "Wake on LAN";
@@ -14,6 +16,6 @@ in {
         ${pkgs.ethtool}/bin/ethtool -s ${interface} wol g
       '';
     };
-    wantedBy = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
   };
 }

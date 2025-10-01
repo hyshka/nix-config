@@ -2,7 +2,8 @@
   inputs,
   config,
   ...
-}: {
+}:
+{
   imports = [
     inputs.sops-nix.homeManagerModule
   ];

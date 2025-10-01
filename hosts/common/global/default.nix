@@ -3,21 +3,21 @@
   inputs,
   outputs,
   ...
-}: {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      ./catppuccin.nix
-      ./locale.nix
-      #./nameservers.nix
-      ./nix.nix
-      ./nixpkgs.nix
-      ./openssh.nix
-      ./sops.nix
-      ./tailscale.nix
-      ./zsh.nix
-    ]
-    ++ (builtins.attrValues outputs.nixosModules);
+}:
+{
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./catppuccin.nix
+    ./locale.nix
+    #./nameservers.nix
+    ./nix.nix
+    ./nixpkgs.nix
+    ./openssh.nix
+    ./sops.nix
+    ./tailscale.nix
+    ./zsh.nix
+  ]
+  ++ (builtins.attrValues outputs.nixosModules);
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;

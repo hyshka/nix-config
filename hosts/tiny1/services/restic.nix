@@ -2,12 +2,13 @@
   config,
   pkgs,
   ...
-}: {
-  environment.systemPackages = with pkgs; [restic];
+}:
+{
+  environment.systemPackages = with pkgs; [ restic ];
 
   sops.secrets = {
-    restic_password = {};
-    restic_environmentFile = {};
+    restic_password = { };
+    restic_environmentFile = { };
   };
 
   # TODO: regularly run the "check" command and alert if there are issues

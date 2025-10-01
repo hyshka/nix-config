@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # TODO: migrate to Deskflow: https://github.com/NixOS/nixpkgs/pull/346698
   services.synergy.server = {
     enable = false;

@@ -3,12 +3,14 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   adguardUser = "adguardhome";
-in {
+in
+{
   # This will conflict with Incus if we bind to all interfaces
-  networking.firewall.interfaces.enp0s31f6.allowedUDPPorts = [53];
-  networking.firewall.interfaces.tailscale0.allowedUDPPorts = [53];
+  networking.firewall.interfaces.enp0s31f6.allowedUDPPorts = [ 53 ];
+  networking.firewall.interfaces.tailscale0.allowedUDPPorts = [ 53 ];
 
   services.adguardhome = {
     enable = true;
@@ -42,7 +44,10 @@ in {
           "100.116.243.20"
           "fd7a:115c:a1e0::baf4:f314%tailscale0"
         ];
-        bootstrap_dns = ["1.1.1.2" "1.0.0.2"];
+        bootstrap_dns = [
+          "1.1.1.2"
+          "1.0.0.2"
+        ];
       };
     };
   };
@@ -58,7 +63,7 @@ in {
     isSystemUser = true;
     group = adguardUser;
   };
-  users.groups.${adguardUser} = {};
+  users.groups.${adguardUser} = { };
   # insert password before service starts
   # password in sops is unencrypted, so we bcrypt it
   # and insert it as per config requirements

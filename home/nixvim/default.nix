@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   isLinux = pkgs.stdenv.isLinux;
-in {
+in
+{
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
   # https://nix-community.github.io/nixvim/search/
   # https://github.com/nix-community/nixvim/blob/nixos-24.05/
@@ -54,18 +56,18 @@ in {
           native_lsp = {
             enabled = true;
             virtual_text = {
-              errors = ["italic"];
-              hints = ["italic"];
-              warnings = ["italic"];
-              information = ["italic"];
-              ok = ["italic"];
+              errors = [ "italic" ];
+              hints = [ "italic" ];
+              warnings = [ "italic" ];
+              information = [ "italic" ];
+              ok = [ "italic" ];
             };
             underlines = {
-              errors = ["underline"];
-              hints = ["underline"];
-              warnings = ["underline"];
-              information = ["underline"];
-              ok = ["underline"];
+              errors = [ "underline" ];
+              hints = [ "underline" ];
+              warnings = [ "underline" ];
+              information = [ "underline" ];
+              ok = [ "underline" ];
             };
             inlay_hints = {
               background = true;
@@ -265,7 +267,7 @@ in {
       #  Try it with `yap` in normal mode
       #  See `:help vim.hl.on_yank()`
       {
-        event = ["TextYankPost"];
+        event = [ "TextYankPost" ];
         desc = "Highlight when yanking (copying) text";
         group = "kickstart-highlight-yank";
         callback.__raw = ''

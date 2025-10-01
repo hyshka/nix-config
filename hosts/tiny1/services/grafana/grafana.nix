@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   sops.secrets = {
     grafana-adminPass = {
       owner = "grafana";
@@ -126,7 +127,10 @@
           {
             orgId = 1;
             receiver = "grafana-default-email";
-            group_by = ["grafana_folder" "alertname"];
+            group_by = [
+              "grafana_folder"
+              "alertname"
+            ];
             group_wait = "30s";
             group_interval = "5m";
             repeat_interval = "4h";
@@ -151,7 +155,7 @@
             folder = "My Alerts";
             interval = "10m";
             # TODO: https://github.com/ibizaman/selfhostblocks/blob/main/modules/blocks/monitoring/rules.json
-            rules = [];
+            rules = [ ];
           }
         ];
       };

@@ -75,120 +75,140 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-darwin,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    lib = nixpkgs.lib // home-manager.lib;
-    forEachSystem = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
-  in {
-    inherit lib;
-
-    # Reusable modules you might want to export
-    # These are usually stuff you would upstream
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
-
-    # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
-
-    # Your custom packages
-    # Accessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      treefmt-nix,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      lib = nixpkgs.lib // home-manager.lib;
+      forEachSystem = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
+      treefmtEval = forEachSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        (treefmt-nix.lib.evalModule pkgs ./treefmt.nix)
+      );
     in
-      import ./pkgs {inherit pkgs;});
+    {
+      inherit lib;
 
-    # Dev shells
-    devShells = forEachSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-      import ./shell.nix {inherit pkgs;});
+      # Reusable modules you might want to export
+      # These are usually stuff you would upstream
+      nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
 
-    # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
+      # Your custom packages and modifications, exported as overlays
+      overlays = import ./overlays { inherit inputs; };
 
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      starship = lib.nixosSystem {
-        modules = [./hosts/starship];
-        specialArgs = {inherit inputs outputs;};
-      };
-      rpi4 = lib.nixosSystem {
-        modules = [./hosts/rpi4];
-        specialArgs = {inherit inputs outputs;};
-      };
-      tiny1 = lib.nixosSystem {
-        modules = [./hosts/tiny1];
-        specialArgs = {inherit self inputs outputs;};
-      };
-      ashyn = lib.nixosSystem {
-        modules = [./hosts/ashyn];
-        specialArgs = {inherit inputs outputs;};
+      # Your custom packages
+      # Accessible through 'nix build', 'nix shell', etc
+      packages = forEachSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        import ./pkgs { inherit pkgs; }
+      );
+
+      # Dev shells
+      devShells = forEachSystem (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        import ./shell.nix { inherit pkgs; }
+      );
+
+      formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);
+
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = {
+        starship = lib.nixosSystem {
+          modules = [ ./hosts/starship ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        rpi4 = lib.nixosSystem {
+          modules = [ ./hosts/rpi4 ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        tiny1 = lib.nixosSystem {
+          modules = [ ./hosts/tiny1 ];
+          specialArgs = { inherit self inputs outputs; };
+        };
+        ashyn = lib.nixosSystem {
+          modules = [ ./hosts/ashyn ];
+          specialArgs = { inherit inputs outputs; };
+        };
+
+        # Incus LXC containers
+        paperless = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/paperless.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        immich = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/immich.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        samba = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/samba.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        silverbullet = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/silverbullet.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        cryptpad = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/cryptpad.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        calibre = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/calibre.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        ntfy = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/ntfy.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        homepage = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/homepage.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
 
-      # Incus LXC containers
-      paperless = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/paperless.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      immich = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/immich.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      samba = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/samba.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      silverbullet = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/silverbullet.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      cryptpad = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/cryptpad.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      calibre = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/calibre.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      ntfy = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/ntfy.nix];
-        specialArgs = {inherit inputs outputs;};
-      };
-      homepage = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [./containers/homepage.nix];
-        specialArgs = {inherit inputs outputs;};
+      # Nix-Darwin configuration entrypoint
+      # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
+      # nix run nix-darwin -- switch --flake .
+      # darwin-rebuild switch --flake .
+      darwinConfigurations = {
+        "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
+          modules = [ ./hosts/bryan-macbook ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
     };
-
-    # Nix-Darwin configuration entrypoint
-    # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
-    # nix run nix-darwin -- switch --flake .
-    # darwin-rebuild switch --flake .
-    darwinConfigurations = {
-      "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
-        modules = [./hosts/bryan-macbook];
-        specialArgs = {inherit inputs outputs;};
-      };
-    };
-  };
 }

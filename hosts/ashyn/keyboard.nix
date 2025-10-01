@@ -11,7 +11,7 @@
     enable = true;
     # Keyboard sends back, forward, etc. instead of f1, f2, etc.
     keyboards.chromebook = {
-      ids = ["0001:0001"];
+      ids = [ "0001:0001" ];
       settings = {
         # Chromebook function keys
         main = {

@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   wayland.windowManager.sway = {
     enable = true;
     package = null;
@@ -82,9 +83,10 @@
         mode = "1280x720";
         pos = "0 0";
       };
-      keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
-      in
+      keybindings =
+        let
+          modifier = config.wayland.windowManager.sway.config.modifier;
+        in
         lib.mkOptionDefault {
           # Desktop Utilities
           "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
@@ -103,9 +105,17 @@
     settings = {
       mainBar = {
         height = 30;
-        modules-left = ["sway/workspaces" "sway/mode" "sway/scratchpad"];
-        modules-center = ["sway/window"];
-        modules-right = ["custom/uair" "clock" "tray"];
+        modules-left = [
+          "sway/workspaces"
+          "sway/mode"
+          "sway/scratchpad"
+        ];
+        modules-center = [ "sway/window" ];
+        modules-right = [
+          "custom/uair"
+          "clock"
+          "tray"
+        ];
         # requires uair package
         "custom/uair" = {
           format = "{}";

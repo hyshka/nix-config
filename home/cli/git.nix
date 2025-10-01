@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = [
     pkgs.mergiraf
   ];
@@ -72,6 +73,9 @@
       };
     };
     lfs.enable = true;
-    ignores = [".direnv" "result"];
+    ignores = [
+      ".direnv"
+      "result"
+    ];
   };
 }

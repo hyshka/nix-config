@@ -3,52 +3,53 @@
   lib,
   inputs,
   ...
-}: let
-  container = import ./default.nix {inherit lib inputs;};
+}:
+let
+  container = import ./default.nix { inherit lib inputs; };
 in
-  container.mkContainer {
-    name = "calibre";
-  }
-  // {
-    # Set up steps
-    # 1. Import image to Incus: ./incus-manager.sh import calibre
-    # 2. Create container: ./incus-manager.sh create calibre --nesting
-    # 3. On host machine, sudo mkdir /persist/microvms/calibre
-    # 4. Add persist disk for media: ./incus-manager.sh add-persist-disk calibre
-    # 5. Add data storage: incus config device add calibre data disk source=/mnt/storage/mediacenter/media/books/ path=/mnt/books/
-    # 6. Set raw.idmap: incus config set calibre raw.idmap='uid 1000-1000 213-213\ngid 13000-13000 213-213'
-    # 7. Start container: incus start calibre --console
-    # 8. Configure static ip: ./incus-manager.sh set-ip calibre
-    # 9. Compute age key: ./incus-manager.sh get-age-key calibre
-    # 10. Update nix-config with static IP and age key, then run: ./incus-manager.sh deploy calibre
-    # 11. On the host, add root:1000:213 to /etc/subuid and root:13000:213 to /etc/subgid to allow Incus to perform the idmapping
+container.mkContainer {
+  name = "calibre";
+}
+// {
+  # Set up steps
+  # 1. Import image to Incus: ./incus-manager.sh import calibre
+  # 2. Create container: ./incus-manager.sh create calibre --nesting
+  # 3. On host machine, sudo mkdir /persist/microvms/calibre
+  # 4. Add persist disk for media: ./incus-manager.sh add-persist-disk calibre
+  # 5. Add data storage: incus config device add calibre data disk source=/mnt/storage/mediacenter/media/books/ path=/mnt/books/
+  # 6. Set raw.idmap: incus config set calibre raw.idmap='uid 1000-1000 213-213\ngid 13000-13000 213-213'
+  # 7. Start container: incus start calibre --console
+  # 8. Configure static ip: ./incus-manager.sh set-ip calibre
+  # 9. Compute age key: ./incus-manager.sh get-age-key calibre
+  # 10. Update nix-config with static IP and age key, then run: ./incus-manager.sh deploy calibre
+  # 11. On the host, add root:1000:213 to /etc/subuid and root:13000:213 to /etc/subgid to allow Incus to perform the idmapping
 
-    # To generate user db:
-    # 1. Run calibre-server with auth disabled
-    # 2. Then, generate a users database:
-    #    calibre-server --userdb ./calibre-users.sqlite --manage-users
-    # 3. Finally, encrypt the binary as a secret:
-    #    sops -e ./calibre-users.sqlite > containers/secrets/calibre-users.sqlite
+  # To generate user db:
+  # 1. Run calibre-server with auth disabled
+  # 2. Then, generate a users database:
+  #    calibre-server --userdb ./calibre-users.sqlite --manage-users
+  # 3. Finally, encrypt the binary as a secret:
+  #    sops -e ./calibre-users.sqlite > containers/secrets/calibre-users.sqlite
 
-    sops.secrets."calibre-users.sqlite" = {
-      sopsFile = ./secrets/calibre-users.sqlite;
-      format = "binary";
-      owner = config.services.calibre-server.user;
-      group = config.services.calibre-server.group;
-    };
+  sops.secrets."calibre-users.sqlite" = {
+    sopsFile = ./secrets/calibre-users.sqlite;
+    format = "binary";
+    owner = config.services.calibre-server.user;
+    group = config.services.calibre-server.group;
+  };
 
-    services.calibre-server = {
+  services.calibre-server = {
+    enable = true;
+    port = 8083;
+    openFirewall = true;
+    host = "0.0.0.0";
+    auth = {
+      mode = "basic";
       enable = true;
-      port = 8083;
-      openFirewall = true;
-      host = "0.0.0.0";
-      auth = {
-        mode = "basic";
-        enable = true;
-        userDb = config.sops.secrets."calibre-users.sqlite".path;
-      };
-      libraries = [
-        "/mnt/books"
-      ];
+      userDb = config.sops.secrets."calibre-users.sqlite".path;
     };
-  }
+    libraries = [
+      "/mnt/books"
+    ];
+  };
+}

@@ -3,17 +3,20 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   isLinux = pkgs.stdenv.isLinux;
   pinentry =
-    if builtins.hasAttr "plasma" config.programs && config.programs.plasma.enable
-    then {
-      package = pkgs.pinentry-qt;
-    }
-    else {
-      package = pkgs.pinentry-curses;
-    };
-in {
+    if builtins.hasAttr "plasma" config.programs && config.programs.plasma.enable then
+      {
+        package = pkgs.pinentry-qt;
+      }
+    else
+      {
+        package = pkgs.pinentry-curses;
+      };
+in
+{
   services.gpg-agent = lib.mkIf isLinux {
     enable = true;
     pinentry.package = pinentry.package;

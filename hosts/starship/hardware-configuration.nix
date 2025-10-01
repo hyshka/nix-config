@@ -2,16 +2,23 @@
   inputs,
   config,
   lib,
-  pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.kernel.sysctl = {
     # optimize swap on zram
     # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram
@@ -20,10 +27,10 @@
     "vm.watermark_scale_factor" = 125;
     "vm.page-cluster" = 0;
   };
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
 
   # Allow cross-compiling for rpi4
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Disable systemd-boot and enable lanzaboote for secure boot support.
   boot = {

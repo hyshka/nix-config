@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   services.snapraid = {
     enable = true;
     parityFiles = [
@@ -68,8 +69,7 @@
       startAt = "05:00";
       serviceConfig =
         # Copy hardened unit config
-        config.systemd.services.snapraid-scrub.serviceConfig
-        // {
+        config.systemd.services.snapraid-scrub.serviceConfig // {
           ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
           ReadWritePaths = "/var/lib/prometheus-node-exporter-text-files";
           # Allow unit to access SMART attributes of all "sd" block devices

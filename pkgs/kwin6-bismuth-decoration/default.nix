@@ -38,7 +38,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Bismuth window decoration for kwin 6";
     license = licenses.mit;
-    maintainers = with maintainers; [maintainers.hyshka];
+    maintainers = with maintainers; [ maintainers.hyshka ];
     homepage = "https://github.com/ivan-cukic/kwin6-bismuth-decoration";
     inherit (pkgs.kdePackages.kwindowsystem.meta) platforms;
   };

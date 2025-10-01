@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   sops.secrets = {
     nextcloud-adminPass = {
       owner = "nextcloud";
@@ -33,8 +34,8 @@
     phpOptions."opcache.interned_strings_buffer" = "16";
 
     settings = {
-      trusted_proxies = ["127.0.0.1"];
-      trusted_domains = ["cloud.home.hyshka.com"];
+      trusted_proxies = [ "127.0.0.1" ];
+      trusted_domains = [ "cloud.home.hyshka.com" ];
       default_phone_region = "CA";
       maintenance_window_start = "4";
       preview_ffmpeg_path = lib.getExe pkgs.ffmpeg;

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim = {
     # Highlight, edit, and navigate code
     # https://nix-community.github.io/nixvim/plugins/treesitter/index.html
@@ -81,7 +82,7 @@
         ];
 
         highlight.enable = true;
-        highlight.disable = ["vue"];
+        highlight.disable = [ "vue" ];
         indent.enable = true;
       };
 

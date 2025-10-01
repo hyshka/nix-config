@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.sunshine = {
     enable = true;
     openFirewall = true;

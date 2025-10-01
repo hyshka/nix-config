@@ -5,14 +5,16 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.programs.zsh.zimfw;
-in {
+in
+{
   options.programs.zsh.zimfw = {
     enable = mkEnableOption "Zim";
     modules = mkOption {
       type = with types; listOf str;
-      default = [];
+      default = [ ];
       description = "List of Zim modules";
     };
     package = mkOption {
@@ -32,9 +34,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [cfg.package];
+    home.packages = [ cfg.package ];
     home.file.${cfg.zimConfigFile}.text = ''
-      ${optionalString (cfg.modules != []) ''
+      ${optionalString (cfg.modules != [ ]) ''
         ${concatStringsSep "\n" (map (m: "zmodule ${m}") cfg.modules)}
       ''}
     '';

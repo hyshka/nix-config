@@ -1,8 +1,16 @@
-{lib, ...}: {
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
+{ lib, ... }:
+{
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
   boot.kernel.sysctl = {
     # optimize swap for zram
@@ -19,17 +27,28 @@
     "/" = {
       device = "/dev/nvme0n1p1";
       fsType = "ext4";
-      options = ["defaults" "noatime"];
+      options = [
+        "defaults"
+        "noatime"
+      ];
     };
     "/boot" = {
       device = "/dev/nvme0n1p3";
       fsType = "vfat";
-      options = ["defaults" "noatime"];
+      options = [
+        "defaults"
+        "noatime"
+      ];
     };
     "/mnt/disk3" = {
       device = "/dev/disk/by-id/usb-ST4000VN_006-3CW104_152D00539000-0:1-part1";
       fsType = "btrfs";
-      options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
+      options = [
+        "defaults"
+        "noatime"
+        "nofail"
+        "x-systemd.device-timeout=4"
+      ];
     };
     "/mnt/storage" = {
       device = "/mnt/disk*";
@@ -52,7 +71,12 @@
     "/mnt/disk1" = {
       device = "/dev/disk/by-id/usb-WDC_WD40_EFPX-68C6CN0_152D00539000-0:0-part1";
       fsType = "btrfs";
-      options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
+      options = [
+        "defaults"
+        "noatime"
+        "nofail"
+        "x-systemd.device-timeout=4"
+      ];
     };
     "/mnt/parity2" = {
       # Replace parity disk: https://www.snapraid.it/faq#reppardisk
@@ -60,7 +84,12 @@
       # https://www.snapraid.it/faq#fs
       # mkfs.ext4 -m 0 -T largefile4 DEVICE
       fsType = "ext4";
-      options = ["defaults" "noatime" "nofail" "x-systemd.device-timeout=4"];
+      options = [
+        "defaults"
+        "noatime"
+        "nofail"
+        "x-systemd.device-timeout=4"
+      ];
     };
   };
 

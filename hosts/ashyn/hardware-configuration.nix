@@ -3,14 +3,20 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     inputs.disko.nixosModules.disko
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "usb_storage" "sd_mod" "sdhci_pci"];
-  boot.initrd.kernelModules = ["i915"];
-  boot.kernelModules = ["kvm-intel"];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "usb_storage"
+    "sd_mod"
+    "sdhci_pci"
+  ];
+  boot.initrd.kernelModules = [ "i915" ];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [
     # offload some media encoding to the GPU
     "i915.enable_guc=2"
@@ -23,14 +29,14 @@
     "vm.watermark_scale_factor" = 125;
     "vm.page-cluster" = 0;
   };
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Allow cross-compiling for rpi4
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   zramSwap.enable = true;
 
@@ -49,7 +55,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             luks = {
@@ -63,19 +69,28 @@
                 };
                 content = {
                   type = "btrfs";
-                  extraArgs = ["-f"];
+                  extraArgs = [ "-f" ];
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";
-                      mountOptions = ["compress=zstd" "noatime"];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/home" = {
                       mountpoint = "/home";
-                      mountOptions = ["compress=zstd" "noatime"];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/nix" = {
                       mountpoint = "/nix";
-                      mountOptions = ["compress=zstd" "noatime"];
+                      mountOptions = [
+                        "compress=zstd"
+                        "noatime"
+                      ];
                     };
                     "/swap" = {
                       mountpoint = "/.swapvol";

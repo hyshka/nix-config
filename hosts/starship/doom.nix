@@ -1,9 +1,10 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     zandronum
     zandronum-server
     doomseeker
     fluidsynth
   ];
-  networking.firewall.allowedUDPPorts = [10666];
+  networking.firewall.allowedUDPPorts = [ 10666 ];
 }

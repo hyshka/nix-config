@@ -2,13 +2,15 @@
   inputs,
   pkgs,
   ...
-}: let
+}:
+let
   mcp-hub = inputs.mcp-hub.packages."${pkgs.system}".default;
   mcphub-nvim = inputs.mcphub-nvim.packages."${pkgs.system}".default;
-in {
+in
+{
   programs.nixvim = {
-    extraPackages = [mcp-hub];
-    extraPlugins = [mcphub-nvim];
+    extraPackages = [ mcp-hub ];
+    extraPlugins = [ mcphub-nvim ];
     extraConfigLua = ''
       require("mcphub").setup()
     '';

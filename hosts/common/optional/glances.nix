@@ -1,5 +1,10 @@
-{pkgs, ...}: {
-  environment.systemPackages = with pkgs; [glances python310Packages.psutil hddtemp];
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    glances
+    python310Packages.psutil
+    hddtemp
+  ];
 
   programs.zsh.shellAliases = {
     glances = "glances --enable-plugin smart";

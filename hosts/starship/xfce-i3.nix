@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   # Support user desktops
   xdg.portal = {
     enable = true;

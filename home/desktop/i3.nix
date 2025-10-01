@@ -3,11 +3,13 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   term = "${config.home.sessionVariables.TERMINAL}";
   mod = "Mod1";
   exec = "exec --no-startup-id";
-in {
+in
+{
   xsession.windowManager.i3 = {
     enable = true;
     config = {
@@ -15,7 +17,7 @@ in {
       terminal = term;
 
       fonts = {
-        names = [config.fontProfiles.sans-serif.family];
+        names = [ config.fontProfiles.sans-serif.family ];
         size = 10.0;
       };
 

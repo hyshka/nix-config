@@ -1,11 +1,13 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.ranger = {
     enable = true;
     package = pkgs.ranger.overrideAttrs (prev: {
-      makeWrapperArgs = ["--set BAT_STYLE full"];
-      preConfigure = let
-        json_bat_cmd = ''jq . "''${FILE_PATH}" | env COLORTERM=8bit bat --language json --color=always --style="''${BAT_STYLE}" \&\& exit 5'';
-      in
+      makeWrapperArgs = [ "--set BAT_STYLE full" ];
+      preConfigure =
+        let
+          json_bat_cmd = ''jq . "''${FILE_PATH}" | env COLORTERM=8bit bat --language json --color=always --style="''${BAT_STYLE}" \&\& exit 5'';
+        in
         prev.preConfigure
         + ''
           sed -i -e '/#\s*application\/pdf/,/&& exit 6/s/#//' ranger/data/scope.sh
@@ -17,11 +19,12 @@
         '';
     });
     extraPackages = with pkgs; [
-      (python3.withPackages (python-pkgs:
-        with python-pkgs; [
+      (python3.withPackages (
+        python-pkgs: with python-pkgs; [
           pygments # syntax highlighting
           setuptools # for building ranger plugins
-        ]))
+        ]
+      ))
       bat # syntax highlighting
       w3m # image preview
       librsvg # svg preview

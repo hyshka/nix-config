@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   systemd.services.promtail.serviceConfig.SupplementaryGroups = [
     # Permission to read Caddy logs
     config.services.caddy.group
@@ -40,19 +41,19 @@
           };
           relabel_configs = [
             {
-              source_labels = ["__journal__systemd_unit"];
+              source_labels = [ "__journal__systemd_unit" ];
               target_label = "unit";
             }
             {
-              source_labels = ["__journal__systemd_user_unit"];
+              source_labels = [ "__journal__systemd_user_unit" ];
               target_label = "user_unit";
             }
             {
-              source_labels = ["__journal__boot_id"];
+              source_labels = [ "__journal__boot_id" ];
               target_label = "boot_id";
             }
             {
-              source_labels = ["__journal_priority_keyword"];
+              source_labels = [ "__journal_priority_keyword" ];
               target_label = "level";
             }
           ];
@@ -67,19 +68,19 @@
           ];
           relabel_configs = [
             {
-              source_labels = ["__meta_docker_container_name"];
+              source_labels = [ "__meta_docker_container_name" ];
               target_label = "container";
             }
             {
-              source_labels = ["__meta_docker_container_log_stream"];
+              source_labels = [ "__meta_docker_container_log_stream" ];
               target_label = "stream";
             }
             {
-              source_labels = ["__meta_docker_container_label_com_docker_compose_project"];
+              source_labels = [ "__meta_docker_container_label_com_docker_compose_project" ];
               target_label = "compose_project";
             }
             {
-              source_labels = ["__meta_docker_container_label_com_docker_compose_service"];
+              source_labels = [ "__meta_docker_container_label_com_docker_compose_service" ];
               target_label = "compose_service";
             }
           ];
@@ -88,7 +89,7 @@
           job_name = "caddy";
           static_configs = [
             {
-              targets = ["localhost"];
+              targets = [ "localhost" ];
               labels = {
                 job = "caddy";
                 host = "${config.networking.hostName}";
@@ -101,7 +102,7 @@
           job_name = "ntfy";
           static_configs = [
             {
-              targets = ["localhost"];
+              targets = [ "localhost" ];
               labels = {
                 job = "ntfy";
                 host = "${config.networking.hostName}";

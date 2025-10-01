@@ -1,4 +1,4 @@
 {
   programs.adb.enable = true;
-  users.users.hyshka.extraGroups = ["adbusers"];
+  users.users.hyshka.extraGroups = [ "adbusers" ];
 }

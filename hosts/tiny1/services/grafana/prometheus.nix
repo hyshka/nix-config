@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   services.cadvisor = {
     enable = true;
     listenAddress = "127.0.0.1";
@@ -21,7 +22,7 @@
         job_name = "node";
         static_configs = [
           {
-            targets = ["127.0.0.1:${toString config.services.prometheus.exporters.node.port}"];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
           }
         ];
       }
@@ -29,7 +30,7 @@
         job_name = "smartcl";
         static_configs = [
           {
-            targets = ["127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}"];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}" ];
           }
         ];
       }
@@ -37,19 +38,23 @@
         job_name = "restic";
         static_configs = [
           {
-            targets = ["127.0.0.1:${toString config.services.prometheus.exporters.restic.port}"];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.restic.port}" ];
           }
         ];
       }
       {
         job_name = "loki";
-        static_configs = [{targets = ["127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}"];}];
+        static_configs = [
+          {
+            targets = [ "127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}" ];
+          }
+        ];
       }
       {
         job_name = "wireguard";
         static_configs = [
           {
-            targets = ["127.0.0.1:9586"];
+            targets = [ "127.0.0.1:9586" ];
           }
         ];
       }
@@ -58,7 +63,7 @@
         authorization.credentials_file = config.sops.secrets.syncthing_bearer_token.path;
         static_configs = [
           {
-            targets = ["127.0.0.1:8384"];
+            targets = [ "127.0.0.1:8384" ];
           }
         ];
       }
@@ -66,7 +71,7 @@
         job_name = "ntfy";
         static_configs = [
           {
-            targets = ["10.223.27.234:9091"];
+            targets = [ "10.223.27.234:9091" ];
           }
         ];
       }
@@ -74,7 +79,7 @@
         job_name = "caddy";
         static_configs = [
           {
-            targets = ["127.0.0.1:2019"];
+            targets = [ "127.0.0.1:2019" ];
           }
         ];
       }
@@ -82,7 +87,7 @@
         job_name = "immich_api";
         static_configs = [
           {
-            targets = ["127.0.0.1:8091"];
+            targets = [ "127.0.0.1:8091" ];
           }
         ];
       }
@@ -90,7 +95,7 @@
         job_name = "immich_microservices";
         static_configs = [
           {
-            targets = ["127.0.0.1:8092"];
+            targets = [ "127.0.0.1:8092" ];
           }
         ];
       }
@@ -101,7 +106,7 @@
         tls_config.insecure_skip_verify = true;
         static_configs = [
           {
-            targets = ["127.0.0.1:8444"];
+            targets = [ "127.0.0.1:8444" ];
           }
         ];
       }
@@ -109,7 +114,7 @@
         job_name = "cadvisor";
         static_configs = [
           {
-            targets = ["127.0.0.1:${toString config.services.cadvisor.port}"];
+            targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
           }
         ];
       }
@@ -119,8 +124,8 @@
       node = {
         enable = true;
         listenAddress = "127.0.0.1";
-        enabledCollectors = ["systemd"];
-        extraFlags = ["--collector.textfile.directory=/var/lib/prometheus-node-exporter-text-files"];
+        enabledCollectors = [ "systemd" ];
+        extraFlags = [ "--collector.textfile.directory=/var/lib/prometheus-node-exporter-text-files" ];
       };
       smartctl = {
         enable = true;

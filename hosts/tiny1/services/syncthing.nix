@@ -2,8 +2,9 @@
   pkgs,
   config,
   ...
-}: {
-  environment.systemPackages = with pkgs; [syncthing];
+}:
+{
+  environment.systemPackages = with pkgs; [ syncthing ];
 
   sops.secrets = {
     syncthing_key = {
@@ -21,7 +22,7 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [22000];
+  networking.firewall.allowedTCPPorts = [ 22000 ];
 
   services.syncthing = {
     enable = true;
@@ -41,59 +42,76 @@
         };
       };
       devices = {
-        "starship" = {id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";};
-        "bryan-pixel4" = {id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";};
-        "rg353ps" = {id = "U4UPYDR-LVN7VTQ-3SOLQWP-QJFRKKN-IWGOXZR-2YOFOZL-OFEGGYA-ZMC6HAS";};
-        "renee-pixel7a" = {id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";};
-        "ashyn" = {id = "YPGYO6J-3JUHLKP-ZHGEUFE-WCG2VWT-KHQ3HGV-MMSGGZF-2WXXVMC-6DT2ZQA";};
+        "starship" = {
+          id = "Y5NGEPL-5ZSFMIJ-DR2NZZD-EYVGP7J-AZ4M2LY-ER7BZ4J-SXUNYVA-L2IJKQB";
+        };
+        "bryan-pixel4" = {
+          id = "IUO5O7L-5CKMEZQ-4USKX7X-JTFZHZZ-3V6CBZE-4PQHMEU-TZXE7YN-FEDYMA2";
+        };
+        "rg353ps" = {
+          id = "U4UPYDR-LVN7VTQ-3SOLQWP-QJFRKKN-IWGOXZR-2YOFOZL-OFEGGYA-ZMC6HAS";
+        };
+        "renee-pixel7a" = {
+          id = "KRD7T33-N5HKRSI-SA6NVWO-5D5ACZQ-5KD4SSU-MVFZZ3K-OOJA6BF-KWP4UA3";
+        };
+        "ashyn" = {
+          id = "YPGYO6J-3JUHLKP-ZHGEUFE-WCG2VWT-KHQ3HGV-MMSGGZF-2WXXVMC-6DT2ZQA";
+        };
       };
       folders = {
         "Ansel" = {
           id = "euawy-suaeu";
           path = "/mnt/storage/hyshka/Ansel";
-          devices = ["starship"];
+          devices = [ "starship" ];
           type = "receiveonly";
         };
         "Darktable" = {
           id = "4harq-seslg";
           path = "/mnt/storage/hyshka/Darktable";
-          devices = ["starship"];
+          devices = [ "starship" ];
           type = "receiveonly";
         };
         "Music" = {
           id = "ijjkj-sfe6a";
           path = "/mnt/storage/hyshka/Music";
-          devices = ["starship"];
+          devices = [ "starship" ];
           type = "receiveonly";
         };
         "Documents" = {
           id = "vzqdy-afqjw";
           path = "/mnt/storage/hyshka/Documents";
-          devices = ["starship"];
+          devices = [ "starship" ];
           type = "receiveonly";
         };
         "Work" = {
           id = "dwgeq-drahv";
           path = "/mnt/storage/hyshka/work";
-          devices = ["starship"];
+          devices = [ "starship" ];
           type = "receiveonly";
         };
         "Roms" = {
           id = "xgy3x-u2fhw";
           path = "/mnt/storage/hyshka/Roms/";
-          devices = ["starship" "rg353ps"];
+          devices = [
+            "starship"
+            "rg353ps"
+          ];
           type = "sendreceive";
         };
         "Seedvault" = {
           id = "0w0v9-2amat";
           path = "/mnt/storage/hyshka/Seedvault";
-          devices = ["bryan-pixel4"];
+          devices = [ "bryan-pixel4" ];
           type = "receiveonly";
         };
         "Logseq" = {
           id = "uogke-lyndg";
           path = "/mnt/storage/hyshka/Logseq";
-          devices = ["ashyn" "starship" "bryan-pixel4"];
+          devices = [
+            "ashyn"
+            "starship"
+            "bryan-pixel4"
+          ];
         };
       };
     };

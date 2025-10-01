@@ -3,7 +3,8 @@
   outputs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     inputs.home-manager.darwinModules.home-manager
 
@@ -41,7 +42,7 @@
   # Ref: https://github.com/NixOS/nix/issues/7273
   nix.settings.auto-optimise-store = lib.mkForce false;
   nix.optimise.automatic = true;
-  nix.settings.trusted-users = ["hyshka"];
+  nix.settings.trusted-users = [ "hyshka" ];
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;

@@ -16,7 +16,7 @@ if [ "$#" -lt 1 ]; then
   exit 1
 fi
 
-extract_status_metrics(){
+extract_status_metrics() {
   local metricSuffix="$1"
   local exitStatus="$2"
 
@@ -42,8 +42,7 @@ extract_snapraid_smart() {
   echo "# HELP snapraid_smart_disk_error_count error count for each disk"
   echo "# TYPE snapraid_smart_disk_error_count gauge"
 
-  for disk in $disks
-  do
+  for disk in $disks; do
     # Extract additional information
     device=$(echo "$resultTable" | grep "$disk" | awk '{print $8}')
     serial=$(echo "$resultTable" | grep "$disk" | awk '{print $6}')
@@ -51,25 +50,25 @@ extract_snapraid_smart() {
 
     # Check and echo failure probability
     fp=$(echo "$resultTable" | grep "$disk" | awk '{print $4}' | grep -oP '^[0-9]+')
-    if [[ "$fp" != "" ]]; then
+    if [[ $fp != "" ]]; then
       echo "snapraid_smart_disk_fail_probability{disk=\"$disk\", device=\"$device\", serial=\"$serial\", size=\"$size\"} $fp"
     fi
 
     # Check and echo temperature
     temp=$(echo "$resultTable" | grep "$disk" | awk '{print $1}' | grep -oP '^[0-9]+')
-    if [[ "$temp" != "" ]]; then
+    if [[ $temp != "" ]]; then
       echo "snapraid_smart_disk_temperature{disk=\"$disk\", device=\"$device\", serial=\"$serial\", size=\"$size\"} $temp"
     fi
 
     # Check and echo power on days
     power=$(echo "$resultTable" | grep "$disk" | awk '{print $2}' | grep -oP '^[0-9]+')
-    if [[ "$power" != "" ]]; then
+    if [[ $power != "" ]]; then
       echo "snapraid_smart_disk_power_on_days{disk=\"$disk\", device=\"$device\", serial=\"$serial\", size=\"$size\"} $power"
     fi
 
     # Check and echo error count
     error=$(echo "$resultTable" | grep "$disk" | awk '{print $3}' | grep -oP '^[0-9]+')
-    if [[ "$error" != "" ]]; then
+    if [[ $error != "" ]]; then
       echo "snapraid_smart_disk_error_count{disk=\"$disk\", device=\"$device\", serial=\"$serial\", size=\"$size\"} $error"
     fi
   done
@@ -77,7 +76,7 @@ extract_snapraid_smart() {
   echo "# HELP snapraid_smart_total_fail_probability fail probability for one disk failing within the next year based on SMART values calculated by snapraid"
   echo "# TYPE snapraid_smart_total_fail_probability gauge"
   tfp="$(echo "$snapraidSmartOutput" | tail -n +6 | tail -n 1 | awk '{print $NF}' | grep -oP '^[0-9]+')"
-  if [[ "$tfp" != "" ]]; then
+  if [[ $tfp != "" ]]; then
     echo "snapraid_smart_total_fail_probability $tfp"
   fi
 }
@@ -90,12 +89,12 @@ extract_scan_metrics() {
   declare -A scanMetrics
 
   while read -r line; do
-    if [[ "$line" == Scanned* ]]; then
+    if [[ $line == Scanned* ]]; then
       itemName=$(echo "$line" | awk '{print $2}')
       scanTime=$(echo "$line" | awk '{print $4}')
       scanMetrics["$itemName"]=$scanTime
     fi
-  done <<< "$snapraidOutput"
+  done <<<"$snapraidOutput"
 
   echo "# HELP snapraid_${metricSuffix}_scan_time_seconds Scan time for each item in seconds for SnapRAID ${metricSuffix}."
   echo "# TYPE snapraid_${metricSuffix}_scan_time_seconds gauge"
@@ -138,51 +137,50 @@ extract_completion_metrics() {
 
   echo "# HELP snapraid_${metricSuffix}_completion_percent Completion percentage of the operation during SnapRAID ${metricSuffix}"
   echo "# TYPE snapraid_${metricSuffix}_completion_percent gauge"
-  if [[ "$completionPercent" != "" ]]; then
+  if [[ $completionPercent != "" ]]; then
     echo "snapraid_${metricSuffix}_completion_percent $completionPercent"
   fi
 
   echo "# HELP snapraid_${metricSuffix}_accessed_mb Amount of data accessed in MB during SnapRAID ${metricSuffix}"
   echo "# TYPE snapraid_${metricSuffix}_accessed_mb gauge"
-  if [[ "$accessedMB" != "" ]]; then
+  if [[ $accessedMB != "" ]]; then
     echo "snapraid_${metricSuffix}_accessed_mb $accessedMB"
   fi
 }
 
-
 # Iterate over all arguments
 for arg in "$@"; do
   case $arg in
-    smart)
-      snapraidSmartOutput=$(snapraid smart)
-      exitStatus=$?
-      echo "$(date)" > smart.log
-      echo "$snapraidSmartOutput" >> smart.log
-      extract_status_metrics "smart" "$exitStatus"
-      extract_snapraid_smart "$snapraidSmartOutput"
-      ;;
-    scrub)
-      snapraidScrubOutput=$(snapraid scrub -p 16)
-      exitStatus=$?
-      echo "$(date)" > scrub.log
-      echo "$snapraidScrubOutput" >> scrub.log
-      extract_status_metrics "scrub" "$exitStatus"
-      extract_scan_metrics "$snapraidScrubOutput" "scrub"
-      extract_error_metrics "$snapraidScrubOutput" "scrub"
-      extract_completion_metrics "$snapraidScrubOutput" "scrub"
-      ;;
-    sync)
-      snapraidSyncOutput=$(snapraid sync)
-      exitStatus=$?
-      echo "$(date)" > sync.log
-      echo "$snapraidSyncOutput" >> sync.log
-      extract_status_metrics "sync" "$exitStatus"
-      extract_scan_metrics "$snapraidSyncOutput" "sync"
-      extract_error_metrics "$snapraidSyncOutput" "sync"
-      extract_completion_metrics "$snapraidSyncOutput" "sync"
-      ;;
-    *)
-      echo "Invalid argument: $arg"
-      ;;
+  smart)
+    snapraidSmartOutput=$(snapraid smart)
+    exitStatus=$?
+    date >smart.log
+    echo "$snapraidSmartOutput" >>smart.log
+    extract_status_metrics "smart" "$exitStatus"
+    extract_snapraid_smart "$snapraidSmartOutput"
+    ;;
+  scrub)
+    snapraidScrubOutput=$(snapraid scrub -p 16)
+    exitStatus=$?
+    date >scrub.log
+    echo "$snapraidScrubOutput" >>scrub.log
+    extract_status_metrics "scrub" "$exitStatus"
+    extract_scan_metrics "$snapraidScrubOutput" "scrub"
+    extract_error_metrics "$snapraidScrubOutput" "scrub"
+    extract_completion_metrics "$snapraidScrubOutput" "scrub"
+    ;;
+  sync)
+    snapraidSyncOutput=$(snapraid sync)
+    exitStatus=$?
+    date >sync.log
+    echo "$snapraidSyncOutput" >>sync.log
+    extract_status_metrics "sync" "$exitStatus"
+    extract_scan_metrics "$snapraidSyncOutput" "sync"
+    extract_error_metrics "$snapraidSyncOutput" "sync"
+    extract_completion_metrics "$snapraidSyncOutput" "sync"
+    ;;
+  *)
+    echo "Invalid argument: $arg"
+    ;;
   esac
 done

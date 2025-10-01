@@ -59,12 +59,54 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   });
 
-  nativeBuildInputs = [git];
+  nativeBuildInputs = [ git ];
 
   # xorg.libX11
-  buildInputs = with xorg; [atk cairo cmake curl dbus-glib exiv2 glib gtk3 ilmbase intltool lcms lensfun libX11 libexif libjpeg libpng librsvg libtiff libxcb openexr pixman pkg-config sqlite libxslt libsoup_2_4 graphicsmagick json-glib openjpeg lua5_3_compat pugixml colord colord-gtk libxshmfence libxkbcommon at-spi2-core libwebp libsecret wrapGAppsHook osm-gps-map ocl-icd adwaita-icon-theme];
+  buildInputs = with xorg; [
+    atk
+    cairo
+    cmake
+    curl
+    dbus-glib
+    exiv2
+    glib
+    gtk3
+    ilmbase
+    intltool
+    lcms
+    lensfun
+    libX11
+    libexif
+    libjpeg
+    libpng
+    librsvg
+    libtiff
+    libxcb
+    openexr
+    pixman
+    pkg-config
+    sqlite
+    libxslt
+    libsoup_2_4
+    graphicsmagick
+    json-glib
+    openjpeg
+    lua5_3_compat
+    pugixml
+    colord
+    colord-gtk
+    libxshmfence
+    libxkbcommon
+    at-spi2-core
+    libwebp
+    libsecret
+    wrapGAppsHook
+    osm-gps-map
+    ocl-icd
+    adwaita-icon-theme
+  ];
 
-  cmakeFlags = ["-DBUILD_USERMANUAL=False"];
+  cmakeFlags = [ "-DBUILD_USERMANUAL=False" ];
 
   # ansel changed its rpath handling in commit
   # 83c70b876af6484506901e6b381304ae0d073d3c and as a result the

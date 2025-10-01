@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   programs.nixvim = {
     # Useful status updates for LSP.
     # https://nix-community.github.io/nixvim/plugins/fidget/index.html
@@ -29,7 +30,7 @@
         library = [
           {
             path = "\${3rd}/luv/library";
-            words = ["vim%.uv"];
+            words = [ "vim%.uv" ];
           }
         ];
       };
@@ -94,14 +95,14 @@
         # But for many setups the LSP (`ts_ls`) will work just fine
         ts_ls = {
           enable = true;
-          filetypes = ["vue"];
+          filetypes = [ "vue" ];
           extraOptions = {
             init_options = {
               plugins = [
                 {
                   name = "@vue/typescript-plugin";
                   location = "${lib.getBin pkgs.vue-language-server}/lib/language-tools/packages/language-server";
-                  languages = ["vue"];
+                  languages = [ "vue" ];
                   configNamespace = "typescript";
                 }
               ];
@@ -135,7 +136,7 @@
 
         nil_ls = {
           enable = true;
-          settings.formatting.command = ["alejandra"];
+          settings.formatting.command = [ "alejandra" ];
         };
 
         jsonls = {
@@ -143,7 +144,9 @@
           settings = {
             json = {
               schemas.__raw = ''require('schemastore').json.schemas()'';
-              validate = {enable = true;};
+              validate = {
+                enable = true;
+              };
             };
           };
         };

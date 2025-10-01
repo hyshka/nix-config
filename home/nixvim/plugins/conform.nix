@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim = {
     # Dependencies
     #
@@ -36,15 +37,15 @@
           end
         '';
         formatters_by_ft = {
-          lua = ["stylua"];
-          nix = ["alejandra"];
-          python = ["ruff"];
+          lua = [ "stylua" ];
+          nix = [ "alejandra" ];
+          python = [ "ruff" ];
           # html = ["prettierd"];
-          javascript = ["prettierd"];
-          typescript = ["prettierd"];
-          vue = ["prettierd"];
-          css = ["prettierd"];
-          scss = ["prettierd"];
+          javascript = [ "prettierd" ];
+          typescript = [ "prettierd" ];
+          vue = [ "prettierd" ];
+          css = [ "prettierd" ];
+          scss = [ "prettierd" ];
         };
       };
     };

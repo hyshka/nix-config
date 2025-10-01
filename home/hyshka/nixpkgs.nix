@@ -4,9 +4,11 @@
   lib,
   inputs,
   ...
-}: let
+}:
+let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-in {
+in
+{
   nix = {
     settings = {
       experimental-features = [
@@ -17,7 +19,7 @@ in {
       warn-dirty = false;
       flake-registry = ""; # Disable global flake registry
     };
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
   };
 
   home.sessionVariables = {

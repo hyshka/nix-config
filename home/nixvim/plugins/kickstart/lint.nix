@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim = {
     # Linting
     # https://nix-community.github.io/nixvim/plugins/lint/index.html
@@ -7,7 +8,7 @@
 
       # NOTE: Enabling these will cause errors unless these tools are installed
       lintersByFt = {
-        nix = ["alejandra"];
+        nix = [ "alejandra" ];
         markdown = [
           "markdownlint"
           #vale
@@ -21,9 +22,9 @@
         #ruby = ["ruby"];
         #terraform = ["tflint"];
         #text = ["vale"];
-        typescript = ["eslint_d"];
-        javascript = ["eslint_d"];
-        vue = ["eslint_d"];
+        typescript = [ "eslint_d" ];
+        javascript = [ "eslint_d" ];
+        vue = [ "eslint_d" ];
       };
       linters = {
         alejandra.cmd = "${pkgs.alejandra}/bin/alejandra";
