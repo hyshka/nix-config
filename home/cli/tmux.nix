@@ -29,6 +29,13 @@
     extraConfig = ''
       # Configure theme options
       set -g @catppuccin_flavour "mocha"
+      # Customize status line
+      set -g status-left ""
+      set -g status-right-length 100
+      set -g status-right "#{E:@catppuccin_status_session}"
+      # Customize window list
+      set -g @catppuccin_window_text "#{?#{!=:#W,zsh},#W,#T}"
+      set -g @catppuccin_window_current_text "#{?#{!=:#W,zsh},#W,#T}"
       # Switch between last used window
       bind-key C-Space last-window
       # Synchronize mode, send same command to all panes
@@ -72,7 +79,7 @@
             layout: main-vertical
             panes:
               - shell_command:
-                - cd nix-config; nix-shell shell-aider.nix
+                - cd nix-config
       '';
       target = "tmuxp/dashboard.yml";
     };
@@ -103,29 +110,25 @@
         start_directory: "''${HOME}/Work/muckrack"
         windows:
           - window_name: code
-            layout: main-horizontal
-            options:
-              main-pane-height: 80%
             focus: true
+            shell_command_before:
+              - git fetch -a
             panes:
-              - shell_command:
-                - nvim
-                focus: true
-              - shell_command:
-                - git fetch -a
+              - nvim
           - window_name: web
-            layout: even-vertical
+            layout: main-vertical
             panes:
+              - make docker-up
               - blank
               - blank
-          - window_name: test
-            layout: even-vertical
+          - window_name: ai
             panes:
-              - blank
-              - blank
+              - shell_command:
+                - opencode
           - window_name: deploy
             panes:
-              - blank
+              - shell_command:
+                - cd ..; nix-shell
       '';
       target = "tmuxp/muckrack.yml";
     };
