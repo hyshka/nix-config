@@ -43,21 +43,25 @@ container.mkContainer {
   };
 
   # Set Samba passwords via shell script
-  # TODO: this still isn't working properly
   systemd.services.update-samba-passwords = {
     script = ''
       set -euxo pipefail
       double() {
-        ${pkgs.coreutils}/bin/cat $1
+        ${pkgs.coreutils}/bin/cat "$1"
         echo
-        ${pkgs.coreutils}/bin/cat $1
+        ${pkgs.coreutils}/bin/cat "$1"
         echo
       }
       shopt -s nullglob
       for file in /run/secrets/samba-passwords/*; do
-        user=$(basename $file)
-        double $file | ${pkgs.samba}/bin/smbpasswd -L -a -s $user
-        rm -f $file
+        user=$(basename "$file")
+        # Add user if they don't exist, otherwise just update password
+        if ! ${pkgs.samba}/bin/pdbedit -L -u "$user" >/dev/null 2>&1; then
+          double "$file" | ${pkgs.samba}/bin/smbpasswd -L -a -s "$user"
+        else
+          double "$file" | ${pkgs.samba}/bin/smbpasswd -L -s "$user"
+        fi
+        rm -f "$file"
       done
     '';
     serviceConfig = {
