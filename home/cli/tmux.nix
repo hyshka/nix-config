@@ -27,6 +27,8 @@
       tmuxPlugins.catppuccin
     ];
     extraConfig = ''
+      # Fix shell on macos
+      set -g default-command "zsh"
       # Configure theme options
       set -g @catppuccin_flavour "mocha"
       # Customize status line
@@ -36,6 +38,10 @@
       # Customize window list
       set -g @catppuccin_window_text "#{?#{!=:#W,zsh},#W,#T}"
       set -g @catppuccin_window_current_text "#{?#{!=:#W,zsh},#W,#T}"
+      # TODO the following isn't being applied well from upstream
+      set -gF window-status-format "#{E:@_ctp_w_number_style}#{E:@catppuccin_window_left_separator}#{@catppuccin_window_number}"
+      set -agF window-status-format "#{E:@catppuccin_window_middle_separator}"
+      set -agF window-status-format "#{E:@_ctp_w_text_style}#{@catppuccin_window_text}#{@_ctp_w_flags}#{E:@catppuccin_window_right_separator}"
       # Switch between last used window
       bind-key C-Space last-window
       # Synchronize mode, send same command to all panes

@@ -1,13 +1,16 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }:
 let
   isLinux = pkgs.stdenv.isLinux;
   pinentry =
-    if builtins.hasAttr "plasma" config.programs && config.programs.plasma.enable then
+    if !isLinux then
+      {
+        package = pkgs.pinentry_mac;
+      }
+    else if builtins.hasAttr "plasma" config.programs && config.programs.plasma.enable then
       {
         package = pkgs.pinentry-qt;
       }
@@ -17,7 +20,7 @@ let
       };
 in
 {
-  services.gpg-agent = lib.mkIf isLinux {
+  services.gpg-agent = {
     enable = true;
     pinentry.package = pinentry.package;
     defaultCacheTtl = 1800; # 30 min

@@ -56,34 +56,37 @@
         "zsh-users/zsh-history-substring-search"
       ];
     };
-    initContent =
-      # bash
-      ''
-        # zimfw config
-        zstyle ':zim:input' double-dot-expand yes
+    initContent = ''
+      # zimfw config
+      zstyle ':zim:input' double-dot-expand yes
 
-        # functions
-        function morning {
-            echo 'Calendar'
-            echo 'Bullet journal'
-            echo 'Email'
-            echo 'Typing (optional)'
-            echo 'Coffee'
-            echo 'Focus time'
-            curl -H "Accept: text/plain" https://icanhazdadjoke.com/
-        }
-        function tpd {
-          if [ -z "$1" ]
-          then
-              print This command requires an argument. Ex. tpd [projectname]
-          else
-              PROJECT=$1
-              PROJECT_PATH=$(find ~/work/*/* -maxdepth 0 -type d -name $PROJECT)
-              print $PROJECT $PROJECT_PATH
-              PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yml
-          fi
-        }
-      '';
+      # termtitle
+      zstyle ':zim:termtitle' hooks 'preexec' 'precmd'
+      zstyle ':zim:termtitle:preexec' format "''${''${(A)=1}[1]}"
+      zstyle ':zim:termtitle:precmd'  format '%1~'
+
+      # functions
+      function morning {
+          echo 'Calendar'
+          echo 'Bullet journal'
+          echo 'Email'
+          echo 'Typing (optional)'
+          echo 'Coffee'
+          echo 'Focus time'
+          curl -H "Accept: text/plain" https://icanhazdadjoke.com/
+      }
+      function tpd {
+        if [ -z "$1" ]
+        then
+            print This command requires an argument. Ex. tpd [projectname]
+        else
+            PROJECT=$1
+            PROJECT_PATH=$(find ~/work/*/* -maxdepth 0 -type d -name $PROJECT)
+            print $PROJECT $PROJECT_PATH
+            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yml
+        fi
+      }
+    '';
     shellAliases = {
       t = "tmux";
       tpw = "tmuxp load ~/.config/tmuxp/dashboard.yml";
