@@ -2,25 +2,32 @@
   config,
   pkgs,
   ...
-}:
-{
-  environment.systemPackages = with pkgs; [ restic ];
+}: {
+  environment.systemPackages = with pkgs; [restic];
 
   sops.secrets = {
-    restic_password = { };
-    restic_environmentFile = { };
+    restic_password = {};
+    restic_environmentFile = {};
   };
 
-  # TODO: regularly run the "check" command and alert if there are issues
   services.restic.backups.hyshka = {
     passwordFile = config.sops.secrets.restic_password.path;
     environmentFile = config.sops.secrets.restic_environmentFile.path;
     initialize = true;
+    extraBackupArgs = [
+      "--no-scan" # disable backup progress estimation to reduce I/O
+    ];
+    # TODO: alert if there are check issues
+    # TODO: determine best options for --read-data-subset
+    runCheck = true;
     paths = [
       "/mnt/storage/hyshka"
+      "/mnt/storage/tm_share" # time machine samba share
+      "/home/hyshka/media" # *arr configs
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
+      "/mnt/storage/silverbullet"
     ];
     exclude = [
       ".snapshots"
