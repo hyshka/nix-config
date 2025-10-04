@@ -25,7 +25,6 @@
     vesktop
     slack
     imv
-    jellyfin-media-player
     libreoffice-qt
     mullvad-vpn
     spotify

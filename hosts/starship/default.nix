@@ -37,9 +37,4 @@
   sops.defaultSopsFile = ./secrets.yaml;
 
   system.stateVersion = "23.11";
-
-  # Allow outdated Darktable version to build
-  nixpkgs.config.permittedInsecurePackages = [
-    "libsoup-2.74.3"
-  ];
 }

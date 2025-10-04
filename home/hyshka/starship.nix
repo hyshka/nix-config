@@ -31,10 +31,10 @@
     hugin
     inkscape-with-extensions
     #gimp-with-plugins # TODO: build failed
-    digikam
-    jellyfin-media-player
     mpv
     handbrake
+    delfin
+    jellyflix
     obs-studio
     libreoffice-qt
     zathura
