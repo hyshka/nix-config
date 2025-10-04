@@ -23,7 +23,7 @@
       tmux
 
       # For CI
-      alejandra
+      nixfmt
 
       # For sops-nix
       sops

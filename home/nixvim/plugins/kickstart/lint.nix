@@ -8,7 +8,7 @@
 
       # NOTE: Enabling these will cause errors unless these tools are installed
       lintersByFt = {
-        nix = [ "alejandra" ];
+        nix = [ "nixfmt" ];
         markdown = [
           "markdownlint"
           #vale
@@ -27,7 +27,7 @@
         vue = [ "eslint_d" ];
       };
       linters = {
-        alejandra.cmd = "${pkgs.alejandra}/bin/alejandra";
+        nixfmt.cmd = "${pkgs.nixfmt}/bin/nixfmt";
         markdown.cmd = "${pkgs.markdownlint-cli}/bin/markdownlint";
         eslint_d.cmd = "${pkgs.eslint_d}/bin/eslint_d";
       };

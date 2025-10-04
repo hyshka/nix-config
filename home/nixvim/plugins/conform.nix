@@ -7,7 +7,7 @@
     extraPackages = with pkgs; [
       # Used to format Lua code
       stylua
-      alejandra
+      nixfmt
       ruff
       prettierd
     ];
@@ -38,7 +38,7 @@
         '';
         formatters_by_ft = {
           lua = [ "stylua" ];
-          nix = [ "alejandra" ];
+          nix = [ "nixfmt" ];
           python = [ "ruff" ];
           # html = ["prettierd"];
           javascript = [ "prettierd" ];
