@@ -9,6 +9,7 @@
     ./features/alacritty.nix
     ./features/plasma.nix
     ./features/logseq.nix
+    ./features/opencode.nix
 
     # TODO
     ../nixvim

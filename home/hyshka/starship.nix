@@ -10,6 +10,7 @@
     ./features/plasma.nix
     ./features/zwift.nix
     ./features/logseq.nix
+    ./features/opencode.nix
 
     # TODO
     ../nixvim
