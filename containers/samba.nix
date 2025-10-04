@@ -43,34 +43,50 @@ container.mkContainer {
   };
 
   # Set Samba passwords via shell script
+  # If this fails for some reason, re-run the service
+  # incus exec samba -- systemctl start update-samba-passwords
+  # Or, set password for samba users manually
+  # incus exec samba -- smbpasswd -a bryan
   systemd.services.update-samba-passwords = {
     script = ''
       set -euxo pipefail
-      double() {
-        ${pkgs.coreutils}/bin/cat "$1"
-        echo
-        ${pkgs.coreutils}/bin/cat "$1"
-        echo
-      }
+
+      # Wait for samba to be ready
+      while ! ${pkgs.samba}/bin/pdbedit -L >/dev/null 2>&1; do
+        echo "Waiting for samba to be ready..."
+        sleep 1
+      done
+
       shopt -s nullglob
       for file in /run/secrets/samba-passwords/*; do
         user=$(basename "$file")
+        password=$(${pkgs.coreutils}/bin/cat "$file")
+
+        echo "Processing user: $user"
+
         # Add user if they don't exist, otherwise just update password
         if ! ${pkgs.samba}/bin/pdbedit -L -u "$user" >/dev/null 2>&1; then
-          double "$file" | ${pkgs.samba}/bin/smbpasswd -L -a -s "$user"
+          echo "Adding new samba user: $user"
+          printf '%s\n%s\n' "$password" "$password" | ${pkgs.samba}/bin/smbpasswd -L -a -s "$user"
         else
-          double "$file" | ${pkgs.samba}/bin/smbpasswd -L -s "$user"
+          echo "Updating password for existing samba user: $user"
+          printf '%s\n%s\n' "$password" "$password" | ${pkgs.samba}/bin/smbpasswd -L -s "$user"
         fi
-        rm -f "$file"
+
+        if [ $? -eq 0 ]; then
+          echo "Successfully updated password for user: $user"
+        else
+          echo "Failed to update password for user: $user"
+        fi
       done
     '';
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
     };
+    after = [ "samba-smbd.service" ];
+    wants = [ "samba-smbd.service" ];
   };
-
-  # Set password for samba users manually
-  # incus exec samba -- smbpasswd -a bryan
 
   services.samba = {
     enable = true;
