@@ -150,7 +150,7 @@
         };
         tiny1 = lib.nixosSystem {
           modules = [ ./hosts/tiny1 ];
-          specialArgs = { inherit self inputs outputs; };
+          specialArgs = { inherit inputs outputs; };
         };
         ashyn = lib.nixosSystem {
           modules = [ ./hosts/ashyn ];
