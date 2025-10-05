@@ -1,5 +1,5 @@
 {
-  #config,
+  config,
   lib,
   inputs,
   ...
@@ -12,14 +12,14 @@ container.mkContainer {
 }
 // {
   networking.firewall.allowedTCPPorts = [ 3000 ];
-  #sops.secrets.secretsFile = {
-  #    sopsFile = ./secrets/silverbullet.yaml;
-  #};
+  sops.secrets.environmentFile = {
+    sopsFile = ./secrets/silverbullet.yaml;
+  };
 
   virtualisation.oci-containers.containers.silverbullet = {
-    image = "ghcr.io/silverbulletmd/silverbullet:2.1.5";
+    image = "ghcr.io/silverbulletmd/silverbullet:2.1.7";
     ports = [ "0.0.0.0:3000:3000" ];
     volumes = [ "/var/lib/silverbullet:/space" ];
-    #environmentFiles = [config.sops.secrets.secretsFile.path];
+    environmentFiles = [ config.sops.secrets.environmentFile.path ];
   };
 }
