@@ -12,7 +12,6 @@
 
     ../common/global
     ../common/users/hyshka
-    ../common/optional/glances.nix
 
     ./services
   ];

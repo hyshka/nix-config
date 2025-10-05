@@ -1,6 +1,14 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [ glances ];
+  home.packages = with pkgs; [
+    glances
+    pythonPackages.psutil
+    hddtemp
+  ];
+
+  programs.zsh.shellAliases = {
+    glances = "glances --enable-plugin smart";
+  };
 
   xdg.configFile = {
     "glances" = {
@@ -9,10 +17,13 @@
         check_update=False
 
         [network]
-        hide=veth.*,br.*
+        hide=lo,veth.*,br.*,docker.*
 
         [diskio]
         hide=loop.*
+
+        [containers]
+        disable=False
 
         [connections]
         disable=True
