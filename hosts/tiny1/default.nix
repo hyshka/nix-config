@@ -2,8 +2,7 @@
   inputs,
   pkgs,
   ...
-}:
-{
+}: {
   imports = [
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-cpu-intel
@@ -12,6 +11,7 @@
 
     ../common/global
     ../common/users/hyshka
+    ../common/optional/nixremote.nix
 
     ./services
   ];

@@ -13,6 +13,7 @@
     ../common/optional/plasma.nix
     ../common/optional/powertop.nix
     ../common/optional/wireless.nix
+    ../common/optional/nixremote_local.nix
   ];
 
   networking.hostName = "ashyn";
