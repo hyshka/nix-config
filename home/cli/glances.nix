@@ -2,7 +2,7 @@
 {
   home.packages = with pkgs; [
     glances
-    pythonPackages.psutil
+    python313Packages.psutil
     hddtemp
   ];
 

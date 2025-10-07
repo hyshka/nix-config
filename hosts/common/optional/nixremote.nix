@@ -1,5 +1,5 @@
 {
-  users.groups.nixremote = {};
+  users.groups.nixremote = { };
   users.users.nixremote = {
     description = "Nix Remote Builder User";
     isNormalUser = true;
@@ -15,5 +15,5 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIED7CbbCMdI59FzAowgxS9xHUEd9iF2qt3iA5McxCtqF root@ashyn"
     ];
   };
-  nix.settings.trusted-users = ["nixremote"];
+  nix.settings.trusted-users = [ "nixremote" ];
 }
