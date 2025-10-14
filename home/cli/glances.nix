@@ -1,10 +1,19 @@
-{ pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    glances
-    python313Packages.psutil
-    hddtemp
-  ];
+  pkgs,
+  lib,
+  ...
+}:
+let
+  isLinux = pkgs.stdenv.isLinux;
+in
+{
+  home.packages =
+    with pkgs;
+    [
+      glances
+      python313Packages.psutil
+    ]
+    ++ lib.optionals isLinux [ hddtemp ];
 
   programs.zsh.shellAliases = {
     glances = "glances --enable-plugin smart";

@@ -18,7 +18,6 @@
     spotify-player
     # work
     curl
-    gimp
     brave
   ];
 }
