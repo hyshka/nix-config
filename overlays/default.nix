@@ -13,19 +13,7 @@
     # });
     sunshine = prev.sunshine.overrideAttrs (_oldAttrs: rec {
       extraLibraries = [
-        prev.xorg.xrandr # can't remember why
         prev.util-linux # required for setsid
-      ];
-    });
-
-    vkdt = prev.vkdt.overrideAttrs (oldAttrs: rec {
-      version = "0.7.0";
-      src = prev.fetchurl {
-        url = "https://github.com/hanatos/${oldAttrs.pname}/releases/download/${version}/${oldAttrs.pname}-${version}.tar.xz";
-        sha256 = "sha256-Sk/K+EWvJBkwwD5R1gH9ZQHetojrJTTJrKW9Dvr+lHA=";
-      };
-      buildInputs = oldAttrs.buildInputs ++ [
-        prev.libxml2 # for xmllint optional dependency
       ];
     });
   };

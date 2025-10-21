@@ -2,9 +2,6 @@
 {
   # Accellerated video
   # https://nixos.wiki/wiki/Accelerated_Video_Playback
-  nixpkgs.config.packageOverrides = pkgs: {
-    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-  };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
