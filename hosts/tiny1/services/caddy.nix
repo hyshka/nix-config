@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   sops.secrets = {
     caddy-envFile = {
       owner = config.services.caddy.user;
@@ -14,12 +15,12 @@
     80
     443
   ];
-  networking.firewall.allowedUDPPorts = [443];
+  networking.firewall.allowedUDPPorts = [ 443 ];
 
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
-      plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
+      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
       hash = "sha256-XwZ0Hkeh2FpQL/fInaSq+/3rCLmQRVvwBM0Y1G1FZNU=";
     };
     email = "bryan@hyshka.com";
