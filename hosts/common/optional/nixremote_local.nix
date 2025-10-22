@@ -2,15 +2,16 @@
   # Configuration for using a remote Nix builder over SSH.
   # See https://wiki.nixos.org/wiki/Distributed_build
 
-  # TODO: how to automate the following steps?
-  # ssh-keygen -f /root/.ssh/nixremote
-  # copy /root/.ssh/nixremote.pub to ~nixremote/.ssh/authorized_keys on the remote host
-  # add remotes ssh host key to local known_hosts, or set StrictHostKeyChecking accept-new
-  # test ssh: sudo ssh -o IdentitiesOnly=yes -i /root/.ssh/nixremote -l nixremote builder
-  # expect: login, but then This account is currently not available.
+  # TODO: how to automate the following steps on each client?
+  # 1. ssh-keygen -f /root/.ssh/nixremote
+  # 2. ssh-copy-id nixremote@builder -i /root/.ssh/nixremote.pub
+  # 3. ssh-keyscan -H builder >> /root/.ssh/known_hosts
+  # 4. add contents of /root/.ssh/nixremote.pub to programs.ssh.knownHosts
   programs.ssh = {
     extraConfig = ''
       Host builder
+        # alias builder to tiny1
+        HostName tiny1
         # Prevent using ssh-agent or another keyfile, useful for testing
         IdentitiesOnly yes
         IdentityFile /root/.ssh/nixremote
