@@ -38,6 +38,7 @@
         "benchmark"
         "big-parallel"
         "kvm"
+        "ca-derivations"
       ];
       mandatoryFeatures = [ ];
     }
