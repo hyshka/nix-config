@@ -3,10 +3,8 @@
   # See https://wiki.nixos.org/wiki/Distributed_build
 
   # TODO: how to automate the following steps on each client?
-  # 1. ssh-keygen -f /root/.ssh/nixremote
-  # 2. ssh-copy-id nixremote@builder -i /root/.ssh/nixremote.pub
-  # 3. ssh-keyscan -H builder >> /root/.ssh/known_hosts
-  # 4. add contents of /root/.ssh/nixremote.pub to programs.ssh.knownHosts
+  # 1. sudo ssh-keygen -f /root/.ssh/nixremote
+  # 2. add contents of /root/.ssh/nixremote.pub to ./nixremote.nix authorizedKeys
   programs.ssh = {
     extraConfig = ''
       Host builder

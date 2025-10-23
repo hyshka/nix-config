@@ -1,4 +1,6 @@
 {
+  # Configuration for using a remote Nix builder over SSH.
+  # See https://wiki.nixos.org/wiki/Distributed_build
   users.groups.nixremote = { };
   users.users.nixremote = {
     description = "Nix Remote Builder User";
@@ -10,7 +12,7 @@
     hashedPasswordFile = null;
     hashedPassword = "!";
     homeMode = "555";
-    # add root key for each client
+    # add root key (/root/.ssh/nixremote) for each client
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIED7CbbCMdI59FzAowgxS9xHUEd9iF2qt3iA5McxCtqF root@ashyn"
     ];
