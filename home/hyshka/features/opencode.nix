@@ -1,6 +1,8 @@
+{ inputs, pkgs, ... }:
 {
   programs.opencode = {
     enable = true;
+    package = inputs.nix-ai-tools.packages.${pkgs.system}.opencode;
   };
   xdg.configFile = {
     "opencode" = {
