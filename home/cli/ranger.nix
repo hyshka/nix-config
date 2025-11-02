@@ -29,7 +29,7 @@
       w3m # image preview
       librsvg # svg preview
       ffmpegthumbnailer # video thumbs
-      poppler_utils # pdf preview
+      poppler-utils # pdf preview
       exiftool # media meta data
       odt2txt # odt preview
       jq # json preview
