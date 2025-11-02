@@ -64,7 +64,7 @@ restart_container() {
   local remote=$2
   echo "Restarting container $container on remote $remote..."
   incus remote switch "$remote"
-  incus restart "$container"
+  incus restart "$container" --timeout 30
 }
 
 # --- Setup functions ---
