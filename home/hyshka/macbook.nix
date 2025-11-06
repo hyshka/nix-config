@@ -18,6 +18,5 @@
     spotify-player
     # work
     curl
-    brave
   ];
 }

@@ -10,9 +10,6 @@
     };
 
     taps = [
-      "homebrew/cask-fonts"
-      "homebrew/services"
-      "homebrew/cask-versions"
       "nikitabobko/tap" # aerospace
     ];
 
@@ -30,16 +27,16 @@
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       "tomatobar"
       "espanso"
-      "languagetool"
+      "languagetool-desktop"
       "slack"
       "obs"
-      "handbrake"
-      "libreoffice"
+      "handbrake-app"
       "1password"
       "openvpn-connect"
-      "fontforge"
+      "fontforge-app"
       "orbstack"
       "logseq"
+      "brave-browser"
     ];
   };
 
