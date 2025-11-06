@@ -68,6 +68,16 @@
         				"CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
         			},
         			"enabled": true
+        		},
+        		"nixos": {
+        			"type": "local",
+        			"command": [
+        				"nix",
+        				"run",
+        				"github:utensils/mcp-nixos"
+                "--"
+        			],
+        			"enabled": true
         		}
         	}
         }
