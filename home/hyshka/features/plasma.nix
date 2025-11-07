@@ -13,7 +13,6 @@
   home.packages = with pkgs; [
     kdePackages.plasma-disks
     kdePackages.krohnkite
-    kwin6-bismuth-decoration
   ];
 
   # plasma-manager

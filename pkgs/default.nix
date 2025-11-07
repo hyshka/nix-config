@@ -6,6 +6,5 @@
 rec {
   # example = pkgs.callPackage ./example { };
   ansel = pkgs.callPackage ./ansel { };
-  kwin6-bismuth-decoration = pkgs.callPackage ./kwin6-bismuth-decoration { };
   snapraid-collector = pkgs.callPackage ./snapraid-collector { };
 }
