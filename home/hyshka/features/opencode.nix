@@ -74,7 +74,7 @@
         			"command": [
         				"nix",
         				"run",
-        				"github:utensils/mcp-nixos"
+        				"github:utensils/mcp-nixos",
                 "--"
         			],
         			"enabled": true
