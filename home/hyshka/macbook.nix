@@ -5,6 +5,7 @@
     ./features/aerospace.nix
     ./features/alacritty.nix
     ./features/opencode.nix
+    ./features/claude.nix
     ../nixvim
     ../cli
   ];
