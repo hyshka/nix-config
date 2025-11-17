@@ -1,10 +1,17 @@
 {
-  pkgs,
-  config,
+  inputs,
   ...
 }:
 {
-  home.packages = with pkgs; [ nix-zsh-completions ];
+  imports = [
+    inputs.zimfw.homeManagerModules.zimfw
+  ];
+
+  # Disable unused shells
+  home.shell.enableBashIntegration = false;
+  home.shell.enableFishIntegration = false;
+  home.shell.enableNushellIntegration = false;
+
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -19,7 +26,6 @@
     };
     dirHashes = {
       conf = "$HOME/nix-config";
-      fin = "$HOME/finance";
       work = "$HOME/work";
       down = "$HOME/Downloads";
       media = "/mnt/media";
@@ -34,8 +40,7 @@
     };
     zimfw = {
       enable = true;
-      zimHome = "${config.home.homeDirectory}/.zim";
-      modules = [
+      zmodules = [
         "environment"
         "git"
         "input"

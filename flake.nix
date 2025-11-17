@@ -87,6 +87,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zimfw = {
+      url = "github:joedevivo/zimfw.nix";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
   };

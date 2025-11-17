@@ -572,7 +572,8 @@
         "nixvim": "nixvim",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
-        "treefmt-nix": "treefmt-nix_2"
+        "treefmt-nix": "treefmt-nix_2",
+        "zimfw": "zimfw"
       }
     },
     "rust-overlay": {
@@ -714,6 +715,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "zimfw": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ]
+      },
+      "locked": {
+        "lastModified": 1753883065,
+        "narHash": "sha256-oKkYtOd05uoa5S0eWd05s8H31FWw+Ks3x8/UxjXK4Pw=",
+        "owner": "joedevivo",
+        "repo": "zimfw.nix",
+        "rev": "982acbb6118aa3110e20ec82ada0eb69b4c47cc1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "joedevivo",
+        "repo": "zimfw.nix",
         "type": "github"
       }
     }
