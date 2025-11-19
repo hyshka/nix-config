@@ -113,7 +113,7 @@
     "tmuxp_muckrack" = {
       text = ''
         session_name: "muckrack"
-        start_directory: "''${HOME}/Work/muckrack"
+        start_directory: "''${HOME}/work/muckrack/code"
         windows:
           - window_name: code
             focus: true
@@ -128,6 +128,8 @@
               - blank
               - blank
           - window_name: ai
+            shell_command_before:
+              - nix shell 'nixpkgs#nodejs_24'
             panes:
               - shell_command:
                 - opencode
@@ -137,6 +139,31 @@
                 - cd ..; nix-shell
       '';
       target = "tmuxp/muckrack.yml";
+    };
+    "tmuxp_worktree" = {
+      text = ''
+        session_name: "''${SESSION_NAME}"
+        start_directory: "''${HOME}/work/muckrack/code"
+        shell_command_before:
+          - git worktree add ../''${SESSION_NAME} -b ''${BRANCH_NAME} && cd ../''${SESSION_NAME}
+        windows:
+          - window_name: code
+            panes:
+              - nvim
+          - window_name: web
+            layout: main-vertical
+            panes:
+              - blank
+              - blank
+          - window_name: ai
+            focus: true
+            shell_command_before:
+              - nix shell 'nixpkgs#nodejs_24'
+            panes:
+              - shell_command:
+                - opencode
+      '';
+      target = "tmuxp/worktree.yml";
     };
   };
 }

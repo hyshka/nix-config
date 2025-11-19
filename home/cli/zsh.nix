@@ -80,7 +80,7 @@
           echo 'Focus time'
           curl -H "Accept: text/plain" https://icanhazdadjoke.com/
       }
-      function tpd {
+      function tpp {
         if [ -z "$1" ]
         then
             print This command requires an argument. Ex. tpd [projectname]
@@ -88,13 +88,22 @@
             PROJECT=$1
             PROJECT_PATH=$(find ~/work/*/* -maxdepth 0 -type d -name $PROJECT)
             print $PROJECT $PROJECT_PATH
-            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load ~/.config/tmuxp/project.yml
+            PROJECT=$PROJECT PROJECT_PATH=$PROJECT_PATH tmuxp load project
         fi
+      }
+      function tpw {
+        if [ -z "$1" ] || [ -z "$2" ]; then
+          print "Usage: tpw <session_name> <branch_name>"
+          return 1
+        fi
+
+        SESSION_NAME=$1 BRANCH_NAME=$2 tmuxp load worktree
       }
     '';
     shellAliases = {
       t = "tmux";
-      tpw = "tmuxp load ~/.config/tmuxp/dashboard.yml";
+      tpd = "tmuxp load dashboard";
+      tpm = "tmuxp load muckrack";
     };
   };
 }
