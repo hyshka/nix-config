@@ -4,6 +4,13 @@
   lib,
   ...
 }:
+let
+  hookFiles = [
+    ./hooks/notification.nix
+    ./hooks/subagent-stop.nix
+  ];
+  hooks = builtins.foldl' (acc: file: acc // (import file { inherit pkgs; })) { } hookFiles;
+in
 {
   programs.claude-code = {
     enable = true;
@@ -11,10 +18,7 @@
     settings = {
       includeCoAuthoredBy = false;
       defaultMode = "plan";
-      hooks = map (f: import f { inherit pkgs; }) [
-        ./hooks/notification.nix
-        ./hooks/subagent-stop.nix
-      ];
+      hooks = hooks;
       allow = [
         # Safe read-only git commands
         "Bash(git add:*)"
@@ -41,6 +45,7 @@
 
         # Safe Docker commands
         "Bash(docker container exec *)"
+        "Bash(docker compose exec *)"
 
         # Core Claude Code tools
         "Glob(*)"
@@ -77,17 +82,30 @@
           "stdio"
         ];
       };
-      shortcut = {
+      # requires lsp install/config: npx cclsp@latest setup
+      cclsp = {
         type = "stdio";
         command = "npx";
         args = [
           "-y"
-          "@shortcut/mcp@latest"
+          "cclsp@latest"
         ];
         env = {
-          SHORTCUT_API_TOKEN = ''\$${SHORTCUT_API_TOKEN}'';
+          CCLSP_CONFIG_PATH = "/Users/hyshka/work/muckrack/code/.claude/cclsp.json";
         };
       };
+      # Uses too much context. shortcut: 36 tools (~31,839 tokens)
+      #shortcut = {
+      #  type = "stdio";
+      #  command = "npx";
+      #  args = [
+      #    "-y"
+      #    "@shortcut/mcp@latest"
+      #  ];
+      #  env = {
+      #    SHORTCUT_API_TOKEN = ''\$${SHORTCUT_API_TOKEN}'';
+      #  };
+      #};
       socket = {
         type = "http";
         url = "https://mcp.socket.dev/";
