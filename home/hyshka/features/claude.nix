@@ -44,8 +44,8 @@ in
         "Bash(chmod:*)"
 
         # Safe Docker commands
-        "Bash(docker container exec *)"
-        "Bash(docker compose exec *)"
+        "Bash(docker container exec:*)"
+        "Bash(docker compose exec:*)"
 
         # Core Claude Code tools
         "Glob(*)"
@@ -63,6 +63,12 @@ in
         # GitHub tools (read-only)
         "mcp__github__search_repositories"
         "mcp__github__get_file_contents"
+
+        # cclsp tools (read-only)
+        "mcp__cclsp__find_definition"
+        "mcp__cclsp__find_references"
+        "mcp__cclsp__get_diagnostics"
+        "mcp__cclsp__restart_server"
       ];
       deny = [
         "Read(**/.env*)"
@@ -91,7 +97,7 @@ in
           "cclsp@latest"
         ];
         env = {
-          CCLSP_CONFIG_PATH = "/Users/hyshka/work/muckrack/code/.claude/cclsp.json";
+          CCLSP_CONFIG_PATH = "/Users/hyshka/.config/claude/cclsp.json";
         };
       };
       # Uses too much context. shortcut: 36 tools (~31,839 tokens)
@@ -120,4 +126,98 @@ in
     };
     memory.source = ./base.md;
   };
+  xdg.configFile = {
+    "cclsp" = {
+      text = ''
+          {
+          "servers": [
+            {
+              "extensions": [
+                "js",
+                "ts",
+                "jsx",
+                "tsx"
+              ],
+              "command": [
+                "npx",
+                "--",
+                "typescript-language-server",
+                "--stdio"
+              ],
+              "rootDir": "."
+            },
+            {
+              "extensions": [
+                "py",
+                "pyi"
+              ],
+              "command": [
+                "uvx",
+                "--from",
+                "python-lsp-server",
+                "pylsp"
+              ],
+              "rootDir": ".",
+              "restartInterval": 5,
+              "initializationOptions": {
+                "settings": {
+                  "pylsp": {
+                    "plugins": {
+                      "jedi_completion": {
+                        "enabled": true
+                      },
+                      "jedi_definition": {
+                        "enabled": true
+                      },
+                      "jedi_hover": {
+                        "enabled": true
+                      },
+                      "jedi_references": {
+                        "enabled": true
+                      },
+                      "jedi_signature_help": {
+                        "enabled": true
+                      },
+                      "jedi_symbols": {
+                        "enabled": true
+                      },
+                      "pylint": {
+                        "enabled": false
+                      },
+                      "pycodestyle": {
+                        "enabled": false
+                      },
+                      "pyflakes": {
+                        "enabled": false
+                      },
+                      "yapf": {
+                        "enabled": false
+                      },
+                      "rope_completion": {
+                        "enabled": false
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "extensions": [
+                "vue"
+              ],
+              "command": [
+                "npx",
+                "--",
+                "vue-language-server",
+                "--stdio"
+              ],
+              "rootDir": "."
+            }
+          ]
+        }
+      '';
+      target = "claude/cclsp.json";
+    };
+  };
+
 }
