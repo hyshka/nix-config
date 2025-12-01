@@ -12,6 +12,12 @@
           "theme": "catppuccin",
           "share": "disabled",
           "autoupdate": false,
+          "models": {
+            "github-copilot": {
+              "provider": "copilot",
+              "model": "gpt-4o"
+            }
+          },
           "formatter": {
             "nixfmt": {
               "command": [
@@ -71,6 +77,43 @@
         }
       '';
       target = "opencode/opencode.json";
+    };
+    "command-commit" = {
+      source = ./command/commit.md;
+      target = "opencode/command/commit.md";
+    };
+    "command-review-changes" = {
+      source = ./command/review-changes.md;
+      target = "opencode/command/review-changes.md";
+    };
+    "plugin-notification" = {
+      text = ''
+        export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {
+          return {
+            event: async ({ event }) => {
+              // Send notification on session completion
+              if (event.type === "session.idle") {
+                await $`osascript -e 'display notification "Session completed!" with title "opencode"'`
+              }
+            },
+          }
+        }
+      '';
+      target = "opencode/plugin/notification.js";
+    };
+    "plugin-env" = {
+      text = ''
+        export const EnvProtection = async ({ project, client, $, directory, worktree }) => {
+          return {
+            "tool.execute.before": async (input, output) => {
+              if (input.tool === "read" && output.args.filePath.includes(".env")) {
+                throw new Error("Do not read .env files")
+              }
+            },
+          }
+        }
+      '';
+      target = "opencode/plugin/env-protection.js";
     };
   };
 }
