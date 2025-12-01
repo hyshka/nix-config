@@ -12,12 +12,8 @@
           "theme": "catppuccin",
           "share": "disabled",
           "autoupdate": false,
-          "models": {
-            "github-copilot": {
-              "provider": "copilot",
-              "model": "gpt-4o"
-            }
-          },
+          "model": "github-copilot/claude-sonnet-4.5",
+          "small_model": "github-copilot/claude-haiku-4.5",
           "formatter": {
             "nixfmt": {
               "command": [
