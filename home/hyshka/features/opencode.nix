@@ -68,6 +68,18 @@
                 "--"
               ],
               "enabled": true
+            },
+            "github": {
+              "type": "local",
+              "command": [
+                "nix",
+                "run",
+                "nixpkgs#github-mcp-server",
+                "--"
+                "--read-only"
+                "stdio"
+              ],
+              "enabled": true
             }
           }
         }
