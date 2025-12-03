@@ -75,8 +75,8 @@
                 "nix",
                 "run",
                 "nixpkgs#github-mcp-server",
-                "--"
-                "--read-only"
+                "--",
+                "--read-only",
                 "stdio"
               ],
               "enabled": true
