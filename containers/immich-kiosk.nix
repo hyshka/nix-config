@@ -23,9 +23,10 @@ container.mkContainer {
     settings = {
       immich_url = "http://10.223.27.125:2283";
       immich_external_url = "https://immich.home.hyshka.com";
-      immich_api_key._secret = config.sops.secrets.immich-kiosk-api-key.path;
+      immich_api_key = config.sops.secrets.immich-kiosk-api-key.path;
       kiosk = {
         port = 3000;
+        behind_proxy = true;
       };
       # Additional configuration can be added here
       # See https://docs.immichkiosk.app/configuration/ for available options
