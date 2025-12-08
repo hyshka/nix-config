@@ -2,14 +2,13 @@
 {
   programs.ranger = {
     enable = true;
-    package = pkgs.ranger.overrideAttrs (prev: {
+    package = pkgs.ranger.overrideAttrs (_prev: {
       makeWrapperArgs = [ "--set BAT_STYLE full" ];
       preConfigure =
         let
           json_bat_cmd = ''jq . "''${FILE_PATH}" | env COLORTERM=8bit bat --language json --color=always --style="''${BAT_STYLE}" \&\& exit 5'';
         in
-        prev.preConfigure
-        + ''
+        ''
           sed -i -e '/#\s*application\/pdf/,/&& exit 6/s/#//' ranger/data/scope.sh
           sed -i -e '/#\s*video/,/exit 1/s/#//' ranger/data/scope.sh
           sed -i -e '/#\s*image\/svg/,/exit 1/s/#//' ranger/data/scope.sh
