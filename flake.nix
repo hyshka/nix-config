@@ -180,6 +180,11 @@
           modules = [ ./containers/immich.nix ];
           specialArgs = { inherit inputs outputs; };
         };
+        immich-kiosk = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/immich-kiosk.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
         samba = lib.nixosSystem {
           system = "x86_64-linux";
           modules = [ ./containers/samba.nix ];

@@ -77,6 +77,11 @@
            reverse_proxy http://10.223.27.125:2283
          }
 
+         @immich-kios host immich-kiosk.home.hyshka.com
+         handle @immich-kiosk {
+           reverse_proxy http://10.223.27.216:3000
+         }
+
          @cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
          handle @cryptpad {
            reverse_proxy http://10.223.27.23:3006
