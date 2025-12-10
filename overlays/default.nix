@@ -12,7 +12,7 @@
     # ...
     # });
 
-    # Pin Incus to version 6.18.0
+    # Pin Incus to version 6.17.0
     incus = inputs.nixpkgs-incus-6-18.legacyPackages.${prev.system}.incus;
 
     sunshine = prev.sunshine.overrideAttrs (_oldAttrs: rec {
