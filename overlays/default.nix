@@ -11,6 +11,10 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+
+    # Pin Incus to version 6.18.0
+    incus = inputs.nixpkgs-incus-6-18.legacyPackages.${prev.system}.incus;
+
     sunshine = prev.sunshine.overrideAttrs (_oldAttrs: rec {
       extraLibraries = [
         prev.util-linux # required for setsid

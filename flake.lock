@@ -391,6 +391,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-incus-6-18": {
+      "locked": {
+        "lastModified": 1764290847,
+        "narHash": "sha256-VwPgoDgnd628GdE3KyLqTyPF1WWh0VwT5UoKygoi8sg=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cd5fedfc384cb98d9fd3827b55f4522f49efda42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "cd5fedfc384cb98d9fd3827b55f4522f49efda42",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -473,6 +489,7 @@
         "nix-darwin": "nix-darwin",
         "nixGL": "nixGL",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-incus-6-18": "nixpkgs-incus-6-18",
         "nixvim": "nixvim",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
