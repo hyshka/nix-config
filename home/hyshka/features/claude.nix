@@ -100,18 +100,19 @@ in
           CCLSP_CONFIG_PATH = "/Users/hyshka/.config/claude/cclsp.json";
         };
       };
-      # Uses too much context. shortcut: 36 tools (~31,839 tokens)
-      #shortcut = {
-      #  type = "stdio";
-      #  command = "npx";
-      #  args = [
-      #    "-y"
-      #    "@shortcut/mcp@latest"
-      #  ];
-      #  env = {
-      #    SHORTCUT_API_TOKEN = ''\$${SHORTCUT_API_TOKEN}'';
-      #  };
-      #};
+      shortcut = {
+        type = "stdio";
+        command = "npx";
+        args = [
+          "-y"
+          "@shortcut/mcp@latest"
+        ];
+        env = {
+          SHORTCUT_API_TOKEN = ''\$${SHORTCUT_API_TOKEN}'';
+          # Limit tools to use less context
+          SHORTCUT_TOOLS = "stories,epics,teams,workflows";
+        };
+      };
       socket = {
         type = "http";
         url = "https://mcp.socket.dev/";
