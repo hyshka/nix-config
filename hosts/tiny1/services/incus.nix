@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   # References
   # - https://github.com/viperML/dotfiles/blob/5002378af7d3e1f898b2eac9ff80ef9512d68587/modules/nixos/incus.nix#L45
@@ -10,12 +10,12 @@
     ui.enable = true;
   };
   networking.nftables.enable = true;
-  users.users.hyshka.extraGroups = [ "incus-admin" ];
+  users.groups."incus-admin".members = config.users.groups."wheel".members;
   # Incus remote access
   networking.firewall.allowedTCPPorts = [ 8443 ];
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
-  networking.firewall.trustedInterfaces = [ "incusbr*" ];
+  networking.firewall.trustedInterfaces = [ "incusbr0" ];
 
   # TODO: create a better system for managing idmapped disks
   users.users.root = {
