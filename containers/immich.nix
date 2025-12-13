@@ -40,8 +40,8 @@ container.mkContainer {
   # 7. start services
   # 8. incus exec immich -- rm -rf /postgresql_bak
 
+  # allow metrics ports
   networking.firewall.allowedTCPPorts = [
-    2283
     8091
     8092
   ];
@@ -54,6 +54,7 @@ container.mkContainer {
   # Ref: https://immich.app/docs/administration/backup-and-restore
   services.immich = {
     enable = true;
+    openFirewall = true;
     # Original media stored in library, upload, and profile subdirectories
     mediaLocation = "/mnt/storage/immich/";
     secretsFile = config.sops.secrets.secretsFile.path;
