@@ -11,11 +11,6 @@ container.mkContainer {
   name = "paperless";
 }
 // {
-  # Set up steps
-  # map root on host to paperless (315) in the container
-  # incus config device add paperless data disk source=/mnt/storage/paperless path=/mnt/paperless/ raw.mount.options=idmap=b:315:0:1
-  # incus config set paperless raw.idmap=both 0 315
-
   # Before upgrade
   # incus file pull paperless/var/lib/paperless/db.sqlite3 .
   # After upgrade

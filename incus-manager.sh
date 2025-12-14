@@ -8,6 +8,10 @@
 usage() {
   echo "Usage: $0 <command> [arguments...] [--remote <remote_name>]"
   echo
+  echo "Quick Start:"
+  echo "  bootstrap  <container> [--nesting]     Complete container setup (steps 1-6)."
+  echo "                                         Then update nix-config and run 'deploy'."
+  echo
   echo "Deployment Commands (support comma-separated list of containers):"
   echo "  build      <containers>                Builds the container image(s)."
   echo "  import     <containers>                Imports the built image(s) into Incus."
@@ -25,6 +29,16 @@ usage() {
   echo
   echo "Options:"
   echo "  --remote <remote>   The Incus remote to use (default: tiny1)."
+  echo
+  echo "Examples:"
+  echo "  # Complete bootstrap for a new container with nesting enabled:"
+  echo "  $0 bootstrap immich --nesting"
+  echo
+  echo "  # Then update .sops.yaml and services/caddy.nix with the displayed info, and:"
+  echo "  $0 deploy immich"
+  echo
+  echo "  # Add storage after deployment:"
+  echo "  $0 add-storage immich /mnt/storage/immich /mnt/immich/ --uid 998"
   exit 1
 }
 
@@ -69,6 +83,18 @@ restart_container() {
   incus restart "$container" --timeout 30
 }
 
+start_container() {
+  local container=$1
+  local remote=$2
+  echo "Starting container $container on remote $remote..."
+  incus remote switch "$remote"
+  incus start "$container"
+
+  # Wait a bit for the container to get an IP
+  echo "Waiting for container to initialize..."
+  sleep 5
+}
+
 # --- Setup functions ---
 
 create_container() {
@@ -81,7 +107,22 @@ create_container() {
   incus create "nixos/custom/$container" "$container" $nesting_arg
 }
 
-# TODO: requires sudo mkdir /persist/microvms/<container> on the remote first
+create_persist_dir() {
+  local container=$1
+  local remote=$2
+  echo "Creating persist directory on remote $remote..."
+
+  # Try to create the directory via SSH
+  # shellcheck disable=SC2029
+  if ssh "$remote" "sudo mkdir -p /persist/microvms/$container" 2>/dev/null; then
+    echo "Persist directory created successfully."
+  else
+    echo "Warning: Could not create persist directory via SSH."
+    echo "You may need to manually run on $remote:"
+    echo "  sudo mkdir -p /persist/microvms/$container"
+  fi
+}
+
 add_persist_disk() {
   local container=$1
   local remote=$2
@@ -169,6 +210,170 @@ add_storage() {
   echo "Storage device '$device_name' added successfully."
 }
 
+# --- Bootstrap helpers ---
+
+validate_bootstrap() {
+  local container=$1
+  local remote=$2
+
+  # Check if required tools are available
+  command -v jq >/dev/null 2>&1 || {
+    echo >&2 "Error: jq is required but not installed."
+    return 1
+  }
+  command -v ssh-to-age >/dev/null 2>&1 || {
+    echo >&2 "Error: ssh-to-age is required but not installed."
+    return 1
+  }
+
+  # Check if container config exists
+  if ! nix eval --raw ".#nixosConfigurations.$container.config.system.nixos.version" 2>/dev/null >/dev/null; then
+    echo >&2 "Error: Container configuration '$container' not found in flake."
+    echo >&2 "Make sure containers/$container.nix exists."
+    return 1
+  fi
+
+  # Check if remote is accessible
+  if ! incus remote list | grep -q "^| $remote "; then
+    echo >&2 "Error: Remote '$remote' not configured in Incus."
+    return 1
+  fi
+
+  return 0
+}
+
+print_bootstrap_summary() {
+  local container=$1
+  local ip_address=$2
+  local age_key=$3
+
+  echo
+  echo "╔════════════════════════════════════════════════════════════════════════╗"
+  echo "║ Container Bootstrap Complete: $(printf '%-40s' "$container")║"
+  echo "╠════════════════════════════════════════════════════════════════════════╣"
+  echo "║ IP Address:  $(printf '%-57s' "$ip_address")║"
+  echo "║ Age Key:     $(printf '%-57s' "${age_key:0:57}")║"
+  if [ ${#age_key} -gt 57 ]; then
+    echo "║              $(printf '%-57s' "${age_key:57}")║"
+  fi
+  echo "╠════════════════════════════════════════════════════════════════════════╣"
+  echo "║ Next Steps:                                                            ║"
+  echo "║                                                                        ║"
+  echo "║ 1. Add age key to .sops.yaml under the 'hosts:' section:              ║"
+  echo "║    - &lxc-$container $(printf '%-52s' "$age_key")║" | head -c 76
+  echo "║"
+  echo "║                                                                        ║"
+  echo "║ 2. Add a creation_rules entry for containers/secrets/$container.yaml  ║"
+  echo "║    (copy an existing container's entry as template)                   ║"
+  echo "║                                                                        ║"
+  echo "║ 3. If container needs reverse proxy, add to services/caddy.nix:       ║"
+  echo "║    reverse_proxy http://${ip_address}:<port>                          ║"
+  echo "║                                                                        ║"
+  echo "║ 4. Deploy the configuration:                                          ║"
+  echo "║    ./incus-manager.sh deploy $container                               ║"
+  echo "║                                                                        ║"
+  echo "║ 5. Add storage if needed:                                             ║"
+  echo "║    ./incus-manager.sh add-storage $container \\                        ║"
+  echo "║      /mnt/storage/$container /mnt/$container/ --uid <uid>             ║"
+  echo "╚════════════════════════════════════════════════════════════════════════╝"
+  echo
+}
+
+bootstrap_container() {
+  local container=$1
+  local remote=$2
+  local nesting_arg=$3
+
+  echo "=== Starting Bootstrap for $container on remote $remote ==="
+  echo
+
+  # Step 0: Validate
+  echo "Step 0/8: Validating configuration..."
+  if ! validate_bootstrap "$container" "$remote"; then
+    echo "Bootstrap validation failed. Aborting."
+    exit 1
+  fi
+  echo "✓ Validation passed"
+  echo
+
+  # Step 1: Build
+  echo "Step 1/8: Building image..."
+  build_image "$container" || {
+    echo "Build failed. Aborting."
+    exit 1
+  }
+  echo "✓ Build complete"
+  echo
+
+  # Step 2: Import
+  echo "Step 2/8: Importing image to remote..."
+  import_image "$container" "$remote" || {
+    echo "Import failed. Aborting."
+    exit 1
+  }
+  echo "✓ Import complete"
+  echo
+
+  # Step 3: Create persist directory
+  echo "Step 3/8: Creating persist directory..."
+  create_persist_dir "$container" "$remote"
+  echo "✓ Persist directory ready"
+  echo
+
+  # Step 4: Create container
+  echo "Step 4/8: Creating container..."
+  create_container "$container" "$remote" "$nesting_arg" || {
+    echo "Container creation failed. Aborting."
+    exit 1
+  }
+  echo "✓ Container created"
+  echo
+
+  # Step 5: Add persist disk
+  echo "Step 5/8: Adding persist disk..."
+  add_persist_disk "$container" "$remote" || {
+    echo "Adding persist disk failed. Aborting."
+    exit 1
+  }
+  echo "✓ Persist disk added"
+  echo
+
+  # Step 6: Start container
+  echo "Step 6/8: Starting container..."
+  start_container "$container" "$remote" || {
+    echo "Starting container failed. Aborting."
+    exit 1
+  }
+  echo "✓ Container started"
+  echo
+
+  # Step 7: Set static IP
+  echo "Step 7/8: Setting static IP..."
+  set_ip "$container" "$remote" "" || {
+    echo "Setting IP failed. Aborting."
+    exit 1
+  }
+  echo "✓ Static IP configured"
+  echo
+
+  # Step 8: Get age key
+  echo "Step 8/8: Computing age key..."
+  local age_key
+  age_key=$(get_age_key "$container" "$remote") || {
+    echo "Getting age key failed. Aborting."
+    exit 1
+  }
+  echo "✓ Age key computed"
+  echo
+
+  # Get the IP address for the summary
+  local ip_address
+  ip_address=$(incus list "$container" --format=json | jq -r '.[0].state.network.eth0.addresses[] | select(.family == "inet") | .address')
+
+  # Print summary
+  print_bootstrap_summary "$container" "$ip_address" "$age_key"
+}
+
 # --- Main logic ---
 
 if [[ $# -lt 1 ]]; then
@@ -213,6 +418,30 @@ build | import | rebuild | restart | deploy)
     esac
     echo "--- Finished processing $container ---"
   done
+  ;;
+
+bootstrap)
+  CONTAINER=$1
+  shift
+  NESTING_ARG=""
+  if [[ $1 == "--nesting" ]]; then
+    NESTING_ARG="-c security.nesting=true"
+    shift
+  fi
+  while [[ $# -gt 0 ]]; do case $1 in --remote)
+    REMOTE="$2"
+    shift 2
+    ;;
+  *)
+    echo "Unknown option: $1"
+    usage
+    ;;
+  esac done
+  if [ -z "$CONTAINER" ]; then
+    echo "No container specified."
+    usage
+  fi
+  bootstrap_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
   ;;
 
 create)

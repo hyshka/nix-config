@@ -11,18 +11,9 @@ container.mkContainer {
   name = "calibre";
 }
 // {
-  # Set up steps
-  # 1. Import image to Incus: ./incus-manager.sh import calibre
-  # 2. Create container: ./incus-manager.sh create calibre --nesting
-  # 3. On host machine, sudo mkdir /persist/microvms/calibre
-  # 4. Add persist disk for media: ./incus-manager.sh add-persist-disk calibre
-  # 5. Add data storage: incus config device add calibre data disk source=/mnt/storage/mediacenter/media/books/ path=/mnt/books/
-  # 6. Set raw.idmap: incus config set calibre raw.idmap='uid 1000-1000 213-213\ngid 13000-13000 213-213'
-  # 7. Start container: incus start calibre --console
-  # 8. Configure static ip: ./incus-manager.sh set-ip calibre
-  # 9. Compute age key: ./incus-manager.sh get-age-key calibre
-  # 10. Update nix-config with static IP and age key, then run: ./incus-manager.sh deploy calibre
-  # 11. On the host, add root:1000:213 to /etc/subuid and root:13000:213 to /etc/subgid to allow Incus to perform the idmapping
+  # Unique set up:
+  # - Set raw.idmap: incus config set calibre raw.idmap='uid 1000-1000 213-213\ngid 13000-13000 213-213'
+  # - On the host, add root:1000:213 to /etc/subuid and root:13000:213 to /etc/subgid to allow Incus to perform the idmapping
 
   # To generate user db:
   # 1. Run calibre-server with auth disabled

@@ -11,9 +11,6 @@ container.mkContainer {
   name = "samba";
 }
 // {
-  # Set up steps
-  # 8. Add data storage: incus config device add samba storage disk source=/mnt/storage path=/mnt/storage/ raw.mount.options=idmap=b:998:0:1
-
   # Proxy ports from host to container
   # incus config device add samba tcp_proxy proxy listen=tcp:0.0.0.0:139,445 connect=tcp:10.223.27.82:139,445
   # incus config device add samba udp_proxy proxy listen=udp:0.0.0.0:137,138 connect=udp:10.223.27.82:137,138
