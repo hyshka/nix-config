@@ -23,6 +23,8 @@
 
   # TODO smartctl tests & notifications
   # https://github.com/AnalogJ/scrutiny
+  # TODO: disko
+  # Ref: https://github.com/nix-community/disko/issues/840#issuecomment-2423125677
   fileSystems = {
     "/" = {
       device = "/dev/nvme0n1p1";
