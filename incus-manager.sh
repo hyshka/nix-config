@@ -1,8 +1,115 @@
 #! /usr/bin/env nix-shell
-#!nix-shell -i bash -p ssh-to-age
+#!nix-shell -i bash -p ssh-to-age jq
 # shellcheck shell=bash
 
-# --- Helper functions ---
+# --- Configuration & Constants ---
+
+readonly DEFAULT_REMOTE="${INCUS_DEFAULT_REMOTE:-tiny1}"
+readonly DEFAULT_NETWORK_DEVICE="${INCUS_NETWORK_DEVICE:-eth0}"
+readonly PERSIST_BASE_PATH="${INCUS_PERSIST_PATH:-/persist/microvms}"
+readonly CONTAINER_START_WAIT="${INCUS_START_WAIT:-5}"
+readonly CONTAINER_RESTART_TIMEOUT="${INCUS_RESTART_TIMEOUT:-30}"
+
+# --- Utility Functions ---
+
+# Error handling
+error() {
+  echo >&2 "Error: $*"
+  return 1
+}
+
+fatal() {
+  echo >&2 "Error: $*"
+  exit 1
+}
+
+warn() {
+  echo "Warning: $*"
+}
+
+# Check for required tools
+check_required_tools() {
+  local missing_tools=()
+
+  for tool in "$@"; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      missing_tools+=("$tool")
+    fi
+  done
+
+  if [ ${#missing_tools[@]} -gt 0 ]; then
+    error "Required tools not installed: ${missing_tools[*]}"
+    return 1
+  fi
+
+  return 0
+}
+
+# Ensure we're on the correct remote
+ensure_remote() {
+  local remote=$1
+  incus remote switch "$remote" || fatal "Failed to switch to remote '$remote'"
+}
+
+# Get container's IP address
+get_container_ip() {
+  local container=$1
+  local remote=$2
+  local device=${3:-$DEFAULT_NETWORK_DEVICE}
+
+  local ip_address
+  ip_address=$(incus list "$container" --format=json | jq -r ".[0].state.network.${device}.addresses[] | select(.family == \"inet\") | .address")
+
+  if [ -z "$ip_address" ] || [ "$ip_address" == "null" ]; then
+    error "Could not detect IPv4 address for $container on $device"
+    return 1
+  fi
+
+  echo "$ip_address"
+}
+
+# Parse --remote option from arguments
+parse_remote_option() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    --remote)
+      echo "$2"
+      return
+      ;;
+    *)
+      shift
+      ;;
+    esac
+  done
+  echo "$DEFAULT_REMOTE"
+}
+
+# Parse --nesting option from arguments
+parse_nesting_option() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    --nesting)
+      echo "-c security.nesting=true"
+      return
+      ;;
+    *)
+      shift
+      ;;
+    esac
+  done
+  echo ""
+}
+
+# Validate container argument
+require_container() {
+  local container=$1
+  if [ -z "$container" ]; then
+    fatal "No container specified."
+  fi
+  echo "$container"
+}
+
+# --- CLI & Help ---
 
 # Prints usage information
 usage() {
@@ -42,7 +149,7 @@ usage() {
   exit 1
 }
 
-# --- Core functions for each step ---
+# --- Low-level Container Operations ---
 
 build_image() {
   local container=$1
@@ -56,7 +163,7 @@ import_image() {
   local container=$1
   local remote=$2
   echo "Importing image for $container to remote $remote..."
-  incus remote switch "$remote"
+  ensure_remote "$remote"
   local NIXOS_BUILD_ID
   NIXOS_BUILD_ID=$(nix eval --raw ".#nixosConfigurations.$container.config.system.nixos.version")
   local tarball_path
@@ -71,7 +178,7 @@ rebuild_container() {
   local container=$1
   local remote=$2
   echo "Rebuilding container $container on remote $remote..."
-  incus remote switch "$remote"
+  ensure_remote "$remote"
   incus rebuild "nixos/custom/$container" "$container" --force
 }
 
@@ -79,30 +186,28 @@ restart_container() {
   local container=$1
   local remote=$2
   echo "Restarting container $container on remote $remote..."
-  incus remote switch "$remote"
-  incus restart "$container" --timeout 30
+  ensure_remote "$remote"
+  incus restart "$container" --timeout "$CONTAINER_RESTART_TIMEOUT"
 }
 
 start_container() {
   local container=$1
   local remote=$2
   echo "Starting container $container on remote $remote..."
-  incus remote switch "$remote"
+  ensure_remote "$remote"
   incus start "$container"
 
   # Wait a bit for the container to get an IP
   echo "Waiting for container to initialize..."
-  sleep 5
+  sleep "$CONTAINER_START_WAIT"
 }
-
-# --- Setup functions ---
 
 create_container() {
   local container=$1
   local remote=$2
   local nesting_arg=$3
   echo "Creating container $container on remote $remote..."
-  incus remote switch "$remote"
+  ensure_remote "$remote"
   # shellcheck disable=SC2086
   incus create "nixos/custom/$container" "$container" $nesting_arg
 }
@@ -114,12 +219,12 @@ create_persist_dir() {
 
   # Try to create the directory via SSH
   # shellcheck disable=SC2029
-  if ssh "$remote" "sudo mkdir -p /persist/microvms/$container" 2>/dev/null; then
+  if ssh "$remote" "sudo mkdir -p $PERSIST_BASE_PATH/$container" 2>/dev/null; then
     echo "Persist directory created successfully."
   else
-    echo "Warning: Could not create persist directory via SSH."
+    warn "Could not create persist directory via SSH."
     echo "You may need to manually run on $remote:"
-    echo "  sudo mkdir -p /persist/microvms/$container"
+    echo "  sudo mkdir -p $PERSIST_BASE_PATH/$container"
   fi
 }
 
@@ -127,30 +232,21 @@ add_persist_disk() {
   local container=$1
   local remote=$2
   echo "Adding persist disk to $container on remote $remote..."
-  incus remote switch "$remote"
-  incus config device add "$container" persist disk "source=/persist/microvms/$container" "path=/persist" "shift=true"
+  ensure_remote "$remote"
+  incus config device add "$container" persist disk "source=$PERSIST_BASE_PATH/$container" "path=/persist" "shift=true"
 }
 
 set_ip() {
   local container=$1
   local remote=$2
   local ip_address=$3
-  local device=${4:-eth0}
+  local device=${4:-$DEFAULT_NETWORK_DEVICE}
 
-  incus remote switch "$remote"
+  ensure_remote "$remote"
 
   if [ -z "$ip_address" ]; then
-    command -v jq >/dev/null 2>&1 || {
-      echo >&2 "jq is required for IP detection but it's not installed. Aborting."
-      exit 1
-    }
     echo "IP address not provided. Detecting current IP for $container..."
-    ip_address=$(incus list "$container" --format=json | jq -r ".[] | .state.network.${device}.addresses[] | select(.family == \"inet\") | .address")
-    if [ -z "$ip_address" ] || [ "$ip_address" == "null" ]; then
-      echo "Error: Could not detect an IPv4 address for $container."
-      echo "Please ensure the container is running and has a network lease."
-      exit 1
-    fi
+    ip_address=$(get_container_ip "$container" "$remote" "$device") || fatal "Could not detect IPv4 address for $container. Please ensure the container is running and has a network lease."
     echo "Detected IP: $ip_address"
   fi
 
@@ -162,12 +258,8 @@ get_age_key() {
   local container=$1
   local remote=$2
 
-  incus remote switch "$remote"
+  ensure_remote "$remote"
 
-  command -v ssh-to-age >/dev/null 2>&1 || {
-    echo >&2 "ssh-to-age is required but it's not installed. Aborting."
-    exit 1
-  }
   echo "Computing age key for $container from remote $remote..."
   incus exec "$container" -- cat "/persist/etc/ssh/ssh_host_ed25519_key.pub" | ssh-to-age
 }
@@ -180,16 +272,14 @@ add_storage() {
   local uid=$5
 
   echo "Adding storage disk to $container on remote $remote..."
-  incus remote switch "$remote"
+  ensure_remote "$remote"
 
   local device_name
   device_name=$(basename "$host_path")
 
   # Check if device already exists
   if incus config device show "$container" | grep -q "^${device_name}:"; then
-    echo "Error: Device '$device_name' already exists on container $container."
-    echo "Please remove the existing device first or use a different path."
-    exit 1
+    fatal "Device '$device_name' already exists on container $container. Please remove the existing device first or use a different path."
   fi
 
   if [ -n "$uid" ]; then
@@ -210,33 +300,23 @@ add_storage() {
   echo "Storage device '$device_name' added successfully."
 }
 
-# --- Bootstrap helpers ---
+# --- Composite Operations ---
 
 validate_bootstrap() {
   local container=$1
   local remote=$2
 
   # Check if required tools are available
-  command -v jq >/dev/null 2>&1 || {
-    echo >&2 "Error: jq is required but not installed."
-    return 1
-  }
-  command -v ssh-to-age >/dev/null 2>&1 || {
-    echo >&2 "Error: ssh-to-age is required but not installed."
-    return 1
-  }
+  check_required_tools jq ssh-to-age || return 1
 
   # Check if container config exists
   if ! nix eval --raw ".#nixosConfigurations.$container.config.system.nixos.version" 2>/dev/null >/dev/null; then
-    echo >&2 "Error: Container configuration '$container' not found in flake."
-    echo >&2 "Make sure containers/$container.nix exists."
-    return 1
+    error "Container configuration '$container' not found in flake. Make sure containers/$container.nix exists." || return 1
   fi
 
   # Check if remote is accessible
   if ! incus remote list | grep -q "^| $remote "; then
-    echo >&2 "Error: Remote '$remote' not configured in Incus."
-    return 1
+    error "Remote '$remote' not configured in Incus." || return 1
   fi
 
   return 0
@@ -368,13 +448,13 @@ bootstrap_container() {
 
   # Get the IP address for the summary
   local ip_address
-  ip_address=$(incus list "$container" --format=json | jq -r '.[0].state.network.eth0.addresses[] | select(.family == "inet") | .address')
+  ip_address=$(get_container_ip "$container" "$remote") || fatal "Failed to get container IP"
 
   # Print summary
   print_bootstrap_summary "$container" "$ip_address" "$age_key"
 }
 
-# --- Main logic ---
+# --- Main CLI Logic ---
 
 if [[ $# -lt 1 ]]; then
   usage
@@ -382,26 +462,13 @@ fi
 
 COMMAND=$1
 shift
-REMOTE="tiny1" # Default remote
+REMOTE="$DEFAULT_REMOTE"
 
 case "$COMMAND" in
 build | import | rebuild | restart | deploy)
-  CONTAINERS=$1
+  CONTAINERS=$(require_container "$1")
   shift
-  # Parse options
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINERS" ]; then
-    echo "No containers specified."
-    usage
-  fi
+  REMOTE=$(parse_remote_option "$@")
 
   for container in ${CONTAINERS//,/ }; do
     echo "--- Processing container: $container ---"
@@ -420,122 +487,53 @@ build | import | rebuild | restart | deploy)
   done
   ;;
 
-bootstrap)
-  CONTAINER=$1
+bootstrap | create)
+  CONTAINER=$(require_container "$1")
   shift
-  NESTING_ARG=""
-  if [[ $1 == "--nesting" ]]; then
-    NESTING_ARG="-c security.nesting=true"
-    shift
+  NESTING_ARG=$(parse_nesting_option "$@")
+  REMOTE=$(parse_remote_option "$@")
+
+  if [ "$COMMAND" == "bootstrap" ]; then
+    bootstrap_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
+  else
+    create_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
   fi
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINER" ]; then
-    echo "No container specified."
-    usage
-  fi
-  bootstrap_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
   ;;
 
-create)
-  CONTAINER=$1
+add-persist-disk | get-age-key)
+  CONTAINER=$(require_container "$1")
   shift
-  NESTING_ARG=""
-  if [[ $1 == "--nesting" ]]; then
-    NESTING_ARG="-c security.nesting=true"
-    shift
-  fi
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINER" ]; then
-    echo "No container specified."
-    usage
-  fi
-  create_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
-  ;;
+  REMOTE=$(parse_remote_option "$@")
 
-add-persist-disk)
-  CONTAINER=$1
-  shift
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINER" ]; then
-    echo "No container specified."
-    usage
-  fi
-  add_persist_disk "$CONTAINER" "$REMOTE"
+  case "$COMMAND" in
+  add-persist-disk) add_persist_disk "$CONTAINER" "$REMOTE" ;;
+  get-age-key) get_age_key "$CONTAINER" "$REMOTE" ;;
+  esac
   ;;
 
 set-ip)
-  CONTAINER=$1
+  CONTAINER=$(require_container "$1")
   shift
-  IP_ADDRESS=$1
-  shift
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINER" ]; then
-    echo "No container specified."
-    usage
+  IP_ADDRESS=""
+  if [ -n "$1" ] && [[ ! $1 =~ ^-- ]]; then
+    IP_ADDRESS=$1
+    shift
   fi
+  REMOTE=$(parse_remote_option "$@")
   set_ip "$CONTAINER" "$REMOTE" "$IP_ADDRESS"
   ;;
 
-get-age-key)
-  CONTAINER=$1
-  shift
-  while [[ $# -gt 0 ]]; do case $1 in --remote)
-    REMOTE="$2"
-    shift 2
-    ;;
-  *)
-    echo "Unknown option: $1"
-    usage
-    ;;
-  esac done
-  if [ -z "$CONTAINER" ]; then
-    echo "No container specified."
-    usage
-  fi
-  get_age_key "$CONTAINER" "$REMOTE"
-  ;;
-
 add-storage)
-  CONTAINER=$1
+  CONTAINER=$(require_container "$1")
   shift
   HOST_PATH=$1
   shift
   CONTAINER_PATH=$1
   shift
   UID=""
-  while [[ $# -gt 0 ]]; do case $1 in
+
+  while [[ $# -gt 0 ]]; do
+    case $1 in
     --uid)
       UID="$2"
       shift 2
@@ -545,15 +543,16 @@ add-storage)
       shift 2
       ;;
     *)
-      echo "Unknown option: $1"
-      usage
+      fatal "Unknown option: $1"
       ;;
-    esac done
-  if [ -z "$CONTAINER" ] || [ -z "$HOST_PATH" ] || [ -z "$CONTAINER_PATH" ]; then
-    echo "Container, host path, and container path are required."
-    usage
+    esac
+  done
+
+  if [ -z "$HOST_PATH" ] || [ -z "$CONTAINER_PATH" ]; then
+    fatal "Host path and container path are required."
   fi
-  add_storage "$CONTAINER" "$REMOTE" "$HOST_PATH" "$CONTAINER_PATH" "$UID"
+
+  add_storage "$CONTAINER" "${REMOTE:-$DEFAULT_REMOTE}" "$HOST_PATH" "$CONTAINER_PATH" "$UID"
   ;;
 
 *)
