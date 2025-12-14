@@ -18,6 +18,8 @@ usage() {
   echo "Setup Commands (operate on a single container):"
   echo "  create     <container> [--nesting]     Creates a new container from a nixos/custom/<container> image."
   echo "  add-persist-disk <container>           Adds a standard persist disk for the container."
+  echo "  add-storage <container> <host_path> <container_path> [--uid <uid>]"
+  echo "                                         Adds a storage disk mount with optional ID mapping."
   echo "  set-ip     <container> [ip_address]    Sets a static IP. Detects current IP if not provided."
   echo "  get-age-key <container>                Computes the age public key from the container's SSH host key."
   echo
@@ -127,6 +129,44 @@ get_age_key() {
   }
   echo "Computing age key for $container from remote $remote..."
   incus exec "$container" -- cat "/persist/etc/ssh/ssh_host_ed25519_key.pub" | ssh-to-age
+}
+
+add_storage() {
+  local container=$1
+  local remote=$2
+  local host_path=$3
+  local container_path=$4
+  local uid=$5
+
+  echo "Adding storage disk to $container on remote $remote..."
+  incus remote switch "$remote"
+
+  local device_name
+  device_name=$(basename "$host_path")
+
+  # Check if device already exists
+  if incus config device show "$container" | grep -q "^${device_name}:"; then
+    echo "Error: Device '$device_name' already exists on container $container."
+    echo "Please remove the existing device first or use a different path."
+    exit 1
+  fi
+
+  if [ -n "$uid" ]; then
+    echo "Configuring with ID mapping for UID $uid..."
+    incus config device add "$container" "$device_name" disk \
+      source="$host_path" \
+      path="$container_path" \
+      raw.mount.options="idmap=b:${uid}:0:1"
+
+    incus config set "$container" raw.idmap "both 0 ${uid}"
+  else
+    echo "Adding storage without ID mapping..."
+    incus config device add "$container" "$device_name" disk \
+      source="$host_path" \
+      path="$container_path"
+  fi
+
+  echo "Storage device '$device_name' added successfully."
 }
 
 # --- Main logic ---
@@ -256,6 +296,35 @@ get-age-key)
     usage
   fi
   get_age_key "$CONTAINER" "$REMOTE"
+  ;;
+
+add-storage)
+  CONTAINER=$1
+  shift
+  HOST_PATH=$1
+  shift
+  CONTAINER_PATH=$1
+  shift
+  UID=""
+  while [[ $# -gt 0 ]]; do case $1 in
+    --uid)
+      UID="$2"
+      shift 2
+      ;;
+    --remote)
+      REMOTE="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1"
+      usage
+      ;;
+    esac done
+  if [ -z "$CONTAINER" ] || [ -z "$HOST_PATH" ] || [ -z "$CONTAINER_PATH" ]; then
+    echo "Container, host path, and container path are required."
+    usage
+  fi
+  add_storage "$CONTAINER" "$REMOTE" "$HOST_PATH" "$CONTAINER_PATH" "$UID"
   ;;
 
 *)
