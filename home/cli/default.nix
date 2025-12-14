@@ -30,5 +30,9 @@
     unzip
     ctop # container stats
     nh # better CLI for nixos-rebuild and darwin-rebuild
+    # sops-nix
+    sops
+    ssh-to-age
+    age
   ];
 }
