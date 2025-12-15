@@ -27,6 +27,12 @@ in
     };
   };
 
+  # shell show which Nix package (if any) provides a missing command
+  programs.command-not-found = {
+    enable = true;
+    dbPath = "${inputs.nixpkgs}/programs.sqlite";
+  };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = lib.mkIf isLinux "sd-switch";
 
