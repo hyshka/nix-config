@@ -1,4 +1,5 @@
-{ ...}: let
+{ ... }:
+let
   SYSTEM_REVIEW = ''
     [[Your task is to review the provided code snippet, focusing specifically on its readability and maintainability.
     Identify any issues related to:
@@ -21,44 +22,18 @@
     If the code snippet has no readability issues, simply confirm that the code is clear and well-written as is.
     ]]
   '';
-in {
+in
+{
   programs.nixvim = {
-    #extraPlugins = [
-    #  pkgs.vimPlugins.vectorcode-nvim
-    #];
-    #extraPackages = [pkgs.vectorcode];
-
     plugins.codecompanion = {
       enable = true;
       settings = {
-        extensions = {
-          mcphub = {
-            callback = "mcphub.extensions.codecompanion";
-            opts = {
-              make_tools = true;
-              show_server_tools_in_chat = true;
-              add_mcp_prefix_to_tool_names = false;
-              show_result_in_chat = true;
-              format_tool = null;
-              make_vars = true;
-              make_slash_commands = true;
-            };
-          };
-          # https://github.com/Davidyz/VectorCode/blob/main/docs/neovim/README.md#olimorriscodecompanionnvim
-          #vectorcode = {
-          #  enabled = true;
-          #  opts = {
-          #    add_tool = true;
-          #    add_slash_command = true;
-          #  };
-          #};
-        };
         prompt_library = {
           "Review" = {
             strategy = "chat";
             description = "Review the selected code in a buffer and suggest improvements.";
             opts = {
-              modes = ["v"];
+              modes = [ "v" ];
               short_name = "review";
               auto_submit = true;
               user_prompt = false;
@@ -75,21 +50,21 @@ in {
               {
                 role = "user";
                 content.__raw = ''
-                  function(context)
-                    local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
+                                    function(context)
+                                      local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
 
-                    return string.format([[
-                      Please review this code from buffer %d and provide suggestions for improvement then refactor the following code to improve its clarity and readability.
+                                      return string.format([[
+                                        Please review this code from buffer %d and provide suggestions for improvement then refactor the following code to improve its clarity and readability.
 
-```%s
-%s
-```
-]],
-                      context.bufnr,
-                      context.filetype,
-                      code
-                    )
-                  end
+                  ```%s
+                  %s
+                  ```
+                  ]],
+                                        context.bufnr,
+                                        context.filetype,
+                                        code
+                                      )
+                                    end
                 '';
                 opts = {
                   contains_code = true;
@@ -109,17 +84,17 @@ in {
               {
                 role = "user";
                 content.__raw = ''
-                  function()
-                    return string.format(
-                      [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me. If the branch name contains "sc-" with a number following it, include that tag on a separately line at the bottom of the commit message. E.g. "Issue: [sc-12345]"
+                                    function()
+                                      return string.format(
+                                        [[You are an expert at following the Conventional Commit specification. Given the git diff listed below, please generate a commit message for me. If the branch name contains "sc-" with a number following it, include that tag on a separately line at the bottom of the commit message. E.g. "Issue: [sc-12345]"
 
-```diff
-%s
-```
-]],
-                      vim.fn.system("git diff --no-ext-diff --staged")
-                    )
-                  end
+                  ```diff
+                  %s
+                  ```
+                  ]],
+                                        vim.fn.system("git diff --no-ext-diff --staged")
+                                      )
+                                    end
                 '';
                 opts = {
                   contains_code = true;
@@ -133,19 +108,25 @@ in {
 
     keymaps = [
       {
-        mode = ["v" "n"];
+        mode = [
+          "v"
+          "n"
+        ];
         key = "<leader>ca";
         action = "<cmd>CodeCompanionActions<cr>";
         options.desc = "Actions (CodeCompanion)";
       }
       {
-        mode = ["v" "n"];
+        mode = [
+          "v"
+          "n"
+        ];
         key = "<leader>a";
         action = "<cmd>CodeCompanionChat Toggle<cr>";
         options.desc = "Chat Toggle (CodeCompanion)";
       }
       {
-        mode = ["v"];
+        mode = [ "v" ];
         key = "ga";
         action = "<cmd>CodeCompanionChat Add<cr>";
         options.desc = "Add visually selected chat to the current chat buffer (CodeCompanion)";

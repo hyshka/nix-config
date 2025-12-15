@@ -32,7 +32,6 @@ in
     ./plugins/custom/orgmode.nix
     ./plugins/custom/copilot.nix
     ./plugins/custom/oil.nix
-    ./plugins/custom/mcphub.nix
     ./plugins/custom/codecompanion.nix
   ];
 
