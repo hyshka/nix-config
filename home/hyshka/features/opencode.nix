@@ -94,6 +94,10 @@
       source = ./command/review-changes.md;
       target = "opencode/command/review-changes.md";
     };
+    "command-review-pr" = {
+      source = ./command/review-pr.md;
+      target = "opencode/command/review-pr.md";
+    };
     "plugin-notification" = {
       text = ''
         export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {
