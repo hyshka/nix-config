@@ -1,5 +1,6 @@
 ---
 description: Review uncommitted changes and generate a commit message
+agent: build
 model: github-copilot/gpt-4.1
 ---
 

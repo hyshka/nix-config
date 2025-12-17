@@ -1,5 +1,6 @@
 ---
 description: Review a pull request
+agent: plan
 model: github-copilot/claude-sonnet-4.5
 ---
 
@@ -7,7 +8,7 @@ Review the pull request using GitHub MCP tools and provide actionable feedback f
 
 ## Context
 
-[Provide PR URL, e.g., https://github.com/owner/repo/pull/123]
+$ARGUMENTS
 
 ## Review Checklist
 
