@@ -7,9 +7,8 @@
   imports = [
     ./global
     ./features/alacritty.nix
-    ./features/plasma.nix
-    ./features/logseq.nix
     ./features/opencode.nix
+    ./features/sway.nix
 
     # TODO
     ../nixvim

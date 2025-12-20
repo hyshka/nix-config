@@ -10,8 +10,8 @@
 
     ../common/optional/android.nix
     ../common/optional/pipewire.nix
-    ../common/optional/plasma.nix
-    ../common/optional/powertop.nix
+    ../common/optional/sway.nix
+    ../common/optional/battery.nix
     ../common/optional/wireless.nix
     ../common/optional/nixremote_local.nix
   ];
