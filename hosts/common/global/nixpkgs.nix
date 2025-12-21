@@ -1,9 +1,11 @@
-{ outputs, ... }:
+{ outputs, lib, ... }:
 {
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
+    config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "hello-unfree"
+      ];
   };
 }

@@ -7,7 +7,6 @@
   imports = [
     ./global
     ./features/alacritty.nix
-    ./features/opencode.nix
     ./features/sway.nix
 
     # TODO
@@ -21,7 +20,6 @@
   home.packages = with pkgs; [
     libreoffice-qt
     mullvad-vpn
-    spotify-player
     brave
     incus
   ];

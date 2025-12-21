@@ -28,9 +28,10 @@ in
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = _: true;
-    };
+    config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "hello-unfree"
+      ];
   };
 }
