@@ -8,6 +8,7 @@
     ./global
     ./features/alacritty.nix
     ./features/sway.nix
+    ./features/claude.nix
 
     # TODO
     ../nixvim

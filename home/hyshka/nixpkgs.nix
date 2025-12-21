@@ -31,7 +31,7 @@ in
     config.allowUnfreePredicate =
       pkg:
       builtins.elem (lib.getName pkg) [
-        "hello-unfree"
+        "claude-code"
       ];
   };
 }
