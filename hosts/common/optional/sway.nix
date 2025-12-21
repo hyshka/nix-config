@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   security.polkit.enable = true;
   # Screen sharing under wayland
