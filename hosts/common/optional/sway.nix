@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   security.polkit.enable = true;
   # Screen sharing under wayland
@@ -8,11 +8,18 @@
       wlr.enable = true;
     };
   };
-  services.getty = {
-    autologinUser = "hyshka";
-    autologinOnce = true;
+
+  # Use greetd instead of getty autologin for proper session management
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd sway";
+        user = "greeter";
+      };
+    };
   };
-  environment.loginShellInit = ''
-    [[ "$(tty)" == /dev/tty1 ]] && sway
-  '';
+
+  # swaylock support
+  security.pam.services.swaylock = { };
 }

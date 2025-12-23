@@ -47,7 +47,6 @@ in
         xkb_layout = "us";
         xkb_options = "caps:escape";
         tap = "enabled";
-        natural_scroll = "enabled";
       };
 
       output."*".bg = "#303446 solid_color";
@@ -249,16 +248,10 @@ in
   # Swayidle with auto-suspend on battery
   services.swayidle = {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-      {
-        event = "lock";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-    ];
+    events = {
+      "before-sleep" = "${pkgs.swaylock}/bin/swaylock -f";
+      "lock" = "${pkgs.swaylock}/bin/swaylock -f";
+    };
     timeouts = [
       {
         timeout = 300;
@@ -271,11 +264,7 @@ in
       }
       {
         timeout = 1200;
-        command = ''
-          if [ "$(cat /sys/class/power_supply/BAT*/status)" = "Discharging" ]; then
-            ${pkgs.systemd}/bin/systemctl suspend
-          fi
-        '';
+        command = ''if [ "$(cat /sys/class/power_supply/BAT*/status)" = "Discharging" ]; then ${pkgs.systemd}/bin/systemctl suspend; fi'';
       }
     ];
   };
@@ -310,15 +299,17 @@ in
   # Mako notifications
   services.mako = {
     enable = true;
-    font = "${config.fontProfiles.sans-serif.family} 11";
-    backgroundColor = "#303446dd";
-    textColor = "#c6d0f5";
-    borderColor = "#babbf1";
-    borderRadius = 8;
-    borderSize = 2;
-    defaultTimeout = 5000;
-    maxVisible = 3;
-    layer = "overlay";
+    settings = {
+      font = "${config.fontProfiles.sans-serif.family} 11";
+      backgroundColor = "#303446dd";
+      textColor = "#c6d0f5";
+      borderColor = "#babbf1";
+      borderRadius = 8;
+      borderSize = 2;
+      defaultTimeout = 5000;
+      maxVisible = 3;
+      layer = "overlay";
+    };
   };
 
   # Clipboard service
@@ -334,6 +325,36 @@ in
     longitude = "-75.0";
     temperature.day = 6500;
     temperature.night = 3500;
+  };
+
+  # Kanshi - automatic display configuration
+  services.kanshi = {
+    enable = true;
+    systemdTarget = "sway-session.target";
+    settings = [
+      {
+        profile.name = "laptop-only";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            status = "enable";
+          }
+        ];
+      }
+      {
+        profile.name = "external-only";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            status = "disable";
+          }
+          {
+            criteria = "*";
+            status = "enable";
+          }
+        ];
+      }
+    ];
   };
 
   # Packages
