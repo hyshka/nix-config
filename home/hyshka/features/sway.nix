@@ -321,8 +321,8 @@ in
   # Blue light filter
   services.wlsunset = {
     enable = true;
-    latitude = "43.0";
-    longitude = "-75.0";
+    latitude = "53.6";
+    longitude = "-113.3";
     temperature.day = 6500;
     temperature.night = 3500;
   };
