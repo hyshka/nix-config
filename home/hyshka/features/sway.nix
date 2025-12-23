@@ -336,9 +336,6 @@ in
     temperature.night = 3500;
   };
 
-  # Disable wofi
-  programs.wofi.enable = false;
-
   # Packages
   home.packages = with pkgs; [
     grim
