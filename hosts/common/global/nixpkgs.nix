@@ -6,6 +6,12 @@
       pkg:
       builtins.elem (lib.getName pkg) [
         "claude-code"
+        "steam"
+        "steam-unwrapped"
+        "discord"
+        "slack"
+        "spotify"
+        "fmod"
       ];
   };
 }
