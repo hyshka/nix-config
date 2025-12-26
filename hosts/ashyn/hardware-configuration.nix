@@ -18,9 +18,7 @@
   boot.initrd.kernelModules = [ "i915" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [
-    # offload some media encoding to the GPU
-    "i915.enable_guc=2"
-    # Optional power-saving parameters (test one at a time if needed)
+    "i915.enable_guc=2" # offload some media encoding to the GPU
     "i915.enable_fbc=1" # Framebuffer compression
     "i915.enable_psr=2" # Panel Self Refresh (aggressive)
     "i915.fastboot=1" # Faster boot

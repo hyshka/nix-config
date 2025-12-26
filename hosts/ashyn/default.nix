@@ -9,11 +9,13 @@
     ../common/users/hyshka
 
     ../common/optional/android.nix
+    ../common/optional/ananicy.nix
+    ../common/optional/battery.nix
+    ../common/optional/earlyoom.nix
+    ../common/optional/nixremote_local.nix
     ../common/optional/pipewire.nix
     ../common/optional/sway.nix
-    ../common/optional/battery.nix
     ../common/optional/wireless.nix
-    ../common/optional/nixremote_local.nix
   ];
 
   networking.hostName = "ashyn";
