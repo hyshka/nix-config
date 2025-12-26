@@ -14,7 +14,7 @@ in
 {
   programs.claude-code = {
     enable = true;
-    package = inputs.nix-ai-tools.packages.${pkgs.system}.claude-code;
+    package = inputs.llm-agents.packages.${pkgs.system}.claude-code;
     settings = {
       includeCoAuthoredBy = false;
       defaultMode = "plan";
@@ -221,7 +221,7 @@ in
     };
   };
   home.packages = [
-    inputs.nix-ai-tools.packages.${pkgs.system}.claude-code-router
+    inputs.llm-agents.packages.${pkgs.system}.claude-code-router
   ];
   xdg.configFile = {
     "claude-code-router" = {
