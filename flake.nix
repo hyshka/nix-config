@@ -153,7 +153,7 @@
       formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);
 
       # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
+      # nh os switch
       nixosConfigurations = {
         starship = lib.nixosSystem {
           modules = [ ./hosts/starship ];
@@ -221,9 +221,7 @@
       };
 
       # Nix-Darwin configuration entrypoint
-      # nix run 'nix-darwin#darwin-rebuild' -- switch --flake .
-      # nix run nix-darwin -- switch --flake .
-      # darwin-rebuild switch --flake .
+      # nh darwin switch
       darwinConfigurations = {
         "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
           modules = [ ./hosts/bryan-macbook ];
