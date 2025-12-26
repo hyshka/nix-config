@@ -23,18 +23,6 @@
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
       warn-dirty = false;
-      trusted-substituters = [
-        "https://nix-community.cachix.org"
-        "https://mic92.cachix.org"
-        "https://nix-darwin.cachix.org"
-        "https://catppuccin.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "mic92.cachix.org-1:gi8IhgiT3CYZnJsaW7fxznzTkMUOn1RY4GmXdT/nXYQ="
-        "nix-darwin.cachix.org-1:LxMyKzQk7Uqkc1Pfq5uhm9GSn07xkERpy+7cpwc006A="
-        "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
-      ];
       trusted-users = [ "@wheel" ];
     };
 
