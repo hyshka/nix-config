@@ -126,9 +126,28 @@
           system,
           hostname,
           username ? "hyshka",
+          nixpkgsConfig ? {
+            allowUnfreePredicate =
+              pkg:
+              builtins.elem (lib.getName pkg) [
+                # Explicity add unfree packages for home-manager
+                "claude-code"
+                "steam"
+                "steam-unwrapped"
+                "discord"
+                "slack"
+                "spotify"
+              ];
+          },
         }:
+        let
+          pkgs = import nixpkgs {
+            system = system;
+            config = nixpkgsConfig;
+          };
+        in
         home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.${system};
+          inherit pkgs;
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/${username}/${hostname}.nix ];
         };

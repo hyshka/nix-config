@@ -5,12 +5,9 @@
     config.allowUnfreePredicate =
       pkg:
       builtins.elem (lib.getName pkg) [
-        "claude-code"
+        # Explicity add unfree packages for NixOS
         "steam"
         "steam-unwrapped"
-        "discord"
-        "slack"
-        "spotify"
         "fmod"
       ];
   };
