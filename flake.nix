@@ -119,6 +119,19 @@
         in
         (treefmt-nix.lib.evalModule pkgs ./treefmt.nix)
       );
+
+      # Helper to create standalone home-manager configurations
+      mkHome =
+        {
+          system,
+          hostname,
+          username ? "hyshka",
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home/${username}/${hostname}.nix ];
+        };
     in
     {
       inherit lib;
@@ -226,6 +239,27 @@
         "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
           modules = [ ./hosts/bryan-macbook ];
           specialArgs = { inherit inputs outputs; };
+        };
+      };
+
+      # Standalone home-manager configurations
+      # Usage: nh home switch . -c hyshka@hostname
+      homeConfigurations = {
+        "hyshka@tiny1" = mkHome {
+          system = "x86_64-linux";
+          hostname = "tiny1";
+        };
+        "hyshka@starship" = mkHome {
+          system = "x86_64-linux";
+          hostname = "starship";
+        };
+        "hyshka@ashyn" = mkHome {
+          system = "x86_64-linux";
+          hostname = "ashyn";
+        };
+        "hyshka@macbook" = mkHome {
+          system = "aarch64-darwin";
+          hostname = "macbook";
         };
       };
     };

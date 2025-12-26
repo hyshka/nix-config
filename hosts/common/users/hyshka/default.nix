@@ -32,6 +32,4 @@ in
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
   };
-
-  home-manager.users.hyshka = import ../../../../home/hyshka/${config.networking.hostName}.nix;
 }

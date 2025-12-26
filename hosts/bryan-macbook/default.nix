@@ -1,13 +1,10 @@
 {
   inputs,
-  outputs,
   lib,
   ...
 }:
 {
   imports = [
-    inputs.home-manager.darwinModules.home-manager
-
     # ../common/global/default.nix doesn't work for darwin as it includes nixosModules
     ../common/global/nix.nix
     ../common/global/nixpkgs.nix
@@ -18,11 +15,6 @@
     ./system.nix
     ./users.nix
   ];
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.extraSpecialArgs = {
-    inherit inputs outputs;
-  };
 
   time.timeZone = "America/Edmonton";
 

@@ -18,8 +18,8 @@ The repository follows a modular architecture with reusable components:
   - `hosts/common/optional/`: Opt-in configurations (e.g., plasma, sway, pipewire, wireless)
   - `hosts/common/users/`: User account definitions
 
-- **`home/`**: Home-manager user configurations
-  - `home/<username>/<hostname>.nix`: Per-host user configuration (imported via `hosts/common/users/<username>/default.nix`)
+- **`home/`**: Home-manager user configurations (standalone, deployed separately from system)
+  - `home/<username>/<hostname>.nix`: Per-host user configuration
   - `home/<username>/global/`: User-level global settings
   - `home/<username>/features/`: Modular home-manager features (e.g., alacritty, sway, claude)
   - `home/cli/`: CLI tool configurations (bat, git, tmux, zsh, etc.)
@@ -67,7 +67,7 @@ Secrets are managed using sops-nix with age encryption:
 
 ### Building and Switching Configurations
 
-**NixOS hosts:**
+**NixOS hosts (system only):**
 ```bash
 # Build and switch (requires root)
 sudo nixos-rebuild switch --flake .#<hostname>
@@ -79,15 +79,25 @@ nixos-rebuild build --flake .#<hostname>
 sudo nixos-rebuild test --flake .#<hostname>
 ```
 
-**macOS (nix-darwin):**
+**macOS (nix-darwin, system only):**
 ```bash
 darwin-rebuild switch --flake .#hyshka-D5920DQ4RN
 ```
 
-**Home-manager only:**
+**Home-manager (user environment, deployed separately):**
 ```bash
+# Using home-manager directly
 home-manager switch --flake .#hyshka@<hostname>
+
+# Using nh (recommended)
+nh home switch . -c hyshka@<hostname>
+
+# Available configurations:
+# - hyshka@tiny1, hyshka@starship, hyshka@ashyn (x86_64-linux)
+# - hyshka@macbook (aarch64-darwin)
 ```
+
+**Note:** System and home-manager configurations are decoupled. After `nixos-rebuild switch`, run `nh home switch` separately to update user environment.
 
 ### Incus Container Management
 
@@ -173,6 +183,7 @@ nix flake check
 5. Create `hosts/<hostname>/secrets.yaml` if needed
 6. Create `home/<username>/<hostname>.nix` for user configuration
 7. Add to `flake.nix` under `nixosConfigurations` or `darwinConfigurations`
+8. Add to `flake.nix` under `homeConfigurations` using `mkHome` helper
 
 ### Adding a New Module
 
