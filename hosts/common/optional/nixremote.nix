@@ -6,8 +6,6 @@
     description = "Nix Remote Builder User";
     isNormalUser = true;
     group = "nixremote";
-    # Don't allow shell access
-    useDefaultShell = false;
     # Disable su and password login
     hashedPasswordFile = null;
     hashedPassword = "!";
