@@ -17,66 +17,68 @@ in
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       includeCoAuthoredBy = false;
-      defaultMode = "plan";
       hooks = hooks;
-      allow = [
-        # Safe read-only git commands
-        "Bash(git add:*)"
-        "Bash(git status)"
-        "Bash(git log:*)"
-        "Bash(git diff:*)"
-        "Bash(git show:*)"
-        "Bash(git branch:*)"
-        "Bash(git remote:*)"
+      permissions = {
+        defaultMode = "plan";
+        allow = [
+          # Safe read-only git commands
+          "Bash(git add:*)"
+          "Bash(git status)"
+          "Bash(git log:*)"
+          "Bash(git diff:*)"
+          "Bash(git show:*)"
+          "Bash(git branch:*)"
+          "Bash(git remote:*)"
 
-        # Safe Nix commands (mostly read-only)
-        "Bash(nix:*)"
+          # Safe Nix commands (mostly read-only)
+          "Bash(nix:*)"
 
-        # Safe file system operations
-        "Bash(ls:*)"
-        "Bash(find:*)"
-        "Bash(grep:*)"
-        "Bash(rg:*)"
-        "Bash(cat:*)"
-        "Bash(head:*)"
-        "Bash(tail:*)"
-        "Bash(mkdir:*)"
-        "Bash(chmod:*)"
+          # Safe file system operations
+          "Bash(ls:*)"
+          "Bash(find:*)"
+          "Bash(grep:*)"
+          "Bash(rg:*)"
+          "Bash(cat:*)"
+          "Bash(head:*)"
+          "Bash(tail:*)"
+          "Bash(mkdir:*)"
+          "Bash(chmod:*)"
 
-        # Safe Docker commands
-        "Bash(docker container exec:*)"
-        "Bash(docker compose exec:*)"
+          # Safe Docker commands
+          "Bash(docker container exec:*)"
+          "Bash(docker compose exec:*)"
 
-        # Core Claude Code tools
-        "Glob(*)"
-        "Grep(*)"
-        "LS(*)"
-        "Read(*)"
-        "Search(*)"
-        "Task(*)"
-        "TodoWrite(*)"
+          # Core Claude Code tools
+          "Glob(*)"
+          "Grep(*)"
+          "LS(*)"
+          "Read(*)"
+          "Search(*)"
+          "Task(*)"
+          "TodoWrite(*)"
 
-        # Safe web fetch from trusted domains
-        "WebFetch(domain:github.com)"
-        "WebFetch(domain:raw.githubusercontent.com)"
+          # Safe web fetch from trusted domains
+          "WebFetch(domain:github.com)"
+          "WebFetch(domain:raw.githubusercontent.com)"
 
-        # GitHub tools (read-only)
-        "mcp__github__search_repositories"
-        "mcp__github__get_file_contents"
+          # GitHub tools (read-only)
+          "mcp__github__search_repositories"
+          "mcp__github__get_file_contents"
 
-        # cclsp tools (read-only)
-        "mcp__cclsp__find_definition"
-        "mcp__cclsp__find_references"
-        "mcp__cclsp__get_diagnostics"
-        "mcp__cclsp__restart_server"
-      ];
-      deny = [
-        "Read(**/.env*)"
-        "Read(**/*.pem)"
-        "Read(**/*.key)"
-        "Read(**/.aws/**)"
-        "Read(**/.ssh/**)"
-      ];
+          # cclsp tools (read-only)
+          "mcp__cclsp__find_definition"
+          "mcp__cclsp__find_references"
+          "mcp__cclsp__get_diagnostics"
+          "mcp__cclsp__restart_server"
+        ];
+        deny = [
+          "Read(**/.env*)"
+          "Read(**/*.pem)"
+          "Read(**/*.key)"
+          "Read(**/.aws/**)"
+          "Read(**/.ssh/**)"
+        ];
+      };
     };
     mcpServers = {
       github = {
