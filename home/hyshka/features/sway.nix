@@ -327,6 +327,14 @@ in
     temperature.night = 3500;
   };
 
+  # USB auto-mounting with tray icon
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    tray = "auto";
+  };
+
   # Kanshi - automatic display configuration
   services.kanshi = {
     enable = true;

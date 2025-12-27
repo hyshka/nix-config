@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   security.polkit.enable = true;
+  services.udisks2.enable = true;
   # Screen sharing under wayland
   xdg = {
     portal = {
