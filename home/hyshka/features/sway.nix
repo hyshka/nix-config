@@ -302,13 +302,13 @@ in
     enable = true;
     settings = {
       font = "${config.fontProfiles.sans-serif.family} 11";
-      backgroundColor = "#303446dd";
-      textColor = "#c6d0f5";
-      borderColor = "#babbf1";
-      borderRadius = 8;
-      borderSize = 2;
-      defaultTimeout = 5000;
-      maxVisible = 3;
+      background-color = "#303446dd";
+      text-color = "#c6d0f5";
+      border-color = "#babbf1";
+      border-radius = 8;
+      border-size = 2;
+      default-timeout = 5000;
+      max-visible = 3;
       layer = "overlay";
     };
   };
@@ -380,5 +380,6 @@ in
     brightnessctl
     networkmanagerapplet
     blueman
+    libnotify
   ];
 }
