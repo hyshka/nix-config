@@ -3,8 +3,7 @@
 {
   pkgs ? import <nixpkgs> { },
 }:
-rec {
+{
   # example = pkgs.callPackage ./example { };
-  ansel = pkgs.callPackage ./ansel { };
   snapraid-collector = pkgs.callPackage ./snapraid-collector { };
 }

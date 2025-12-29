@@ -26,7 +26,6 @@
     discord
     vesktop
     slack
-    #ansel # TODO: fix
     #vkdt # TODO: fix
     darktable
     hugin
