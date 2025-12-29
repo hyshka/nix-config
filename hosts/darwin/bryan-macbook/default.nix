@@ -5,8 +5,7 @@
 }:
 {
   imports = [
-    ../common/global
-
+    ../common
     ./homebrew.nix
     ./system.nix
     ./users.nix

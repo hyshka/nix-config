@@ -17,7 +17,7 @@ The repository follows a modular architecture with reusable components:
   - `hosts/nixos/`: NixOS hosts and configurations
     - `hosts/nixos/<hostname>/default.nix`: Main entry point for each NixOS host
     - `hosts/nixos/common/global/`: Configurations applied to all NixOS hosts (imports all `outputs.nixosModules`)
-    - `hosts/nixos/common/optional/`: Opt-in NixOS configurations (e.g., plasma, sway, pipewire, wireless)
+    - `hosts/nixos/common/`: Opt-in NixOS configurations (e.g., plasma, sway, pipewire, wireless)
     - `hosts/nixos/common/users/`: NixOS user account definitions
   - `hosts/darwin/`: nix-darwin (macOS) hosts and configurations
     - `hosts/darwin/<hostname>/default.nix`: Main entry point for each darwin host
@@ -182,7 +182,7 @@ nix flake check
 ### Adding a New Host
 
 1. Create `hosts/<hostname>/default.nix`
-2. Import desired modules from `hosts/common/global/` and `hosts/common/optional/`
+2. Import desired modules from `hosts/common/global/` and `hosts/common/`
 3. Add host-specific configuration (hardware, networking, etc.)
 4. Generate age key and add to `.sops.yaml`
 5. Create `hosts/<hostname>/secrets.yaml` if needed
@@ -223,7 +223,7 @@ Follow the workflow in `containers/README.md`:
 ### Module Organization
 
 - Global configurations go in `hosts/common/global/`
-- Optional features go in `hosts/common/optional/`
+- Optional features go in `hosts/common/`
 - User configurations are per-host in `home/<username>/<hostname>.nix`
 - Keep modules focused and composable
 

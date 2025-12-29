@@ -12,7 +12,7 @@
 
     ../common/global
     ../common/users/hyshka
-    ../common/optional/nixremote.nix
+    ../common/nixremote.nix
 
     ./services
   ];

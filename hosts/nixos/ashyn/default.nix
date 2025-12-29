@@ -8,14 +8,14 @@
     ../common/global
     ../common/users/hyshka
 
-    ../common/optional/android.nix
-    ../common/optional/ananicy.nix
-    ../common/optional/battery.nix
-    ../common/optional/earlyoom.nix
-    ../common/optional/nixremote_local.nix
-    ../common/optional/pipewire.nix
-    ../common/optional/sway.nix
-    ../common/optional/wireless.nix
+    ../common/android.nix
+    ../common/ananicy.nix
+    ../common/battery.nix
+    ../common/earlyoom.nix
+    ../common/nixremote_local.nix
+    ../common/pipewire.nix
+    ../common/sway.nix
+    ../common/wireless.nix
   ];
 
   networking.hostName = "ashyn";

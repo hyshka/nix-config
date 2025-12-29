@@ -10,9 +10,9 @@
     ../common/global
     ../common/users/hyshka
 
-    ../common/optional/android.nix
-    ../common/optional/pipewire.nix
-    ../common/optional/plasma.nix
+    ../common/android.nix
+    ../common/pipewire.nix
+    ../common/plasma.nix
 
     ./docker.nix
     ./doom.nix
