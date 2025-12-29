@@ -23,4 +23,8 @@
 
   # swaylock support
   security.pam.services.swaylock = { };
+
+  # gnome-keyring for secrets (WiFi passwords, etc.)
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 }

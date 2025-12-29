@@ -39,6 +39,7 @@ in
 
       startup = [
         { command = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator"; }
+        { command = "${pkgs.blueman}/bin/blueman-applet"; }
       ];
 
       bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
@@ -365,6 +366,12 @@ in
     ];
   };
 
+  # gnome-keyring for secrets (WiFi passwords, etc.)
+  services.gnome-keyring = {
+    enable = true;
+    components = [ "secrets" ];
+  };
+
   # Packages
   home.packages = with pkgs; [
     grim
@@ -372,5 +379,6 @@ in
     wl-clipboard
     brightnessctl
     networkmanagerapplet
+    blueman
   ];
 }
