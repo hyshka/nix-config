@@ -5,11 +5,7 @@
 }:
 {
   imports = [
-    # ../common/global/default.nix doesn't work for darwin as it includes nixosModules
-    ../common/global/nix.nix
-    ../common/global/nixpkgs.nix
-    ../common/global/zsh.nix
-    ../common/global/fonts.nix
+    ../common/global
 
     ./homebrew.nix
     ./system.nix

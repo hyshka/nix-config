@@ -12,11 +12,16 @@ This is a NixOS and macOS configuration repository using Nix Flakes. It manages 
 
 The repository follows a modular architecture with reusable components:
 
-- **`hosts/`**: Per-host system configurations
-  - `hosts/<hostname>/default.nix`: Main entry point for each host
-  - `hosts/common/global/`: Configurations applied to all hosts (imports all `outputs.nixosModules`)
-  - `hosts/common/optional/`: Opt-in configurations (e.g., plasma, sway, pipewire, wireless)
-  - `hosts/common/users/`: User account definitions
+- **`hosts/`**: Per-host system configurations organized by platform
+  - `hosts/common/`: Shared cross-platform modules (nix, nixpkgs, zsh, fonts, sops)
+  - `hosts/nixos/`: NixOS hosts and configurations
+    - `hosts/nixos/<hostname>/default.nix`: Main entry point for each NixOS host
+    - `hosts/nixos/common/global/`: Configurations applied to all NixOS hosts (imports all `outputs.nixosModules`)
+    - `hosts/nixos/common/optional/`: Opt-in NixOS configurations (e.g., plasma, sway, pipewire, wireless)
+    - `hosts/nixos/common/users/`: NixOS user account definitions
+  - `hosts/darwin/`: nix-darwin (macOS) hosts and configurations
+    - `hosts/darwin/<hostname>/default.nix`: Main entry point for each darwin host
+    - `hosts/darwin/common/global/`: Configurations applied to all darwin hosts
 
 - **`home/`**: Home-manager user configurations (standalone, deployed separately from system)
   - `home/<username>/<hostname>.nix`: Per-host user configuration
@@ -58,8 +63,8 @@ Secrets are managed using sops-nix with age encryption:
 - **`.sops.yaml`**: Defines encryption keys and creation rules
 - Age keys are derived from SSH host keys: `nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'`
 - Secrets stored in:
-  - `hosts/common/secrets.yaml`: Shared host secrets
-  - `hosts/<hostname>/secrets.yaml`: Host-specific secrets
+  - `hosts/nixos/common/secrets.yaml`: Shared NixOS host secrets
+  - `hosts/nixos/<hostname>/secrets.yaml`: NixOS host-specific secrets
   - `containers/secrets/<container>.yaml`: Container secrets
 - Update keys after changes: `sops --config ./.sops.yaml updatekeys <path-to-secrets.yaml>`
 

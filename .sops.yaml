@@ -7,7 +7,7 @@ keys:
     # generate age from ssh host key
     # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
     # when changing keys
-    # sops --config ./.sops.yaml updatekeys ./starship/secrets.yaml
+    # sops --config ./.sops.yaml updatekeys ./hosts/nixos/starship/secrets.yaml
     - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
     - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
     - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
@@ -25,25 +25,25 @@ keys:
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
 
 creation_rules:
-  - path_regex: hosts/starship/secrets.ya?ml$
+  - path_regex: hosts/nixos/starship/secrets.ya?ml$
     key_groups:
       - age:
           - *starship
         pgp:
           - *hyshka
-  - path_regex: hosts/rpi4/secrets.ya?ml$
+  - path_regex: hosts/nixos/rpi4/secrets.ya?ml$
     key_groups:
       - age:
           - *rpi4
         pgp:
           - *hyshka
-  - path_regex: hosts/tiny1/secrets.ya?ml$
+  - path_regex: hosts/nixos/tiny1/secrets.ya?ml$
     key_groups:
       - age:
           - *tiny1
         pgp:
           - *hyshka
-  - path_regex: hosts/ashyn/secrets.ya?ml$
+  - path_regex: hosts/nixos/ashyn/secrets.ya?ml$
     key_groups:
       - age:
           - *ashyn
@@ -97,7 +97,7 @@ creation_rules:
           - *lxc-homepage
         pgp:
           - *hyshka
-  - path_regex: hosts/common/secrets.ya?ml$
+  - path_regex: hosts/nixos/common/secrets.ya?ml$
     key_groups:
       - age:
           - *starship

@@ -5,15 +5,19 @@
 }:
 {
   imports = [
+    # Shared cross-platform modules
+    ../../../common/nix.nix
+    ../../../common/nixpkgs.nix
+    ../../../common/zsh.nix
+    ../../../common/fonts.nix
+    ../../../common/sops.nix
+
+    # NixOS-specific modules
     ./catppuccin.nix
     ./locale.nix
     #./nameservers.nix
-    ./nix.nix
-    ./nixpkgs.nix
     ./openssh.nix
-    ./sops.nix
     ./tailscale.nix
-    ./zsh.nix
   ]
   ++ (builtins.attrValues outputs.nixosModules);
 

@@ -188,19 +188,19 @@
       # nh os switch
       nixosConfigurations = {
         starship = lib.nixosSystem {
-          modules = [ ./hosts/starship ];
+          modules = [ ./hosts/nixos/starship ];
           specialArgs = { inherit inputs outputs; };
         };
         rpi4 = lib.nixosSystem {
-          modules = [ ./hosts/rpi4 ];
+          modules = [ ./hosts/nixos/rpi4 ];
           specialArgs = { inherit inputs outputs; };
         };
         tiny1 = lib.nixosSystem {
-          modules = [ ./hosts/tiny1 ];
+          modules = [ ./hosts/nixos/tiny1 ];
           specialArgs = { inherit inputs outputs; };
         };
         ashyn = lib.nixosSystem {
-          modules = [ ./hosts/ashyn ];
+          modules = [ ./hosts/nixos/ashyn ];
           specialArgs = { inherit inputs outputs; };
         };
 
@@ -256,7 +256,7 @@
       # nh darwin switch
       darwinConfigurations = {
         "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
-          modules = [ ./hosts/bryan-macbook ];
+          modules = [ ./hosts/darwin/bryan-macbook ];
           specialArgs = { inherit inputs outputs; };
         };
       };
