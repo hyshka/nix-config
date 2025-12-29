@@ -185,7 +185,7 @@
       formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);
 
       # NixOS configuration entrypoint
-      # nh os switch
+      # nh os built/boot/switch
       nixosConfigurations = {
         starship = lib.nixosSystem {
           modules = [ ./hosts/nixos/starship ];
@@ -253,7 +253,7 @@
       };
 
       # Nix-Darwin configuration entrypoint
-      # nh darwin switch
+      # nh darwin built/boot/switch
       darwinConfigurations = {
         "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
           modules = [ ./hosts/darwin/bryan-macbook ];
@@ -262,7 +262,7 @@
       };
 
       # Standalone home-manager configurations
-      # Usage: nh home switch . -c hyshka@hostname
+      # nh home build/switch
       homeConfigurations = {
         "hyshka@tiny1" = mkHome {
           system = "x86_64-linux";
@@ -276,7 +276,7 @@
           system = "x86_64-linux";
           hostname = "ashyn";
         };
-        "hyshka@macbook" = mkHome {
+        "hyshka@hyshka-D5920DQ4RN" = mkHome {
           system = "aarch64-darwin";
           hostname = "macbook";
         };
