@@ -27,6 +27,10 @@ in
     };
   };
 
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+  };
+
   # shell show which Nix package (if any) provides a missing command
   programs.command-not-found = {
     enable = true;

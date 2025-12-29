@@ -29,6 +29,14 @@
               "x"
             ];
           }
+          {
+            __unkeyed-1 = "<leader>c";
+            group = "[C]odeCompanion";
+          }
+          {
+            __unkeyed-1 = "<leader>o";
+            group = "[O]pencode";
+          }
         ];
       };
     };

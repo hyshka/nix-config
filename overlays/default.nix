@@ -12,8 +12,11 @@
     # ...
     # });
 
+    # Use llm-agents version of opencode instead of nixpkgs
+    opencode = inputs.llm-agents.packages.${prev.stdenv.hostPlatform.system}.opencode;
+
     # Pin Incus to version 6.17.0
-    incus = inputs.nixpkgs-incus-6-18.legacyPackages.${prev.system}.incus;
+    incus = inputs.nixpkgs-incus-6-18.legacyPackages.${prev.stdenv.hostPlatform.system}.incus;
 
     sunshine = prev.sunshine.overrideAttrs (_oldAttrs: rec {
       extraLibraries = [

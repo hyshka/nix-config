@@ -28,6 +28,14 @@ in
     plugins.codecompanion = {
       enable = true;
       settings = {
+        interactions = {
+          chat = {
+            adapter = "opencode";
+          };
+          inline = {
+            adapter = "copilot";
+          };
+        };
         prompt_library = {
           "Review" = {
             strategy = "chat";
@@ -114,22 +122,28 @@ in
         ];
         key = "<leader>ca";
         action = "<cmd>CodeCompanionActions<cr>";
-        options.desc = "Actions (CodeCompanion)";
+        options = {
+          desc = "Actions (CodeCompanion)";
+        };
       }
       {
         mode = [
           "v"
           "n"
         ];
-        key = "<leader>a";
+        key = "<leader>cc";
         action = "<cmd>CodeCompanionChat Toggle<cr>";
-        options.desc = "Chat Toggle (CodeCompanion)";
+        options = {
+          desc = "Chat Toggle (CodeCompanion)";
+        };
       }
       {
         mode = [ "v" ];
-        key = "ga";
+        key = "<leader>ca";
         action = "<cmd>CodeCompanionChat Add<cr>";
-        options.desc = "Add visually selected chat to the current chat buffer (CodeCompanion)";
+        options = {
+          desc = "Add visually selected chat to the current chat buffer (CodeCompanion)";
+        };
       }
     ];
 

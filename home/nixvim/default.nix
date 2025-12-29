@@ -29,10 +29,11 @@ in
     ./plugins/kickstart/autopairs.nix
     ./plugins/kickstart/indent-blankline.nix
     #./plugins/kickstart/lint.nix
-    ./plugins/custom/orgmode.nix
+    #./plugins/custom/orgmode.nix
     ./plugins/custom/copilot.nix
     ./plugins/custom/oil.nix
     ./plugins/custom/codecompanion.nix
+    ./plugins/custom/opencode.nix
   ];
 
   programs.nixvim = {
