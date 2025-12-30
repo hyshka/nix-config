@@ -6,11 +6,11 @@
 {
   imports = [
     # Shared cross-platform modules
-    ../../common/nix.nix
-    ../../common/nixpkgs.nix
-    ../../common/zsh.nix
-    ../../common/fonts.nix
-    ../../common/sops.nix
+    ../../../common/nix.nix
+    ../../../common/nixpkgs.nix
+    ../../../common/zsh.nix
+    ../../../common/fonts.nix
+    ../../../common/sops.nix
 
     # NixOS-specific modules
     ./catppuccin.nix
