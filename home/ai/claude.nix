@@ -32,8 +32,8 @@ in
       };
       # Disable some MCP by default to save on context
       disabledMcpjsonServers = [
+        "github"
         "shortcut"
-        "nixos"
       ];
       permissions = {
         defaultMode = "plan";
@@ -129,15 +129,6 @@ in
           # Limit tools to use less context
           SHORTCUT_TOOLS = "stories,epics,teams,workflows";
         };
-      };
-      nixos = {
-        type = "stdio";
-        command = "nix";
-        args = [
-          "run"
-          "github:utensils/mcp-nixos"
-          "--"
-        ];
       };
     };
     memory.source = ./base.md;
