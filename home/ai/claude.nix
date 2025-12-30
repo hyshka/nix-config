@@ -17,7 +17,20 @@ in
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       includeCoAuthoredBy = false;
+      env = {
+        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+        DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
+      };
+      statusLine = {
+        type = "command";
+        command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
+      };
       hooks = hooks;
+      # Disable some MCP by default to save on context
+      disabledMcpjsonServers = [
+        "shortcut"
+        "nixos"
+      ];
       permissions = {
         defaultMode = "plan";
         allow = [
@@ -61,15 +74,12 @@ in
           "WebFetch(domain:github.com)"
           "WebFetch(domain:raw.githubusercontent.com)"
 
-          # GitHub tools (read-only)
+          # MCP permissions (read-only)
+          "mcp__context7"
+          "mcp__gh_grep"
+          "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
-
-          # cclsp tools (read-only)
-          "mcp__cclsp__find_definition"
-          "mcp__cclsp__find_references"
-          "mcp__cclsp__get_diagnostics"
-          "mcp__cclsp__restart_server"
         ];
         deny = [
           "Read(**/.env*)"
@@ -77,10 +87,23 @@ in
           "Read(**/*.key)"
           "Read(**/.aws/**)"
           "Read(**/.ssh/**)"
+          "Bash(git push:*)"
+          "Bash(git commit:*)"
         ];
       };
     };
     mcpServers = {
+      context7 = {
+        type = "http";
+        url = "https://mcp.context7.com/mcp";
+        headers = {
+          "CONTEXT7_API_KEY" = ''\$${CONTEXT7_API_KEY}'';
+        };
+      };
+      gh_grep = {
+        type = "http";
+        url = "https://mcp.grep.app";
+      };
       github = {
         type = "stdio";
         command = lib.getExe pkgs.github-mcp-server;
@@ -89,18 +112,6 @@ in
           "--read-only"
           "stdio"
         ];
-      };
-      # requires lsp install/config: npx cclsp@latest setup
-      cclsp = {
-        type = "stdio";
-        command = "npx";
-        args = [
-          "-y"
-          "cclsp@latest"
-        ];
-        env = {
-          CCLSP_CONFIG_PATH = "/Users/hyshka/.config/claude/cclsp.json";
-        };
       };
       shortcut = {
         type = "stdio";
@@ -115,147 +126,89 @@ in
           SHORTCUT_TOOLS = "stories,epics,teams,workflows";
         };
       };
-      socket = {
-        type = "http";
-        url = "https://mcp.socket.dev/";
-      };
-      context7 = {
-        type = "http";
-        url = "https://mcp.context7.com/mcp";
-        headers = {
-          "CONTEXT7_API_KEY" = ''\$${CONTEXT7_API_KEY}'';
-        };
+      nixos = {
+        type = "stdio";
+        command = "nix";
+        args = [
+          "run"
+          "github:utensils/mcp-nixos"
+          "--"
+        ];
       };
     };
     memory.source = ./base.md;
   };
-  xdg.configFile = {
-    "cclsp" = {
-      text = ''
-          {
-          "servers": [
-            {
-              "extensions": [
-                "js",
-                "ts",
-                "jsx",
-                "tsx"
-              ],
-              "command": [
-                "npx",
-                "--",
-                "typescript-language-server",
-                "--stdio"
-              ],
-              "rootDir": "."
-            },
-            {
-              "extensions": [
-                "py",
-                "pyi"
-              ],
-              "command": [
-                "uvx",
-                "--from",
-                "python-lsp-server",
-                "pylsp"
-              ],
-              "rootDir": ".",
-              "restartInterval": 5,
-              "initializationOptions": {
-                "settings": {
-                  "pylsp": {
-                    "plugins": {
-                      "jedi_completion": {
-                        "enabled": true
-                      },
-                      "jedi_definition": {
-                        "enabled": true
-                      },
-                      "jedi_hover": {
-                        "enabled": true
-                      },
-                      "jedi_references": {
-                        "enabled": true
-                      },
-                      "jedi_signature_help": {
-                        "enabled": true
-                      },
-                      "jedi_symbols": {
-                        "enabled": true
-                      },
-                      "pylint": {
-                        "enabled": false
-                      },
-                      "pycodestyle": {
-                        "enabled": false
-                      },
-                      "pyflakes": {
-                        "enabled": false
-                      },
-                      "yapf": {
-                        "enabled": false
-                      },
-                      "rope_completion": {
-                        "enabled": false
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            {
-              "extensions": [
-                "vue"
-              ],
-              "command": [
-                "npx",
-                "--",
-                "vue-language-server",
-                "--stdio"
-              ],
-              "rootDir": "."
-            }
-          ]
-        }
-      '';
-      target = "claude/cclsp.json";
-    };
-  };
+
+  # -----
+  # Dependencies
+  # -----
   home.packages = [
+    # Status line dependencies
+    pkgs.jq
+    # LSP dependencies
+    pkgs.typescript-language-server
+    pkgs.pyright
+    pkgs.vue-language-server
+    pkgs.nil
+    # MCP dependencies
+    pkgs.nodejs_24
+    pkgs.yarn
+    pkgs.uv
+    # Claude Code Router
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-router
   ];
-  xdg.configFile = {
-    "claude-code-router" = {
-      text = ''
-        {
-          "Providers": [
-            {
-              "name": "openrouter",
-              "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
-              "api_key": "$OPENROUTER_API_KEY",
-              "models": [
-                "anthropic/claude-haiku-4.5:online",
-                "anthropic/claude-sonnet-4.5",
-                "anthropic/claude-opus-4.5"
-              ],
-              "transformer": {
-                "use": ["openrouter"]
-              }
-            }
-          ],
-          "Router": {
-            "default": "openrouter,anthropic/claude-sonnet-4.5",
-            "background": "openrouter,anthropic/claude-haiku-4.5",
-            "think": "openrouter,anthropic/claude-opus-4.5",
-            "longContext": "openrouter,anthropic/claude-sonnet-4.5",
-            "webSearch": "openrouter,anthropic/claude-haiku-4.5",
-            "image": "openrouter,anthropic/claude-sonnet-4.5"
+
+  # TODO: vue-lsp or nil isn't supported by a claude plugin yet
+  home.file.".claude/.lsp.json" = {
+    text = /* json */ ''
+      {
+        "vue": {
+          "command": "vue-language-server",
+          "extensionToLanguage": {
+            ".vue": "vue"
+          }
+        },
+        "nix": {
+          "command": "nil",
+          "extensionToLanguage": {
+            ".nix": "nix"
           }
         }
-      '';
-      target = "../.claude-code-router/config.json";
-    };
+      }
+    '';
   };
 
+  # -----
+  # Claude Code Router
+  # For personal use with OpenRouter
+  # -----
+  home.file.".claude-code-router/config.json" = {
+    text = /* json */ ''
+      {
+        "Providers": [
+          {
+            "name": "openrouter",
+            "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+            "api_key": "$OPENROUTER_API_KEY",
+            "models": [
+              "anthropic/claude-haiku-4.5:online",
+              "anthropic/claude-sonnet-4.5",
+              "anthropic/claude-opus-4.5"
+            ],
+            "transformer": {
+              "use": ["openrouter"]
+            }
+          }
+        ],
+        "Router": {
+          "default": "openrouter,anthropic/claude-sonnet-4.5",
+          "background": "openrouter,anthropic/claude-haiku-4.5",
+          "think": "openrouter,anthropic/claude-opus-4.5",
+          "longContext": "openrouter,anthropic/claude-sonnet-4.5",
+          "webSearch": "openrouter,anthropic/claude-haiku-4.5",
+          "image": "openrouter,anthropic/claude-sonnet-4.5"
+        }
+      }
+    '';
+  };
 }
