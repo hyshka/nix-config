@@ -25,11 +25,11 @@ The repository follows a modular architecture with reusable components:
 
 - **`home/`**: Home-manager user configurations (standalone, deployed separately from system)
   - `home/<username>/<hostname>.nix`: Per-host user configuration
-  - `home/<username>/global/`: User-level global settings
-  - `home/<username>/features/`: Modular home-manager features (e.g., alacritty, sway, claude)
+  - `home/<username>/global.nix`: User-level global settings
   - `home/cli/`: CLI tool configurations (bat, git, tmux, zsh, etc.)
-  - `home/nixvim/`: Nixvim (Neovim) configuration
-  - `home/desktop/`: Desktop-related configurations
+  - `home/desktop/`: Desktop/GUI features (alacritty, sway, plasma, aerospace, fonts, etc.)
+  - `home/ai/`: AI coding assistant tools (claude, opencode, hooks, commands, base.md)
+  - `home/nixvim/`: Nixvim (Neovim) configuration with flat plugin structure
 
 - **`modules/`**: Reusable NixOS and home-manager modules
   - `modules/nixos/`: Custom NixOS modules (auto-imported via `outputs.nixosModules`)
