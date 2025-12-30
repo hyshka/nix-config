@@ -88,6 +88,13 @@ in
     };
   };
 
+  # Floating windows for specific applications
+  wayland.windowManager.sway.config.floating.criteria = [
+    {
+      title = "Bitwarden"; # Bitwarden through browser
+    }
+  ];
+
   # Enhanced waybar with laptop modules
   programs.waybar = {
     enable = true;
