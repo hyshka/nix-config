@@ -1,10 +1,10 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to agents when working with code in this repository.
 
 ## Overview
 
-This is a NixOS and macOS configuration repository using Nix Flakes. It manages multiple systems (NixOS hosts, nix-darwin macOS, and Incus containers) with declarative configurations, home-manager for user environments, and sops-nix for secrets management.
+This is a NixOS and nix-darwin (macOS) configuration repository using Nix Flakes. It manages multiple systems (NixOS hosts, nix-darwin macOS, and Incus containers) with declarative configurations, home-manager for user environments, and sops-nix for secrets management.
 
 ## Architecture
 
@@ -74,35 +74,32 @@ Secrets are managed using sops-nix with age encryption:
 
 **NixOS hosts (system only):**
 ```bash
-# Build and switch (requires root)
-sudo nixos-rebuild switch --flake .#<hostname>
+# Build and switch (config chosen by hostname)
+nh os switch
 
 # Build without switching
-nixos-rebuild build --flake .#<hostname>
+nh os build
 
 # Test configuration (temporary, reverts on reboot)
-sudo nixos-rebuild test --flake .#<hostname>
+nh os test
 ```
 
 **macOS (nix-darwin, system only):**
 ```bash
-darwin-rebuild switch --flake .#hyshka-D5920DQ4RN
+nh darwin switch
 ```
 
 **Home-manager (user environment, deployed separately):**
 ```bash
-# Using home-manager directly
-home-manager switch --flake .#hyshka@<hostname>
-
-# Using nh (recommended)
-nh home switch . -c hyshka@<hostname>
+# Build and switch
+nh home switch
 
 # Available configurations:
 # - hyshka@tiny1, hyshka@starship, hyshka@ashyn (x86_64-linux)
 # - hyshka@macbook (aarch64-darwin)
 ```
 
-**Note:** System and home-manager configurations are decoupled. After `nixos-rebuild switch`, run `nh home switch` separately to update user environment.
+**Note:** System and home-manager configurations are decoupled. After `nh os switch`, run `nh home switch` separately to update user environment.
 
 ### Incus Container Management
 
@@ -111,7 +108,7 @@ Use the `./incus-manager.sh` script for container operations:
 **Deployment (common workflow):**
 ```bash
 # Build, import, rebuild, and restart
-./incus-manager.sh deploy <container>
+./incus-manager.sh deploy <container>,<other container>
 
 # Individual steps
 ./incus-manager.sh build <container>
@@ -122,11 +119,7 @@ Use the `./incus-manager.sh` script for container operations:
 
 **Container creation:**
 ```bash
-./incus-manager.sh create <container>
-./incus-manager.sh add-persist-disk <container>
-incus start <container>
-./incus-manager.sh set-ip <container>
-./incus-manager.sh get-age-key <container>  # For sops secrets
+./incus-manager.sh bootstrap <name> --nesting
 ```
 
 See `containers/README.md` for detailed container setup workflow.
@@ -147,7 +140,7 @@ nix fmt
 ### Development Shell
 
 ```bash
-# Enter development shell (defined in shell.nix)
+# Enter shell to bootstrap new machine (defined in shell.nix)
 nix develop
 ```
 
@@ -155,10 +148,10 @@ nix develop
 
 ```bash
 # Build custom packages
-nix build .#<package-name>
+nix build '.#<package-name>'
 
 # Run custom packages
-nix run .#<package-name>
+nix run '.#<package-name>'
 
 # List available packages
 nix flake show
@@ -171,7 +164,7 @@ nix flake show
 nix flake update
 
 # Update specific input
-nix flake lock --update-input <input-name>
+nix flake update <input-name>
 
 # Check flake
 nix flake check
@@ -204,12 +197,11 @@ nix flake check
 
 Follow the workflow in `containers/README.md`:
 1. Create `containers/<name>.nix` based on `containers/default.nix`
-2. Build and import: `./incus-manager.sh import <name>`
-3. Create container: `./incus-manager.sh create <name>`
-4. Add persist disk and set IP
-5. Get age key and add to `.sops.yaml`
-6. Create `containers/secrets/<name>.yaml`
-7. Deploy: `./incus-manager.sh deploy <name>`
+2. Build and import: `./incus-manager.sh bootstrap <name> --nesting`
+3. Get age key and add to `.sops.yaml`
+4. (optional) Create `containers/secrets/<name>.yaml`
+5. (optional) Add storage `./incus-manager.sh add-storage <name> <host_path> <container_path> --uid <container_uid>`
+6. Deploy `./incus-manager.sh deploy <name>`
 
 ## Project Conventions
 
@@ -247,6 +239,6 @@ Before committing:
 
 1. Run `nix fmt` to format code
 2. Run `nix flake check` to validate the flake
-3. Test build locally: `nixos-rebuild build --flake .#<hostname>`
+3. Test build locally: `nh os build`
 4. For containers, test with `./incus-manager.sh build <container>`
 5. Verify secrets decrypt correctly after key changes
