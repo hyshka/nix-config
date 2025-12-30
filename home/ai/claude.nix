@@ -30,11 +30,6 @@ in
         "pyright-lsp@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
       };
-      # Disable some MCP by default to save on context
-      disabledMcpjsonServers = [
-        "github"
-        "shortcut"
-      ];
       permissions = {
         defaultMode = "plan";
         allow = [
