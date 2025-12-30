@@ -86,15 +86,15 @@
       target = "opencode/opencode.json";
     };
     "command-commit" = {
-      source = ./command/commit.md;
+      source = ./commands/commit.md;
       target = "opencode/command/commit.md";
     };
     "command-review-changes" = {
-      source = ./command/review-changes.md;
+      source = ./commands/review-changes.md;
       target = "opencode/command/review-changes.md";
     };
     "command-review-pr" = {
-      source = ./command/review-pr.md;
+      source = ./commands/review-pr.md;
       target = "opencode/command/review-pr.md";
     };
     "plugin-notification" = {

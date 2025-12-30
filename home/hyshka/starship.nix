@@ -5,14 +5,12 @@
 }:
 {
   imports = [
-    ./global
-    ./features/alacritty.nix
-    ./features/plasma.nix
-    ./features/zwift.nix
-    ./features/logseq.nix
-    ./features/opencode.nix
-
-    # TODO
+    ./global.nix
+    ../desktop/alacritty.nix
+    ../desktop/plasma.nix
+    ../desktop/zwift.nix
+    ../desktop/logseq.nix
+    ../ai/opencode.nix
     ../nixvim
     ../cli
     ../desktop/font.nix

@@ -5,12 +5,10 @@
 }:
 {
   imports = [
-    ./global
-    ./features/alacritty.nix
-    ./features/sway.nix
-    ./features/claude.nix
-
-    # TODO
+    ./global.nix
+    ../desktop/alacritty.nix
+    ../desktop/sway.nix
+    ../ai/claude.nix
     ../nixvim
     ../cli
     ../desktop/font.nix

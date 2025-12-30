@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ./global
+    ./global.nix
     ../cli
   ];
 

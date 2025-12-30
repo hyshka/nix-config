@@ -1,11 +1,11 @@
 { pkgs, ... }:
 {
   imports = [
-    ./global
-    ./features/aerospace.nix
-    ./features/alacritty.nix
-    ./features/opencode.nix
-    ./features/claude.nix
+    ./global.nix
+    ../desktop/aerospace.nix
+    ../desktop/alacritty.nix
+    ../ai/opencode.nix
+    ../ai/claude.nix
     ../nixvim
     ../cli
   ];

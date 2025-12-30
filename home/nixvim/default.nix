@@ -26,14 +26,13 @@ in
     ./plugins/treesitter.nix
 
     # Extra
-    ./plugins/kickstart/autopairs.nix
-    ./plugins/kickstart/indent-blankline.nix
-    #./plugins/kickstart/lint.nix
-    #./plugins/custom/orgmode.nix
-    ./plugins/custom/copilot.nix
-    ./plugins/custom/oil.nix
-    ./plugins/custom/codecompanion.nix
-    ./plugins/custom/opencode.nix
+    ./plugins/autopairs.nix
+    ./plugins/indent-blankline.nix
+    #./plugins/orgmode.nix
+    ./plugins/copilot.nix
+    ./plugins/oil.nix
+    ./plugins/codecompanion.nix
+    ./plugins/opencode.nix
   ];
 
   programs.nixvim = {
