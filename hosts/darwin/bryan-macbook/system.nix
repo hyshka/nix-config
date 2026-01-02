@@ -67,6 +67,17 @@
         NSAutomaticSpellingCorrectionEnabled = false;
         NSNavPanelExpandedStateForSaveMode = true;
         NSNavPanelExpandedStateForSaveMode2 = true;
+
+        # Keyboard timing configuration (keyboard-centric improvements)
+        # Keyboard repeat rate (1 = fastest, 15ms between repeats)
+        KeyRepeat = 1;
+        # Initial key repeat delay (10 = shortest, 150ms)
+        InitialKeyRepeat = 10;
+        # Disable press-and-hold for special characters (essential for vim)
+        ApplePressAndHoldEnabled = false;
+
+        # Use F1-F12 as standard function keys (no Fn modifier needed)
+        "com.apple.keyboard.fnState" = true;
       };
 
       # Customize settings that not supported by nix-darwin directly
@@ -103,6 +114,44 @@
         };
         # Prevent Photos from opening automatically when devices are plugged in
         "com.apple.ImageCapture".disableHotPlug = true;
+
+        # Disable Mission Control shortcuts (conflicts with Aerospace)
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            # Disable Mission Control (Ctrl+Up)
+            "32" = {
+              enabled = false;
+            };
+            "34" = {
+              enabled = false;
+            };
+            # Disable Application Windows (Ctrl+Down)
+            "33" = {
+              enabled = false;
+            };
+            "35" = {
+              enabled = false;
+            };
+            # Disable Show Desktop
+            "36" = {
+              enabled = false;
+            };
+            "37" = {
+              enabled = false;
+            };
+          };
+        };
+
+        # Accessibility - reduce transparency for better performance and readability
+        # TODO: cannot enable without giving full disk access to alacritty
+        #"com.apple.universalaccess" = {
+        #  reduceTransparency = true;
+        #};
+
+        # Show date in menu bar (helpful for keyboard users who hide dock)
+        "com.apple.menuextra.clock" = {
+          ShowDate = 1;
+        };
       };
 
       loginwindow = {
