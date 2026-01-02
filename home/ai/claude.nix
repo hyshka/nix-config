@@ -146,6 +146,8 @@ in
     pkgs.uv
     # Claude Code Router
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-router
+    # GH CLI is cheaper than Github MCP for some operations
+    pkgs.gh
   ];
 
   # TODO: vue-lsp or nil isn't supported by a claude plugin yet
