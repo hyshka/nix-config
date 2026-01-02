@@ -35,7 +35,6 @@
       "openvpn-connect"
       "fontforge-app"
       "orbstack"
-      "logseq"
       "brave-browser"
     ];
   };
