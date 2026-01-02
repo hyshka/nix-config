@@ -4,6 +4,10 @@
       text = ''
         # Enhanced Aerospace configuration with automatic app placement,
         # workspace naming, summon mode, and improved keybindings
+        # Config version for compatibility and deprecations
+
+        # Fallback value (if you omit the key): config-version = 1
+        config-version = 2
 
         # Start AeroSpace at login
         start-at-login = true
@@ -33,52 +37,45 @@
         # Disable macOS "Hide application" (cmd-h) feature
         automatically-unhide-macos-hidden-apps = false
 
-        # Workspace naming
-        [workspace.1]
-        name = "comm"  # Slack, Spotify, communication
-
-        [workspace.2]
-        name = "term"  # Alacritty, terminals
-
-        [workspace.3]
-        name = "notes"   # Brave browser (secondary)
-
-        [workspace.4]
-        name = "web"  # Brave browser (primary)
-
-        [workspace.5]
-        name = "media" # Zoom
+        # Note: AeroSpace doesn't support custom workspace names
+        # Workspaces are identified by number (1-9) only
+        # Workspace usage:
+        # 1 = comm (Slack, communication)
+        # 2 = term (Alacritty, terminals)
+        # 3 = notes (Secondary browser)
+        # 4 = web (Brave browser primary)
+        # 5 = media (Zoom, Spotify)
 
         # Window rules - automatic app placement
         [[on-window-detected]]
         if.app-id = "com.tinyspeck.slackmacgap"
-        run = "move-node-to-workspace 1"
+        run = ['move-node-to-workspace 1']
 
         [[on-window-detected]]
         if.app-id = "org.alacritty"
-        run = "move-node-to-workspace 2"
+        run = ['move-node-to-workspace 2']
 
         [[on-window-detected]]
         if.app-id = "com.spotify.client"
-        run = "move-node-to-workspace 1"
+        run = ['move-node-to-workspace 1']
 
         [[on-window-detected]]
         if.app-id = "us.zoom.xos"
-        run = "move-node-to-workspace 5"
+        run = ['move-node-to-workspace 5']
 
         # Brave goes to workspace 4 by default (you can move to 3 manually)
         [[on-window-detected]]
         if.app-id = "com.brave.Browser"
-        run = "move-node-to-workspace 4"
+        run = ['move-node-to-workspace 4']
 
         # Floating windows (don't tile these)
         [[on-window-detected]]
         if.app-id = "com.apple.systempreferences"
-        run = "layout floating"
+        run = ['layout floating']
 
         [[on-window-detected]]
         if.app-id = "com.1password.1password"
-        run = "layout floating"
+        run = ['layout floating']
 
         # Key mapping
         [key-mapping]
