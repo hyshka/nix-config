@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -21,6 +22,10 @@ container.mkContainer {
   sops.secrets.paperless-passwordFile = {
     sopsFile = ./secrets/paperless.yaml;
   };
+  sops.secrets.paperless-oauth2-client-secret = {
+    sopsFile = ./secrets/paperless.yaml;
+    owner = config.services.paperless.user;
+  };
 
   services.paperless = {
     enable = true;
@@ -31,6 +36,28 @@ container.mkContainer {
     settings = {
       PAPERLESS_URL = "https://paperless.home.hyshka.com";
       PAPERLESS_TRUSTED_PROXIES = "127.0.0.1,10.223.27.210";
+      # Pocket ID auth
+      PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS = builtins.toJSON {
+        openid_connect = {
+          SCOPE = [
+            "openid"
+            "profile"
+            "email"
+          ];
+          OAUTH_PKCE_ENABLED = true;
+          APPS = [
+            {
+              provider_id = "pocket-id";
+              name = "Pocket-ID";
+              client_id = "c02787b2-416a-4055-a484-934b2ff11088";
+              # secret will be added dynamically
+              #secret = "";
+              settings.server_url = "https://auth.home.hyshka.com/";
+            }
+          ];
+        };
+      };
     };
     # Full backup run at 01:30
     exporter = {
@@ -38,6 +65,16 @@ container.mkContainer {
       directory = "/mnt/paperless/export";
     };
   };
+
+  # Add secret to PAPERLESS_SOCIALACCOUNT_PROVIDERS
+  systemd.services.paperless-web.script = lib.mkBefore ''
+    oidcSecret=$(< ${config.sops.secrets.paperless-oauth2-client-secret.path})
+    export PAPERLESS_SOCIALACCOUNT_PROVIDERS=$(
+      ${pkgs.jq}/bin/jq <<< "$PAPERLESS_SOCIALACCOUNT_PROVIDERS" \
+        --compact-output \
+        --arg oidcSecret "$oidcSecret" '.openid_connect.APPS.[0].secret = $oidcSecret'
+    )
+  '';
 
   # Override package to skip tests
   nixpkgs.overlays = [
