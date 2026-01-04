@@ -25,7 +25,7 @@
     });
 
     # https://github.com/NixOS/nixpkgs/pull/476394
-    pocket-id = prev.pocket-id.overrideAttrs (oldAttrs: rec {
+    pocket-id = prev.pocket-id.overrideAttrs (_oldAttrs: rec {
       version = "2.0.0";
       src = prev.fetchFromGitHub {
         owner = "pocket-id";
