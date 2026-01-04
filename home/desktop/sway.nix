@@ -58,7 +58,7 @@ in
         "${modifier}+Shift+v" = "exec ${pkgs.pavucontrol}/bin/pavucontrol";
 
         # Clipboard
-        "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick --tool fuzzel";
+        "${modifier}+c" = "exec ${pkgs.clipman}/bin/clipman pick --tool STDOUT | fuzzel --dmenu | wl-copy";
 
         # Screenshots
         "${modifier}+Shift+s" =
