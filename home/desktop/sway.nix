@@ -132,19 +132,19 @@ in
       "idle_inhibitor" = {
         format = "{icon}";
         format-icons = {
-          activated = "";
-          deactivated = "";
+          activated = "󰈈";
+          deactivated = "󰈉";
         };
       };
 
       cpu = {
-        format = " {usage}%";
+        format = "󰻠 {usage}%";
         tooltip = false;
         interval = 5;
       };
 
       memory = {
-        format = " {}%";
+        format = "󰍛 {}%";
         tooltip-format = "{used:0.1f}G/{total:0.1f}G";
         interval = 5;
       };
@@ -154,11 +154,11 @@ in
         critical-threshold = 80;
         format = "{icon} {temperatureC}°C";
         format-icons = [
-          ""
-          ""
-          ""
-          ""
-          ""
+          "󰺅"
+          "󰸁"
+          "󰸃"
+          "󰸅"
+          "󰸉"
         ];
         interval = 5;
       };
@@ -166,15 +166,9 @@ in
       backlight = {
         format = "{icon} {percent}%";
         format-icons = [
-          ""
-          ""
-          ""
-          ""
-          ""
-          ""
-          ""
-          ""
-          ""
+          "󰃞"
+          "󰃟"
+          "󰃠"
         ];
         on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set +5%";
         on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
@@ -186,43 +180,48 @@ in
           critical = 15;
         };
         format = "{icon} {capacity}%";
-        format-charging = " {capacity}%";
-        format-plugged = " {capacity}%";
+        format-charging = "󰂄 {capacity}%";
+        format-plugged = "󰚥 {capacity}%";
         format-icons = [
-          ""
-          ""
-          ""
-          ""
-          ""
+          "󰁺"
+          "󰁻"
+          "󰁼"
+          "󰁽"
+          "󰁾"
+          "󰁿"
+          "󰂀"
+          "󰂁"
+          "󰂂"
+          "󰁹"
         ];
         interval = 30;
       };
 
       network = {
-        format-wifi = " {essid} ({signalStrength}%)";
-        format-ethernet = " {ifname}";
-        format-disconnected = "⚠ Disconnected";
+        format-wifi = "󰤨 {essid} ({signalStrength}%)";
+        format-ethernet = "󰈀 {ifname}";
+        format-disconnected = "󰤭 Disconnected";
         tooltip-format = "{ifname}: {ipaddr}/{cidr}";
         on-click = "${pkgs.networkmanagerapplet}/bin/nm-connection-editor";
       };
 
       pulseaudio = {
         format = "{icon} {volume}%";
-        format-muted = " muted";
+        format-muted = "󰝟 muted";
         format-icons = {
-          headphone = "";
+          headphone = "󰋋";
           default = [
-            ""
-            ""
-            ""
+            "󰕿"
+            "󰖀"
+            "󰕾"
           ];
         };
         on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
 
       clock = {
-        format = " {:%H:%M}";
-        format-alt = " {:%Y-%m-%d}";
+        format = "󰥔 {:%H:%M}";
+        format-alt = "󰃭 {:%Y-%m-%d}";
         tooltip-format = "<tt><small>{calendar}</small></tt>";
         calendar = {
           mode = "month";
