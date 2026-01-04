@@ -12,6 +12,7 @@
     ./ssh.nix
     ./tmux.nix
     ./zsh.nix
+    ./yazi.nix
   ];
 
   home.packages = with pkgs; [
