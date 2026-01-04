@@ -219,7 +219,7 @@ create_persist_dir() {
 
   # Try to create the directory via SSH
   # shellcheck disable=SC2029
-  if ssh "$remote" "sudo mkdir -p $PERSIST_BASE_PATH/$container" 2>/dev/null; then
+  if ssh -t "$remote" "sudo mkdir -p $PERSIST_BASE_PATH/$container" 2>/dev/null; then
     echo "Persist directory created successfully."
   else
     warn "Could not create persist directory via SSH."
