@@ -240,6 +240,11 @@
           modules = [ ./containers/homepage.nix ];
           specialArgs = { inherit inputs outputs; };
         };
+        pocket-id = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/pocket-id.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
 
       # Nix-Darwin configuration entrypoint

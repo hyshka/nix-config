@@ -20,6 +20,7 @@ keys:
     - &lxc-silverbullet age125jcng9snyx5vg9mrlsfnn4xj6hcgwv7ghrqvpj9jfpev4cvadss9ktryx
     - &lxc-ntfy age18yjh20qsh4s3n8d5v6qqudhs7qjnadrejqxwfdjqqrxvl4v3uatqd4lhaw
     - &lxc-homepage age1msvehv4dw0a297pfdsxa2e84p7drnpkwvjpzxvzmv2uuswegrp9suwxd9z
+    - &lxc-pocket-id age1aatfgvvxnxd3z7st8m2j3ucrxnd8v5ka3jhteuj20kwahcd44qhq26w6y7
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
@@ -95,6 +96,12 @@ creation_rules:
     key_groups:
       - age:
           - *lxc-homepage
+        pgp:
+          - *hyshka
+  - path_regex: containers/secrets/pocket-id.ya?ml$
+    key_groups:
+      - age:
+          - *lxc-pocket-id
         pgp:
           - *hyshka
   - path_regex: hosts/nixos/common/secrets.ya?ml$

@@ -169,6 +169,11 @@
           }
         }
 
+        @auth host auth.home.hyshka.com
+        handle @auth {
+          reverse_proxy http://10.223.27.36:1411
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort
