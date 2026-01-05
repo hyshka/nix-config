@@ -35,7 +35,7 @@
     # utils
     neovim
     ncdu_1
-    ranger
+    yazi
     htop
     git
     pciutils

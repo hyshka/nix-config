@@ -7,7 +7,6 @@
     ./git.nix
     ./glances.nix
     ./gpg.nix
-    ./ranger.nix
     ./sops.nix
     ./ssh.nix
     ./tmux.nix
