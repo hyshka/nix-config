@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
+  isLinux = pkgs.stdenv.isLinux;
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
@@ -89,22 +90,25 @@ in
     # Catppuccin theme is automatically applied via global catppuccin module
     # (home/hyshka/global.nix sets catppuccin.flavor = "frappe")
 
-    extraPackages = with pkgs; [
-      ueberzugpp # image previews
-      ffmpeg # video thumbnails
-      poppler # PDF preview
-      p7zip # archive extraction and preview
-      zoxide # directory jumping
-      resvg # SVG preview
-      imagemagick # Font, HEIC, and JPEG XL preview
-      wl-clipboard # clipboard support
-      jq # JSON preview
-      exiftool # media metadata
-      odt2txt # ODT preview
-      # Configured in other modules:
-      # fzf (for quick file subtree navigation)
-      # rg (for file content searching)
-      # fd (for file searching)
-    ];
+    extraPackages =
+      with pkgs;
+      [
+        ueberzugpp # image previews
+        ffmpeg # video thumbnails
+        poppler # PDF preview
+        p7zip # archive extraction and preview
+        zoxide # directory jumping
+        resvg # SVG preview
+        imagemagick # Font, HEIC, and JPEG XL preview
+
+        jq # JSON preview
+        exiftool # media metadata
+        odt2txt # ODT preview
+        # Configured in other modules:
+        # fzf (for quick file subtree navigation)
+        # rg (for file content searching)
+        # fd (for file searching)
+      ]
+      ++ lib.optionals isLinux [ wl-clipboard ]; # clipboard support
   };
 }
