@@ -23,7 +23,7 @@ in
       };
       statusLine = {
         type = "command";
-        command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
+        command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir' | sed -E 's:/*$::' | awk -F/ '{if(NF>=2){print $(NF-1) \"/\" $(NF)} else if(NF==1){print $(NF)}}'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
       };
       hooks = hooks;
       enabledPlugins = {
@@ -35,20 +35,22 @@ in
         allow = [
           # Safe read-only git commands
           "Bash(git add:*)"
-          "Bash(git status)"
+          "Bash(git status:*)"
           "Bash(git log:*)"
           "Bash(git diff:*)"
           "Bash(git show:*)"
           "Bash(git branch:*)"
           "Bash(git remote:*)"
 
-          # Safe Nix commands (mostly read-only)
+          # Nix commands
           "Bash(nix:*)"
+          "Bash(nh search:*)"
 
           # Safe file system operations
           "Bash(ls:*)"
           "Bash(find:*)"
           "Bash(grep:*)"
+          "Bash(ag:*)"
           "Bash(rg:*)"
           "Bash(cat:*)"
           "Bash(head:*)"
@@ -60,16 +62,16 @@ in
           "Bash(docker container exec:*)"
           "Bash(docker compose exec:*)"
 
-          # Core Claude Code tools
-          "Glob(*)"
-          "Grep(*)"
-          "LS(*)"
-          "Read(*)"
-          "Search(*)"
-          "Task(*)"
-          "TodoWrite(*)"
+          # Safe gh CLI commands
+          "Bash(gh pr list:*)"
+          "Bash(gh pr status:*)"
+          "Bash(gh pr checks:*)"
+          "Bash(gh pr diff:*)"
+          "Bash(gh pr view:*)"
+          "Bash(gh repo list:*)"
+          "Bash(gh repo view:*)"
 
-          # Safe web fetch from trusted domains
+          # Safe web fetch and search from trusted domains
           "WebFetch(domain:github.com)"
           "WebFetch(domain:raw.githubusercontent.com)"
 
@@ -80,14 +82,19 @@ in
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
         ];
+        ask = [
+          "Bash(git push:*)"
+          "Bash(git commit:*)"
+        ];
         deny = [
           "Read(**/.env*)"
           "Read(**/*.pem)"
           "Read(**/*.key)"
           "Read(**/.aws/**)"
           "Read(**/.ssh/**)"
-          "Bash(git push:*)"
-          "Bash(git commit:*)"
+          "Bash(rm -rf /*)"
+          "Bash(rm -rf /)"
+          "Bash(dd:*)"
         ];
       };
     };
@@ -128,6 +135,8 @@ in
     };
     memory.source = ./base.md;
   };
+
+  programs.git.ignores = [ "**/.claude/settings.local.json" ];
 
   # -----
   # Dependencies
