@@ -29,6 +29,10 @@ in
       enabledPlugins = {
         "pyright-lsp@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
+        "code-review@claude-plugins-official" = true;
+        "pr-review-toolkit@claude-plugins-official" = true;
+        "ralph-wiggum@claude-plugins-official" = true;
+        "plugin-dev@claude-plugins-official" = true;
       };
       permissions = {
         defaultMode = "plan";
