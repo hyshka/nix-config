@@ -115,9 +115,6 @@ in
         "idle_inhibitor"
         "pulseaudio"
         "network"
-        "cpu"
-        "memory"
-        "temperature"
         "backlight"
         "battery"
         "clock"
@@ -135,32 +132,6 @@ in
           activated = "󰈈";
           deactivated = "󰈉";
         };
-      };
-
-      cpu = {
-        format = "󰻠 {usage}%";
-        tooltip = false;
-        interval = 5;
-      };
-
-      memory = {
-        format = "󰍛 {}%";
-        tooltip-format = "{used:0.1f}G/{total:0.1f}G";
-        interval = 5;
-      };
-
-      temperature = {
-        hwmon-path = "/sys/class/hwmon/hwmon2/temp1_input";
-        critical-threshold = 80;
-        format = "{icon} {temperatureC}°C";
-        format-icons = [
-          "󰺅"
-          "󰸁"
-          "󰸃"
-          "󰸅"
-          "󰸉"
-        ];
-        interval = 5;
       };
 
       backlight = {
