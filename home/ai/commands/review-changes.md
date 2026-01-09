@@ -1,7 +1,6 @@
 ---
 description: Review uncommitted changes in git working directory
-agent: plan
-model: github-copilot/claude-sonnet-4.5
+model: claude-sonnet-4-5
 ---
 
 Review the uncommitted changes in the git working directory and provide actionable feedback.

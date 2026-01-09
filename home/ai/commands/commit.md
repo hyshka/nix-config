@@ -1,7 +1,7 @@
 ---
 description: Review uncommitted changes and generate a commit message
-agent: build
-model: github-copilot/gpt-4.1
+allowed-tools: Bash(git add:*), Bash(git diff:*), Bash(git status:*), Bash(git commit:*)
+model: claude-haiku-4-5
 ---
 
 # Git Commit Message Guidelines

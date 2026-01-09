@@ -1,7 +1,7 @@
 ---
 description: Review a pull request
-agent: plan
-model: github-copilot/claude-sonnet-4.5
+argument-hint: [pull_request]
+model: claude-sonnet-4-5
 ---
 
 Review the pull request using GitHub MCP tools and provide actionable feedback following our team guidelines.

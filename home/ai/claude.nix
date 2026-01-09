@@ -4,13 +4,6 @@
   lib,
   ...
 }:
-let
-  hookFiles = [
-    ./hooks/notification.nix
-    ./hooks/subagent-stop.nix
-  ];
-  hooks = builtins.foldl' (acc: file: acc // (import file { inherit pkgs; })) { } hookFiles;
-in
 {
   programs.claude-code = {
     enable = true;
@@ -25,14 +18,16 @@ in
         type = "command";
         command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir' | sed -E 's:/*$::' | awk -F/ '{if(NF>=2){print $(NF-1) \"/\" $(NF)} else if(NF==1){print $(NF)}}'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
       };
-      hooks = hooks;
+      hooksDir = ./hooks;
+      commandsDir = ./commands;
       enabledPlugins = {
         "pyright-lsp@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
-        "code-review@claude-plugins-official" = true;
-        "pr-review-toolkit@claude-plugins-official" = true;
-        "ralph-wiggum@claude-plugins-official" = true;
-        "plugin-dev@claude-plugins-official" = true;
+        # Manage the rest in project settings to keep user settings declarative
+        #"code-review@claude-plugins-official" = true;
+        #"ralph-wiggum@claude-plugins-official" = false;
+        #"plugin-dev@claude-plugins-official" = false;
+        #"commit-commands@claude-plugins-official" = true;
       };
       permissions = {
         defaultMode = "plan";
@@ -159,6 +154,10 @@ in
     pkgs.uv
     # Claude Code Router
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-router
+    # Claude Code Usage
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
+    # Claude Plugins and Skills
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-plugins
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
   ];
