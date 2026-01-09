@@ -102,7 +102,7 @@
         type = "http";
         url = "https://mcp.context7.com/mcp";
         headers = {
-          "CONTEXT7_API_KEY" = ''\$${CONTEXT7_API_KEY}'';
+          "CONTEXT7_API_KEY" = "\${CONTEXT7_API_KEY}";
         };
       };
       gh_grep = {
@@ -126,7 +126,7 @@
           "@shortcut/mcp@latest"
         ];
         env = {
-          SHORTCUT_API_TOKEN = ''\$${SHORTCUT_API_TOKEN}'';
+          SHORTCUT_API_TOKEN = "\${SHORTCUT_API_TOKEN}";
           # Limit tools to use less context
           SHORTCUT_TOOLS = "stories,epics,teams,workflows";
         };
