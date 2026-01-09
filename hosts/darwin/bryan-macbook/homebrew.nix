@@ -37,6 +37,7 @@
       "fontforge-app"
       "orbstack"
       "brave-browser"
+      "caffeine"
     ];
   };
 
