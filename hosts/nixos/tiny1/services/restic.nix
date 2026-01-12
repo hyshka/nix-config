@@ -24,11 +24,13 @@
     paths = [
       "/mnt/storage/hyshka"
       "/mnt/storage/tm_share" # time machine samba share
-      "/home/hyshka/media" # *arr configs
+      "/home/hyshka/media" # *arr configs TODO: remove after migration
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
       "/mnt/storage/silverbullet"
+      # Persisted container data
+      "/persist/microvms"
     ];
     exclude = [
       ".snapshots"
@@ -36,6 +38,7 @@
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/immich/encoded-video"
       "/mnt/storage/immich/thumbs"
+      "/persist/microvms/jellyfin/var/cache/jellyfin"
     ];
     repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
     timerConfig = {

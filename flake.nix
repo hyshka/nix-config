@@ -245,6 +245,26 @@
           modules = [ ./containers/pocket-id.nix ];
           specialArgs = { inherit inputs outputs; };
         };
+        jellyfin = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/jellyfin.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        pinchflat = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/pinchflat.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        media-vpn = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/media-vpn.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        media-arr = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/media-arr.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
 
       # Nix-Darwin configuration entrypoint
