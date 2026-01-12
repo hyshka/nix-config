@@ -122,11 +122,6 @@
           reverse_proxy http://127.0.0.1:8787
         }
 
-        @ebookbuddy host ebookbuddy.home.hyshka.com
-        handle @ebookbuddy {
-          reverse_proxy http://127.0.0.1:5000
-        }
-
         @sonarr host sonarr.home.hyshka.com
         handle @sonarr {
           reverse_proxy http://127.0.0.1:8989

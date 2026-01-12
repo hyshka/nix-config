@@ -13,13 +13,6 @@
   #};
   #virtualisation.oci-containers.backend = "docker";
 
-  sops.secrets = {
-    ebookbuddy-envFile = {
-      owner = "ebookbuddy";
-      group = "mediacenter";
-    };
-  };
-
   # Containers
   virtualisation.oci-containers.containers."jellyfin" = {
     image = "lscr.io/linuxserver/jellyfin:latest";
@@ -490,66 +483,6 @@
       RestartSec = lib.mkOverride 90 "100ms";
       RestartSteps = lib.mkOverride 90 9;
     };
-    partOf = [
-      "docker-compose-media-root.target"
-    ];
-    wantedBy = [
-      "docker-compose-media-root.target"
-    ];
-  };
-
-  systemd.tmpfiles.settings."ebookbuddy" = {
-    "/home/hyshka/media/ebookbuddy-config" = {
-      d = {
-        group = "mediacenter";
-        mode = "0755";
-        user = "ebookbuddy";
-      };
-    };
-  };
-  virtualisation.oci-containers.containers."ebookbuddy" = {
-    image = "thewicklowwolf/ebookbuddy:latest";
-    environment = {
-      "GID" = "13000";
-      "UID" = "13010";
-      "readarr_address" = "http://readarr:8787";
-      "root_folder_path" = "/data/media/books";
-    };
-    environmentFiles = [
-      # contains:
-      # - readarr_api_key
-      # TODO: is this required?
-      # - google_books_api_key
-      config.sops.secrets.ebookbuddy-envFile.path
-    ];
-    volumes = [
-      "/etc/localtime:/etc/localtime:ro"
-      "/home/hyshka/media/ebookbuddy-config:/config:rw"
-      "/mnt/storage/mediacenter:/data:rw"
-    ];
-    ports = [
-      "5000:5000/tcp"
-    ];
-    log-driver = "journald";
-    extraOptions = [
-      "--add-host=host.incus.ntfy:10.223.27.234"
-      "--network-alias=ebookbuddy"
-      "--network=media_default"
-    ];
-  };
-  systemd.services."docker-ebookbuddy" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 90 "always";
-      RestartMaxDelaySec = lib.mkOverride 90 "1m";
-      RestartSec = lib.mkOverride 90 "100ms";
-      RestartSteps = lib.mkOverride 90 9;
-    };
-    after = [
-      "docker-network-media_default.service"
-    ];
-    requires = [
-      "docker-network-media_default.service"
-    ];
     partOf = [
       "docker-compose-media-root.target"
     ];

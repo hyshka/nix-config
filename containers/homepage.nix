@@ -342,15 +342,6 @@ container.mkContainer {
             };
           }
           {
-            EbookBuddy = {
-              icon = "sh-eBookBuddy";
-              href = "https://ebookbuddy.home.hyshka.com";
-              server = "my-docker";
-              container = "ebookbuddy";
-              siteMonitor = "https://ebookbuddy.home.hyshka.com";
-            };
-          }
-          {
             Pinchflat = {
               icon = "pinchflat.svg";
               href = "https://pinchflat.home.hyshka.com";

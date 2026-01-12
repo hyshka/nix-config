@@ -335,7 +335,7 @@ in
             status = "disable";
           }
           {
-            criteria = "*";
+            criteria = "DP-*";
             status = "enable";
           }
         ];

@@ -32,7 +32,7 @@ in
     ./plugins/copilot.nix
     ./plugins/oil.nix
     ./plugins/codecompanion.nix
-    ./plugins/opencode.nix
+    #./plugins/opencode.nix
   ];
 
   programs.nixvim = {
