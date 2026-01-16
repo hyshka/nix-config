@@ -8,24 +8,29 @@
 
       # Installing tree-sitter grammars from Nixpkgs (recommended)
       # https://nix-community.github.io/nixvim/plugins/treesitter/index.html#installing-tree-sitter-grammars-from-nixpkgs
-      # grammarPackages = pkgs.vimPlugins.nvim-treesitter.passthru.allGrammars;
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         # Linux
         bash
         ssh_config
-        # sway
+        sway
         tmux
+        jq
+        zsh
+        gpg
+        just
+        passwd
 
         # Nix, Nixvim
         nix
         query # treesitter queries
-        # vim
-        # vimdoc
+        vim
+        vimdoc
         lua
         luadoc
 
         # General Development
         csv
+        tsv
         diff
         editorconfig
         git_config
@@ -34,56 +39,51 @@
         gitcommit
         gitignore
         ini
-        # llvm
         markdown
         markdown_inline
         regex
-        # xml
+        xml
+        json
         yaml
+        toml
+        dockerfile
+        make
+        robots_txt
 
-        # Rust Development
+        # Other languages
         rust
-        toml # Also for ZMK `keymap.toml`
+        go
+        gomod
+        zig
 
         # Web Development
         css
         html
-        # http
+        http
+        php
         javascript
-        json
-        # json5
-        # php
-        # php_only
-        # phpdoc
-        # sql
+        sql
         scss
-        # twig
         tsx
         typescript
-
-        # Web - other
-        # astro
-        # nginx
-        # svelte
-
-        # Mine
+        nginx
         vue
         jsdoc
         python
-        dockerfile
-        make
+        helm
+        astro
+        svelte
+        mermaid
+        graphql
+        htmldjango
+        requirements
       ];
 
       settings = {
-        # Installing tree-sitter grammars from nvim-treesitter
-        # (can be combined with grammarPackages from Nixpkgs)
-        # https://nix-community.github.io/nixvim/plugins/treesitter/index.html#installing-tree-sitter-grammars-from-nvim-treesitter
-        ensureInstalled = [
-        ];
-
         highlight.enable = true;
-        highlight.disable = [ "vue" ];
+        #highlight.disable = [ "vue" ];
         indent.enable = true;
+        folding.enable = true;
       };
 
       # There are additional nvim-treesitter modules that you can use to interact
@@ -97,6 +97,8 @@
     # Support dockerfile type for files with periods in their name, e.g. Dockerfile.dev
     filetype.pattern = {
       "*.dockerignore" = "gitignore";
+      "*.vitest.js" = "javascript";
+      "*.vitest.ts" = "typescript";
       "Dockerfile.*".__raw = ''
         function(path)
           return path:match("%.dockerignore%*?$") and "gitignore" or "dockerfile"
