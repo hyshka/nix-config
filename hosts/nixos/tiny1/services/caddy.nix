@@ -112,6 +112,11 @@
           reverse_proxy http://127.0.0.1:8096
         }
 
+        @media host media.home.hyshka.com
+        handle @media {
+          reverse_proxy http://10.223.27.100:8096
+        }
+
         @radarr host radarr.home.hyshka.com
         handle @radarr {
           reverse_proxy http://127.0.0.1:7878
