@@ -21,7 +21,11 @@ container.mkContainer {
     openFirewall = true;
     user = "jellyfin";
     group = "mediacenter";
-    dataDir = "/var/lib/jellyfin";
+    # Use same paths as prior Docker environment to avoid requiring database updates
+    configDir = "/config";
+    dataDir = "/config/data";
+    cacheDir = "/config/cache";
+    logDir = "/config/log";
 
     # Hardware acceleration for transcoding
     # Intel QuickSync (QSV) support
@@ -38,8 +42,7 @@ container.mkContainer {
   # Persist Jellyfin data
   environment.persistence."/persist" = {
     directories = [
-      "/var/lib/jellyfin"
-      "/var/cache/jellyfin"
+      "/config"
     ];
   };
 }
