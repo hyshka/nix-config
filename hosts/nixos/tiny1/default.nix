@@ -23,6 +23,15 @@
     useNetworkd = true; # required for incus
   };
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime-legacy1
+      vpl-gpu-rt
+    ];
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -49,6 +58,7 @@
 
     # for intel_gpu_top
     intel-gpu-tools
+    libva-utils
 
     # misc utils
     usbutils # lsusb
