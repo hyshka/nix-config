@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -26,10 +27,16 @@ container.mkContainer {
     dataDir = "/config/data";
     cacheDir = "/config/cache";
     logDir = "/config/log";
+  };
 
-    # Hardware acceleration for transcoding
-    # Intel QuickSync (QSV) support
-    # Device will be passed through via: incus config device add jellyfin gpu gpu
+  # Required drivers for VAAPI transcoding on kaby lake
+  # Device will be passed through via: incus config device add jellyfin gpu gpu
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-compute-runtime-legacy1
+    ];
   };
 
   # Add jellyfin user to video and render groups for GPU access
