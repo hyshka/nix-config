@@ -14,50 +14,6 @@
   #virtualisation.oci-containers.backend = "docker";
 
   # Containers
-  virtualisation.oci-containers.containers."jellyfin" = {
-    image = "lscr.io/linuxserver/jellyfin:latest";
-    environment = {
-      "PGID" = "13000";
-      "PUID" = "13006";
-      "TZ" = "America/Edmonton";
-      "UMASK" = "002";
-    };
-    volumes = [
-      "/home/hyshka/media/jellyfin-config:/config:rw"
-      "/mnt/storage/mediacenter/media:/data:rw"
-    ];
-    ports = [
-      "8096:8096/tcp"
-    ];
-    log-driver = "journald";
-    extraOptions = [
-      "--add-host=host.incus.ntfy:10.223.27.234"
-      "--device=/dev/dri:/dev/dri:rwm"
-      "--network-alias=jellyfin"
-      "--network=media_default"
-    ];
-  };
-  systemd.services."docker-jellyfin" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 90 "always";
-      RestartMaxDelaySec = lib.mkOverride 90 "1m";
-      RestartSec = lib.mkOverride 90 "100ms";
-      RestartSteps = lib.mkOverride 90 9;
-    };
-    after = [
-      "docker-network-media_default.service"
-    ];
-    requires = [
-      "docker-network-media_default.service"
-    ];
-    partOf = [
-      "docker-compose-media-root.target"
-    ];
-    wantedBy = [
-      "docker-compose-media-root.target"
-    ];
-  };
-
   virtualisation.oci-containers.containers."jellyseerr" = {
     image = "fallenbagel/jellyseerr:latest";
     environment = {
