@@ -5,7 +5,7 @@ let
     if pkgs.stdenv.hostPlatform.isDarwin then
       ''osascript -e 'display notification "${message}" with title "${title}"' ''
     else
-      ''notify-send '${title}' '${message}' '';
+      "notify-send '${title}' '${message}' ";
 in
 {
   Notification = [
