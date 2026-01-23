@@ -1,15 +1,18 @@
 { pkgs, ... }:
 {
   programs.nixvim = {
-    # Highlight, edit, and navigate code
-    # https://nix-community.github.io/nixvim/plugins/treesitter/index.html
     plugins.treesitter = {
       enable = true;
-
-      # Installing tree-sitter grammars from Nixpkgs (recommended)
-      # https://nix-community.github.io/nixvim/plugins/treesitter/index.html#installing-tree-sitter-grammars-from-nixpkgs
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        # Linux
+        c
+        javascript
+        typescript
+        tsx
+        jsdoc
+        html
+        css
+        scss
+        #vue # There is no up-to-date treesitter parser for Vue currently, rely on LSP isntead
         bash
         ssh_config
         sway
@@ -19,16 +22,12 @@
         gpg
         just
         passwd
-
-        # Nix, Nixvim
         nix
-        query # treesitter queries
+        query
         vim
         vimdoc
         lua
         luadoc
-
-        # General Development
         csv
         tsv
         diff
@@ -49,49 +48,32 @@
         dockerfile
         make
         robots_txt
-
-        # Other languages
         rust
         go
         gomod
+        gosum
         zig
-
-        # Web Development
-        css
-        html
-        http
-        php
-        javascript
-        sql
-        scss
-        tsx
-        typescript
-        nginx
-        vue
-        jsdoc
-        python
         helm
-        astro
+        terraform
+        php
+        http
+        sql
+        nginx
         svelte
         mermaid
         graphql
         htmldjango
         requirements
+        python
+        helm
       ];
 
       settings = {
         highlight.enable = true;
-        #highlight.disable = [ "vue" ];
         indent.enable = true;
-        folding.enable = true;
+        #folding.enable = true;
       };
-
-      # There are additional nvim-treesitter modules that you can use to interact
-      # with nvim-treesitter. You should go explore a few and see what interests you:
-      #
-      #    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      #    - Show your current context: https://nix-community.github.io/nixvim/plugins/treesitter-context/index.html
-      #    - Treesitter + textobjects: https://nix-community.github.io/nixvim/plugins/treesitter-textobjects/index.html
+      nixvimInjections = true;
     };
 
     # Support dockerfile type for files with periods in their name, e.g. Dockerfile.dev
@@ -113,5 +95,19 @@
         max_lines = 2;
       };
     };
+
+    # Auto-close and auto-rename HTML/JSX/Vue tags
+    # https://nix-community.github.io/nixvim/plugins/ts-autotag/index.html
+    plugins.ts-autotag = {
+      enable = true;
+      settings = {
+        opts = {
+          enable_close = true;
+          enable_rename = true;
+          enable_close_on_slash = false;
+        };
+      };
+    };
   };
+
 }

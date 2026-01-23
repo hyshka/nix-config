@@ -285,7 +285,7 @@ in
           source = "if_many";
         };
         underline = {
-          severity.__raw = ''vim.diagnostic.severity.ERROR'';
+          severity.__raw = "vim.diagnostic.severity.ERROR";
         };
         signs.__raw = ''
           vim.g.enable_nerds_fonts and {
