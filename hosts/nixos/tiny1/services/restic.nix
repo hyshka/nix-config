@@ -39,6 +39,7 @@
       "/mnt/storage/immich/encoded-video"
       "/mnt/storage/immich/thumbs"
       "/persist/microvms/jellyfin/config/cache"
+      "/persist/microvms/jellyfin/config/transcodes"
     ];
     repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
     timerConfig = {
