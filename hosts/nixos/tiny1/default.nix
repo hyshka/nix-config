@@ -6,7 +6,8 @@
 {
   imports = [
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.hardware.nixosModules.common-cpu-intel-kaby-lake
+    inputs.hardware.nixosModules.common-cpu-intel-cpu-only
+    inputs.hardware.nixosModules.common-gpu-intel-kaby-lake
 
     ./hardware-configuration.nix
 
