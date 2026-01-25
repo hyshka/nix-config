@@ -154,7 +154,7 @@
 
         @pinchflat host pinchflat.home.hyshka.com
         handle @pinchflat {
-          reverse_proxy http://127.0.0.1:8945
+          reverse_proxy http://10.223.27.121:8945
         }
 
         @syncthing host syncthing.home.hyshka.com

@@ -22,12 +22,11 @@ container.mkContainer {
 
   services.pinchflat = {
     enable = true;
+    port = 8945;
     openFirewall = true;
     group = "mediacenter";
     mediaDir = "/downloads";
     secretsFile = config.sops.secrets.secretsFile.path;
-
-    # Optional: Enable Prometheus metrics if needed
     extraConfig = {
       ENABLE_PROMETHEUS = "true";
     };

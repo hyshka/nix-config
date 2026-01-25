@@ -29,7 +29,7 @@
 
       # Sops needs acess to the keys before the persist dirs are even mounted; so
       # just persisting the keys won't work, we must point at /persist
-      # TODO: this still isn't working properly
+      # TODO: this still isn't working properly. keys created at first boot in /etc/ssh/ are not persisted to /persist.
       services.openssh.hostKeys = [
         {
           path = "/persist/etc/ssh/ssh_host_ed25519_key";

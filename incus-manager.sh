@@ -530,12 +530,12 @@ add-storage)
   shift
   CONTAINER_PATH=$1
   shift
-  UID=""
+  _UID=""
 
   while [[ $# -gt 0 ]]; do
     case $1 in
     --uid)
-      UID="$2"
+      _UID="$2"
       shift 2
       ;;
     --remote)
@@ -552,7 +552,7 @@ add-storage)
     fatal "Host path and container path are required."
   fi
 
-  add_storage "$CONTAINER" "${REMOTE:-$DEFAULT_REMOTE}" "$HOST_PATH" "$CONTAINER_PATH" "$UID"
+  add_storage "$CONTAINER" "${REMOTE:-$DEFAULT_REMOTE}" "$HOST_PATH" "$CONTAINER_PATH" "$_UID"
   ;;
 
 *)

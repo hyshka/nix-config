@@ -22,7 +22,7 @@ keys:
     - &lxc-homepage age1msvehv4dw0a297pfdsxa2e84p7drnpkwvjpzxvzmv2uuswegrp9suwxd9z
     - &lxc-pocket-id age1aatfgvvxnxd3z7st8m2j3ucrxnd8v5ka3jhteuj20kwahcd44qhq26w6y7
     - &lxc-jellyfin age1d6l74w42zk6rn9qh2n9zj63ekk4lkwdm0w2v302uw083pspv85ys8xztq7
-    - &lxc-pinchflat age1a0tcpm8x6c6mf8xd630xx4tdraf3p6nz4863xgq9u7xsswtxrvpqsffuj4
+    - &lxc-pinchflat age1kgax85fpf4h3t4j8ngnwkx0srtwly65a87qc6efe3x82zhd0gfwsq7kvdf
     - &lxc-media-vpn age1r257u7e93yjqkffdztceavrt3hau30kvrym7wfd4tv5zss2pvcxq463kh5
     - &lxc-media-arr age17ugg9800pvyrujc08jsehpf7m4era4d8k97yzva0yeqjl5wy54dq872wxf
     # not easy to find ssh host key on macos
