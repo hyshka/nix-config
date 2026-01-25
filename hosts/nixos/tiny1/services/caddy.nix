@@ -134,12 +134,12 @@
 
         @qbittorrent host qbittorrent.home.hyshka.com
         handle @qbittorrent {
-          reverse_proxy http://127.0.0.1:8080
+          reverse_proxy http://10.223.27.198:8080
         }
 
         @sabnzbd host sabnzbd.home.hyshka.com
         handle @sabnzbd {
-          reverse_proxy http://127.0.0.1:8085
+          reverse_proxy http://10.223.27.198:8085
         }
 
         @library host library.home.hyshka.com
