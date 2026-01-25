@@ -29,13 +29,15 @@ in
     mode = "0400";
   };
 
+  sops.secrets.sabnzbd-secretsFile = {
+    sopsFile = ./secrets/media-vpn.yaml;
+    owner = "sabnzbd";
+  };
+
   # Wireguard VPN configuration (protonvpn)
   networking.wireguard.interfaces.wg0 = {
     privateKeyFile = config.sops.secrets.wireguard-privatekey.path;
     ips = [ "10.2.0.2/32" ];
-    extraOptions = {
-      DNS = "10.2.0.1";
-    };
     peers = [
       {
         # NL#909
@@ -79,6 +81,11 @@ in
         ip -n vpn link set lo up
         ip -n vpn link set wg0 up
         ip -n vpn route add default dev wg0
+
+        # Configure DNS for the namespace
+        # protonvpn DNS server
+        mkdir -p /etc/netns/vpn
+        echo "nameserver 10.2.0.1" > /etc/netns/vpn/resolv.conf
       '';
 
       ExecStop = "${pkgs.iproute2}/bin/ip netns del vpn || true";
@@ -114,6 +121,97 @@ in
     enable = true;
     user = "sabnzbd";
     group = "mediacenter";
+    secretFiles = [ config.sops.secrets.sabnzbd-secretsFile.path ];
+    settings = {
+      misc = {
+        # Network
+        host = "::";
+        port = 8085;
+
+        # Performance
+        bandwidth_perc = 80;
+        bandwidth_max = "120M";
+        cache_limit = "1G";
+
+        # Directories
+        download_dir = "/data/usenet/incomplete";
+        complete_dir = "/data/usenet/complete";
+
+        # Processing
+        flat_unpack = 1;
+        no_dupes = 4;
+        no_smart_dupes = 4;
+        deobfuscate_final_filenames = 1;
+
+        # Schedule (pause for backup window)
+        schedlines = "1 55 0 1234567 pause_all , 1 0 2 1234567 resume ";
+
+        # Categories
+        tv_categories = "tv,";
+        movie_categories = "movies,";
+
+        # Allowlist for access
+        host_whitelist = "localhost, sabnzbd.home.hyshka.com";
+
+        # History
+        history_limit = 10;
+        history_retention_option = "all";
+        history_retention_number = 1;
+      };
+
+      servers = {
+        "news.usenetexpress.com" = {
+          name = "news.usenetexpress.com";
+          displayname = "news.usenetexpress.com";
+          host = "news.usenetexpress.com";
+          port = 563;
+          connections = 50;
+          ssl_verify = "strict";
+          required = true;
+        };
+      };
+
+      categories = {
+        "*" = {
+          name = "*";
+          order = 0;
+          pp = 3;
+          script = "None";
+        };
+        movies = {
+          name = "movies";
+          order = 1;
+          dir = "movies";
+          priority = -100;
+        };
+        tv = {
+          name = "tv";
+          order = 2;
+          dir = "tv";
+          priority = -100;
+        };
+        audio = {
+          name = "audio";
+          order = 3;
+          dir = "audio";
+          priority = -100;
+        };
+        software = {
+          name = "software";
+          order = 4;
+          dir = "software";
+          priority = -100;
+        };
+        books = {
+          name = "books";
+          order = 5;
+          dir = "books";
+          priority = -100;
+        };
+      };
+
+      ntfosd.ntfosd_enable = false;
+    };
   };
 
   nixpkgs = {
