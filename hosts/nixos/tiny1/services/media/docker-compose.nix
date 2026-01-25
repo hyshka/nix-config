@@ -446,57 +446,6 @@
     ];
   };
 
-  systemd.tmpfiles.settings."pinchflat" = {
-    "/home/hyshka/media/pinchflat-config" = {
-      d = {
-        group = "mediacenter";
-        mode = "0755";
-        user = "pinchflat";
-      };
-    };
-  };
-  virtualisation.oci-containers.containers."pinchflat" = {
-    image = "ghcr.io/kieraneglin/pinchflat:latest";
-    environment = {
-      "TZ" = "America/Edmonton";
-      "ENABLE_PROMETHEUS" = "true";
-    };
-    volumes = [
-      "/home/hyshka/media/pinchflat-config:/config:rw"
-      "/mnt/storage/mediacenter/media/youtube:/downloads:rw"
-    ];
-    ports = [
-      "8945:8945/tcp"
-    ];
-    log-driver = "journald";
-    extraOptions = [
-      "--add-host=host.incus.ntfy:10.223.27.234"
-      "--network-alias=pinchflat"
-      "--network=media_default"
-      "--user=13012:13000"
-    ];
-  };
-  systemd.services."docker-pinchflat" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 90 "always";
-      RestartMaxDelaySec = lib.mkOverride 90 "1m";
-      RestartSec = lib.mkOverride 90 "100ms";
-      RestartSteps = lib.mkOverride 90 9;
-    };
-    after = [
-      "docker-network-media_default.service"
-    ];
-    requires = [
-      "docker-network-media_default.service"
-    ];
-    partOf = [
-      "docker-compose-media-root.target"
-    ];
-    wantedBy = [
-      "docker-compose-media-root.target"
-    ];
-  };
-
   # Networks
   systemd.services."docker-network-media_default" = {
     path = [ pkgs.docker ];
