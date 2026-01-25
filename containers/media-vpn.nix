@@ -8,10 +8,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "media-vpn";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "media-vpn"; }) ];
+
   # Open firewall for qBittorrent and SABnzbd web UIs
   networking.firewall.allowedTCPPorts = [
     8080 # qBittorrent
@@ -52,6 +51,8 @@ container.mkContainer {
   # This creates a separate network namespace where all traffic goes through wg0
   systemd.services.vpn-netns = {
     description = "VPN Network Namespace for Downloaders";
+    after = [ "wireguard-wg0.service" ];
+    requires = [ "wireguard-wg0.service" ];
     before = [
       "qbittorrent.service"
       "sabnzbd.service"
