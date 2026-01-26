@@ -5,7 +5,7 @@
     ../desktop/aerospace.nix
     ../desktop/alacritty.nix
     ../desktop/espanso.nix
-    ../ai/opencode.nix
+    #../ai/opencode.nix
     ../ai/claude.nix
     ../nixvim
     ../cli
