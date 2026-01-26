@@ -34,9 +34,15 @@ in
     owner = "sabnzbd";
   };
 
+  # VPN DNS for services in namespace
+  environment.etc."netns/vpn/resolv.conf".text = ''
+    nameserver 10.2.0.1
+  '';
+
   # Wireguard VPN configuration (protonvpn)
   networking.wireguard.interfaces.wg0 = {
     privateKeyFile = config.sops.secrets.wireguard-privatekey.path;
+    interfaceNamespace = "vpn";
     ips = [ "10.2.0.2/32" ];
     peers = [
       {
@@ -47,48 +53,58 @@ in
         persistentKeepalive = 25;
       }
     ];
+    # Network namespace setup for routing qBittorrent and SABnzbd through VPN
+    # This creates a separate network namespace where all traffic goes through wg0
+    preSetup = ''
+      # Create network namespace
+      ip netns add vpn 2>/dev/null || true
+
+      # Create veth pair for accessing services from outside namespace
+      ip link add veth-host type veth peer name veth-vpn 2>/dev/null || true
+      ip link set veth-vpn netns vpn
+      ip addr add 172.16.0.1/24 dev veth-host 2>/dev/null || true
+      ip link set veth-host up
+    '';
+    postSetup = ''
+      # Set up networking in the namespace
+      ip -n vpn link set lo up
+      ip -n vpn link set wg0 up
+
+      # Configure veth-vpn side in namespace
+      ip -n vpn addr add 172.16.0.2/24 dev veth-vpn
+      ip -n vpn link set veth-vpn up
+
+      # Add default route via VPN for outbound traffic
+      ip -n vpn route add default dev wg0
+    '';
+    postShutdown = ''
+      ip link del veth-host 2>/dev/null || true
+      ip netns del vpn 2>/dev/null || true
+    '';
   };
 
-  # Network namespace setup for routing qBittorrent and SABnzbd through VPN
-  # This creates a separate network namespace where all traffic goes through wg0
-  systemd.services.vpn-netns = {
-    description = "VPN Network Namespace for Downloaders";
+  # Socat proxy services to expose web UIs from VPN namespace
+  systemd.services.qbittorrent-proxy = {
+    description = "Proxy qBittorrent web UI from VPN namespace";
     after = [ "wireguard-wg0.service" ];
-    requires = [ "wireguard-wg0.service" ];
-    before = [
-      "qbittorrent.service"
-      "sabnzbd.service"
-    ];
     wantedBy = [ "multi-user.target" ];
 
-    path = with pkgs; [
-      iproute2
-      wireguard-tools
-    ];
+    serviceConfig = {
+      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:8080,fork,reuseaddr TCP:172.16.0.2:8080";
+      Restart = "always";
+      RestartSec = "5s";
+    };
+  };
+
+  systemd.services.sabnzbd-proxy = {
+    description = "Proxy SABnzbd web UI from VPN namespace";
+    after = [ "wireguard-wg0.service" ];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-
-      ExecStart = pkgs.writeShellScript "setup-vpn-ns" ''
-        # Create network namespace
-        ip netns add vpn || true
-
-        # Move wg0 into the namespace
-        ip link set wg0 netns vpn
-
-        # Set up networking in the namespace
-        ip -n vpn link set lo up
-        ip -n vpn link set wg0 up
-        ip -n vpn route add default dev wg0
-
-        # Configure DNS for the namespace
-        # protonvpn DNS server
-        mkdir -p /etc/netns/vpn
-        echo "nameserver 10.2.0.1" > /etc/netns/vpn/resolv.conf
-      '';
-
-      ExecStop = "${pkgs.iproute2}/bin/ip netns del vpn || true";
+      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:8085,fork,reuseaddr TCP:172.16.0.2:8085";
+      Restart = "always";
+      RestartSec = "5s";
     };
   };
 
@@ -111,10 +127,13 @@ in
   };
 
   systemd.services.qbittorrent = {
-    after = [ "vpn-netns.service" ];
-    requires = [ "vpn-netns.service" ];
+    after = [ "wireguard-wg0.service" ];
+    requires = [ "wireguard-wg0.service" ];
     # Route through VPN namespace
-    serviceConfig.NetworkNamespacePath = "/var/run/netns/vpn";
+    serviceConfig = {
+      NetworkNamespacePath = "/var/run/netns/vpn";
+      BindReadOnlyPaths = "/etc/netns/vpn/resolv.conf:/etc/resolv.conf";
+    };
   };
 
   services.sabnzbd = {
@@ -224,10 +243,13 @@ in
   };
 
   systemd.services.sabnzbd = {
-    after = [ "vpn-netns.service" ];
-    requires = [ "vpn-netns.service" ];
+    after = [ "wireguard-wg0.service" ];
+    requires = [ "wireguard-wg0.service" ];
     # Route through VPN namespace
-    serviceConfig.NetworkNamespacePath = "/var/run/netns/vpn";
+    serviceConfig = {
+      NetworkNamespacePath = "/var/run/netns/vpn";
+      BindReadOnlyPaths = "/etc/netns/vpn/resolv.conf:/etc/resolv.conf";
+    };
   };
 
   # Add users to mediacenter group
