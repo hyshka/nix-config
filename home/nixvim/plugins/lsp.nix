@@ -95,7 +95,6 @@
         cssls.enable = true;
         dockerls.enable = true;
         bashls.enable = true;
-        marksman.enable = true;
         sqls.enable = true;
         stylelint_lsp.enable = true;
 
