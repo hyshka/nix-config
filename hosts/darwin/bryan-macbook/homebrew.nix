@@ -38,6 +38,7 @@
       "orbstack"
       "brave-browser"
       "caffeine"
+      "spotify"
     ];
   };
 
