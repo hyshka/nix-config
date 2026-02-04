@@ -20,10 +20,9 @@
       tmuxPlugins.pain-control
       tmuxPlugins.prefix-highlight
       tmuxPlugins.fzf-tmux-url
+      tmuxPlugins.tmux-fzf
       tmuxPlugins.copycat
       tmuxPlugins.yank
-      tmuxPlugins.resurrect
-      tmuxPlugins.continuum
       tmuxPlugins.catppuccin
     ];
     extraConfig = ''
@@ -59,6 +58,8 @@
       # Enable persistent sessions
       set -g @continuum-restore 'on'
       set -g @resurrect-capture-pane-contents 'on'
+      # session picker
+      bind-key s run-shell -b "${pkgs.tmuxPlugins.tmux-fzf}/share/tmux-plugins/tmux-fzf/scripts/session.sh switch"
     '';
   };
   xdg.configFile = {
@@ -145,7 +146,7 @@
         session_name: "''${SESSION_NAME}"
         start_directory: "''${HOME}/work/muckrack/code"
         shell_command_before:
-          - git worktree add ../''${SESSION_NAME} -b ''${BRANCH_NAME} && cd ../''${SESSION_NAME}
+          - if [ -d ../''${SESSION_NAME} ]; then cd ../''${SESSION_NAME}; else git worktree add ../''${SESSION_NAME} -b ''${BRANCH_NAME} && cd ../''${SESSION_NAME}; fi
         windows:
           - window_name: code
             panes:
@@ -161,7 +162,7 @@
               - nix shell 'nixpkgs#nodejs_24'
             panes:
               - shell_command:
-                - opencode
+                - claude
       '';
       target = "tmuxp/worktree.yml";
     };
