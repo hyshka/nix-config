@@ -87,7 +87,7 @@
             }
           ];
         };
-        pyright.enable = true;
+        ty.enable = true;
         ruff.enable = true;
         emmet_ls.enable = true;
         gopls.enable = true;
