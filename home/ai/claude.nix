@@ -27,7 +27,7 @@
         #"code-review@claude-plugins-official" = true;
         #"ralph-wiggum@claude-plugins-official" = false;
         #"plugin-dev@claude-plugins-official" = false;
-        #"commit-commands@claude-plugins-official" = true;
+        "commit-commands@claude-plugins-official" = true;
       };
       permissions = {
         defaultMode = "plan";
