@@ -83,10 +83,10 @@ container.mkContainer {
             ];
           }
           {
-            Mullvad = [
+            ProtonVPN = [
               {
-                icon = "mullvad.svg";
-                href = "https://mullvad.net";
+                icon = "protonvpn.svg";
+                href = "https://protonvpn.com";
               }
             ];
           }

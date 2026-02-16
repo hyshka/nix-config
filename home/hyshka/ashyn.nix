@@ -18,7 +18,6 @@
 
   home.packages = with pkgs; [
     libreoffice-qt
-    mullvad-vpn
     brave
     incus
   ];
