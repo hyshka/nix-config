@@ -139,14 +139,15 @@
             "37" = {
               enabled = false;
             };
+            # Disable Spotlight (Command-Space)
+            "64" = {
+              enabled = false;
+            };
+            "65" = {
+              enabled = false;
+            };
           };
         };
-
-        # Accessibility - reduce transparency for better performance and readability
-        # TODO: cannot enable without giving full disk access to alacritty
-        #"com.apple.universalaccess" = {
-        #  reduceTransparency = true;
-        #};
 
         # Show date in menu bar (helpful for keyboard users who hide dock)
         "com.apple.menuextra.clock" = {
