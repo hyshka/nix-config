@@ -146,6 +146,33 @@
             "65" = {
               enabled = false;
             };
+            # Disable Option key shortcuts
+            # Dock hide/show (Option+Cmd+D)
+            "52" = {
+              enabled = false;
+            };
+            # VoiceOver toggle (Option+Cmd+F5)
+            "59" = {
+              enabled = false;
+            };
+            # Move left a space (with Option)
+            "79" = {
+              enabled = false;
+            };
+            "80" = {
+              enabled = false;
+            };
+            # Move right a space (with Option)
+            "81" = {
+              enabled = false;
+            };
+            "82" = {
+              enabled = false;
+            };
+            # Character Viewer/Emoji picker (Ctrl+Cmd+Space)
+            "184" = {
+              enabled = false;
+            };
           };
         };
 
