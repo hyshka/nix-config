@@ -196,8 +196,7 @@
             "api_key": "$OPENROUTER_API_KEY",
             "models": [
               "anthropic/claude-haiku-4.5:online",
-              "anthropic/claude-sonnet-4.5",
-              "anthropic/claude-opus-4.5"
+              "anthropic/claude-sonnet-4.6",
             ],
             "transformer": {
               "use": ["openrouter"]
@@ -205,12 +204,12 @@
           }
         ],
         "Router": {
-          "default": "openrouter,anthropic/claude-sonnet-4.5",
+          "default": "openrouter,anthropic/claude-sonnet-4.6",
           "background": "openrouter,anthropic/claude-haiku-4.5",
-          "think": "openrouter,anthropic/claude-opus-4.5",
-          "longContext": "openrouter,anthropic/claude-sonnet-4.5",
+          "think": "openrouter,anthropic/claude-sonnet-4.6",
+          "longContext": "openrouter,anthropic/claude-sonnet-4.6",
           "webSearch": "openrouter,anthropic/claude-haiku-4.5",
-          "image": "openrouter,anthropic/claude-sonnet-4.5"
+          "image": "openrouter,anthropic/claude-sonnet-4.6"
         }
       }
     '';
