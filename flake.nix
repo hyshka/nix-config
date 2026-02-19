@@ -255,9 +255,14 @@
           modules = [ ./containers/pinchflat.nix ];
           specialArgs = { inherit inputs outputs; };
         };
-        media-vpn = lib.nixosSystem {
+        wireguard-gateway = lib.nixosSystem {
           system = "x86_64-linux";
-          modules = [ ./containers/media-vpn.nix ];
+          modules = [ ./containers/wireguard-gateway.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        media-download = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/media-download.nix ];
           specialArgs = { inherit inputs outputs; };
         };
         media-arr = lib.nixosSystem {

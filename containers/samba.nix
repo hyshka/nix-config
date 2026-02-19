@@ -121,6 +121,15 @@ container.mkContainer {
         "guest ok" = "no";
         comment = "hyshka home folder";
       };
+      mediacenter = {
+        path = "/mnt/storage/mediacenter";
+        "valid users" = "bryan";
+        browseable = "yes";
+        writeable = "no";
+        "read only" = "yes";
+        "guest ok" = "no";
+        comment = "media center";
+      };
       tm_share = {
         path = "/mnt/storage/tm_share";
         "valid users" = "renee";

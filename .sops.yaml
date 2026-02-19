@@ -23,7 +23,8 @@ keys:
     - &lxc-pocket-id age1aatfgvvxnxd3z7st8m2j3ucrxnd8v5ka3jhteuj20kwahcd44qhq26w6y7
     - &lxc-jellyfin age1d6l74w42zk6rn9qh2n9zj63ekk4lkwdm0w2v302uw083pspv85ys8xztq7
     - &lxc-pinchflat age1kgax85fpf4h3t4j8ngnwkx0srtwly65a87qc6efe3x82zhd0gfwsq7kvdf
-    - &lxc-media-vpn age1r257u7e93yjqkffdztceavrt3hau30kvrym7wfd4tv5zss2pvcxq463kh5
+    - &lxc-media-download age1ud8u5wvt77cwh62g0j7lrfv5xp0m0pqpdf5xvkqdhmmtsndyvqssl2dqs8
+    - &lxc-wireguard-gateway age1hkw5n7xclxz56zsz25kcvezpvswzfy2z6xl7grz2plry4jvr4qqs9zxpqx
     - &lxc-media-arr age17ugg9800pvyrujc08jsehpf7m4era4d8k97yzva0yeqjl5wy54dq872wxf
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
@@ -120,10 +121,16 @@ creation_rules:
           - *lxc-pinchflat
         pgp:
           - *hyshka
-  - path_regex: containers/secrets/media-vpn.ya?ml$
+  - path_regex: containers/secrets/media-download.ya?ml$
     key_groups:
       - age:
-          - *lxc-media-vpn
+          - *lxc-media-download
+        pgp:
+          - *hyshka
+  - path_regex: containers/secrets/wireguard-gateway.ya?ml$
+    key_groups:
+      - age:
+          - *lxc-wireguard-gateway
         pgp:
           - *hyshka
   - path_regex: containers/secrets/media-arr.ya?ml$
