@@ -13,6 +13,7 @@
     ../common/android.nix
     ../common/pipewire.nix
     ../common/plasma.nix
+    ../common/wireless.nix
 
     ./docker.nix
     ./doom.nix

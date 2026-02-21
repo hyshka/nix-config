@@ -9,8 +9,8 @@
     ../desktop/alacritty.nix
     ../desktop/plasma.nix
     ../desktop/zwift.nix
-    ../desktop/logseq.nix
-    ../ai/opencode.nix
+    #../desktop/logseq.nix
+    #../ai/opencode.nix
     ../nixvim
     ../cli
     ../desktop/font.nix
@@ -30,7 +30,7 @@
     inkscape-with-extensions
     #gimp-with-plugins # TODO: build failed
     mpv
-    handbrake
+    #handbrake
     delfin
     jellyflix
     obs-studio
