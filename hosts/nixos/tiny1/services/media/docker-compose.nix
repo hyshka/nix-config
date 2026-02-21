@@ -28,6 +28,7 @@
     log-driver = "journald";
     extraOptions = [
       "--add-host=host.incus.ntfy:10.223.27.234"
+      "--add-host=host.incus.jellyfin:10.223.27.100"
       "--network-alias=jellyseerr"
       "--network=media_default"
     ];
