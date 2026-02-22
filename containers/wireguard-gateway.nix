@@ -11,6 +11,10 @@ in
 {
   imports = [ (container.mkContainer { name = "wireguard-gateway"; }) ];
 
+  # incus network create vpnbr0 ipv4.address=10.100.0.1/24
+  # incus config device add wireguard-gateway eth1 nic parent=vpnbr0
+  # incus config device add media-download eth0 nic parent=vpnbr0
+
   # Enable forwarding & NAT capabilities
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
@@ -21,12 +25,8 @@ in
   # Use systemd-networkd for networking
   networking.useHostResolvConf = false;
   networking.useNetworkd = true;
-  # testing only
   environment.systemPackages = [
     pkgs.wireguard-tools
-    pkgs.dig
-    pkgs.traceroute
-    pkgs.tcpdump
   ];
 
   # Enable systemd-resolved for DNS forwarding to media-download
@@ -35,9 +35,20 @@ in
     settings = {
       Resolve = {
         DNSStubListenerExtra = [ "10.100.0.2" ];
+        FallbackDNS = null;
+        LLMNR = "no";
+        MulticastDNS = "no";
+        DNSOverTLS = "no";
+        CacheFromLocalhost = "no";
       };
     };
   };
+
+  # TODO: Rate-limit DNS requests
+  #networking.firewall.extraCommands = ''
+  #  iptables -A INPUT -p udp --dport 53 -m state --state NEW -m recent --set
+  #  iptables -A INPUT -p udp --dport 53 -m state --state NEW -m recent --update --seconds 1 --hitcount 10 -j DROP
+  #'';
 
   # WireGuard VPN configuration
   systemd.network = {
@@ -64,6 +75,29 @@ in
           RouteTable = 1000;
         }
       ];
+    };
+
+    networks."10-eth0" = {
+      matchConfig.Name = "eth0";
+      # Allow DHCP for management connectivity
+      networkConfig = {
+        DHCP = "yes";
+      };
+      # Reject DNS from DHCP - only use VPN DNS
+      dhcpV4Config = {
+        UseDNS = false;
+        UseRoutes = true;
+        UseDomains = false;
+      };
+      dhcpV6Config = {
+        UseDNS = false;
+      };
+      ipv6AcceptRAConfig = {
+        UseDNS = false;
+      };
+      # Explicitly no DNS configuration
+      dns = [ ];
+      domains = [ ];
     };
 
     networks."50-wg0" = {
@@ -115,7 +149,8 @@ in
     allowedTCPPorts = [
       8080 # qBittorrent (forwarded from media-download)
       8085 # SABnzbd (forwarded from media-download)
-      9586 # Wireguard exporter (Prometheus)
+      # TODO: add exporter
+      #9586 # Wireguard exporter (Prometheus)
     ];
     allowedUDPPorts = [ 53 ]; # DNS
     trustedInterfaces = [
@@ -123,7 +158,19 @@ in
       "wg0"
     ]; # Trust traffic from media-download
     extraCommands = ''
+      # NAT for outbound VPN traffic
       iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o wg0 -j MASQUERADE
+
+      # Port forwarding from wireguard-gateway to media-download
+      iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 8080 -j DNAT --to-destination 10.100.0.3:8080
+      iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 8080 -d 10.100.0.3 -j ACCEPT
+      iptables -A FORWARD -i eth1 -o eth0 -p tcp --sport 8080 -s 10.100.0.3 -j ACCEPT
+
+      iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 8085 -j DNAT --to-destination 10.100.0.3:8085
+      iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 8085 -d 10.100.0.3 -j ACCEPT
+      iptables -A FORWARD -i eth1 -o eth0 -p tcp --sport 8085 -s 10.100.0.3 -j ACCEPT
+
+      # VPN forwarding rules
       iptables -A FORWARD -i eth1 -o wg0 -j ACCEPT
       iptables -A FORWARD -i wg0 -o eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT
     '';

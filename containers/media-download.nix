@@ -23,6 +23,7 @@ in
 
   # disable IPv6 to prevent DNS leaks
   boot.kernel.sysctl = {
+    "net.ipv6.conf.all.forwarding" = 0;
     "net.ipv6.conf.all.disable_ipv6" = 1;
   };
 
@@ -50,7 +51,7 @@ in
   };
 
   # No firewall needed - isolated network, gateway handles forwarding
-  #networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Create mediacenter group matching host GID
   users.groups.mediacenter = {
