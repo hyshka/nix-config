@@ -30,12 +30,6 @@ in
   # Use systemd-networkd for networking
   networking.useHostResolvConf = false;
   networking.useNetworkd = true;
-  # testing only
-  environment.systemPackages = [
-    pkgs.dig
-    pkgs.traceroute
-    pkgs.tcpdump
-  ];
 
   systemd.network.networks."50-eth0" = {
     matchConfig.Name = "eth0";
