@@ -113,16 +113,26 @@ in
         DNSDefaultRoute = true;
       };
       routingPolicyRules = [
+        # Priority 5: Keep local subnet traffic local (DNS, ping, web UIs)
+        # This prevents 10.100.0.0/24 traffic from being routed through VPN
+        {
+          To = "10.100.0.0/24";
+          Priority = 5;
+          Table = "main";
+        }
+        # Priority 6: VPN endpoint bypass (prevent WireGuard routing loop)
+        {
+          To = "169.150.196.69/32";
+          Priority = 6;
+        }
+        # Priority 10: Everything else without fwmark goes to VPN
+        # Traffic FROM 10.100.0.0/24 TO internet uses table 1000 (VPN route)
         {
           Family = "both";
           FirewallMark = 34952; # "0x8888";
           InvertRule = true;
           Table = 1000;
           Priority = 10;
-        }
-        {
-          To = "169.150.196.69/32";
-          Priority = 5;
         }
       ];
     };
@@ -144,14 +154,8 @@ in
     mode = "0400";
   };
 
-  # Open firewall for web UIs (accessible from incusbr0)
+  # Open firewall for VPN gateway functionality
   networking.firewall = {
-    allowedTCPPorts = [
-      8080 # qBittorrent (forwarded from media-download)
-      8085 # SABnzbd (forwarded from media-download)
-      # TODO: add exporter
-      #9586 # Wireguard exporter (Prometheus)
-    ];
     allowedUDPPorts = [ 53 ]; # DNS
     trustedInterfaces = [
       "eth1"
@@ -160,15 +164,6 @@ in
     extraCommands = ''
       # NAT for outbound VPN traffic
       iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o wg0 -j MASQUERADE
-
-      # Port forwarding from wireguard-gateway to media-download
-      iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 8080 -j DNAT --to-destination 10.100.0.3:8080
-      iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 8080 -d 10.100.0.3 -j ACCEPT
-      iptables -A FORWARD -i eth1 -o eth0 -p tcp --sport 8080 -s 10.100.0.3 -j ACCEPT
-
-      iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 8085 -j DNAT --to-destination 10.100.0.3:8085
-      iptables -A FORWARD -i eth0 -o eth1 -p tcp --dport 8085 -d 10.100.0.3 -j ACCEPT
-      iptables -A FORWARD -i eth1 -o eth0 -p tcp --sport 8085 -s 10.100.0.3 -j ACCEPT
 
       # VPN forwarding rules
       iptables -A FORWARD -i eth1 -o wg0 -j ACCEPT

@@ -11,16 +11,6 @@ in
 {
   imports = [ (container.mkContainer { name = "media-download"; }) ];
 
-  # qBittorrent webUI (8080)
-  # incus config device add media-download qbt-proxy proxy \
-  #  listen=tcp:0.0.0.0:8080 \
-  #  connect=tcp:127.0.0.1:8080
-
-  # Sabnzbd webUI (8085)
-  # incus config device add media-download sab-proxy proxy \
-  #  listen=tcp:0.0.0.0:8085 \
-  #  connect=tcp:127.0.0.1:8085
-
   # disable IPv6 to prevent DNS leaks
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 0;
@@ -30,6 +20,19 @@ in
   # Use systemd-networkd for networking
   networking.useHostResolvConf = false;
   networking.useNetworkd = true;
+
+  # Disable fallback DNS to prevent leaks when VPN is slow/down
+  services.resolved = {
+    enable = true;
+    settings = {
+      Resolve = {
+        FallbackDNS = null;
+        LLMNR = "no";
+        MulticastDNS = "no";
+        DNSOverTLS = "no";
+      };
+    };
+  };
 
   systemd.network.networks."50-eth0" = {
     matchConfig.Name = "eth0";
@@ -44,9 +47,6 @@ in
     domains = [ "~." ];
   };
 
-  # No firewall needed - isolated network, gateway handles forwarding
-  networking.firewall.enable = false;
-
   # Create mediacenter group matching host GID
   users.groups.mediacenter = {
     gid = 13000;
@@ -59,7 +59,7 @@ in
 
   services.qbittorrent = {
     enable = true;
-    openFirewall = false;
+    openFirewall = true;
     user = "qbittorrent";
     group = "mediacenter";
     webuiPort = 8080;
@@ -69,6 +69,7 @@ in
 
   services.sabnzbd = {
     enable = true;
+    openFirewall = true;
     user = "sabnzbd";
     group = "mediacenter";
     secretFiles = [ config.sops.secrets.sabnzbd-secretsFile.path ];
@@ -101,7 +102,8 @@ in
         movie_categories = "movies,";
 
         # Allowlist for access
-        host_whitelist = "localhost, sabnzbd.home.hyshka.com";
+        # Empty whitelist allows all hosts (safe - network already isolated to vpnbr0)
+        host_whitelist = "";
 
         # History
         history_limit = 10;
