@@ -11,6 +11,14 @@ in
 {
   imports = [ (container.mkContainer { name = "wireguard-gateway"; }) ];
 
+  # VPN Gateway Container
+  # Full documentation: containers/VPN-GATEWAY.md
+  #
+  # Quick reference:
+  # - Network: vpnbr0 (10.100.0.0/24)
+  # - This container: 10.100.0.2 (eth1)
+  # - VPN provider: ProtonVPN NL#909
+
   # incus network create vpnbr0 ipv4.address=10.100.0.1/24
   # incus config device add wireguard-gateway eth1 nic parent=vpnbr0
   # incus config device add media-download eth0 nic parent=vpnbr0

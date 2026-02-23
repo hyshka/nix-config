@@ -11,6 +11,14 @@ in
 {
   imports = [ (container.mkContainer { name = "media-download"; }) ];
 
+  # Media Download Container (VPN Client)
+  # Full documentation: containers/VPN-GATEWAY.md
+  #
+  # Quick reference:
+  # - Network: vpnbr0 (10.100.0.0/24)
+  # - Web UIs: http://10.100.0.3:8080 (qBittorrent), :8085 (SABnzbd)
+  # - ALL internet traffic goes through VPN (no direct internet access)
+
   # disable IPv6 to prevent DNS leaks
   boot.kernel.sysctl = {
     "net.ipv6.conf.all.forwarding" = 0;
