@@ -173,6 +173,13 @@
             "184" = {
               enabled = false;
             };
+            # Input sources (conflicts with tmux prefix)
+            "60" = {
+              enabled = false;
+            };
+            "61" = {
+              enabled = false;
+            };
           };
         };
 
