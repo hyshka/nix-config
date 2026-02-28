@@ -13,5 +13,6 @@
     ./grafana # TODO: move to incus
     ./adguard-home.nix # TODO: move to rpi4
     ./incus.nix
+    ./wireguard-vpn.nix # WireGuard VPN gateway for Incus containers
   ];
 }
