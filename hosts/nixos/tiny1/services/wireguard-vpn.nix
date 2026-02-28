@@ -63,51 +63,61 @@
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
       address = [ "10.2.0.2/32" ];
-      dns = [ "10.2.0.1" ];
-      domains = [ "~." ]; # Route DNS queries through VPN for wg0 interface only
+
+      # DNS handled by containers via DHCP (10.2.0.1 advertised by vpnbr0)
+      # Removed: dns/domains config to prevent conflict with Tailscale DNS
 
       networkConfig = {
-        DNSDefaultRoute = true;
         IPv4Forwarding = true;
       };
 
       # Policy-based routing rules
+      # Priority schema:
+      #   100: Tailscale exemption (avoid conflict with Tailscale's 5210-5270 range)
+      #   6000-6011: VPN routing rules (well above Tailscale range)
       routingPolicyRules = [
-        # Priority 5: Keep vpnbr0 subnet local
+        # Priority 100: Exempt Tailscale network (prevent VPN routing Tailscale traffic)
+        {
+          To = "100.64.0.0/10"; # Tailscale CGNAT range
+          Priority = 100;
+          Table = "main";
+        }
+
+        # Priority 6000: Keep vpnbr0 subnet local
         {
           To = "10.100.0.0/24";
-          Priority = 5;
+          Priority = 6000;
           Table = "main";
         }
 
-        # Priority 6: VPN endpoint bypass (prevent WireGuard routing loop)
+        # Priority 6001: VPN endpoint bypass (prevent WireGuard routing loop)
         {
           To = "169.150.196.69/32";
-          Priority = 6;
+          Priority = 6001;
           Table = "main";
         }
 
-        # Priority 7: Keep incusbr0 subnet local
+        # Priority 6002: Keep incusbr0 subnet local
         {
           To = "10.223.27.0/24";
-          Priority = 7;
+          Priority = 6002;
           Table = "main";
         }
 
-        # Priority 10: Route traffic FROM vpnbr0 to VPN table
+        # Priority 6010: Route traffic FROM vpnbr0 to VPN table
         {
           From = "10.100.0.0/24";
-          Priority = 10;
+          Priority = 6010;
           Table = 1000;
         }
 
-        # Priority 11: Prevent WireGuard protocol packets from routing through tunnel
+        # Priority 6011: Prevent WireGuard protocol packets from routing through tunnel
         {
           Family = "both";
           FirewallMark = 34952;
           InvertRule = true;
           Table = 1000;
-          Priority = 11;
+          Priority = 6011;
         }
       ];
     };
@@ -135,10 +145,11 @@
     # Use "loose" rpfilter for policy routing compatibility
     checkReversePath = "loose";
 
-    # Trust VPN-related interfaces
+    # Trust VPN-related and Tailscale interfaces
     trustedInterfaces = [
       "vpnbr0"
       "wg0"
+      "tailscale0" # Trust Tailscale to prevent access issues
     ];
 
     # nftables forward rules (inject into NixOS firewall chains)
