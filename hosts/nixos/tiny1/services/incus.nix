@@ -16,8 +16,6 @@
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
-  # Exempt vpnbr0 bridge traffic from rpfilter
-  networking.firewall.checkReversePath = "loose";
 
   # TODO: create a better system for managing idmapped disks
   users.users.root = {
