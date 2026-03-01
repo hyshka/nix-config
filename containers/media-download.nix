@@ -71,11 +71,11 @@ in
           Priority = 5;
         }
         # Priority 9: Keep local subnet traffic local (DNS, ping, web UIs)
-        # This prevents 10.100.0.0/24 traffic from being routed through VPN
-        #{
-        #  To = "10.100.0.0/24";
-        #  Priority = 9;
-        #}
+        # This prevents incusbr0 traffic from being routed through VPN
+        {
+          To = "10.223.27.0/24";
+          Priority = 9;
+        }
         # Priority 10: Everything else without fwmark goes to VPN
         {
           Family = "both";
@@ -87,11 +87,23 @@ in
       ];
     };
 
-    #networks."99-lxc-veth-default-dhcp" = {
-    #  matchConfig.Name = "eth0";
-    #  networkConfig = {
-    #  };
-    #};
+    # Only use VPN DNS
+    networks."99-lxc-veth-default-dhcp" = {
+      matchConfig.Name = "eth0";
+      dhcpV4Config = {
+        UseDNS = false;
+        UseRoutes = true;
+        UseDomains = false;
+      };
+      dhcpV6Config = {
+        UseDNS = false;
+      };
+      ipv6AcceptRAConfig = {
+        UseDNS = false;
+      };
+      dns = [ ];
+      domains = [ ];
+    };
   };
 
   # Disable DNS fallback (kill-switch for DNS)
