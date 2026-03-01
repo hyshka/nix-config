@@ -1,6 +1,7 @@
 {
   lib,
   inputs,
+  config,
   ...
 }:
 let
@@ -45,22 +46,46 @@ in
   services.prowlarr = {
     enable = true;
     openFirewall = true;
+    dataDir = "/var/lib/prowlarr";
   };
 
   # Jellyseerr - Request management for Jellyfin
   services.jellyseerr = {
     enable = true;
     openFirewall = true;
-    port = 5055;
+    configDir = "/var/lib/jellyseerr";
   };
 
   # Recyclarr - Automated TRaSH guide configuration sync
   services.recyclarr = {
     enable = true;
-    # Run daily to sync quality profiles and custom formats
+    group = "mediacenter";
     configuration = {
-      # Configuration will be added via secrets or direct config after initial setup
+      radarr = [
+        {
+          api_key = config.sops.secrets.radarr_api_key.path;
+          base_url = "http://localhost:7878";
+          instance_name = "main";
+        }
+      ];
+      sonarr = [
+        {
+          api_key = config.sops.secrets.sonarr_api_key.path;
+          base_url = "http://localhost:8989";
+          instance_name = "main";
+        }
+      ];
     };
+  };
+
+  # Set up all secrets
+  sops.secrets.sonarr_api_key = {
+    sopsFile = ./secrets/media-arr.yaml;
+    owner = config.services.recyclarr.user;
+  };
+  sops.secrets.radarr_api_key = {
+    sopsFile = ./secrets/media-arr.yaml;
+    owner = config.services.recyclarr.user;
   };
 
   # Add all service users to mediacenter group for shared storage access
@@ -71,13 +96,14 @@ in
 
   # Persist all service data (SQLite databases, configs)
   environment.persistence."/persist" = {
+    hideMounts = true;
     directories = [
       "/var/lib/sonarr"
       "/var/lib/radarr"
       "/var/lib/readarr"
-      "/var/lib/prowlarr"
-      "/var/lib/jellyseerr"
-      "/var/lib/private/recyclarr" # Recyclarr uses private directory
+      "/var/lib/private/prowlarr"
+      "/var/lib/private/jellyseerr"
+      "/var/lib/recyclarr"
     ];
   };
 }
