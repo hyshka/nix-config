@@ -20,7 +20,6 @@
 
   networking = {
     hostName = "tiny1";
-    firewall.allowedTCPPorts = [ 22 ]; # TMP: in case tailscale fails
   };
 
   # Use the systemd-boot EFI boot loader.
