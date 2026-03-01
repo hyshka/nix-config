@@ -104,7 +104,7 @@
 
         @jellyseerr host jellyseerr.home.hyshka.com
         handle @jellyseerr {
-          reverse_proxy http://127.0.0.1:5055
+          reverse_proxy http://10.223.27.55:5055
         }
 
         @jellyfin host jellyfin.home.hyshka.com
@@ -114,22 +114,22 @@
 
         @radarr host radarr.home.hyshka.com
         handle @radarr {
-          reverse_proxy http://127.0.0.1:7878
+          reverse_proxy http://10.223.27.55:7878
         }
 
         @readarr host readarr.home.hyshka.com
         handle @readarr {
-          reverse_proxy http://127.0.0.1:8787
+          reverse_proxy http://10.223.27.55:8787
         }
 
         @sonarr host sonarr.home.hyshka.com
         handle @sonarr {
-          reverse_proxy http://127.0.0.1:8989
+          reverse_proxy http://10.223.27.55:8989
         }
 
         @prowlarr host prowlarr.home.hyshka.com
         handle @prowlarr {
-          reverse_proxy http://127.0.0.1:9696
+          reverse_proxy http://10.223.27.55:9696
         }
 
         @qbittorrent host qbittorrent.home.hyshka.com
