@@ -14,8 +14,9 @@ in
   # Disable IPv6 to prevent leaks
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
-    "net.ipv6.conf.all.forwarding" = 0;
     "net.ipv6.conf.all.disable_ipv6" = 1;
+    "net.ipv6.conf.default.disable_ipv6" = 1;
+    "net.ipv6.conf.eth0.disable_ipv6" = 1;
   };
 
   environment.systemPackages = [
@@ -156,7 +157,7 @@ in
     settings = {
       misc = {
         # Network
-        host = "0.0.0.0";
+        host = "10.2.0.2"; # Only bind to VPN interface to prevent leaks
         port = 8085;
 
         # Performance
