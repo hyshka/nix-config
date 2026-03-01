@@ -6,10 +6,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "media-arr";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "media-arr"; }) ];
+
   # Create mediacenter group matching host GID for storage access
   users.groups.mediacenter = {
     gid = 13000;
