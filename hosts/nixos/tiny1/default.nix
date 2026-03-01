@@ -20,6 +20,7 @@
 
   networking = {
     hostName = "tiny1";
+    useNetworkd = true; # required for incus
   };
 
   # Use the systemd-boot EFI boot loader.

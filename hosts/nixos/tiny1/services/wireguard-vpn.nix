@@ -25,18 +25,6 @@
   systemd.network = {
     enable = true;
 
-    # Primary network interface (management/internet access)
-    networks."10-enp0s31f6" = {
-      matchConfig.Name = "enp0s31f6";
-      networkConfig = {
-        DHCP = "yes";
-      };
-      dhcpV4Config = {
-        UseDNS = true;
-        UseRoutes = true;
-      };
-    };
-
     # WireGuard interface
     netdevs."50-wg0" = {
       netdevConfig = {
