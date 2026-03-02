@@ -183,8 +183,7 @@ in
         movie_categories = "movies,";
 
         # Allowlist for access
-        # Empty whitelist allows all hosts (safe - network already isolated to vpnbr0)
-        host_whitelist = "";
+        host_whitelist = "localhost, sabnzbd.home.hyshka.com";
 
         # History
         history_limit = 10;
@@ -254,9 +253,6 @@ in
         "unrar"
       ];
   };
-
-  users.users.qbittorrent.extraGroups = [ "mediacenter" ];
-  users.users.sabnzbd.extraGroups = [ "mediacenter" ];
 
   # Scheduled pause/unpause for qBittorrent (for backup windows)
   systemd.services.qbittorrent-pause = {
