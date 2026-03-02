@@ -1,3 +1,5 @@
 {
-  users.groups.mediacenter.gid = 13000;
+  users.groups.mediacenter = {
+    gid = 13000;
+  };
 }
