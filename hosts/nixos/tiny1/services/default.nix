@@ -2,7 +2,7 @@
   imports = [
     ./calibre.nix
     ./docker.nix
-    ./media # TODO: move to incus
+    ./media
     ./restic.nix
     ./samba.nix
     ./snapraid.nix
