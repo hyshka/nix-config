@@ -65,7 +65,6 @@ in
         radarr-main = {
           api_key = config.sops.secrets.radarr_api_key.path;
           base_url = "http://localhost:7878";
-          instance_name = "main";
           delete_old_custom_formats = true;
           replace_existing_custom_formats = true;
           include = [
@@ -87,7 +86,6 @@ in
         sonarr-main = {
           api_key = config.sops.secrets.sonarr_api_key.path;
           base_url = "http://localhost:8989";
-          instance_name = "main";
           delete_old_custom_formats = true;
           replace_existing_custom_formats = true;
           include = [
