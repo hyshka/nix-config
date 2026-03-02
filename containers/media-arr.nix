@@ -57,13 +57,17 @@ in
   };
 
   # Recyclarr - Automated TRaSH guide configuration sync
+  # Note: using LoadCredential requires security.nesting: true
+  # https://github.com/NixOS/nixpkgs/issues/260670#issuecomment-2296628949
   services.recyclarr = {
     enable = true;
     group = "mediacenter";
     configuration = {
       radarr = {
         radarr-main = {
-          api_key = config.sops.secrets.radarr_api_key.path;
+          api_key = {
+            _secret = config.sops.secrets.radarr_api_key.path;
+          };
           base_url = "http://localhost:7878";
           delete_old_custom_formats = true;
           replace_existing_custom_formats = true;
@@ -84,7 +88,9 @@ in
       };
       sonarr = {
         sonarr-main = {
-          api_key = config.sops.secrets.sonarr_api_key.path;
+          api_key = {
+            _secret = config.sops.secrets.sonarr_api_key.path;
+          };
           base_url = "http://localhost:8989";
           delete_old_custom_formats = true;
           replace_existing_custom_formats = true;
@@ -109,11 +115,9 @@ in
   # Set up all secrets
   sops.secrets.sonarr_api_key = {
     sopsFile = ./secrets/media-arr.yaml;
-    owner = config.services.recyclarr.user;
   };
   sops.secrets.radarr_api_key = {
     sopsFile = ./secrets/media-arr.yaml;
-    owner = config.services.recyclarr.user;
   };
 
   # Add all service users to mediacenter group for shared storage access
