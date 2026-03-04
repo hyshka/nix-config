@@ -1,5 +1,15 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+let
+  container = import ./default.nix { inherit lib inputs; };
+in
+{
+  imports = [ (container.mkContainer { name = "ai"; }) ];
+
   environment.systemPackages = with pkgs; [ radeontop ];
 
   services.open-webui = {
@@ -11,6 +21,14 @@
     #environmentFile = '';
   };
 
+  nixpkgs = {
+    config.allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "open-webui"
+      ];
+  };
+
   services.ollama = {
     enable = true;
     openFirewall = true;
@@ -18,7 +36,6 @@
     #loadModels = [ "llama3.2:3b" "deepseek-r1:1.5b"];
     package = pkgs.ollama-rocm;
     rocmOverrideGfx = "10.3.0";
-    acceleration = "rocm";
     environmentVariables = {
       HCC_AMDGPU_TARGET = "gfx1030";
     };

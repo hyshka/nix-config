@@ -265,6 +265,11 @@
           modules = [ ./containers/media-arr.nix ];
           specialArgs = { inherit inputs outputs; };
         };
+        ai = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/ai.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
 
       # Nix-Darwin configuration entrypoint
