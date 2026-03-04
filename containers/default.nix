@@ -47,6 +47,12 @@
         neededForBoot = lib.mkForce true;
       };
 
+      environment.persistence."/persist" = {
+        directories = [
+          "/var/lib/nixos" # persist uids/gids
+        ];
+      };
+
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
