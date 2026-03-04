@@ -43,8 +43,8 @@ in
 
   environment.persistence."/persist" = {
     directories = [
-      "/var/lib/open-webui"
-      "/var/lib/ollama"
+      "/var/lib/private/open-webui"
+      "/var/lib/private/ollama"
     ];
   };
 }
