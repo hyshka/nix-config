@@ -8,10 +8,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "paperless";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "paperless"; }) ];
+
   # Before upgrade
   # incus file pull paperless/var/lib/paperless/db.sqlite3 .
   # After upgrade

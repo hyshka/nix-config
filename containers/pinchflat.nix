@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "pinchflat";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "pinchflat"; }) ];
+
   sops.secrets.secretsFile = {
     sopsFile = ./secrets/pinchflat.yaml;
   };

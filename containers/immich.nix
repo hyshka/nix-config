@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "immich";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "immich"; }) ];
+
   # Manual backup on NixOS host
   # sudo -u postgres pg_dumpall --clean --if-exists --username=postgres | gzip > "../immich-dump.sql.gz"
   # Restore backup

@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "ntfy";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "ntfy"; }) ];
+
   # Proxy ports from host to container: incus config device add ntfy tcp_proxy proxy listen=tcp:0.0.0.0:2586 connect=tcp:10.223.27.234:2586
 
   networking.firewall.allowedTCPPorts = [

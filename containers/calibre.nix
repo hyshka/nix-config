@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "calibre";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "calibre"; }) ];
+
   # Unique set up:
   # - Set raw.idmap: incus config set calibre raw.idmap='uid 1000-1000 213-213\ngid 13000-13000 213-213'
   # - On the host, add root:1000:213 to /etc/subuid and root:13000:213 to /etc/subgid to allow Incus to perform the idmapping

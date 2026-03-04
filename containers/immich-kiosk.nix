@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "immich-kiosk";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "immich-kiosk"; }) ];
+
   networking.firewall.allowedTCPPorts = [ 3000 ];
 
   sops.secrets.immich-kiosk-api-key = {

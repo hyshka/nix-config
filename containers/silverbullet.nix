@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "silverbullet";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "silverbullet"; }) ];
+
   networking.firewall.allowedTCPPorts = [ 3000 ];
   sops.secrets.environmentFile = {
     sopsFile = ./secrets/silverbullet.yaml;

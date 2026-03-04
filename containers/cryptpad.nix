@@ -6,10 +6,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "cryptpad";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "cryptpad"; }) ];
+
   networking.firewall.allowedTCPPorts = [
     3003
     3006

@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "homepage";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "homepage"; }) ];
+
   # Allow access to docker socket from host
   users.groups.docker = { };
   systemd.services.homepage-dashboard.serviceConfig = {

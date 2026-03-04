@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "pocket-id";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "pocket-id"; }) ];
+
   networking.firewall.allowedTCPPorts = [ 1411 ];
 
   sops.secrets.pocket-id-encryption-key = {

@@ -7,10 +7,9 @@
 let
   container = import ./default.nix { inherit lib inputs; };
 in
-container.mkContainer {
-  name = "jellyfin";
-}
-// {
+{
+  imports = [ (container.mkContainer { name = "jellyfin"; }) ];
+
   # Create mediacenter group matching host GID for storage access
   users.groups.mediacenter = {
     gid = 13000;
