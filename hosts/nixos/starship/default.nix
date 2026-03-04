@@ -21,6 +21,7 @@
     ./sunshine.nix
     ./syncthing.nix
     ./wol.nix
+    ./incus.nix
   ];
 
   networking.hostName = "starship";
