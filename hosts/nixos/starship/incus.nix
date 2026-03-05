@@ -12,4 +12,7 @@
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
+
+  # Expose Open-WebUI to tailscale0
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
 }
