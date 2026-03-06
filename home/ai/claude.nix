@@ -80,6 +80,8 @@
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
+          "mcp__shortcut__get-epics-by-id"
+          "mcp__shortcut__teams-get-by-id"
         ];
         ask = [
           "Bash(git push:*)"
