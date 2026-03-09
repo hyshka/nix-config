@@ -1,21 +1,12 @@
-{ pkgs, ... }:
-let
-  interface = "enp37s0";
-in
 {
-  systemd.services.wol = {
-    enable = true;
-    description = "Wake on LAN";
-    unitConfig = {
-      Requires = "network.target";
-      After = "network.target";
+  networking = {
+    interfaces = {
+      "enp37s0" = {
+        wakeOnLan.enable = true;
+      };
     };
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = ''
-        ${pkgs.ethtool}/bin/ethtool -s ${interface} wol g
-      '';
+    firewall = {
+      allowedUDPPorts = [ 9 ];
     };
-    wantedBy = [ "multi-user.target" ];
   };
 }
