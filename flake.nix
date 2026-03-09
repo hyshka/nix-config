@@ -85,6 +85,11 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
   };
@@ -268,6 +273,11 @@
         ai = lib.nixosSystem {
           system = "x86_64-linux";
           modules = [ ./containers/ai.nix ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        upsnap = lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/upsnap.nix ];
           specialArgs = { inherit inputs outputs; };
         };
       };
