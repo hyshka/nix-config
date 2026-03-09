@@ -169,6 +169,11 @@
           reverse_proxy http://10.223.27.36:1411
         }
 
+        @wol host wol.home.hyshka.com
+        handle @wol {
+          reverse_proxy http://10.223.27.205:8090
+        }
+
         # Fallback for otherwise unhandled domains
         handle {
           abort
