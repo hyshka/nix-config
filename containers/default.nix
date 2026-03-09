@@ -12,6 +12,7 @@
     {
       imports = [
         "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
+        "${inputs.nixpkgs}/nixos/modules/profiles/image-based-appliance.nix"
         inputs.sops-nix.nixosModules.sops
         inputs.impermanence.nixosModules.impermanence
       ];
@@ -56,20 +57,6 @@
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
-
-      #services.openssh.enable = false;
-
-      #"${inputs.nixpkgs}/nixos/modules/profiles/image-based-appliance.nix" # TODO: not compatible with wireguard networking setup
-      ## The system cannot be rebuilt.
-      #nix.enable = false;
-      #system.switch.enable = false;
-
-      ## The system is static.
-      #users.mutableUsers = false;
-
-      ## The system avoids interpreters as much as possible to reduce its attack
-      ## surface.
-      #boot.initrd.systemd.enable = true;
-      #networking.useNetworkd = true;
+      services.openssh.enable = false;
     };
 }
