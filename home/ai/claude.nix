@@ -143,7 +143,10 @@
     memory.source = ./base.md;
   };
 
-  programs.git.ignores = [ "**/.claude/settings.local.json" ];
+  programs.git.ignores = [
+    "**/.claude/settings.local.json"
+    "**/.claude/launch.json"
+  ];
 
   # -----
   # Dependencies
