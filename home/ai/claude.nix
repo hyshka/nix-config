@@ -61,6 +61,8 @@
           # Safe Docker commands
           "Bash(docker ps:*)"
           "Bash(docker logs:*)"
+          "Bash(docker exec:*)"
+          "Bash(docker container ls:*)"
           "Bash(docker container exec:*)"
           "Bash(docker compose ps:*)"
           "Bash(docker compose ls:*)"
