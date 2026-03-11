@@ -6,7 +6,7 @@
     config = {
       whitelist = {
         prefix = [
-          "$HOME/work/muckrack"
+          "~/work/muckrack"
         ];
       };
     };
