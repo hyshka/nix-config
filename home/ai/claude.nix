@@ -80,6 +80,10 @@
           "WebFetch(domain:github.com)"
           "WebFetch(domain:raw.githubusercontent.com)"
 
+          # Trusted Skills
+          "Skill(commit-commands:commit)"
+          "Skill(commit-commands:commit-push-pr)"
+
           # MCP permissions (read-only)
           "mcp__context7"
           "mcp__gh_grep"
