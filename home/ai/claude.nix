@@ -13,6 +13,7 @@
       env = {
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
         DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
+        CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
       };
       statusLine = {
         type = "command";
@@ -58,7 +59,12 @@
           "Bash(chmod:*)"
 
           # Safe Docker commands
+          "Bash(docker ps:*)"
+          "Bash(docker logs:*)"
           "Bash(docker container exec:*)"
+          "Bash(docker compose ps:*)"
+          "Bash(docker compose ls:*)"
+          "Bash(docker compose logs:*)"
           "Bash(docker compose exec:*)"
 
           # Safe gh CLI commands
