@@ -16,6 +16,7 @@
     # `brew install`
     brews = [
       "helm"
+      "git-lfs" # for claude code desktop
     ];
 
     # `brew install --cask`
