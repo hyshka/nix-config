@@ -66,27 +66,24 @@
     "tmuxp_dashboard" = {
       text = ''
         session_name: "dashboard"
-        start_directory: "''${HOME}"
+        start_directory: "''${HOME}/nix-config"
         windows:
-          - window_name: live
-            layout: even-vertical
+          - window_name: code
+            focus: true
+            shell_command_before:
+              - git fetch -a
             panes:
-              - glances
-          - window_name: config
+              - nvim
+          - window_name: shell
             layout: main-vertical
-            options:
-              main-pane-width: 50%
             panes:
-              - shell_command:
-                - cd nix-config; nvim
-                focus: true
-              - shell_command:
-                - cd nix-config; git fetch -a
+              - blank
+              - blank
           - window_name: ai
             layout: main-vertical
             panes:
               - shell_command:
-                - cd nix-config
+                - claude
       '';
       target = "tmuxp/dashboard.yml";
     };
@@ -117,23 +114,21 @@
         start_directory: "''${HOME}/work/muckrack/code"
         windows:
           - window_name: code
-            focus: true
             shell_command_before:
               - git fetch -a
             panes:
               - nvim
           - window_name: web
             layout: main-vertical
+            focus: true
             panes:
               - make docker-up
               - blank
               - blank
           - window_name: ai
-            shell_command_before:
-              - nix shell 'nixpkgs#nodejs_24'
             panes:
               - shell_command:
-                - opencode
+                - claude
           - window_name: deploy
             panes:
               - shell_command:
@@ -158,8 +153,6 @@
               - blank
           - window_name: ai
             focus: true
-            shell_command_before:
-              - nix shell 'nixpkgs#nodejs_24'
             panes:
               - shell_command:
                 - claude
