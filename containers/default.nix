@@ -60,6 +60,5 @@
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
-      services.openssh.enable = false;
     };
 }
