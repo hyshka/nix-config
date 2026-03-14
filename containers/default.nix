@@ -54,6 +54,9 @@
         ];
       };
 
+      # image-based-appliance.nix enforces networkd, only use resolved
+      networking.useHostResolvConf = false;
+
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
