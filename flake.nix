@@ -146,6 +146,32 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/${username}/${hostname}.nix ];
         };
+
+      # Helper to create container configurations
+      mkContainer =
+        file:
+        lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./containers/${file} ];
+          specialArgs = { inherit inputs outputs; };
+        };
+
+      # Dynamically discover containers from the containers/ directory
+      containers =
+        let
+          containerDir = ./containers;
+          files = builtins.readDir containerDir;
+          # Filter for .nix files, excluding default.nix
+          nixFiles = lib.filterAttrs (
+            name: type:
+            (type == "regular" || type == "symlink") && lib.hasSuffix ".nix" name && name != "default.nix"
+          ) files;
+
+        in
+        lib.mapAttrs' (name: _: {
+          name = lib.removeSuffix ".nix" name;
+          value = mkContainer name;
+        }) nixFiles;
     in
     {
       inherit lib;
@@ -198,89 +224,8 @@
           modules = [ ./hosts/nixos/ashyn ];
           specialArgs = { inherit inputs outputs; };
         };
-
-        # Incus LXC containers
-        paperless = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/paperless.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        immich = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/immich.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        immich-kiosk = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/immich-kiosk.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        samba = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/samba.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        silverbullet = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/silverbullet.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        cryptpad = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/cryptpad.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        calibre = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/calibre.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        ntfy = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/ntfy.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        homepage = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/homepage.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        pocket-id = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/pocket-id.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        jellyfin = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/jellyfin.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        pinchflat = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/pinchflat.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        media-download = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/media-download.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        media-arr = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/media-arr.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        ai = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/ai.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        upsnap = lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/upsnap.nix ];
-          specialArgs = { inherit inputs outputs; };
-        };
-      };
+      }
+      // containers;
 
       # Nix-Darwin configuration entrypoint
       # nh darwin built/boot/switch
