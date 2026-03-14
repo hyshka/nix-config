@@ -154,9 +154,19 @@ usage() {
 build_image() {
   local container=$1
   echo "Building image for $container..."
-  nix build ".#nixosConfigurations.$container.config.system.build.metadata" --print-out-paths >/dev/null
-  nix build ".#nixosConfigurations.$container.config.system.build.squashfs" --print-out-paths >/dev/null
+
+  local base=".#nixosConfigurations.$container.config.system.build"
+
+  # toplevel is a dependency of both metadata and squashfs.
+  # Building it first means the subsequent builds just reuse the store path.
+  local toplevel
+  toplevel=$(nix build "$base.toplevel" --no-link --print-out-paths)
+
+  nix build "$base.metadata" --no-link --print-out-paths >/dev/null
+  nix build "$base.squashfs" --no-link --print-out-paths >/dev/null
+
   echo "Build complete for $container."
+  echo "Toplevel path for comparison: $toplevel"
 }
 
 import_image() {
