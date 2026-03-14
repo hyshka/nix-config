@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }:
 let
@@ -13,6 +14,7 @@ in
   # Set up
   # - incus config device add ai persist disk "source=/persist/ai" "path=/persist" "shift=true"
   # - incus config device add ai gpu gpu pci=0000:2b:00.0
+  # - incus config device add ai kfd unix-char source=/dev/kfd path=/dev/kfd gid=303
 
   environment.systemPackages = with pkgs; [ radeontop ];
 
@@ -43,7 +45,8 @@ in
     package = pkgs.ollama-rocm;
     rocmOverrideGfx = "10.3.0";
     environmentVariables = {
-      HCC_AMDGPU_TARGET = "gfx1030";
+      HCC_AMDGPU_TARGET = "gfx1030"; # idk if I need this
+      OLLAMA_FLASH_ATTENTION = "0"; # fix fattn-common.cuh:903: GGML_ASSERT(max_blocks_per_sm > 0) failed
     };
   };
 
