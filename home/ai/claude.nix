@@ -176,6 +176,8 @@
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
     # Claude Plugins and Skills
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-plugins
+    # TUI code review with Claude
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
   ];
