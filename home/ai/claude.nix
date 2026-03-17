@@ -170,8 +170,6 @@
     pkgs.nodejs_24
     pkgs.yarn
     pkgs.uv
-    # Claude Code Router
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code-router
     # Claude Code Usage
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
     # Claude Plugins and Skills
@@ -197,39 +195,6 @@
           "extensionToLanguage": {
             ".nix": "nix"
           }
-        }
-      }
-    '';
-  };
-
-  # -----
-  # Claude Code Router
-  # For personal use with OpenRouter
-  # -----
-  home.file.".claude-code-router/config.json" = {
-    text = /* json */ ''
-      {
-        "Providers": [
-          {
-            "name": "openrouter",
-            "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
-            "api_key": "$OPENROUTER_API_KEY",
-            "models": [
-              "anthropic/claude-haiku-4.5:online",
-              "anthropic/claude-sonnet-4.6",
-            ],
-            "transformer": {
-              "use": ["openrouter"]
-            }
-          }
-        ],
-        "Router": {
-          "default": "openrouter,anthropic/claude-sonnet-4.6",
-          "background": "openrouter,anthropic/claude-haiku-4.5",
-          "think": "openrouter,anthropic/claude-sonnet-4.6",
-          "longContext": "openrouter,anthropic/claude-sonnet-4.6",
-          "webSearch": "openrouter,anthropic/claude-haiku-4.5",
-          "image": "openrouter,anthropic/claude-sonnet-4.6"
         }
       }
     '';
