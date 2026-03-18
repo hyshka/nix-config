@@ -5,6 +5,10 @@
       owner = "grafana";
       group = "grafana";
     };
+    grafana-secretKey = {
+      owner = "grafana";
+      group = "grafana";
+    };
     grafana-ntfy-access-token = {
       owner = "grafana";
       group = "grafana";
@@ -24,7 +28,10 @@
 
     settings = {
       analytics.reporting_enabled = false;
-      security.admin_password = "$__file{${config.sops.secrets.grafana-adminPass.path}}";
+      security = {
+        admin_password = "$__file{${config.sops.secrets.grafana-adminPass.path}}";
+        secret_key = "$__file{${config.sops.secrets.grafana-secretKey.path}}";
+      };
       server = {
         http_addr = "127.0.0.1";
         http_port = 3002;
