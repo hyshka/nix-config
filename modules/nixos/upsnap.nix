@@ -62,7 +62,10 @@ in
           Type = "simple";
           DynamicUser = true;
           StateDirectory = "upsnap";
-          ExecStart = "${getExe cfg.package} serve --http ${builtins.toString cfg.host}:${builtins.toString cfg.port} --dir /var/lib/upsnap";
+          Environment = [
+            "HOME=${cfg.dataDir}"
+          ];
+          ExecStart = "${getExe cfg.package} serve --http ${builtins.toString cfg.host}:${builtins.toString cfg.port} --dir ${cfg.dataDir}";
           Restart = "on-failure";
           AmbientCapabilities = "CAP_NET_RAW";
           CapabilityBoundingSet = "CAP_NET_RAW";
