@@ -18,17 +18,19 @@ in
     port = 3020;
     # TODO: this desperately need an update
     mutableSettings = true;
-    #allowDHCP = true;
+    allowDHCP = true;
     # https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file
     # https://github.com/luisholanda/dotfiles/blob/e61b7bc0c819df2cb940ac5240795f05d251edc0/modules/services/networking/dns.nix#L8
     settings = {
-      http = "0.0.0.0:${toString config.services.adguardhome.port}";
-      users = [
-        {
-          name = "admin";
-          password = "ADGUARDPASS"; # placeholder
-        }
-      ];
+      http = {
+        address = "0.0.0.0:${toString config.services.adguardhome.port}";
+      };
+      #users = [
+      #  {
+      #    name = "admin";
+      #    password = "ADGUARDPASS"; # placeholder
+      #  }
+      #];
       auth_attempts = 5;
       block_auth_min = 60;
       dns = {
@@ -69,10 +71,10 @@ in
   # and insert it as per config requirements
   # Ref: https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#reset-web-password
   systemd.services.adguardhome = {
-    preStart = lib.mkAfter ''
-      HASH=$(cat ${config.sops.secrets.adguard-passwordFile.path} | ${pkgs.apacheHttpd}/bin/htpasswd -binBC 10 "" | cut -c 2-)
-      ${pkgs.gnused}/bin/sed -i "s,ADGUARDPASS,$HASH," "$STATE_DIRECTORY/AdGuardHome.yaml"
-    '';
+    #  preStart = lib.mkAfter ''
+    #    HASH=$(cat ${config.sops.secrets.adguard-passwordFile.path} | ${pkgs.apacheHttpd}/bin/htpasswd -binBC 10 "" | cut -c 2-)
+    #    ${pkgs.gnused}/bin/sed -i "s,ADGUARDPASS,$HASH," "$STATE_DIRECTORY/AdGuardHome.yaml"
+    #  '';
     serviceConfig.User = adguardUser;
   };
 }
