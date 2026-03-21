@@ -1,15 +1,15 @@
 {
   imports = [
     ./calibre.nix
-    ./media
+    ./media.nix
     ./restic.nix
     ./samba.nix
     ./snapraid.nix
-    ./syncthing.nix # TODO: move to incus
+    ./syncthing.nix
     ./caddy.nix # TODO: move to incus
     ./acme.nix
     #./nextcloud.nix # TODO: move to incus
-    ./grafana # TODO: move to incus
+    ./grafana
     ./adguard-home.nix # TODO: move to rpi4
     ./incus.nix
   ];
