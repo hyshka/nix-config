@@ -13,7 +13,6 @@
       imports = [
         "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
         "${inputs.nixpkgs}/nixos/modules/profiles/image-based-appliance.nix"
-        "${inputs.nixpkgs}/nixos/modules/profiles/perlless.nix"
         inputs.sops-nix.nixosModules.sops
         inputs.impermanence.nixosModules.impermanence
       ];
