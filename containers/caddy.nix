@@ -1,0 +1,196 @@
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+let
+  container = import ./default.nix { inherit lib inputs; };
+  # Host bridge IP for proxying services on the host
+  host_ip = "10.223.27.1";
+in
+{
+  imports = [ (container.mkContainer { name = "caddy"; }) ];
+
+  # incus config device add caddy http-proxy proxy listen=tcp:0.0.0.0:80,443 connect=tcp:10.223.27.x:80,443
+  # incus config device add caddy persist disk source=/persist/microvms/caddy path=/persist shift=true
+
+  sops.secrets.caddy-envFile = {
+    sopsFile = ./secrets/caddy.yaml;
+    owner = config.services.caddy.user;
+    group = config.services.caddy.group;
+  };
+
+  services.caddy = {
+    enable = true;
+    openFirewall = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
+      hash = "sha256-B5xXld1+IRUAQHm8zkHFqvRp8cqnervVL6XEos5VNkc=";
+    };
+    email = "bryan@hyshka.com";
+    logFormat = ''
+      level INFO
+    '';
+    globalConfig = ''
+      servers {
+        metrics
+      }
+    '';
+    # Cloudflare DNS config for hyshka.com
+    # A *.home => tiny1 tailscale IP
+    # must be A record instead of CNAME because of https://github.com/tailscale/tailscale/issues/7650
+    virtualHosts."https://*.home.hyshka.com" = {
+      logFormat = ''
+        output file ${config.services.caddy.logDir}/access-*.home.hyshka.com.log {
+          # Allow caddy group to read logs, used by Promtail
+          mode 640
+        }
+      '';
+      extraConfig = ''
+        tls {
+          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+        }
+
+        @dashboard host dashboard.home.hyshka.com
+        handle @dashboard {
+          reverse_proxy http://10.223.27.114:8082
+        }
+
+        @hass host hass.home.hyshka.com
+        handle @hass {
+          reverse_proxy http://10.223.27.45:8123
+        }
+
+        @silverbullet host silverbullet.home.hyshka.com
+        handle @silverbullet {
+          reverse_proxy http://10.223.27.35:3000
+        }
+
+        @adguard host adguard.home.hyshka.com
+        handle @adguard {
+          reverse_proxy http://${host_ip}:3020
+        }
+
+        @paperless host paperless.home.hyshka.com
+        handle @paperless {
+          reverse_proxy http://10.223.27.210:28981
+        }
+
+        @immich host immich.home.hyshka.com
+        handle @immich {
+          reverse_proxy http://10.223.27.125:2283
+        }
+
+        @immich-kiosk host immich-kiosk.home.hyshka.com
+        handle @immich-kiosk {
+          reverse_proxy http://10.223.27.216:3000
+        }
+
+        @cryptpad host cryptpad.home.hyshka.com cryptpad-sandbox.home.hyshka.com
+        handle @cryptpad {
+          reverse_proxy http://10.223.27.23:3006
+          handle /cryptpad_websocket/* {
+            reverse_proxy http://10.223.27.23:3003
+          }
+        }
+
+        @grafana host grafana.home.hyshka.com
+        handle @grafana {
+          reverse_proxy http://${host_ip}:3002
+        }
+
+        @jellyseerr host jellyseerr.home.hyshka.com
+        handle @jellyseerr {
+          reverse_proxy http://10.223.27.55:5055
+        }
+
+        @jellyfin host jellyfin.home.hyshka.com
+        handle @jellyfin {
+          reverse_proxy http://10.223.27.100:8096
+        }
+
+        @radarr host radarr.home.hyshka.com
+        handle @radarr {
+          reverse_proxy http://10.223.27.55:7878
+        }
+
+        @readarr host readarr.home.hyshka.com
+        handle @readarr {
+          reverse_proxy http://10.223.27.55:8787
+        }
+
+        @sonarr host sonarr.home.hyshka.com
+        handle @sonarr {
+          reverse_proxy http://10.223.27.55:8989
+        }
+
+        @prowlarr host prowlarr.home.hyshka.com
+        handle @prowlarr {
+          reverse_proxy http://10.223.27.55:9696
+        }
+
+        @qbittorrent host qbittorrent.home.hyshka.com
+        handle @qbittorrent {
+          reverse_proxy http://10.223.27.8:8080
+        }
+
+        @sabnzbd host sabnzbd.home.hyshka.com
+        handle @sabnzbd {
+          reverse_proxy http://10.223.27.8:8085
+        }
+
+        @library host library.home.hyshka.com
+        handle @library {
+          reverse_proxy http://10.223.27.241:8083
+        }
+
+        @ntfy host ntfy.home.hyshka.com
+        handle @ntfy {
+          reverse_proxy http://10.223.27.234:2586
+        }
+
+        @pinchflat host pinchflat.home.hyshka.com
+        handle @pinchflat {
+          reverse_proxy http://10.223.27.121:8945
+        }
+
+        @syncthing host syncthing.home.hyshka.com
+        handle @syncthing {
+          reverse_proxy http://${host_ip}:8384 {
+            header_up Host {upstream_hostport}
+          }
+        }
+
+        @auth host auth.home.hyshka.com
+        handle @auth {
+          reverse_proxy http://10.223.27.36:1411
+        }
+
+        @wol host wol.home.hyshka.com
+        handle @wol {
+          reverse_proxy http://10.223.27.205:8090
+        }
+
+        handle {
+          abort
+        }
+      '';
+    };
+  };
+
+  systemd.services.caddy = {
+    serviceConfig = {
+      EnvironmentFile = config.sops.secrets.caddy-envFile.path;
+    };
+  };
+
+  # Persist log directory
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/log/caddy"
+      "/var/lib/caddy"
+    ];
+  };
+}
