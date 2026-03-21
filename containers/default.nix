@@ -13,6 +13,7 @@
       imports = [
         "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
         "${inputs.nixpkgs}/nixos/modules/profiles/image-based-appliance.nix"
+        "${inputs.nixpkgs}/nixos/modules/profiles/perlless.nix"
         inputs.sops-nix.nixosModules.sops
         inputs.impermanence.nixosModules.impermanence
       ];
@@ -60,5 +61,10 @@
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
+
+      # reduce container size
+      programs.bash.completion.enable = false;
+      fonts.fontconfig.enable = false;
+      appstream.enable = false;
     };
 }
