@@ -1,7 +1,6 @@
 {
   imports = [
     ./calibre.nix
-    ./docker.nix
     ./media
     ./restic.nix
     ./samba.nix
