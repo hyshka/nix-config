@@ -13,6 +13,7 @@
       imports = [
         "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
         "${inputs.nixpkgs}/nixos/modules/profiles/image-based-appliance.nix"
+        "${inputs.nixpkgs}/nixos/modules/profiles/perlless.nix"
         inputs.sops-nix.nixosModules.sops
         inputs.impermanence.nixosModules.impermanence
       ];
@@ -65,5 +66,10 @@
       programs.bash.completion.enable = false;
       fonts.fontconfig.enable = false;
       appstream.enable = false;
+
+      # overlayfs mount requires CAP_SYS_ADMIN
+      # can't go fully perlless until NixOS supports systemd-tmpfiles /etc management
+      system.etc.overlay.enable = false;
+      system.forbiddenDependenciesRegexes = lib.mkForce [ ];
     };
 }

@@ -14,7 +14,6 @@ in
   imports = [ (container.mkContainer { name = "caddy"; }) ];
 
   # incus config device add caddy http-proxy proxy listen=tcp:0.0.0.0:80,443 connect=tcp:10.223.27.x:80,443
-  # incus config device add caddy persist disk source=/persist/microvms/caddy path=/persist shift=true
 
   sops.secrets.caddy-envFile = {
     sopsFile = ./secrets/caddy.yaml;
