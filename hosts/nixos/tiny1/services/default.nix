@@ -6,7 +6,7 @@
     ./samba.nix
     ./snapraid.nix
     ./syncthing.nix
-    ./caddy.nix # moved to incus
+    #./caddy.nix # moved to incus
     ./acme.nix
     #./nextcloud.nix # TODO: move to incus
     ./grafana

@@ -1,10 +1,7 @@
 { config, ... }:
 {
   systemd.services.promtail.serviceConfig.SupplementaryGroups = [
-    # Permission to read Caddy logs
-    config.services.caddy.group
-    # Permission to read Docker logs
-    "docker"
+    # TODO: Permission to read Caddy logs
     # Permission for systemd journal
     "adm"
     "systemd-journal"
@@ -58,59 +55,33 @@
             }
           ];
         }
-        {
-          job_name = "docker";
-          docker_sd_configs = [
-            {
-              host = "unix:///var/run/docker.sock";
-              refresh_interval = "5s";
-            }
-          ];
-          relabel_configs = [
-            {
-              source_labels = [ "__meta_docker_container_name" ];
-              target_label = "container";
-            }
-            {
-              source_labels = [ "__meta_docker_container_log_stream" ];
-              target_label = "stream";
-            }
-            {
-              source_labels = [ "__meta_docker_container_label_com_docker_compose_project" ];
-              target_label = "compose_project";
-            }
-            {
-              source_labels = [ "__meta_docker_container_label_com_docker_compose_service" ];
-              target_label = "compose_service";
-            }
-          ];
-        }
-        {
-          job_name = "caddy";
-          static_configs = [
-            {
-              targets = [ "localhost" ];
-              labels = {
-                job = "caddy";
-                host = "${config.networking.hostName}";
-                __path__ = "/var/log/caddy/*.log";
-              };
-            }
-          ];
-        }
-        {
-          job_name = "ntfy";
-          static_configs = [
-            {
-              targets = [ "localhost" ];
-              labels = {
-                job = "ntfy";
-                host = "${config.networking.hostName}";
-                __path__ = "/var/log/ntfy/ntfy.log";
-              };
-            }
-          ];
-        }
+        # TODO: fix logs now that they come from incus containers
+        #{
+        #  job_name = "caddy";
+        #  static_configs = [
+        #    {
+        #      targets = [ "localhost" ];
+        #      labels = {
+        #        job = "caddy";
+        #        host = "${config.networking.hostName}";
+        #        __path__ = "/persist/microvms/caddy/var/log/caddy/*.log";
+        #      };
+        #    }
+        #  ];
+        #}
+        #{
+        #  job_name = "ntfy";
+        #  static_configs = [
+        #    {
+        #      targets = [ "localhost" ];
+        #      labels = {
+        #        job = "ntfy";
+        #        host = "${config.networking.hostName}";
+        #        __path__ = "/var/log/ntfy/ntfy.log";
+        #      };
+        #    }
+        #  ];
+        #}
       ];
     };
   };
