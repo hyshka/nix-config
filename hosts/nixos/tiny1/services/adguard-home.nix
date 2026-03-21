@@ -14,7 +14,7 @@ in
 
   services.adguardhome = {
     enable = true;
-    host = "127.0.0.1";
+    host = "0.0.0.0";
     port = 3020;
     # TODO: this desperately need an update
     mutableSettings = true;
@@ -22,7 +22,7 @@ in
     # https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file
     # https://github.com/luisholanda/dotfiles/blob/e61b7bc0c819df2cb940ac5240795f05d251edc0/modules/services/networking/dns.nix#L8
     settings = {
-      http = "127.0.0.1:${toString config.services.adguardhome.port}";
+      http = "0.0.0.0:${toString config.services.adguardhome.port}";
       users = [
         {
           name = "admin";

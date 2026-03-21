@@ -26,6 +26,7 @@
 
   services.syncthing = {
     enable = true;
+    guiAddress = "0.0.0.0:8384";
     dataDir = "/home/hyshka";
     configDir = "/home/hyshka/.config/syncthing";
     user = "hyshka";

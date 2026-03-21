@@ -33,7 +33,7 @@
         secret_key = "$__file{${config.sops.secrets.grafana-secretKey.path}}";
       };
       server = {
-        http_addr = "127.0.0.1";
+        http_addr = "0.0.0.0";
         http_port = 3002;
         domain = "grafana.home.hyshka.com";
         root_url = "https://grafana.home.hyshka.com";
