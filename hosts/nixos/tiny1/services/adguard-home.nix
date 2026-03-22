@@ -31,7 +31,7 @@ in
       #    password = "ADGUARDPASS"; # placeholder
       #  }
       #];
-      auth_attempts = 5;
+      auth_attempts = 15;
       block_auth_min = 60;
       dns = {
         # This will conflict with Incus if we bind to all interfaces
