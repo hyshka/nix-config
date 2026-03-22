@@ -233,7 +233,8 @@ in
     preStart = lib.mkAfter ''
       if [ -f "${config.sops.secrets.adguard-passwordFile.path}" ]; then
         PASSWORD_HASH=$(cat "${config.sops.secrets.adguard-passwordFile.path}")
-        ${pkgs.gnused}/bin/sed -i "s|ADGUARDPASSWORD_PLACEHOLDER|$PASSWORD_HASH|g" "$STATE_DIRECTORY/AdGuardHome.yaml"
+        sed "s|ADGUARDPASSWORD_PLACEHOLDER|$PASSWORD_HASH|g" "$STATE_DIRECTORY/AdGuardHome.yaml" > "$STATE_DIRECTORY/AdGuardHome.yaml.tmp"
+        mv "$STATE_DIRECTORY/AdGuardHome.yaml.tmp" "$STATE_DIRECTORY/AdGuardHome.yaml"
       fi
     '';
   };
