@@ -18,7 +18,6 @@ in
     port = 3020;
     allowDHCP = true;
     settings = {
-      schema_version = 32;
       http = {
         address = "0.0.0.0:${toString config.services.adguardhome.port}";
       };
