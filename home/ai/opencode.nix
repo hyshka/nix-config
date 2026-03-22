@@ -1,5 +1,7 @@
 { inputs, pkgs, ... }:
 {
+  home.packages = [ pkgs.wl-clipboard ];
+
   programs.opencode = {
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
