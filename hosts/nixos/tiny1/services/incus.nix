@@ -17,6 +17,10 @@
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
 
+  # encrypted secret keys for Incus containers
+  # provisioned in containers via bind mounts to /run/secrets/lxc-core-age-key
+  sops.secrets.lxc-core-age-key = { };
+
   # TODO: create a better system for managing idmapped disks
   users.users.root = {
     subUidRanges = [
