@@ -1,5 +1,7 @@
 {
   config,
+  pkgs,
+  lib,
   ...
 }:
 let
@@ -23,7 +25,7 @@ in
       users = [
         {
           name = "admin";
-          password = builtins.readFile config.sops.secrets.adguard-passwordFile.path;
+          password = "ADGUARDPASSWORD_PLACEHOLDER";
         }
       ];
       auth_attempts = 15;
@@ -224,5 +226,15 @@ in
   sops.secrets.adguard-passwordFile = {
     owner = adguardUser;
     group = adguardUser;
+  };
+
+  systemd.services.adguardhome = {
+    serviceConfig.User = adguardUser;
+    preStart = lib.mkAfter ''
+      if [ -f "${config.sops.secrets.adguard-passwordFile.path}" ]; then
+        PASSWORD_HASH=$(cat "${config.sops.secrets.adguard-passwordFile.path}")
+        ${pkgs.gnused}/bin/sed -i "s|ADGUARDPASSWORD_PLACEHOLDER|$PASSWORD_HASH|g" "$STATE_DIRECTORY/AdGuardHome.yaml"
+      fi
+    '';
   };
 }
