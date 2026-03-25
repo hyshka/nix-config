@@ -15,4 +15,6 @@ jobs:
       - uses: actions/checkout@v6
       - uses: DeterminateSystems/nix-installer-action@v21
       - name: Lint nix files
-        run: nix fmt
+        run: |
+          nix fmt
+          git diff --exit-code
