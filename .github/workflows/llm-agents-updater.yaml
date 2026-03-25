@@ -1,0 +1,24 @@
+name: LLM Agents Flake Input Updater
+
+on:
+  schedule:
+    - cron: "0 13 * * *" # runs daily at 6 am MST
+  workflow_dispatch:
+
+jobs:
+  llm-agents-flake-input-updater:
+    name: LLM Agents Flake Input Updater
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: DeterminateSystems/nix-installer-action@v21
+      - uses: DeterminateSystems/update-flake-lock@v28
+        with:
+          inputs: llm-agents
+          pr-title: "chore: bump llm-agents"
+          pr-labels: |
+            dependencies
+            automated
