@@ -2,7 +2,7 @@ name: Flake Lock Updater
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+    - cron: "0 0 * * 0" # runs weekly on Sunday at 00:00
   workflow_dispatch:
 
 jobs:
@@ -21,3 +21,4 @@ jobs:
           pr-labels: |
             dependencies
             automated
+          pr-reviewers: hyshka

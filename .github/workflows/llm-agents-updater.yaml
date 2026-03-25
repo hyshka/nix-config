@@ -22,3 +22,4 @@ jobs:
           pr-labels: |
             dependencies
             automated
+          pr-reviewers: hyshka
