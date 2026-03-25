@@ -1,9 +1,9 @@
 name: Flake Checker
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # runs daily
-  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
 
 jobs:
   flake-checker:
@@ -13,5 +13,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v6
-      - uses: DeterminateSystems/nix-installer-action@v21
       - uses: DeterminateSystems/flake-checker-action@v12
+        with:
+          fail-mode: true
+          send-statistics: false
