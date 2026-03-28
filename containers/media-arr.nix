@@ -49,6 +49,11 @@ in
     dataDir = "/var/lib/prowlarr";
   };
 
+  # FlareSolverr - proxy server to bypass Cloudflare protection
+  services.flaresolverr = {
+    enable = true;
+  };
+
   # Jellyseerr - Request management for Jellyfin
   services.jellyseerr = {
     enable = true;
