@@ -12,21 +12,8 @@ keys:
     - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
     - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
     - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
-    - &lxc-paperless age10xhslkeewm6ltp7fz5rxecjsscj6nj27xc0xkxeekzn8sv63nf2srv6yld
-    - &lxc-immich age14vd6j6zclech4c942awwcn0hq6gz824hlpt2pwzel3qh3r7v4g2qlwmunz
-    - &lxc-immich-kiosk age1ptguk906ffap3z7fj3wzr0tsgtehzhdn0xvxe6f8z8nszp0qv9qqxlmt7z
-    - &lxc-samba age18kcmyg4j5w5u60nd2w6mcr2v7809n0xjnrf5j3anwldae3p9jv4sp5sam4
-    - &lxc-calibre age197fur8ukwnzmqhdeflhsrhjr0lcxf4qp4mpc44pyhxpskx2jjv7qjsucye
-    - &lxc-silverbullet age125jcng9snyx5vg9mrlsfnn4xj6hcgwv7ghrqvpj9jfpev4cvadss9ktryx
-    - &lxc-ntfy age18yjh20qsh4s3n8d5v6qqudhs7qjnadrejqxwfdjqqrxvl4v3uatqd4lhaw
-    - &lxc-homepage age1msvehv4dw0a297pfdsxa2e84p7drnpkwvjpzxvzmv2uuswegrp9suwxd9z
-    - &lxc-pocket-id age1aatfgvvxnxd3z7st8m2j3ucrxnd8v5ka3jhteuj20kwahcd44qhq26w6y7
-    - &lxc-jellyfin age1d6l74w42zk6rn9qh2n9zj63ekk4lkwdm0w2v302uw083pspv85ys8xztq7
-    - &lxc-pinchflat age1kgax85fpf4h3t4j8ngnwkx0srtwly65a87qc6efe3x82zhd0gfwsq7kvdf
-    - &lxc-media-download age1ud8u5wvt77cwh62g0j7lrfv5xp0m0pqpdf5xvkqdhmmtsndyvqssl2dqs8
-    - &lxc-media-arr age17ugg9800pvyrujc08jsehpf7m4era4d8k97yzva0yeqjl5wy54dq872wxf
+    - &lxc-core age19592wz437lvt45l5uc5m77n5ru54rcy7tma8662v3gaejlpvjytqey5gxv
     - &lxc-ai age1vu92r9trrzecskt3h8c7u5whm3x2xl4awmcwf83lvu0galaamgdsa82s8v
-    - &lxc-caddy age1t53xnl4wwthxqmnp7xyaj540tsqkuf7zkxpp82zhss25wwmykc8q57lffy
     # not easy to find ssh host key on macos
     # age-keygen -o ~/.config/sops/age/keys.txt
     - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
@@ -56,94 +43,16 @@ creation_rules:
           - *ashyn
         pgp:
           - *hyshka
-  - path_regex: containers/secrets/paperless.ya?ml$
+  - path_regex: containers/secrets/.*\.(ya?ml|sqlite|db)$
     key_groups:
       - age:
-          - *lxc-paperless
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/immich.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-immich
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/immich-kiosk.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-immich-kiosk
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/samba.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-samba
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/calibre-users.sqlite$
-    key_groups:
-      - age:
-          - *lxc-calibre
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/silverbullet.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-silverbullet
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/ntfy_user.db$
-    key_groups:
-      - age:
-          - *lxc-ntfy
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/homepage.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-homepage
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/pocket-id.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-pocket-id
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/jellyfin.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-jellyfin
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/pinchflat.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-pinchflat
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/media-download.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-media-download
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/media-arr.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-media-arr
+          - *lxc-core
         pgp:
           - *hyshka
   - path_regex: containers/secrets/ai.ya?ml$
     key_groups:
       - age:
           - *lxc-ai
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/caddy.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-caddy
         pgp:
           - *hyshka
   - path_regex: hosts/nixos/common/secrets.ya?ml$
