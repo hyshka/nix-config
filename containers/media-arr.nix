@@ -51,7 +51,7 @@ in
 
   # FlareSolverr - proxy server to bypass Cloudflare protection
   services.flaresolverr = {
-    enable = true;
+    enable = false;
   };
 
   # Jellyseerr - Request management for Jellyfin
