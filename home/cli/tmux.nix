@@ -83,7 +83,7 @@
             layout: main-vertical
             panes:
               - shell_command:
-                - claude
+                - blank
       '';
       target = "tmuxp/dashboard.yml";
     };
@@ -132,7 +132,7 @@
           - window_name: deploy
             panes:
               - shell_command:
-                - cd ..; nix-shell
+                - cd ..
       '';
       target = "tmuxp/muckrack.yml";
     };
