@@ -6,6 +6,7 @@
 
 readonly DEFAULT_REMOTE="${INCUS_DEFAULT_REMOTE:-tiny1}"
 readonly DEFAULT_NETWORK_DEVICE="${INCUS_NETWORK_DEVICE:-eth0}"
+readonly DEFAULT_PROFILE="${INCUS_PROFILE:-nixos-container}"
 readonly PERSIST_BASE_PATH="${INCUS_PERSIST_PATH:-/persist/microvms}"
 readonly CONTAINER_START_WAIT="${INCUS_START_WAIT:-5}"
 readonly CONTAINER_RESTART_TIMEOUT="${INCUS_RESTART_TIMEOUT:-30}"
@@ -84,13 +85,13 @@ parse_remote_option() {
   echo "$DEFAULT_REMOTE"
 }
 
-# Parse --nesting option from arguments
+# Parse --nesting option from arguments (deprecated, now handled by profile)
 parse_nesting_option() {
   while [[ $# -gt 0 ]]; do
     case $1 in
     --nesting)
-      echo "-c security.nesting=true"
-      return
+      # Deprecated: nesting is now handled by the nixos-container profile
+      shift
       ;;
     *)
       shift
@@ -116,7 +117,7 @@ usage() {
   echo "Usage: $0 <command> [arguments...] [--remote <remote_name>]"
   echo
   echo "Quick Start:"
-  echo "  bootstrap  <container> [--nesting]     Complete container setup (steps 1-6)."
+  echo "  bootstrap  <container>                Complete container setup (steps 1-6)."
   echo "                                         Then update nix-config and run 'deploy'."
   echo
   echo "Deployment Commands (support comma-separated list of containers):"
@@ -127,7 +128,7 @@ usage() {
   echo "  deploy     <containers>                Performs import, rebuild, and restart for container(s)."
   echo
   echo "Setup Commands (operate on a single container):"
-  echo "  create     <container> [--nesting]     Creates a new container from a nixos/custom/<container> image."
+  echo "  create     <container>                Creates a new container from a nixos/custom/<container> image."
   echo "  add-persist-disk <container>           Adds a standard persist disk for the container."
   echo "  add-storage <container> <host_path> <container_path> [--uid <uid>]"
   echo "                                         Adds a storage disk mount with optional ID mapping."
@@ -215,11 +216,11 @@ start_container() {
 create_container() {
   local container=$1
   local remote=$2
-  local nesting_arg=$3
+  local profile=${3:-$DEFAULT_PROFILE}
   echo "Creating container $container on remote $remote..."
   ensure_remote "$remote"
   # shellcheck disable=SC2086
-  incus create "nixos/custom/$container" "$container" $nesting_arg
+  incus create "nixos/custom/$container" "$container" --profile "$profile"
 }
 
 create_persist_dir() {
@@ -241,9 +242,9 @@ create_persist_dir() {
 add_persist_disk() {
   local container=$1
   local remote=$2
-  echo "Adding persist disk to $container on remote $remote..."
+  echo "Configuring persist disk for $container on remote $remote..."
   ensure_remote "$remote"
-  incus config device add "$container" persist disk "source=$PERSIST_BASE_PATH/$container" "path=/persist" "shift=true"
+  incus config device set "$container" persist source="$PERSIST_BASE_PATH/$container"
 }
 
 set_ip() {
@@ -372,7 +373,7 @@ print_bootstrap_summary() {
 bootstrap_container() {
   local container=$1
   local remote=$2
-  local nesting_arg=$3
+  local profile=${3:-$DEFAULT_PROFILE}
 
   echo "=== Starting Bootstrap for $container on remote $remote ==="
   echo
@@ -411,21 +412,21 @@ bootstrap_container() {
   echo
 
   # Step 4: Create container
-  echo "Step 4/8: Creating container..."
-  create_container "$container" "$remote" "$nesting_arg" || {
+  echo "Step 4/8: Creating container with profile..."
+  create_container "$container" "$remote" "$DEFAULT_PROFILE" || {
     echo "Container creation failed. Aborting."
     exit 1
   }
   echo "✓ Container created"
   echo
 
-  # Step 5: Add persist disk
-  echo "Step 5/8: Adding persist disk..."
+  # Step 5: Configure persist disk
+  echo "Step 5/8: Configuring persist disk..."
   add_persist_disk "$container" "$remote" || {
-    echo "Adding persist disk failed. Aborting."
+    echo "Configuring persist disk failed. Aborting."
     exit 1
   }
-  echo "✓ Persist disk added"
+  echo "✓ Persist disk configured"
   echo
 
   # Step 6: Start container
@@ -500,13 +501,14 @@ build | import | rebuild | restart | deploy)
 bootstrap | create)
   CONTAINER=$(require_container "$1")
   shift
-  NESTING_ARG=$(parse_nesting_option "$@")
+  parse_nesting_option "$@"
   REMOTE=$(parse_remote_option "$@")
+  PROFILE=$DEFAULT_PROFILE
 
   if [ "$COMMAND" == "bootstrap" ]; then
-    bootstrap_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
+    bootstrap_container "$CONTAINER" "$REMOTE" "$PROFILE"
   else
-    create_container "$CONTAINER" "$REMOTE" "$NESTING_ARG"
+    create_container "$CONTAINER" "$REMOTE" "$PROFILE"
   fi
   ;;
 
