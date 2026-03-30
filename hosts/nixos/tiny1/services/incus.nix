@@ -29,6 +29,27 @@
         count = 1;
         startUid = 1000;
       }
+      # media-arr container
+      {
+        startUid = 274;
+        count = 1;
+      }
+      {
+        startUid = 275;
+        count = 1;
+      }
+      {
+        startUid = 997;
+        count = 1;
+      }
+      {
+        startUid = 998;
+        count = 1;
+      }
+      {
+        startUid = 61654;
+        count = 1;
+      }
     ];
     subGidRanges = [
       # users group
