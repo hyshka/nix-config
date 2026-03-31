@@ -10,6 +10,7 @@
     ui.enable = true;
   };
   networking.nftables.enable = true;
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1; # normally incusd sets this, but something in nixos reset it
   users.groups."incus-admin".members = config.users.groups."wheel".members;
   # Incus remote access
   networking.firewall.allowedTCPPorts = [ 8443 ];
