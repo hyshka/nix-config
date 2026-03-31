@@ -11,25 +11,25 @@ in
 {
   imports = [ (container.mkContainer { name = "media-download"; }) ];
 
-  # Disable IPv6 to prevent leaks
+  # Disable rp_filter to allow return traffic from VPN via eth0.
+  # Per-interface entries are omitted: net.ipv4.conf.all overrides all interfaces.
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
+    "net.ipv4.conf.all.rp_filter" = 0;
+    "net.ipv4.conf.default.rp_filter" = 0;
+    # Belt-and-suspenders: also disable IPv6 at the kernel level.
+    # The primary IPv6 block is at the networkd layer (LinkLocalAddressing/IPv6AcceptRA).
     "net.ipv6.conf.all.disable_ipv6" = 1;
-    "net.ipv6.conf.default.disable_ipv6" = 1;
-    "net.ipv6.conf.eth0.disable_ipv6" = 1;
   };
 
   environment.systemPackages = [
     pkgs.wireguard-tools
   ];
 
-  # NixOS firewall will block wg traffic because of rpfilter
+  # NixOS firewall rpfilter chain must be loose to allow return traffic
+  # from the VPN peer arriving on eth0 while routing via wg0.
   networking.firewall.checkReversePath = "loose";
 
-  networking.useNetworkd = true; # only use networkd
   systemd.network = {
-    enable = true;
-
     netdevs."50-wg0" = {
       netdevConfig = {
         Kind = "wireguard";
@@ -37,7 +37,6 @@ in
       };
       wireguardConfig = {
         PrivateKeyFile = config.sops.secrets.wireguard-privatekey.path;
-        FirewallMark = 42;
       };
       wireguardPeers = [
         {
@@ -48,72 +47,70 @@ in
             "0.0.0.0/0"
           ];
           PersistentKeepalive = 25;
-          RouteTable = 1000;
         }
       ];
     };
 
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
-      address = [
-        "10.2.0.2/32"
-      ];
-      dns = [
-        "10.2.0.1"
-      ];
+      address = [ "10.2.0.2/32" ];
+      dns = [ "10.2.0.1" ];
       domains = [ "~." ];
       networkConfig = {
         DNSDefaultRoute = true;
+        DefaultRouteOnDevice = true;
+        # wg0 is a point-to-point tunnel; no link-local addressing needed.
+        LinkLocalAddressing = "no";
       };
-      routingPolicyRules = [
-        # Priority 5: VPN endpoint bypass (prevent WireGuard routing loop)
+    };
+
+    # Only use VPN DNS; suppress all DHCP-provided DNS and routes.
+    networks."99-lxc-veth-default-dhcp" = {
+      matchConfig.Name = "eth0";
+      networkConfig = {
+        # IPv4 DHCP only — overrides lxc-container.nix's DHCP=yes to disable
+        # DHCPv6 that would otherwise be enabled alongside LinkLocalAddressing=no.
+        DHCP = lib.mkForce "ipv4";
+        # Disable IPv6 at the networkd layer — prevents addresses being assigned
+        # before the kernel sysctl can take effect, and kills DHCPv6/RA entirely.
+        LinkLocalAddressing = "no";
+        IPv6AcceptRA = false;
+      };
+      dhcpV4Config = {
+        UseDNS = false;
+        UseRoutes = false; # Only want the local subnet route; default via wg0.
+        UseDomains = false;
+      };
+      # DHCPv6 and RA are fully suppressed by LinkLocalAddressing=no and
+      # IPv6AcceptRA=false above; no need to configure them further.
+      # Route VPN endpoint through eth0 to prevent a routing loop:
+      # without this, WireGuard's own encrypted UDP traffic would be sent
+      # back into wg0 instead of out to the internet.
+      routes = [
         {
-          To = "169.150.196.69/32";
-          Priority = 5;
-        }
-        # Priority 9: Keep local subnet traffic local (DNS, ping, web UIs)
-        # This prevents incusbr0 traffic from being routed through VPN
-        {
-          To = "10.223.27.0/24";
-          Priority = 9;
-        }
-        # Priority 10: Everything else without fwmark goes to VPN
-        {
-          Family = "both";
-          FirewallMark = 42;
-          InvertRule = true;
-          Table = 1000;
-          Priority = 10;
+          # GatewayOnLink: gateway is on-link even without a static address on eth0
+          Destination = "169.150.196.69/32";
+          Gateway = "10.223.27.1";
+          GatewayOnLink = true;
         }
       ];
     };
-
-    # Only use VPN DNS
-    networks."99-lxc-veth-default-dhcp" = {
-      matchConfig.Name = "eth0";
-      dhcpV4Config = {
-        UseDNS = false;
-        UseRoutes = true;
-        UseDomains = false;
-      };
-      dhcpV6Config = {
-        UseDNS = false;
-      };
-      ipv6AcceptRAConfig = {
-        UseDNS = false;
-      };
-      dns = [ ];
-      domains = [ ];
-    };
   };
 
-  # Disable DNS fallback (kill-switch for DNS)
-  networking.useHostResolvConf = false; # only use resolved
+  # Ensure systemd-networkd waits for secrets before creating the wg0 netdev,
+  # which needs the private key file at /run/secrets/wireguard-privatekey.
+  systemd.services.systemd-networkd = {
+    wants = [ "sops-install-secrets.service" ];
+    after = [ "sops-install-secrets.service" ];
+  };
+
+  # Only use VPN DNS; no fallback (DNS kill-switch).
+  networking.useHostResolvConf = false;
   services.resolved = {
     enable = true;
     settings = {
       Resolve = {
-        FallbackDNS = null;
+        FallbackDNS = "";
         LLMNR = "no";
         MulticastDNS = "no";
         DNSOverTLS = "no";
@@ -123,12 +120,12 @@ in
 
   sops.secrets.wireguard-privatekey = {
     sopsFile = ./secrets/media-download.yaml;
-    owner = "systemd-network";
+    owner = "root";
     group = "systemd-network";
-    mode = "0400";
+    mode = "0440";
   };
 
-  # Create mediacenter group matching host GID
+  # Create mediacenter group matching host GID for shared storage access.
   users.groups.mediacenter = {
     gid = 13000;
   };
@@ -148,16 +145,40 @@ in
     # TODO: alternate Vue WebUI
   };
 
+  # Ensure qbittorrent only starts once wg0 is routable so its interface
+  # binding (Session\Interface=wg0) is satisfied and torrent traffic can't
+  # leak over eth0. systemd-networkd-wait-online@wg0 blocks until networkd
+  # reports wg0 as routable, regardless of the global --any wait-online.
+  systemd.services.qbittorrent = {
+    wants = [
+      "network-online.target"
+      "systemd-networkd-wait-online@wg0.service"
+    ];
+    after = [
+      "network-online.target"
+      "systemd-networkd-wait-online@wg0.service"
+    ];
+  };
+
   services.sabnzbd = {
     enable = true;
     openFirewall = true;
     user = "sabnzbd";
     group = "mediacenter";
+    # Opt into the declarative settings behaviour introduced in NixOS 26.05.
+    # Without this, stateVersion < 26.05 causes configFile to default to the
+    # legacy path and all settings below are silently ignored.
+    configFile = null;
+    # Keep the ini writable so sabnzbd can persist runtime state (queue,
+    # history) and the web UI remains fully functional.
+    allowConfigWrite = true;
     secretFiles = [ config.sops.secrets.sabnzbd-secretsFile.path ];
     settings = {
       misc = {
-        # Network
-        host = "10.2.0.2"; # Only bind to VPN interface to prevent leaks
+        # Bind to all interfaces so the web UI is reachable from the LAN.
+        # Outbound connections (Usenet downloads) go through wg0 regardless,
+        # because all traffic is routed via the WireGuard default route.
+        host = "0.0.0.0";
         port = 8085;
 
         # Performance
@@ -246,6 +267,19 @@ in
     };
   };
 
+  # Ensure sabnzbd only starts once wg0 is routable so Usenet downloads
+  # go through the VPN and can't leak over the cleartext path.
+  systemd.services.sabnzbd = {
+    wants = [
+      "network-online.target"
+      "systemd-networkd-wait-online@wg0.service"
+    ];
+    after = [
+      "network-online.target"
+      "systemd-networkd-wait-online@wg0.service"
+    ];
+  };
+
   nixpkgs = {
     config.allowUnfreePredicate =
       pkg:
@@ -254,7 +288,7 @@ in
       ];
   };
 
-  # Scheduled pause/unpause for qBittorrent (for backup windows)
+  # Scheduled pause/unpause for qBittorrent (for backup windows).
   systemd.services.qbittorrent-pause = {
     description = "Pause qBittorrent for backup window";
     script = "${pkgs.systemd}/bin/systemctl stop qbittorrent";
@@ -263,7 +297,7 @@ in
 
   systemd.services.qbittorrent-unpause = {
     description = "Unpause qBittorrent after backup window";
-    script = "${pkgs.systemd}/bin/systemctl start qbittorrent || true";
+    script = "${pkgs.systemd}/bin/systemctl start qbittorrent";
     startAt = "*-*-* 02:00:00";
   };
 
