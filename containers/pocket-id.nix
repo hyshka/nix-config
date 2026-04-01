@@ -24,6 +24,7 @@ in
       APP_URL = "https://auth.home.hyshka.com";
       TRUST_PROXY = true;
       ANALYTICS_DISABLED = true;
+      VERSION_CHECK_DISABLED = true;
     };
     environmentFile = config.sops.secrets.pocket-id-encryption-key.path;
   };
