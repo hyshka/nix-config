@@ -172,6 +172,11 @@ in
           reverse_proxy http://10.223.27.205:8090
         }
 
+        @incus host incus.home.hyshka.com
+        handle @incus {
+          reverse_proxy http://${host_ip}:8443
+        }
+
         handle {
           abort
         }
