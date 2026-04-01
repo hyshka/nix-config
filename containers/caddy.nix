@@ -174,7 +174,11 @@ in
 
         @incus host incus.home.hyshka.com
         handle @incus {
-          reverse_proxy http://${host_ip}:8443
+          reverse_proxy https://${host_ip}:8443 {
+            transport http {
+              tls_server_name "tiny1"
+            }
+          }
         }
 
         handle {
