@@ -242,9 +242,9 @@ create_persist_dir() {
 add_persist_disk() {
   local container=$1
   local remote=$2
-  echo "Configuring persist disk for $container on remote $remote..."
+  echo "Adding persist disk to $container on remote $remote..."
   ensure_remote "$remote"
-  incus config device set "$container" persist source="$PERSIST_BASE_PATH/$container"
+  incus config device add "$container" persist disk "source=$PERSIST_BASE_PATH/$container" "path=/persist" "shift=true"
 }
 
 set_ip() {
@@ -336,34 +336,19 @@ validate_bootstrap() {
 print_bootstrap_summary() {
   local container=$1
   local ip_address=$2
-  local age_key=$3
 
   echo
   echo "╔════════════════════════════════════════════════════════════════════════╗"
   echo "║ Container Bootstrap Complete: $(printf '%-40s' "$container")║"
   echo "╠════════════════════════════════════════════════════════════════════════╣"
   echo "║ IP Address:  $(printf '%-57s' "$ip_address")║"
-  echo "║ Age Key:     $(printf '%-57s' "${age_key:0:57}")║"
-  if [ ${#age_key} -gt 57 ]; then
-    echo "║              $(printf '%-57s' "${age_key:57}")║"
-  fi
   echo "╠════════════════════════════════════════════════════════════════════════╣"
   echo "║ Next Steps:                                                            ║"
   echo "║                                                                        ║"
-  echo "║ 1. Add age key to .sops.yaml under the 'hosts:' section:              ║"
-  echo "║    - &lxc-$container $(printf '%-52s' "$age_key")║" | head -c 76
-  echo "║"
-  echo "║                                                                        ║"
-  echo "║ 2. Add a creation_rules entry for containers/secrets/$container.yaml  ║"
-  echo "║    (copy an existing container's entry as template)                   ║"
-  echo "║                                                                        ║"
-  echo "║ 3. If container needs reverse proxy, add to services/caddy.nix:       ║"
+  echo "║ 1. If container needs reverse proxy, add to services/caddy.nix:       ║"
   echo "║    reverse_proxy http://${ip_address}:<port>                          ║"
   echo "║                                                                        ║"
-  echo "║ 4. Deploy the configuration:                                          ║"
-  echo "║    ./incus-manager.sh deploy $container                               ║"
-  echo "║                                                                        ║"
-  echo "║ 5. Add storage if needed:                                             ║"
+  echo "║ 2. Add storage if needed:                                             ║"
   echo "║    ./incus-manager.sh add-storage $container \\                        ║"
   echo "║      /mnt/storage/$container /mnt/$container/ --uid <uid>             ║"
   echo "╚════════════════════════════════════════════════════════════════════════╝"
@@ -379,7 +364,7 @@ bootstrap_container() {
   echo
 
   # Step 0: Validate
-  echo "Step 0/8: Validating configuration..."
+  echo "Step 0/7: Validating configuration..."
   if ! validate_bootstrap "$container" "$remote"; then
     echo "Bootstrap validation failed. Aborting."
     exit 1
@@ -388,7 +373,7 @@ bootstrap_container() {
   echo
 
   # Step 1: Build
-  echo "Step 1/8: Building image..."
+  echo "Step 1/7: Building image..."
   build_image "$container" || {
     echo "Build failed. Aborting."
     exit 1
@@ -397,7 +382,7 @@ bootstrap_container() {
   echo
 
   # Step 2: Import
-  echo "Step 2/8: Importing image to remote..."
+  echo "Step 2/7: Importing image to remote..."
   import_image "$container" "$remote" || {
     echo "Import failed. Aborting."
     exit 1
@@ -406,13 +391,13 @@ bootstrap_container() {
   echo
 
   # Step 3: Create persist directory
-  echo "Step 3/8: Creating persist directory..."
+  echo "Step 3/7: Creating persist directory..."
   create_persist_dir "$container" "$remote"
   echo "✓ Persist directory ready"
   echo
 
   # Step 4: Create container
-  echo "Step 4/8: Creating container with profile..."
+  echo "Step 4/7: Creating container with profile..."
   create_container "$container" "$remote" "$DEFAULT_PROFILE" || {
     echo "Container creation failed. Aborting."
     exit 1
@@ -421,7 +406,7 @@ bootstrap_container() {
   echo
 
   # Step 5: Configure persist disk
-  echo "Step 5/8: Configuring persist disk..."
+  echo "Step 5/7: Configuring persist disk..."
   add_persist_disk "$container" "$remote" || {
     echo "Configuring persist disk failed. Aborting."
     exit 1
@@ -430,7 +415,7 @@ bootstrap_container() {
   echo
 
   # Step 6: Start container
-  echo "Step 6/8: Starting container..."
+  echo "Step 6/7: Starting container..."
   start_container "$container" "$remote" || {
     echo "Starting container failed. Aborting."
     exit 1
@@ -439,7 +424,7 @@ bootstrap_container() {
   echo
 
   # Step 7: Set static IP
-  echo "Step 7/8: Setting static IP..."
+  echo "Step 7/7: Setting static IP..."
   set_ip "$container" "$remote" "" || {
     echo "Setting IP failed. Aborting."
     exit 1
@@ -447,22 +432,12 @@ bootstrap_container() {
   echo "✓ Static IP configured"
   echo
 
-  # Step 8: Get age key
-  echo "Step 8/8: Computing age key..."
-  local age_key
-  age_key=$(get_age_key "$container" "$remote") || {
-    echo "Getting age key failed. Aborting."
-    exit 1
-  }
-  echo "✓ Age key computed"
-  echo
-
   # Get the IP address for the summary
   local ip_address
   ip_address=$(get_container_ip "$container" "$remote") || fatal "Failed to get container IP"
 
   # Print summary
-  print_bootstrap_summary "$container" "$ip_address" "$age_key"
+  print_bootstrap_summary "$container" "$ip_address"
 }
 
 # --- Main CLI Logic ---
