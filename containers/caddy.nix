@@ -175,8 +175,10 @@ in
         @incus host incus.home.hyshka.com
         handle @incus {
           reverse_proxy https://${host_ip}:8443 {
+            # can't configure Incus public address, must pass correct forwarded headers for oidc callback to work
+            header_up Host incus.home.hyshka.com
             transport http {
-              tls_server_name "tiny1"
+              tls_insecure_skip_verify
             }
           }
         }
