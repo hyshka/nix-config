@@ -34,9 +34,6 @@ in
         };
       };
     };
-    docker = {
-      my-docker.socket = "/var/run/docker.sock";
-    };
     widgets = [
       {
         search = {
@@ -230,8 +227,6 @@ in
               icon = "jellyfin.svg";
               href = "https://jellyfin.home.hyshka.com";
               description = "Jellyfin: Media server";
-              server = "my-docker";
-              container = "jellyfin";
               siteMonitor = "https://jellyfin.home.hyshka.com";
               widget = {
                 type = "jellyfin";
@@ -242,14 +237,12 @@ in
             };
           }
           {
-            Jellyseerr = {
-              icon = "jellyseerr.svg";
+            Seerr = {
+              icon = "seerr.svg";
               href = "https://jellyseerr.home.hyshka.com";
-              server = "my-docker";
-              container = "jellyseerr";
               siteMonitor = "https://jellyseerr.home.hyshka.com";
               widget = {
-                type = "jellyseerr";
+                type = "seerr";
                 url = "https://jellyseerr.home.hyshka.com";
                 key = "{{HOMEPAGE_VAR_JELLYSEERR_APIKEY}}";
               };
@@ -259,8 +252,6 @@ in
             Radarr = {
               icon = "radarr.svg";
               href = "https://radarr.home.hyshka.com";
-              server = "my-docker";
-              container = "radarr";
               siteMonitor = "https://radarr.home.hyshka.com";
               widget = {
                 type = "radarr";
@@ -273,8 +264,6 @@ in
             Sonarr = {
               icon = "sonarr.svg";
               href = "https://sonarr.home.hyshka.com";
-              server = "my-docker";
-              container = "sonarr";
               siteMonitor = "https://sonarr.home.hyshka.com";
               widget = {
                 type = "sonarr";
@@ -287,8 +276,6 @@ in
             Readarr = {
               icon = "readarr.svg";
               href = "https://readarr.home.hyshka.com";
-              server = "my-docker";
-              container = "readarr";
               siteMonitor = "https://readarr.home.hyshka.com";
               widget = {
                 type = "readarr";
@@ -301,8 +288,6 @@ in
             Prowlarr = {
               icon = "prowlarr.svg";
               href = "https://prowlarr.home.hyshka.com";
-              server = "my-docker";
-              container = "prowlarr";
               siteMonitor = "https://prowlarr.home.hyshka.com";
               widget = {
                 type = "prowlarr";
@@ -315,8 +300,6 @@ in
             Qbittorrent = {
               icon = "qbittorrent.svg";
               href = "https://qbittorrent.home.hyshka.com";
-              server = "my-docker";
-              container = "qbittorrent";
               siteMonitor = "https://qbittorrent.home.hyshka.com";
               widget = {
                 type = "qbittorrent";
@@ -330,8 +313,6 @@ in
             Sabnzbd = {
               icon = "sabnzbd.svg";
               href = "https://sabnzbd.home.hyshka.com";
-              server = "my-docker";
-              container = "sabnzbd";
               siteMonitor = "https://sabnzbd.home.hyshka.com";
               widget = {
                 type = "sabnzbd";
@@ -344,24 +325,18 @@ in
             Pinchflat = {
               icon = "pinchflat.svg";
               href = "https://pinchflat.home.hyshka.com";
-              server = "my-docker";
-              container = "pinchflat";
               siteMonitor = "https://pinchflat.home.hyshka.com";
             };
           }
           {
             Wireguard = {
               icon = "wireguard.svg";
-              server = "my-docker";
-              container = "wireguard";
               # TODO: check if wireguard is up?
             };
           }
           {
             Recyclarr = {
               icon = "trash-guides.png";
-              server = "my-docker";
-              container = "recyclarr";
             };
           }
         ];
