@@ -8,7 +8,12 @@ let
   container = import ./default.nix { inherit lib inputs; };
 in
 {
-  imports = [ (container.mkContainer { name = "media-arr"; }) ];
+  imports = [
+    (container.mkContainer {
+      name = "media-arr";
+      stateVersion = "26.05";
+    })
+  ];
 
   # Create mediacenter group matching host GID for storage access
   users.groups.mediacenter = {
@@ -49,16 +54,10 @@ in
     dataDir = "/var/lib/prowlarr";
   };
 
-  # FlareSolverr - proxy server to bypass Cloudflare protection
-  services.flaresolverr = {
-    enable = false;
-  };
-
-  # Jellyseerr - Request management for Jellyfin
-  services.jellyseerr = {
+  # Seerr - Request management for Jellyfin
+  services.seerr = {
     enable = true;
     openFirewall = true;
-    configDir = "/var/lib/jellyseerr";
   };
 
   # Recyclarr - Automated TRaSH guide configuration sync
@@ -139,7 +138,7 @@ in
       "/var/lib/radarr"
       "/var/lib/readarr"
       "/var/lib/private/prowlarr"
-      "/var/lib/private/jellyseerr"
+      "/var/lib/private/seerr"
       "/var/lib/recyclarr"
     ];
   };
