@@ -17,6 +17,10 @@
       owner = "grafana";
       group = "grafana";
     };
+    grafana-oauth2-client-secret = {
+      owner = "grafana";
+      group = "grafana";
+    };
   };
 
   # https://wiki.nixos.org/wiki/Grafana
@@ -45,6 +49,22 @@
         password = "$__file{${config.sops.secrets.grafana-smtp-password.path}}";
         from_address = "noreply@hyshka.com";
         from_name = "No Reply";
+      };
+      "auth.generic_oauth" = {
+        enabled = true;
+        name = "PocketID";
+        client_id = "c731be14-d978-47d6-ad0b-eeea244ffffe";
+        client_secret = "$__file{${config.sops.secrets.grafana-oauth2-client-secret.path}}";
+        auth_url = "https://auth.home.hyshka.com/authorize";
+        token_url = "https://auth.home.hyshka.com/api/oidc/token";
+        api_url = "";
+        auth_style = "AutoDetect";
+        scopes = "openid,email,profile";
+        allow_sign_up = false;
+        auto_login = false;
+        email_attribute_name = "email:primary";
+        skip_org_role_sync = true;
+        signout_redirect_url = "";
       };
     };
 
