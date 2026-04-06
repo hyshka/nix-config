@@ -24,7 +24,8 @@
     paths = [
       "/mnt/storage/hyshka"
       "/mnt/storage/tm_share" # time machine samba share
-      "/home/hyshka/media" # *arr configs TODO: remove after migration
+      "/var/lib/AdGuardHome/AdGuardHome.yaml"
+      "/var/lib/AdGuardHome/data"
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
