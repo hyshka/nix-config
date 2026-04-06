@@ -24,8 +24,8 @@
     paths = [
       "/mnt/storage/hyshka"
       "/mnt/storage/tm_share" # time machine samba share
-      "/var/lib/AdGuardHome/AdGuardHome.yaml"
-      "/var/lib/AdGuardHome/data"
+      "/var/lib/private/AdGuardHome/AdGuardHome.yaml"
+      "/var/lib/private/AdGuardHome/data"
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
