@@ -214,9 +214,4 @@ in
     group = adguardUser;
   };
   users.groups.${adguardUser} = { };
-
-  sops.secrets.adguard-passwordFile = {
-    owner = adguardUser;
-    group = adguardUser;
-  };
 }
