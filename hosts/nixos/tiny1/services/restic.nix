@@ -26,6 +26,7 @@
       "/mnt/storage/tm_share" # time machine samba share
       "/var/lib/private/AdGuardHome/AdGuardHome.yaml"
       "/var/lib/private/AdGuardHome/data"
+      "/var/lib/nixos"
       # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
