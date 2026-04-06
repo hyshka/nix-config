@@ -20,6 +20,9 @@ in
       http = {
         address = "0.0.0.0:${toString config.services.adguardhome.port}";
       };
+      # cannot use special characters in passwords
+      # nix shell 'nixpkgs#apacheHttpd'
+      # htpasswd -B -C 10 -n -b admin "SECRET"
       auth_attempts = 15;
       dns = {
         bind_hosts = [
