@@ -119,13 +119,12 @@ usage() {
   echo "Quick Start:"
   echo "  bootstrap  <container>                Complete container setup (steps 1-6)."
   echo "                                         Then update nix-config and run 'deploy'."
-  echo
+
   echo "Deployment Commands (support comma-separated list of containers):"
-  echo "  build      <containers>                Builds the container image(s)."
-  echo "  import     <containers>                Imports the built image(s) into Incus."
-  echo "  rebuild    <containers>                Rebuilds the container(s) on the remote."
-  echo "  restart    <containers>                Restarts the container(s)."
-  echo "  deploy     <containers>                Performs import, rebuild, and restart for container(s)."
+  echo "  build      <containers> [--no-import]  Builds and imports image(s). Use --no-import to build only."
+  echo "  rebuild    <containers>                Rebuilds container(s) from existing image."
+  echo "  restart    <containers>                Restarts container(s)."
+  echo "  deploy     <containers>                Full pipeline: build+import, rebuild, restart."
   echo
   echo "Setup Commands (operate on a single container):"
   echo "  create     <container>                Creates a new container from a nixos/custom/<container> image."
@@ -152,37 +151,52 @@ usage() {
 
 # --- Low-level Container Operations ---
 
+parse_build_options() {
+  local do_import=true
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    --no-import)
+      do_import=false
+      shift
+      ;;
+    *)
+      break
+      ;;
+    esac
+  done
+  echo "$do_import"
+}
+
 build_image() {
   local container=$1
+  local remote=$2
+  local do_import=${3:-true}
+
   echo "Building image for $container..."
 
   local base=".#nixosConfigurations.$container.config.system.build"
 
-  # toplevel is a dependency of both metadata and squashfs.
-  # Building it first means the subsequent builds just reuse the store path.
   local toplevel
   toplevel=$(nix build "$base.toplevel" --no-link --print-out-paths)
 
-  nix build "$base.metadata" --no-link --print-out-paths >/dev/null
-  nix build "$base.squashfs" --no-link --print-out-paths >/dev/null
+  local NIXOS_BUILD_ID
+  NIXOS_BUILD_ID=$(nix eval --raw ".#nixosConfigurations.$container.config.system.nixos.version")
+
+  local tarball_path
+  tarball_path=$(nix build "$base.metadata" --no-link --print-out-paths)/tarball/nixos-image-lxc-${NIXOS_BUILD_ID}-x86_64-linux.tar.xz
+
+  local squashfs_path
+  squashfs_path=$(nix build "$base.squashfs" --no-link --print-out-paths)/nixos-lxc-image-x86_64-linux.squashfs
 
   echo "Build complete for $container."
   echo "Toplevel path for comparison: $toplevel"
-}
 
-import_image() {
-  local container=$1
-  local remote=$2
-  echo "Importing image for $container to remote $remote..."
-  ensure_remote "$remote"
-  local NIXOS_BUILD_ID
-  NIXOS_BUILD_ID=$(nix eval --raw ".#nixosConfigurations.$container.config.system.nixos.version")
-  local tarball_path
-  tarball_path=$(nix build ".#nixosConfigurations.$container.config.system.build.metadata" --print-out-paths)/tarball/nixos-image-lxc-${NIXOS_BUILD_ID}-x86_64-linux.tar.xz
-  local squashfs_path
-  squashfs_path=$(nix build ".#nixosConfigurations.$container.config.system.build.squashfs" --print-out-paths)/nixos-lxc-image-x86_64-linux.squashfs
-
-  incus image import --alias "nixos/custom/$container" --reuse "$tarball_path" "$squashfs_path"
+  if [ "$do_import" = true ]; then
+    echo "Importing image to remote $remote..."
+    ensure_remote "$remote"
+    incus image import --alias "nixos/custom/$container" --reuse "$tarball_path" "$squashfs_path"
+    echo "Import complete for $container."
+  fi
 }
 
 rebuild_container() {
@@ -364,7 +378,7 @@ bootstrap_container() {
   echo
 
   # Step 0: Validate
-  echo "Step 0/7: Validating configuration..."
+  echo "Step 0/6: Validating configuration..."
   if ! validate_bootstrap "$container" "$remote"; then
     echo "Bootstrap validation failed. Aborting."
     exit 1
@@ -372,32 +386,23 @@ bootstrap_container() {
   echo "✓ Validation passed"
   echo
 
-  # Step 1: Build
-  echo "Step 1/7: Building image..."
-  build_image "$container" || {
-    echo "Build failed. Aborting."
+  # Step 1: Build and import
+  echo "Step 1/7: Building and importing image..."
+  build_image "$container" "$remote" true || {
+    echo "Build/import failed. Aborting."
     exit 1
   }
-  echo "✓ Build complete"
+  echo "✓ Build and import complete"
   echo
 
-  # Step 2: Import
-  echo "Step 2/7: Importing image to remote..."
-  import_image "$container" "$remote" || {
-    echo "Import failed. Aborting."
-    exit 1
-  }
-  echo "✓ Import complete"
-  echo
-
-  # Step 3: Create persist directory
-  echo "Step 3/7: Creating persist directory..."
+  # Step 2: Create persist directory
+  echo "Step 2/6: Creating persist directory..."
   create_persist_dir "$container" "$remote"
   echo "✓ Persist directory ready"
   echo
 
-  # Step 4: Create container
-  echo "Step 4/7: Creating container with profile..."
+  # Step 3: Create container
+  echo "Step 3/6: Creating container with profile..."
   create_container "$container" "$remote" "$DEFAULT_PROFILE" || {
     echo "Container creation failed. Aborting."
     exit 1
@@ -405,8 +410,8 @@ bootstrap_container() {
   echo "✓ Container created"
   echo
 
-  # Step 5: Configure persist disk
-  echo "Step 5/7: Configuring persist disk..."
+  # Step 4: Configure persist disk
+  echo "Step 4/6: Configuring persist disk..."
   add_persist_disk "$container" "$remote" || {
     echo "Configuring persist disk failed. Aborting."
     exit 1
@@ -414,8 +419,8 @@ bootstrap_container() {
   echo "✓ Persist disk configured"
   echo
 
-  # Step 6: Start container
-  echo "Step 6/7: Starting container..."
+  # Step 5: Start container
+  echo "Step 5/6: Starting container..."
   start_container "$container" "$remote" || {
     echo "Starting container failed. Aborting."
     exit 1
@@ -423,8 +428,8 @@ bootstrap_container() {
   echo "✓ Container started"
   echo
 
-  # Step 7: Set static IP
-  echo "Step 7/7: Setting static IP..."
+  # Step 6: Set static IP
+  echo "Step 6/6: Setting static IP..."
   set_ip "$container" "$remote" "" || {
     echo "Setting IP failed. Aborting."
     exit 1
@@ -451,20 +456,27 @@ shift
 REMOTE="$DEFAULT_REMOTE"
 
 case "$COMMAND" in
-build | import | rebuild | restart | deploy)
+build | rebuild | restart | deploy)
   CONTAINERS=$(require_container "$1")
   shift
   REMOTE=$(parse_remote_option "$@")
 
+  do_import=true
+  if [ "$COMMAND" = "build" ]; then
+    do_import=$(parse_build_options "$@")
+    if [ "$do_import" = false ]; then
+      shift
+    fi
+  fi
+
   for container in ${CONTAINERS//,/ }; do
     echo "--- Processing container: $container ---"
     case "$COMMAND" in
-    build) build_image "$container" ;;
-    import) import_image "$container" "$REMOTE" ;;
+    build) build_image "$container" "$REMOTE" "$do_import" ;;
     rebuild) rebuild_container "$container" "$REMOTE" ;;
     restart) restart_container "$container" "$REMOTE" ;;
     deploy)
-      import_image "$container" "$REMOTE" &&
+      build_image "$container" "$REMOTE" true &&
         rebuild_container "$container" "$REMOTE" &&
         restart_container "$container" "$REMOTE"
       ;;
