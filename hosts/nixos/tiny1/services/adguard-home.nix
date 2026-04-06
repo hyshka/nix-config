@@ -20,12 +20,6 @@ in
       http = {
         address = "0.0.0.0:${toString config.services.adguardhome.port}";
       };
-      users = [
-        {
-          name = "admin";
-          password = "ADGUARDPASSWORD_PLACEHOLDER";
-        }
-      ];
       auth_attempts = 15;
       dns = {
         bind_hosts = [
@@ -224,16 +218,5 @@ in
   sops.secrets.adguard-passwordFile = {
     owner = adguardUser;
     group = adguardUser;
-  };
-
-  systemd.services.adguardhome = {
-    serviceConfig.User = adguardUser;
-    preStart = lib.mkAfter ''
-      if [ -f "${config.sops.secrets.adguard-passwordFile.path}" ]; then
-        PASSWORD_HASH=$(cat "${config.sops.secrets.adguard-passwordFile.path}")
-        sed "s|ADGUARDPASSWORD_PLACEHOLDER|$PASSWORD_HASH|g" "$STATE_DIRECTORY/AdGuardHome.yaml" > "$STATE_DIRECTORY/AdGuardHome.yaml.tmp"
-        mv "$STATE_DIRECTORY/AdGuardHome.yaml.tmp" "$STATE_DIRECTORY/AdGuardHome.yaml"
-      fi
-    '';
   };
 }
