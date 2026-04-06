@@ -501,6 +501,26 @@
         "type": "github"
       }
     },
+    "opencode-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775353788,
+        "narHash": "sha256-/scCiqDOZB/HI6Pnpjy60AyWnRkpEo7QvjqkYFzVBds=",
+        "owner": "noblepayne",
+        "repo": "opencode-flake",
+        "rev": "c88ab12dd6e8bbf0c7f8819445ec77099a940cd5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noblepayne",
+        "repo": "opencode-flake",
+        "type": "github"
+      }
+    },
     "plasma-manager": {
       "inputs": {
         "home-manager": [
@@ -562,6 +582,7 @@
         "nixpkgs-incus-6-18": "nixpkgs-incus-6-18",
         "nixvim": "nixvim",
         "nur": "nur",
+        "opencode-flake": "opencode-flake",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
         "treefmt-nix": "treefmt-nix_2",

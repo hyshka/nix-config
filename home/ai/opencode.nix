@@ -9,8 +9,8 @@
     settings = {
       share = "disabled";
       autoupdate = false;
-      model = "github-copilot/claude-sonnet-4.6";
-      small_model = "github-copilot/claude-haiku-4.5";
+      model = "zen/claude-sonnet-4.6";
+      small_model = "zen/claude-haiku-4.5";
       formatter = {
         nixfmt = {
           command = [

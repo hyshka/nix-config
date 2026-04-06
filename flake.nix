@@ -80,6 +80,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    opencode-flake = {
+      url = "github:noblepayne/opencode-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zimfw = {
       url = "github:joedevivo/zimfw.nix";
       inputs.home-manager.follows = "home-manager";
