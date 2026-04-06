@@ -49,7 +49,7 @@ in
             {
               provider_id = "pocket-id";
               name = "Pocket-ID";
-              client_id = "c02787b2-416a-4055-a484-934b2ff11088";
+              client_id = "063c8dcb-f4e6-461b-a54a-74ede6a3e4a0";
               # secret will be added dynamically
               #secret = "";
               settings.server_url = "https://auth.home.hyshka.com/";
