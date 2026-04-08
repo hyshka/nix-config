@@ -2,7 +2,7 @@ name: LLM Agents Flake Input Updater
 
 on:
   schedule:
-    - cron: "0 13 * * *" # runs daily at 6 am MST
+    - cron: "0 12 * * *" # runs daily at 12:00 UTC
   workflow_dispatch:
 
 jobs:
