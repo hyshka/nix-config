@@ -70,6 +70,12 @@ Testing is manual in this repository:
 
 ---
 
+## NixOS / Nix best practices
+
+- Pin with `fetchFromGitHub` rev + sha256.
+- `nativeBuildInputs` for build-time tools, `buildInputs` for runtime.
+- Test derivations with `nix-build` before integrating.
+
 ## Code Style Guidelines
 
 ### Formatting
@@ -144,7 +150,7 @@ in
 
 ### Error Handling
 
-- Nix is lazy; use `lib.mkIf`, `lib.mkWhen` for conditional config
+- Nix is lazy; use `lib.mkIf` for conditional config
 - Use `lib.mkDefault` for sensible defaults
 - Use `lib.mkForce` to override module defaults
 - Wrap risky operations: `lib.mkIf config.enableFeature { ... }`
