@@ -80,6 +80,7 @@
     signing = {
       key = "DB2D93D1BFAAA6EA";
       signByDefault = true;
+      format = "openpgp";
     };
   };
 
