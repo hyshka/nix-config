@@ -196,8 +196,8 @@ in
         no_smart_dupes = 4;
         deobfuscate_final_filenames = 1;
 
-        # Schedule (pause for backup window)
-        schedlines = "1 55 0 1234567 pause_all , 1 0 2 1234567 resume ";
+        # Schedule in UTC (pause for backup window)
+        schedlines = "1 0 7 1234567 pause_all , 1 0 9 1234567 resume ";
 
         # Categories
         tv_categories = "tv,";
@@ -288,17 +288,17 @@ in
       ];
   };
 
-  # Scheduled pause/unpause for qBittorrent (for backup windows).
+  # Scheduled pause/unpause for qBittorrent in utc (for backup windows).
   systemd.services.qbittorrent-pause = {
     description = "Pause qBittorrent for backup window";
     script = "${pkgs.systemd}/bin/systemctl stop qbittorrent";
-    startAt = "*-*-* 00:55:00";
+    startAt = "*-*-* 07:00:00";
   };
 
   systemd.services.qbittorrent-unpause = {
     description = "Unpause qBittorrent after backup window";
     script = "${pkgs.systemd}/bin/systemctl start qbittorrent";
-    startAt = "*-*-* 02:00:00";
+    startAt = "*-*-* 09:00:00";
   };
 
   # Persist service data
