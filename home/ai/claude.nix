@@ -33,20 +33,45 @@
       permissions = {
         defaultMode = "plan";
         allow = [
-          # Safe read-only git commands
-          "Bash(git add:*)"
+          # Read-only git commands
           "Bash(git status:*)"
           "Bash(git log:*)"
           "Bash(git diff:*)"
           "Bash(git show:*)"
           "Bash(git branch:*)"
           "Bash(git remote:*)"
+          "Bash(git rev-parse:*)"
+          "Bash(git fetch:*)"
+          "Bash(git tag:*)"
+          "Bash(git blame:*)"
 
-          # Nix commands
-          "Bash(nix:*)"
+          # Git write (local-only, low-risk)
+          "Bash(git add:*)"
+          "Bash(git commit:*)"
+          "Bash(git stash:*)"
+          "Bash(git worktree:*)"
+
+          # Nix commands (specific safe subcommands)
+          "Bash(nix build:*)"
+          "Bash(nix eval:*)"
+          "Bash(nix flake check:*)"
+          "Bash(nix flake show:*)"
+          "Bash(nix flake metadata:*)"
+          "Bash(nix fmt:*)"
+          "Bash(nix search:*)"
+          "Bash(nix-instantiate:*)"
+          "Bash(nix-build:*)"
+          "Bash(nix derivation:*)"
+          "Bash(nix path-info:*)"
+          "Bash(nix log:*)"
+          "Bash(nix store:*)"
+
+          # nh commands (build-only, no activation)
           "Bash(nh search:*)"
+          "Bash(nh os build:*)"
+          "Bash(nh home build:*)"
 
-          # Safe file system operations
+          # File system operations
           "Bash(ls:*)"
           "Bash(find:*)"
           "Bash(grep:*)"
@@ -58,7 +83,23 @@
           "Bash(mkdir:*)"
           "Bash(chmod:*)"
 
-          # Safe Docker commands
+          # Shell utilities (read-only / stdout-only)
+          "Bash(jq:*)"
+          "Bash(wc:*)"
+          "Bash(sort:*)"
+          "Bash(uniq:*)"
+          "Bash(diff:*)"
+          "Bash(which:*)"
+          "Bash(tree:*)"
+          "Bash(realpath:*)"
+          "Bash(dirname:*)"
+          "Bash(basename:*)"
+          "Bash(stat:*)"
+          "Bash(file:*)"
+          "Bash(echo:*)"
+          "Bash(test:*)"
+
+          # Docker commands (includes exec)
           "Bash(docker ps:*)"
           "Bash(docker logs:*)"
           "Bash(docker exec:*)"
@@ -69,7 +110,7 @@
           "Bash(docker compose logs:*)"
           "Bash(docker compose exec:*)"
 
-          # Safe gh CLI commands
+          # gh CLI (read-only)
           "Bash(gh pr list:*)"
           "Bash(gh pr status:*)"
           "Bash(gh pr checks:*)"
@@ -77,14 +118,25 @@
           "Bash(gh pr view:*)"
           "Bash(gh repo list:*)"
           "Bash(gh repo view:*)"
+          "Bash(gh run list:*)"
+          "Bash(gh run view:*)"
+          "Bash(gh run watch:*)"
+          "Bash(gh workflow list:*)"
+          "Bash(gh workflow view:*)"
+          "Bash(gh issue list:*)"
+          "Bash(gh issue view:*)"
 
-          # Safe web fetch and search from trusted domains
+          # Web fetch from trusted domains
           "WebFetch(domain:github.com)"
           "WebFetch(domain:raw.githubusercontent.com)"
 
           # Trusted Skills
           "Skill(commit-commands:commit)"
           "Skill(commit-commands:commit-push-pr)"
+
+          # Container management (build-only)
+          "Bash(./incus-manager.sh build:*)"
+          "Bash(./incus-manager.sh get-age-key:*)"
 
           # MCP permissions (read-only)
           "mcp__context7"
@@ -96,18 +148,48 @@
           "mcp__shortcut__teams-get-by-id"
         ];
         ask = [
+          # Git (external side effects)
           "Bash(git push:*)"
-          "Bash(git commit:*)"
+
+          # nh activation (modifies running system)
+          "Bash(nh os test:*)"
+          "Bash(nh os switch:*)"
+          "Bash(nh darwin switch:*)"
+          "Bash(nh home switch:*)"
+
+          # Nix commands that modify state
+          "Bash(nix flake update:*)"
+          "Bash(nix profile:*)"
+
+          # gh CLI (external side effects)
+          "Bash(gh api:*)"
+          "Bash(gh pr create:*)"
+          "Bash(gh pr merge:*)"
+          "Bash(gh pr comment:*)"
+
+          # Container management (modifies infrastructure)
+          "Bash(./incus-manager.sh deploy:*)"
+          "Bash(./incus-manager.sh rebuild:*)"
+          "Bash(./incus-manager.sh restart:*)"
+          "Bash(./incus-manager.sh bootstrap:*)"
         ];
         deny = [
+          # Sensitive file protection
           "Read(**/.env*)"
           "Read(**/*.pem)"
           "Read(**/*.key)"
           "Read(**/.aws/**)"
           "Read(**/.ssh/**)"
-          "Bash(rm -rf /*)"
-          "Bash(rm -rf /)"
+          "Read(**/*.age)"
+          "Read(**/secrets.yaml)"
+
+          # Destructive commands
+          "Bash(rm -rf:*)"
           "Bash(dd:*)"
+          "Bash(shutdown:*)"
+          "Bash(reboot:*)"
+          "Bash(nix-collect-garbage:*)"
+          "Bash(nix-env:*)"
         ];
       };
     };
