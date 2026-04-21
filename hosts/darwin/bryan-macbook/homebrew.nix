@@ -38,6 +38,7 @@
       "fontforge-app"
       "orbstack"
       "brave-browser"
+      "firefox@developer-edition"
       "caffeine"
       "spotify"
     ];
