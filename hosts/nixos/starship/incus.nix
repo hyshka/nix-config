@@ -15,4 +15,8 @@
 
   # Expose Open-WebUI to tailscale0
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
+
+  # encrypted secret keys for Incus containers
+  # provisioned in containers via bind mounts to /run/secrets/lxc-ai-age-key
+  sops.secrets.lxc-ai-age-key = { };
 }
