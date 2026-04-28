@@ -52,6 +52,7 @@
       # override from lxc-container
       documentation.enable = lib.mkOverride 900 false;
       documentation.nixos.enable = lib.mkOverride 900 false;
+      programs.command-not-found.enable = lib.mkOverride 900 false;
 
       # reduce container size
       programs.bash.completion.enable = false;

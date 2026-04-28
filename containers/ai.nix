@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  #config,
   ...
 }:
 let
@@ -48,6 +49,10 @@ in
       OLLAMA_FLASH_ATTENTION = "0"; # fix fattn-common.cuh:903: GGML_ASSERT(max_blocks_per_sm > 0) failed
     };
   };
+  # Configure ollama for reasoning models
+  # https://docs.openwebui.com/getting-started/quick-start/connect-a-provider/starting-with-ollama#using-reasoning--thinking-models
+  #systemd.services.ollama.serviceConfig.ExecStart =
+  #  lib.mkForce "${lib.getExe config.services.ollama.package} serve --reasoning-parser deepseek_r1";
 
   environment.persistence."/persist" = {
     directories = [
