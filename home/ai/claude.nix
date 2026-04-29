@@ -19,6 +19,7 @@
         type = "command";
         command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir' | sed -E 's:/*$::' | awk -F/ '{if(NF>=2){print $(NF-1) \"/\" $(NF)} else if(NF==1){print $(NF)}}'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
       };
+      context = ./base.md;
       hooksDir = ./hooks;
       commandsDir = ./commands;
       enabledPlugins = {
@@ -228,7 +229,6 @@
         };
       };
     };
-    memory.source = ./base.md;
   };
 
   programs.git.ignores = [
