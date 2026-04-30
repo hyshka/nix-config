@@ -46,7 +46,8 @@ in
     rocmOverrideGfx = "10.3.0";
     environmentVariables = {
       HCC_AMDGPU_TARGET = "gfx1030"; # idk if I need this
-      OLLAMA_FLASH_ATTENTION = "0"; # fix fattn-common.cuh:903: GGML_ASSERT(max_blocks_per_sm > 0) failed
+      OLLAMA_FLASH_ATTENTION = "1"; # reduce VRAM usage of weights
+      OLLAMA_KV_CACHE_TYPE = "q8_0"; # reduce VRAM usage on larger context windows
     };
   };
   # Configure ollama for reasoning models
