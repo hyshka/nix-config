@@ -130,10 +130,16 @@
           # Web fetch from trusted domains
           "WebFetch(domain:github.com)"
           "WebFetch(domain:raw.githubusercontent.com)"
+          "WebFetch(domain:www.npmjs.com)"
+          "WebFetch(domain:registry.yarnpkg.com)"
+          "WebFetch(domain:registry.npmjs.org)"
+          "WebFetch(domain:vite.dev)"
+          "WebFetch(domain:vite.dev)"
 
           # Trusted Skills
           "Skill(commit-commands:commit)"
           "Skill(commit-commands:commit-push-pr)"
+          "Skill(pr-review-toolkit:review-pr:*)"
 
           # Container management (build-only)
           "Bash(./incus-manager.sh build:*)"
