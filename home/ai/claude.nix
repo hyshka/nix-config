@@ -10,6 +10,11 @@
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       includeCoAuthoredBy = false;
+      prefersReducedMotion = true;
+      sandbox = {
+        enabled = true;
+        autoAllowBashIfSandboxed = true;
+      };
       env = {
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
         DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
@@ -17,9 +22,13 @@
       };
       statusLine = {
         type = "command";
-        command = "input=$(cat); model=$(echo \"$input\" | jq -r '.model.display_name'); dir=$(echo \"$input\" | jq -r '.workspace.current_dir' | sed -E 's:/*$::' | awk -F/ '{if(NF>=2){print $(NF-1) \"/\" $(NF)} else if(NF==1){print $(NF)}}'); usage=$(echo \"$input\" | jq '.context_window.current_usage'); if [ \"$usage\" != \"null\" ]; then current=$(echo \"$usage\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'); size=$(echo \"$input\" | jq '.context_window.context_window_size'); pct=$((current * 100 / size)); printf '%s | %s | %d%% context' \"$model\" \"$dir\" \"$pct\"; else printf '%s | %s | 0%% context' \"$model\" \"$dir\"; fi";
+        command = "~/claudeline/claudeline -cwd -git-branch";
+        padding = 0;
+        refreshInterval = 10;
       };
+      #model = "opusplan";
       context = ./base.md;
+      #skills = ./skills;
       hooksDir = ./hooks;
       commandsDir = ./commands;
       enabledPlugins = {
@@ -30,6 +39,21 @@
         #"ralph-wiggum@claude-plugins-official" = false;
         #"plugin-dev@claude-plugins-official" = false;
         "commit-commands@claude-plugins-official" = true;
+      };
+      # vue-lsp or nil isn't supported by a claude plugin yet
+      lspServers = {
+        vue = {
+          command = "vue-language-server";
+          extensionToLanguage = {
+            ".vue" = "vue";
+          };
+        };
+        nix = {
+          command = "nil";
+          extensionToLanguage = {
+            ".nix" = "nix";
+          };
+        };
       };
       permissions = {
         defaultMode = "plan";
@@ -212,28 +236,6 @@
         type = "http";
         url = "https://mcp.grep.app";
       };
-      github = {
-        type = "stdio";
-        command = lib.getExe pkgs.github-mcp-server;
-        args = [
-          # NOTE: avoid accidentally causing unexpected changes with default MCP and allow list
-          "--read-only"
-          "stdio"
-        ];
-      };
-      shortcut = {
-        type = "stdio";
-        command = "npx";
-        args = [
-          "-y"
-          "@shortcut/mcp@latest"
-        ];
-        env = {
-          SHORTCUT_API_TOKEN = "\${SHORTCUT_API_TOKEN}";
-          # Limit tools to use less context
-          SHORTCUT_TOOLS = "stories,epics,teams,workflows";
-        };
-      };
     };
   };
 
@@ -258,6 +260,9 @@
     pkgs.nodejs_24
     pkgs.yarn
     pkgs.uv
+    # Hook dependencies
+    pkgs.ruff
+    pkgs.prettier
     # Claude Code Usage
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
     # Claude Plugins and Skills
@@ -267,24 +272,4 @@
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
   ];
-
-  # TODO: vue-lsp or nil isn't supported by a claude plugin yet
-  home.file.".claude/.lsp.json" = {
-    text = /* json */ ''
-      {
-        "vue": {
-          "command": "vue-language-server",
-          "extensionToLanguage": {
-            ".vue": "vue"
-          }
-        },
-        "nix": {
-          "command": "nil",
-          "extensionToLanguage": {
-            ".nix": "nix"
-          }
-        }
-      }
-    '';
-  };
 }

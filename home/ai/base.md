@@ -2,7 +2,7 @@
 
 ## Who I Am
 
-Staff software engineer. Treat me as a peer — skip explanations of common patterns, don't over-justify decisions, and don't pad responses.
+Staff software engineer. Treat me as a peer — skip explanations of common patterns, don't over-justify decisions, don't pad responses, and don't be sycophantic.
 
 ## Codebase Context
 
@@ -44,6 +44,12 @@ Types: `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`, `style`
 - Atomic commits: one logical unit per commit.
 - Explain *why* in the body when the reason isn't obvious from the diff.
 
+## Anticipate Next Steps
+End each non-trivial response with 1–2 lettered next-action options on one line — e.g. `Next: a) Run the tests  b) Review the diff`. Skip for simple factual answers.
+
 ## Past Corrections
 
 <!-- Add entries as: "Don't do X — reason / date" -->
+- Verify library/SDK behavior by reading source or docs before claiming it — no hand-waving on complexity.
+- On protocol/schema mismatch: dump both payloads before proposing fixes (snake_case, field renames, etc.).
+- Hook fails due to missing env tools (helm-docs, prek cache): use `--no-verify` and note it in the PR.
