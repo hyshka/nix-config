@@ -10,10 +10,18 @@
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     settings = {
       includeCoAuthoredBy = false;
+      attribution = {
+        commits = false;
+        pullRequests = false;
+      };
       prefersReducedMotion = true;
+      spinnerTipsEnabled = false;
       sandbox = {
         enabled = true;
         autoAllowBashIfSandboxed = true;
+        filesystem = {
+          allowWrite = [ "~/.cache/prek/prek.log" ];
+        };
       };
       env = {
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
