@@ -7,10 +7,13 @@
   programs.claude-code = {
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
+    agents = {
+      technical-writer = ./agents/technical-writer.md;
+    };
     settings = {
       attribution = {
-        commits = false;
-        pr = false;
+        commits = "";
+        pr = "";
       };
       prefersReducedMotion = true;
       spinnerTipsEnabled = false;
