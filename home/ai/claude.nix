@@ -11,6 +11,7 @@
       technical-writer = ./agents/technical-writer.md;
     };
     settings = {
+      includeCoAuthoredBy = false;
       attribution = {
         commits = "";
         pr = "";
