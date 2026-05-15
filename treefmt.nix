@@ -5,4 +5,5 @@
   settings.formatter.nixfmt.excludes = [ "home/nixvim/plugins/custom/codecompanion.nix" ];
   programs.shellcheck.enable = true;
   programs.shfmt.enable = true;
+  programs.yamlfmt.enable = true;
 }

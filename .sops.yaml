@@ -1,23 +1,22 @@
 keys:
   # Users
-  - &users:
-    - &hyshka 24F4192528C48797E539F247DB2D93D1BFAAA6EA
+  - &users '':
+      - &hyshka 24F4192528C48797E539F247DB2D93D1BFAAA6EA
   # Hosts
-  - &hosts:
-    # generate age from ssh host key
-    # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
-    # when changing keys
-    # sops --config ./.sops.yaml updatekeys ./hosts/nixos/starship/secrets.yaml
-    - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
-    - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
-    - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
-    - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
-    - &lxc-core age19592wz437lvt45l5uc5m77n5ru54rcy7tma8662v3gaejlpvjytqey5gxv
-    - &lxc-ai age1vu92r9trrzecskt3h8c7u5whm3x2xl4awmcwf83lvu0galaamgdsa82s8v
-    # not easy to find ssh host key on macos
-    # age-keygen -o ~/.config/sops/age/keys.txt
-    - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
-
+  - &hosts '':
+      # generate age from ssh host key
+      # nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+      # when changing keys
+      # sops --config ./.sops.yaml updatekeys ./hosts/nixos/starship/secrets.yaml
+      - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
+      - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
+      - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
+      - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
+      - &lxc-core age19592wz437lvt45l5uc5m77n5ru54rcy7tma8662v3gaejlpvjytqey5gxv
+      - &lxc-ai age1vu92r9trrzecskt3h8c7u5whm3x2xl4awmcwf83lvu0galaamgdsa82s8v
+      # not easy to find ssh host key on macos
+      # age-keygen -o ~/.config/sops/age/keys.txt
+      - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
 creation_rules:
   - path_regex: hosts/nixos/starship/secrets.ya?ml$
     key_groups:
@@ -65,9 +64,9 @@ creation_rules:
         pgp:
           - *hyshka
 
-  #- path_regex: hosts/common/secrets.ya?ml$
-  #      key_groups:
-  #      - age:
-  #        - *starship
-  #        pgp:
-  #        - *hyshka
+#- path_regex: hosts/common/secrets.ya?ml$
+#      key_groups:
+#      - age:
+#        - *starship
+#        pgp:
+#        - *hyshka

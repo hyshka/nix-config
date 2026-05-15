@@ -209,6 +209,9 @@
       );
 
       formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);
+      checks = forEachSystem (system: {
+        formatting = treefmtEval.${system}.config.build.check self;
+      });
 
       # NixOS configuration entrypoint
       # nh os built/boot/switch
