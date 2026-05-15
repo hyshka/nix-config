@@ -17,12 +17,13 @@
       };
       prefersReducedMotion = true;
       spinnerTipsEnabled = false;
+      teammateMode = "tmux";
+      tui = "fullscreen";
       sandbox = {
         enabled = true;
         filesystem = {
           allowWrite = [
-            "~/.cache/prek/prek.log"
-            "~/.cache/prek/.lock"
+            "~/.cache/prek/*"
           ];
         };
       };
