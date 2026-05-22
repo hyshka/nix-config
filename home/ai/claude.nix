@@ -13,7 +13,7 @@
     settings = {
       includeCoAuthoredBy = false;
       attribution = {
-        commits = "";
+        commit = "";
         pr = "";
       };
       prefersReducedMotion = true;
@@ -45,19 +45,62 @@
         padding = 0;
         refreshInterval = 10;
       };
-      #model = "opusplan";
       context = ./base.md;
       #skills = ./skills;
+      skillOverrides = {
+        bmad-agent-bmad-master = "off";
+        bmad-agent-bmm-analyst = "off";
+        bmad-agent-bmm-architect = "off";
+        bmad-agent-bmm-dev = "off";
+        bmad-agent-bmm-pm = "off";
+        bmad-agent-bmm-qa = "off";
+        bmad-agent-bmm-quick-flow-solo-dev = "off";
+        bmad-agent-bmm-sm = "off";
+        bmad-agent-bmm-tech-writer = "off";
+        bmad-agent-bmm-ux-designer = "off";
+        bmad-bmm-check-implementation-readiness = "off";
+        bmad-bmm-code-review = "off";
+        bmad-bmm-correct-course = "off";
+        bmad-bmm-create-architecture = "off";
+        bmad-bmm-create-epics-and-stories = "off";
+        bmad-bmm-create-prd = "off";
+        bmad-bmm-create-product-brief = "off";
+        bmad-bmm-create-story = "off";
+        bmad-bmm-create-ux-design = "off";
+        bmad-bmm-dev-story = "off";
+        bmad-bmm-document-project = "off";
+        bmad-bmm-domain-research = "off";
+        bmad-bmm-edit-prd = "off";
+        bmad-bmm-generate-project-context = "off";
+        bmad-bmm-market-research = "off";
+        bmad-bmm-qa-generate-e2e-tests = "off";
+        bmad-bmm-quick-dev = "off";
+        bmad-bmm-quick-spec = "off";
+        bmad-bmm-retrospective = "off";
+        bmad-bmm-sprint-planning = "off";
+        bmad-bmm-sprint-status = "off";
+        bmad-bmm-technical-research = "off";
+        bmad-bmm-validate-prd = "off";
+        bmad-brainstorming = "off";
+        bmad-editorial-review-prose = "off";
+        bmad-editorial-review-structure = "off";
+        bmad-help = "off";
+        bmad-index-docs = "off";
+        bmad-party-mode = "off";
+        bmad-review-adversarial-general = "off";
+        bmad-review-edge-case-hunter = "off";
+        bmad-shard-doc = "off";
+      };
       hooksDir = ./hooks;
       commandsDir = ./commands;
       enabledPlugins = {
         "pyright-lsp@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
+        "commit-commands@claude-plugins-official" = true;
         # Manage the rest in project settings to keep user settings declarative
         #"code-review@claude-plugins-official" = true;
         #"ralph-wiggum@claude-plugins-official" = false;
         #"plugin-dev@claude-plugins-official" = false;
-        "commit-commands@claude-plugins-official" = true;
       };
       # vue-lsp or nil isn't supported by a claude plugin yet
       lspServers = {
@@ -189,6 +232,8 @@
           "Bash(./incus-manager.sh get-age-key:*)"
 
           # MCP permissions (read-only)
+          "Plugin:claude-code-home-manager:context7"
+          "Plugin:claude-code-home-manager:gh_grep"
           "mcp__context7"
           "mcp__gh_grep"
           "mcp__nixos"
@@ -291,4 +336,17 @@
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
   ];
+
+  xdg.configFile = {
+    "tuicr" = {
+      text = ''
+        theme = "catppuccin-frappe"
+        diff_view = "side-by-side"   # or "unified"
+        appearance = "dark"
+        leader = " "
+        no_update_check = true
+      '';
+      target = "tuicr/config.toml";
+    };
+  };
 }

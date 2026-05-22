@@ -1,6 +1,6 @@
 ---
 description: Review uncommitted changes in git working directory
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 Review the uncommitted changes in the git working directory and provide actionable feedback.

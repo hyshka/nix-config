@@ -1,7 +1,7 @@
 ---
 description: Review a pull request
 argument-hint: [pull_request]
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
 Review the pull request using GitHub MCP tools and provide actionable feedback following our team guidelines.

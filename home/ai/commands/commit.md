@@ -1,7 +1,7 @@
 ---
 description: Review uncommitted changes and generate a commit message
 allowed-tools: Bash(git add:*), Bash(git diff:*), Bash(git status:*), Bash(git commit:*)
-model: claude-haiku-4-5
+model: haiku
 ---
 
 # Git Commit Message Guidelines
