@@ -307,6 +307,7 @@
     "**/.claude/settings.local.json"
     "**/.claude/launch.json"
     "**/.claude/worktrees/"
+    "**/.serena/"
   ];
 
   # -----
