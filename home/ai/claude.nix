@@ -41,7 +41,7 @@
       };
       statusLine = {
         type = "command";
-        command = "~/claudeline/claudeline -cwd -git-branch";
+        command = "~/claudeline/claudeline -cwd -git-branch"; # TODO: move to custom nix pkg
         padding = 0;
         refreshInterval = 10;
       };
@@ -335,6 +335,8 @@
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
+    # Serena MCP
+    inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
   ];
 
   xdg.configFile = {

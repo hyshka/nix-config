@@ -95,6 +95,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    serena = {
+      url = "github:oraios/serena";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
   };
