@@ -1,6 +1,8 @@
 {
   lib,
   config,
+  inputs,
+  pkgs,
   ...
 }:
 {
@@ -97,6 +99,10 @@
         bashls.enable = true;
         sqls.enable = true;
         stylelint_lsp.enable = true;
+        unocss = {
+          enable = true;
+          package = inputs.unocss-language-server.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        };
 
         # https://github.com/fourdigits/django-template-lsp
         #djlsp = {

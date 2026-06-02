@@ -2,9 +2,9 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       # Sane defaults
-      "*" = {
+      "Host *" = {
         forwardAgent = false;
         addKeysToAgent = "no";
         compression = false;
@@ -16,31 +16,26 @@
         controlPath = "~/.ssh/master-%r@%n:%p";
         controlPersist = "no";
       };
-
       # Force gpg-agent to open in current terminal
-      # Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
       # https://wiki.archlinux.org/title/GnuPG#Configure_pinentry_to_use_the_correct_TTY
-      gpg = {
-        match = ''host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"'';
-      };
-
+      "Match host * exec 'gpg-connect-agent UPDATESTARTUPTTY /bye'" = { };
       # These are only accessible within the tailnet
-      tiny1 = {
+      "Host tiny1" = {
         host = "tiny1";
         hostname = "tiny1";
         user = "hyshka";
       };
-      rpi4 = {
+      "Host rpi4" = {
         host = "rpi4";
         hostname = "rpi4";
         user = "hyshka";
       };
-      starship = {
+      "Host starship" = {
         host = "starship";
         hostname = "starship";
         user = "hyshka";
       };
-      ashyn = {
+      "Host ashyn" = {
         host = "ashyn";
         hostname = "ashyn";
         user = "hyshka";

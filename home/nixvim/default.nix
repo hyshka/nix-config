@@ -39,6 +39,8 @@ in
     enable = true;
     defaultEditor = true;
     vimAlias = true;
+    # Nixvim recommends against using inputs.nixpkgs.follows = "nixpkgs"; as they test Nixvim against their own Nixpkgs revision. When encountering issues, removing follows should be one of the first debugging steps.
+    nixpkgs.source = inputs.nixpkgs;
 
     # https://github.com/nix-community/nixvim?tab=readme-ov-file#colorschemes
     colorschemes.catppuccin = {

@@ -52,6 +52,7 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
+      # Nixvim recommends against using inputs.nixpkgs.follows = "nixpkgs"; as they test Nixvim against their own Nixpkgs revision. When encountering issues, removing follows should be one of the first debugging steps.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -100,8 +101,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    impermanence.url = "github:nix-community/impermanence";
-    hardware.url = "github:nixos/nixos-hardware";
+    unocss-language-server = {
+      url = "github:xna00/unocss-language-server";
+      # Do not follow nixpkgs to avoid pnpmDeps hash mis-match in the unocss-language-server nix pkg
+      #inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hardware = {
+      url = "github:nixos/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
