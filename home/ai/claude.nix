@@ -7,9 +7,9 @@
   programs.claude-code = {
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
-    agents = {
-      technical-writer = ./agents/technical-writer.md;
-    };
+    #agents = {
+    #  technical-writer = ./agents/technical-writer.md;
+    #};
     settings = {
       includeCoAuthoredBy = false;
       attribution = {
@@ -38,6 +38,7 @@
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
         DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+        CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE = "1";
       };
       statusLine = {
         type = "command";
