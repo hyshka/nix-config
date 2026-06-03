@@ -1,0 +1,37 @@
+instances:
+  sonarr:
+    - base_url: "http://localhost:8989"
+      api_key: !ENV SONARR_API_KEY
+  radarr:
+    - base_url: "http://localhost:7878"
+      api_key: !ENV RADARR_API_KEY
+download_clients:
+  qbittorrent:
+    - base_url: "http://10.223.27.8:8080"
+      username: !ENV QBITTORRENT_USERNAME
+      password: !ENV QBITTORRENT_PASSWORD
+  sabnzbd:
+    - base_url: "http://10.223.27.8:8085"
+      api_key: !ENV SABNZBD_API_KEY
+jobs:
+  remove_bad_files: true
+  remove_done_seeding: true
+  remove_failed_downloads: true
+  remove_failed_imports:
+    message_patterns:
+      - "Not a Custom Format upgrade for existing*"
+      - "Not an upgrade for existing*"
+      - "*Found potentially dangerous file with extension*"
+      - "Invalid video file*"
+      - "No files found are eligible for import*"
+      - "One or more episodes expected in this release were not imported or missing from the release"
+  remove_metadata_missing: true
+  remove_missing_files: true
+  remove_orphans: true
+  remove_slow: true
+  remove_stalled: true
+  remove_unmonitored: false
+  search_unmet_cutoff: true
+  search_missing: true
+general:
+  test_run: false

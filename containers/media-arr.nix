@@ -2,10 +2,12 @@
   lib,
   inputs,
   config,
+  pkgs,
   ...
 }:
 let
   container = import ./default.nix { inherit lib inputs; };
+  decluttarrConfig = pkgs.writeText "decluttarr-config.yaml" (builtins.readFile ./decluttarr.yaml);
 in
 {
   imports = [
@@ -116,11 +118,46 @@ in
     };
   };
 
+  # Decluttarr - Queue cleaner for *arr apps
+  # Ensure config exists before OCI containers start
+  systemd.services.decluttarr-config = {
+    description = "Prepare decluttarr config";
+    after = [ "local-fs.target" ];
+    before = [ "podman-decluttarr.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      mkdir -p /var/lib/decluttarr
+      chmod 644 /var/lib/decluttarr/config.yaml 2>/dev/null || true
+      cat ${decluttarrConfig} > /var/lib/decluttarr/config.yaml
+      chmod 644 /var/lib/decluttarr/config.yaml
+      ls -la /var/lib/decluttarr/
+    '';
+  };
+
+  virtualisation.oci-containers.containers.decluttarr = {
+    image = "ghcr.io/manimatter/decluttarr:latest";
+    volumes = [
+      "/var/lib/decluttarr:/app/config"
+    ];
+    environment = {
+      TZ = "America/Edmonton";
+    };
+    environmentFiles = [ config.sops.secrets.decluttarr_env.path ];
+    extraOptions = [ "--network=host" ];
+  };
+
   # Set up all secrets
   sops.secrets.sonarr_api_key = {
     sopsFile = ./secrets/media-arr.yaml;
   };
   sops.secrets.radarr_api_key = {
+    sopsFile = ./secrets/media-arr.yaml;
+  };
+  sops.secrets.decluttarr_env = {
     sopsFile = ./secrets/media-arr.yaml;
   };
 
@@ -140,6 +177,7 @@ in
       "/var/lib/private/prowlarr"
       "/var/lib/private/seerr"
       "/var/lib/recyclarr"
+      "/var/lib/decluttarr"
     ];
   };
 }
