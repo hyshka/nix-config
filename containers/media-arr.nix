@@ -142,6 +142,7 @@ in
     image = "ghcr.io/manimatter/decluttarr:latest";
     volumes = [
       "/var/lib/decluttarr:/app/config"
+      "/data/media:/data/media:ro"
     ];
     environment = {
       TZ = "America/Edmonton";
