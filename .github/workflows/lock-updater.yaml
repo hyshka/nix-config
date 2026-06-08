@@ -1,7 +1,7 @@
 name: Flake Lock Updater
 on:
   schedule:
-    - cron: "0 12 * * 0" # runs weekly on Sunday at 12:00 UTC
+    - cron: "0 11 * * 0" # runs weekly on Sunday at 11:00 UTC
   workflow_dispatch:
 jobs:
   lock-updater:
