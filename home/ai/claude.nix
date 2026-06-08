@@ -40,6 +40,7 @@
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
         CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE = "1";
         ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-6[1m]";
+        ENABLE_CLAUDEAI_MCP_SERVERS = false;
       };
       statusLine = {
         type = "command";
