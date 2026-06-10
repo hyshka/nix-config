@@ -148,7 +148,10 @@ in
       TZ = "America/Edmonton";
     };
     environmentFiles = [ config.sops.secrets.decluttarr_env.path ];
-    extraOptions = [ "--network=host" ];
+    extraOptions = [
+      "--network=host"
+      "--restart=on-failure:5"
+    ];
   };
 
   # Set up all secrets
