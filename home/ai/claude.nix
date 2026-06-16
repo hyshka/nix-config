@@ -22,6 +22,20 @@
       tui = "fullscreen";
       sandbox = {
         enabled = true;
+        network = {
+          allowedDomains = [
+            "registry.npmjs.org"
+            "api.github.com"
+            "pypi.org"
+            "github.com"
+          ];
+        };
+        excludedCommands = [
+          # Exlude git from sandbox to avoid SSH agent barrier
+          "git"
+          "ssh-add"
+          "docker"
+        ];
         filesystem = {
           allowWrite = [
             "~/.cache/prek/*"
