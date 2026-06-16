@@ -114,10 +114,7 @@
         "pyright-lsp@claude-plugins-official" = true;
         "typescript-lsp@claude-plugins-official" = true;
         "commit-commands@claude-plugins-official" = true;
-        # Manage the rest in project settings to keep user settings declarative
-        #"code-review@claude-plugins-official" = true;
-        #"ralph-wiggum@claude-plugins-official" = false;
-        #"plugin-dev@claude-plugins-official" = false;
+        "context-mode@context-mode" = true;
       };
       # vue-lsp or nil isn't supported by a claude plugin yet
       lspServers = {
@@ -251,13 +248,12 @@
           # MCP permissions (read-only)
           "Plugin:claude-code-home-manager:context7"
           "Plugin:claude-code-home-manager:gh_grep"
+          "Plugin:context-mode:ctx-doctor"
           "mcp__context7"
           "mcp__gh_grep"
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
-          "mcp__shortcut__get-epics-by-id"
-          "mcp__shortcut__teams-get-by-id"
         ];
         ask = [
           # Git (external side effects)
@@ -325,6 +321,7 @@
     "**/.claude/launch.json"
     "**/.claude/worktrees/"
     "**/.serena/"
+    "**/.claudeignore"
   ];
 
   # -----
@@ -341,8 +338,10 @@
     # MCP dependencies
     pkgs.nodejs_24
     pkgs.yarn
+    pkgs.bun
     pkgs.uv
     # Hook dependencies
+    pkgs.rtk
     pkgs.ruff
     pkgs.prettier
     # Claude Code Usage
