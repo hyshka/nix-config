@@ -150,8 +150,12 @@ in
     environmentFiles = [ config.sops.secrets.decluttarr_env.path ];
     extraOptions = [
       "--network=host"
-      "--restart=on-failure:5"
     ];
+  };
+  systemd.services."podman-decluttarr".serviceConfig = {
+    RestartSec = "1s";
+    RestartSteps = 6;
+    RestartMaxDelaySec = "60s";
   };
 
   # Set up all secrets
