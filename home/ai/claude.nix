@@ -55,6 +55,7 @@
         CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE = "1";
         ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-6[1m]";
         ENABLE_CLAUDEAI_MCP_SERVERS = false;
+        ENABLE_LSP_TOOL = "1";
       };
       statusLine = {
         type = "command";
@@ -111,25 +112,8 @@
       hooksDir = ./hooks;
       commandsDir = ./commands;
       enabledPlugins = {
-        "pyright-lsp@claude-plugins-official" = true;
-        "typescript-lsp@claude-plugins-official" = true;
         "commit-commands@claude-plugins-official" = true;
         "context-mode@context-mode" = true;
-      };
-      # vue-lsp or nil isn't supported by a claude plugin yet
-      lspServers = {
-        vue = {
-          command = "vue-language-server";
-          extensionToLanguage = {
-            ".vue" = "vue";
-          };
-        };
-        nix = {
-          command = "nil";
-          extensionToLanguage = {
-            ".nix" = "nix";
-          };
-        };
       };
       permissions = {
         defaultMode = "plan";
@@ -312,6 +296,50 @@
       gh_grep = {
         type = "http";
         url = "https://mcp.grep.app";
+      };
+    };
+    lspServers = {
+      vue = {
+        command = "vue-language-server";
+        workspaceFolder = "\${CLAUDE_PROJECT_DIR}";
+        extensionToLanguage = {
+          ".vue" = "vue";
+        };
+      };
+      nix = {
+        command = "nil";
+        workspaceFolder = "\${CLAUDE_PROJECT_DIR}";
+        extensionToLanguage = {
+          ".nix" = "nix";
+        };
+      };
+      python = {
+        command = "pyright-langserver";
+        args = [
+          "--stdio"
+        ];
+        workspaceFolder = "\${CLAUDE_PROJECT_DIR}";
+        extensionToLanguage = {
+          ".py" = "python";
+          ".pyi" = "python";
+        };
+      };
+      typescript = {
+        command = "typescript-language-server";
+        args = [
+          "--stdio"
+        ];
+        workspaceFolder = "\${CLAUDE_PROJECT_DIR}";
+        extensionToLanguage = {
+          ".ts" = "typescript";
+          ".tsx" = "typescriptreact";
+          ".js" = "javascript";
+          ".jsx" = "javascriptreact";
+          ".mts" = "typescript";
+          ".cts" = "typescript";
+          ".mjs" = "javascript";
+          ".cjs" = "javascript";
+        };
       };
     };
   };
