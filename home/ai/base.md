@@ -39,3 +39,5 @@ End each non-trivial response with 1–2 lettered options on one line: `Next: a)
 - Verify library/SDK behavior by reading source or docs — no hand-waving.
 - On protocol/schema mismatch: dump both payloads before proposing fixes.
 - Hook fails due to missing env tools: use `--no-verify` and note it in the PR.
+
+@RTK.md

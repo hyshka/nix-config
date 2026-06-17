@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -330,7 +331,17 @@
           "--stdio"
         ];
         workspaceFolder = "\${CLAUDE_PROJECT_DIR}";
+        initializationOptions = {
+          plugins = [
+            {
+              name = "@vue/typescript-plugin";
+              location = "${lib.getBin pkgs.vue-language-server}/lib/language-tools/packages/language-server";
+              languages = [ "vue" ];
+            }
+          ];
+        };
         extensionToLanguage = {
+          ".vue" = "typescript";
           ".ts" = "typescript";
           ".tsx" = "typescriptreact";
           ".js" = "javascript";
