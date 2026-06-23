@@ -33,9 +33,9 @@
         };
         excludedCommands = [
           # Exlude git from sandbox to avoid SSH agent barrier
-          "git"
-          "ssh-add"
-          "docker"
+          "git *"
+          "ssh-add *"
+          "docker *"
         ];
         filesystem = {
           allowWrite = [
