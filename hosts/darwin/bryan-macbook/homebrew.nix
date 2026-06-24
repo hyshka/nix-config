@@ -27,7 +27,6 @@
       "aerospace" # tiling window manager, https://nikitabobko.github.io/AeroSpace/guide#installation
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins), https://www.raycast.com/
       "shottr" # Free screenshot tool with OCR and annotation
-      "tomatobar"
       "espanso"
       "languagetool-desktop"
       "slack"
