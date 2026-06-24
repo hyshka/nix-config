@@ -41,6 +41,7 @@
       "firefox@developer-edition"
       "caffeine"
       "spotify"
+      "figma"
     ];
   };
 
