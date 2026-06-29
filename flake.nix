@@ -96,11 +96,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    serena = {
-      url = "github:oraios/serena";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     unocss-language-server = {
       url = "github:xna00/unocss-language-server";
       # Do not follow nixpkgs to avoid pnpmDeps hash mis-match in the unocss-language-server nix pkg

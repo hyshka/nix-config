@@ -40,4 +40,9 @@ End each non-trivial response with 1–2 lettered options on one line: `Next: a)
 - On protocol/schema mismatch: dump both payloads before proposing fixes.
 - Hook fails due to missing env tools: use `--no-verify` and note it in the PR.
 
-@RTK.md
+<!-- lean-ctx -->
+## lean-ctx
+
+lean-ctx is active — the MCP tools replace native equivalents.
+Full rules: ~/.config/lean-ctx/LEAN-CTX.md (open on demand — do not auto-load).
+<!-- /lean-ctx -->

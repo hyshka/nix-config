@@ -50,7 +50,9 @@
         ];
       };
       env = {
-        CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+        DISABLE_ERROR_REPORTING = "1";
+        DISABLE_FEEDBACK_COMMAND = "1";
+        DISABLE_AUTOUPDATER = "1";
         DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
         CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE = "1";
@@ -114,7 +116,7 @@
       commandsDir = ./commands;
       enabledPlugins = {
         "commit-commands@claude-plugins-official" = true;
-        "context-mode@context-mode" = true;
+        #"context-mode@context-mode" = true;
       };
       permissions = {
         defaultMode = "plan";
@@ -239,6 +241,30 @@
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
+
+          # lean-ctx config
+          "Read(~/.config/lean-ctx/*)"
+          "mcp__lean-ctx__ctx_read"
+          "mcp__lean-ctx__ctx_search"
+          "mcp__lean-ctx__ctx_tree"
+          "mcp__lean-ctx__ctx_overview"
+          "mcp__lean-ctx__ctx_plan"
+          "mcp__lean-ctx__ctx_metrics"
+          "mcp__lean-ctx__ctx_compress"
+          "mcp__lean-ctx__ctx_session"
+          "mcp__lean-ctx__ctx_knowledge"
+          "mcp__lean-ctx__ctx_graph"
+          "mcp__lean-ctx__ctx_retrieve"
+          "mcp__lean-ctx__ctx_provider"
+          "mcp__lean-ctx__ctx_delta"
+          "mcp__lean-ctx__ctx_smart_read"
+          "mcp__lean-ctx__ctx_semantic_search"
+          "mcp__lean-ctx__ctx_explore"
+          "mcp__lean-ctx__ctx_glob"
+          "mcp__lean-ctx__ctx_discover_tools"
+          "mcp__lean-ctx__ctx_git_read"
+          "mcp__lean-ctx__ctx_multi_read"
+          "mcp__lean-ctx__ctx_shell" # trusting lean-ctx permission system
         ];
         ask = [
           # Git (external side effects)
@@ -363,6 +389,14 @@
     "**/.claudeignore"
   ];
 
+  programs.zsh.initContent = lib.mkOrder 1500 ''
+    # lean-ctx shell hook — begin
+    if [ -f "$HOME/.config/lean-ctx/shell-hook.zsh" ]; then
+    . "$HOME/.config/lean-ctx/shell-hook.zsh"
+    fi
+    # lean-ctx shell hook — end
+  '';
+
   # -----
   # Dependencies
   # -----
@@ -372,6 +406,8 @@
     # LSP dependencies
     pkgs.typescript-language-server
     pkgs.pyright
+    pkgs.python313Packages.python-lsp-server # for lean-ctx
+    pkgs.python313Packages.python-lsp-ruff # for lean-ctx
     pkgs.vue-language-server
     pkgs.nil
     # MCP dependencies
@@ -380,7 +416,6 @@
     pkgs.bun
     pkgs.uv
     # Hook dependencies
-    pkgs.rtk
     pkgs.ruff
     pkgs.prettier
     # Claude Code Usage
@@ -391,8 +426,8 @@
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
-    # Serena MCP
-    inputs.serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
+    # Context management
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.lean-ctx
   ];
 
   xdg.configFile = {
