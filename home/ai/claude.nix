@@ -4,6 +4,13 @@
   lib,
   ...
 }:
+let
+  hookModules = [
+    (import ./hooks/lean-ctx.nix { inherit inputs pkgs lib; })
+    (import ./hooks/notification.nix { inherit pkgs; })
+    (import ./hooks/subagent-stop.nix { inherit pkgs; })
+  ];
+in
 {
   programs.claude-code = {
     enable = true;
@@ -12,6 +19,7 @@
     #  technical-writer = ./agents/technical-writer.md;
     #};
     settings = {
+      hooks = lib.zipAttrsWith (_: lib.concatLists) hookModules;
       includeCoAuthoredBy = false;
       attribution = {
         commit = "";
@@ -112,7 +120,6 @@
         bmad-review-edge-case-hunter = "off";
         bmad-shard-doc = "off";
       };
-      hooksDir = ./hooks;
       commandsDir = ./commands;
       enabledPlugins = {
         "commit-commands@claude-plugins-official" = true;
