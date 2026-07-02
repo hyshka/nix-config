@@ -10,6 +10,33 @@ let
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
   ];
+  leanCtxBin = "${
+    lib.getBin inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.lean-ctx
+  }/bin/lean-ctx";
+  # Mirrors lean-ctx's own `_lc`/`_lc_compress` PATH shims. The shell function of the same name shadows this on PATH
+  # whenever the interactive shell hook is loaded; this only runs where the function is absent (non-interactive subshells,
+  # scripts, xargs/find -exec, agent harnesses that drop the function but keep the alias).
+  # https://github.com/yvgude/lean-ctx/blob/32a2b5cf77733891c637afa6df1423b917eb2026/rust/src/cli/shell_init.rs#L781
+  lcPassthroughGuard = ''
+    if [ -n "''${LEAN_CTX_DISABLED:-}" ] || [ -n "''${LEAN_CTX_NO_HOOK:-}" ]; then
+      exec "$@"
+    fi
+    if [ ! -t 1 ] && [ -z "''${LEAN_CTX_AGENT:-}" ] && [ -z "''${CODEX_CLI_SESSION:-}" ] \
+      && [ -z "''${CLAUDECODE:-}" ] && [ -z "''${CODEBUDDY:-}" ] && [ -z "''${GEMINI_SESSION:-}" ]; then
+      exec "$@"
+    fi
+  '';
+  mkLcShim =
+    name: flag:
+    pkgs.writeShellScriptBin name ''
+      ${lcPassthroughGuard}
+      '${leanCtxBin}' ${flag} "$@"
+      _lc_rc=$?
+      if [ "$_lc_rc" -eq 127 ] || [ "$_lc_rc" -eq 126 ]; then
+        exec "$@"
+      fi
+      exit "$_lc_rc"
+    '';
 in
 {
   programs.claude-code = {
@@ -435,6 +462,10 @@ in
     pkgs.gh
     # Context management
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.lean-ctx
+    # lean-ctx `_lc`/`_lc_compress` PATH shims (nix-profile is read-only, so
+    # `lean-ctx init --global` can't write them itself)
+    (mkLcShim "_lc" "-t")
+    (mkLcShim "_lc_compress" "-c")
   ];
 
   xdg.configFile = {
