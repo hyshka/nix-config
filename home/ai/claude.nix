@@ -6,37 +6,9 @@
 }:
 let
   hookModules = [
-    (import ./hooks/lean-ctx.nix { inherit inputs pkgs lib; })
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
   ];
-  leanCtxBin = "${
-    lib.getBin inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.lean-ctx
-  }/bin/lean-ctx";
-  # Mirrors lean-ctx's own `_lc`/`_lc_compress` PATH shims. The shell function of the same name shadows this on PATH
-  # whenever the interactive shell hook is loaded; this only runs where the function is absent (non-interactive subshells,
-  # scripts, xargs/find -exec, agent harnesses that drop the function but keep the alias).
-  # https://github.com/yvgude/lean-ctx/blob/32a2b5cf77733891c637afa6df1423b917eb2026/rust/src/cli/shell_init.rs#L781
-  lcPassthroughGuard = ''
-    if [ -n "''${LEAN_CTX_DISABLED:-}" ] || [ -n "''${LEAN_CTX_NO_HOOK:-}" ]; then
-      exec "$@"
-    fi
-    if [ ! -t 1 ] && [ -z "''${LEAN_CTX_AGENT:-}" ] && [ -z "''${CODEX_CLI_SESSION:-}" ] \
-      && [ -z "''${CLAUDECODE:-}" ] && [ -z "''${CODEBUDDY:-}" ] && [ -z "''${GEMINI_SESSION:-}" ]; then
-      exec "$@"
-    fi
-  '';
-  mkLcShim =
-    name: flag:
-    pkgs.writeShellScriptBin name ''
-      ${lcPassthroughGuard}
-      '${leanCtxBin}' ${flag} "$@"
-      _lc_rc=$?
-      if [ "$_lc_rc" -eq 127 ] || [ "$_lc_rc" -eq 126 ]; then
-        exec "$@"
-      fi
-      exit "$_lc_rc"
-    '';
 in
 {
   programs.claude-code = {
@@ -275,30 +247,6 @@ in
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
-
-          # lean-ctx config
-          "Read(~/.config/lean-ctx/*)"
-          "mcp__lean-ctx__ctx_read"
-          "mcp__lean-ctx__ctx_search"
-          "mcp__lean-ctx__ctx_tree"
-          "mcp__lean-ctx__ctx_overview"
-          "mcp__lean-ctx__ctx_plan"
-          "mcp__lean-ctx__ctx_metrics"
-          "mcp__lean-ctx__ctx_compress"
-          "mcp__lean-ctx__ctx_session"
-          "mcp__lean-ctx__ctx_knowledge"
-          "mcp__lean-ctx__ctx_graph"
-          "mcp__lean-ctx__ctx_retrieve"
-          "mcp__lean-ctx__ctx_provider"
-          "mcp__lean-ctx__ctx_delta"
-          "mcp__lean-ctx__ctx_smart_read"
-          "mcp__lean-ctx__ctx_semantic_search"
-          "mcp__lean-ctx__ctx_explore"
-          "mcp__lean-ctx__ctx_glob"
-          "mcp__lean-ctx__ctx_discover_tools"
-          "mcp__lean-ctx__ctx_git_read"
-          "mcp__lean-ctx__ctx_multi_read"
-          "mcp__lean-ctx__ctx_shell" # trusting lean-ctx permission system
         ];
         ask = [
           # Git (external side effects)
@@ -423,14 +371,6 @@ in
     "**/.claudeignore"
   ];
 
-  programs.zsh.initContent = lib.mkOrder 1500 ''
-    # lean-ctx shell hook — begin
-    if [ -f "$HOME/.config/lean-ctx/shell-hook.zsh" ]; then
-    . "$HOME/.config/lean-ctx/shell-hook.zsh"
-    fi
-    # lean-ctx shell hook — end
-  '';
-
   # -----
   # Dependencies
   # -----
@@ -440,8 +380,6 @@ in
     # LSP dependencies
     pkgs.typescript-language-server
     pkgs.pyright
-    pkgs.python313Packages.python-lsp-server # for lean-ctx
-    pkgs.python313Packages.python-lsp-ruff # for lean-ctx
     pkgs.vue-language-server
     pkgs.nil
     # MCP dependencies
@@ -461,11 +399,6 @@ in
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
     # Context management
-    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.lean-ctx
-    # lean-ctx `_lc`/`_lc_compress` PATH shims (nix-profile is read-only, so
-    # `lean-ctx init --global` can't write them itself)
-    (mkLcShim "_lc" "-t")
-    (mkLcShim "_lc_compress" "-c")
   ];
 
   xdg.configFile = {
