@@ -369,6 +369,7 @@ in
     "**/.claude/worktrees/"
     "**/.serena/"
     "**/.claudeignore"
+    "**/.tokensave/"
   ];
 
   # -----
@@ -399,6 +400,7 @@ in
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
     # Context management
+    pkgs.headroom
   ];
 
   xdg.configFile = {
