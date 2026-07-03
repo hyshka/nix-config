@@ -401,6 +401,11 @@ in
     "**/.tokensave/"
   ];
 
+  home.sessionVariables = {
+    # enable output token reduction
+    HEADROOM_OUTPUT_SHAPER = 1;
+  };
+
   # -----
   # Dependencies
   # -----
