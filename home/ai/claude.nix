@@ -400,6 +400,7 @@ in
     # GH CLI is cheaper than Github MCP for some operations
     pkgs.gh
     # Context management
+    pkgs.rtk
     pkgs.headroom
   ];
 
