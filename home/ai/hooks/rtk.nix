@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   PreToolUse = [
     {
@@ -6,7 +6,7 @@
       hooks = [
         {
           type = "command";
-          command = "${pkgs.rtk} hook claude";
+          command = "${lib.getExe pkgs.rtk}/bin/rtk hook claude";
         }
       ];
     }
