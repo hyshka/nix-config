@@ -7,4 +7,5 @@
   # example = pkgs.callPackage ./example { };
   snapraid-collector = pkgs.callPackage ./snapraid-collector { };
   headroom = pkgs.callPackage ./headroom { };
+  tokensave = pkgs.callPackage ./tokensave { };
 }

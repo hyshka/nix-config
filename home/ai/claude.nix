@@ -9,10 +9,8 @@ let
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
     (import ./hooks/rtk.nix { inherit pkgs; })
-    (import ./hooks/tokensave.nix { inherit pkgs; })
+    (import ./hooks/tokensave.nix { inherit pkgs lib; })
   ];
-  # TODO: add nix pkg
-  tokensaveBin = "/Users/hyshka/.local/bin/tokensave";
 in
 {
   programs.claude-code = {
@@ -335,7 +333,7 @@ in
         args = [
           "serve"
         ];
-        command = tokensaveBin;
+        command = "${lib.getExe pkgs.tokensave}";
       };
     };
     lspServers = {
@@ -433,7 +431,7 @@ in
     # Context management
     pkgs.rtk
     pkgs.headroom
-    # tokensave (added via headroom to ~/.claude.json)
+    pkgs.tokensave
   ];
 
   xdg.configFile = {

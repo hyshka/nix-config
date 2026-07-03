@@ -1,6 +1,6 @@
-{ ... }:
+{ pkgs, lib, ... }:
 let
-  tokensaveBin = "/Users/hyshka/.local/bin/tokensave";
+  tokensaveBin = lib.getExe pkgs.tokensave;
 in
 {
   PreToolUse = [
