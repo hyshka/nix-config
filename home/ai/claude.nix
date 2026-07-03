@@ -8,7 +8,7 @@ let
   hookModules = [
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
-    (import ./hooks/rtk.nix { inherit pkgs; })
+    (import ./hooks/rtk.nix { inherit pkgs lib; })
     (import ./hooks/tokensave.nix { inherit pkgs lib; })
   ];
 in
