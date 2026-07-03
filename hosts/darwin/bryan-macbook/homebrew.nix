@@ -10,7 +10,11 @@
     };
 
     taps = [
-      "nikitabobko/tap" # aerospace
+      # aerospace
+      {
+        name = "nikitabobko/tap";
+        trusted = true;
+      }
     ];
 
     # `brew install`
