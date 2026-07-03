@@ -8,7 +8,11 @@ let
   hookModules = [
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
+    (import ./hooks/rtk.nix { inherit pkgs; })
+    (import ./hooks/tokensave.nix { inherit pkgs; })
   ];
+  # TODO: add nix pkg
+  tokensaveBin = "/Users/hyshka/.local/bin/tokensave";
 in
 {
   programs.claude-code = {
@@ -247,6 +251,18 @@ in
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
+          # headroom
+          "mcp__headroom__compress"
+          "mcp__headroom__retrieve"
+          "mcp__headroom__stats"
+          # tokensave
+          "mcp__tokensave__tokensave_callees"
+          "mcp__tokensave__tokensave_callers"
+          "mcp__tokensave__tokensave_context"
+          "mcp__tokensave__tokensave_impact"
+          "mcp__tokensave__tokensave_node"
+          "mcp__tokensave__tokensave_search"
+          "mcp__tokensave__tokensave_status"
         ];
         ask = [
           # Git (external side effects)
@@ -305,6 +321,21 @@ in
       gh_grep = {
         type = "http";
         url = "https://mcp.grep.app";
+      };
+      headroom = {
+        type = "stdio";
+        args = [
+          "mcp"
+          "serve"
+        ];
+        command = "${lib.getBin pkgs.headroom}/bin/headroom";
+      };
+      tokensave = {
+        type = "stdio";
+        args = [
+          "serve"
+        ];
+        command = tokensaveBin;
       };
     };
     lspServers = {
@@ -402,6 +433,7 @@ in
     # Context management
     pkgs.rtk
     pkgs.headroom
+    # tokensave (added via headroom to ~/.claude.json)
   ];
 
   xdg.configFile = {
