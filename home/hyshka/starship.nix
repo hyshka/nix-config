@@ -11,7 +11,6 @@
     ../desktop/zwift.nix
     #../desktop/logseq.nix
     ../ai/opencode.nix
-    ../ai/claude.nix
     ../nixvim
     ../cli
     ../desktop/font.nix
