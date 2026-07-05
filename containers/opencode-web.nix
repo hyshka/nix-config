@@ -26,7 +26,7 @@ in
       RestartSec = 5;
       ExecStart = "${
         lib.getExe inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
-      } web --hostname 0.0.0.0 --port 4096";
+      } web --hostname 0.0.0.0 --port 4096 --cors https://starship.tail7dfc7.ts.net";
       EnvironmentFile = config.sops.secrets.opencode-envFile.path;
     };
   };
@@ -36,6 +36,7 @@ in
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/private/opencode"
+      "/root/" # global config at /root/.config/opencode
     ];
   };
 }
