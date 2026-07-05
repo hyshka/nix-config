@@ -513,11 +513,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782010485,
-        "narHash": "sha256-cL1P6+djQnIi8cgA+mSon3+f8O8ohRkrk1IS6O5Esm4=",
+        "lastModified": 1782959608,
+        "narHash": "sha256-y7O2YDzniTdz4V4RfTgX/X2LA7auKOTF4md4DdBR8gQ=",
         "owner": "noblepayne",
         "repo": "opencode-flake",
-        "rev": "ec925cf31f427105d55e86e29ba128eb83123425",
+        "rev": "8d8114256c4fe9551cc4df46b2c118c8bf789bf1",
         "type": "github"
       },
       "original": {
