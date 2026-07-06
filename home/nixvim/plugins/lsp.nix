@@ -98,7 +98,7 @@
         dockerls.enable = true;
         bashls.enable = true;
         sqls.enable = true;
-        stylelint_lsp.enable = true;
+        #stylelint_lsp.enable = true; # FIXME outdated package, CVE on "pnpm-9.15.9"
         unocss = {
           enable = true;
           package = inputs.unocss-language-server.packages.${pkgs.stdenv.hostPlatform.system}.default;
