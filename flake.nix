@@ -86,6 +86,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    openchamber-flake = {
+      url = "github:zms-dev/openchamber-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zimfw = {
       url = "github:joedevivo/zimfw.nix";
       inputs.home-manager.follows = "home-manager";

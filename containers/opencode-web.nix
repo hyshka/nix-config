@@ -15,6 +15,7 @@ in
     sopsFile = ./secrets/opencode-web.yaml;
   };
 
+  # sudo tailscale serve --bg --https=8443 http://localhost:4096
   systemd.services.opencode-web = {
     enable = true;
     wantedBy = [ "multi-user.target" ];

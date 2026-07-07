@@ -54,6 +54,12 @@ creation_rules:
           - *lxc-ai
         pgp:
           - *hyshka
+  - path_regex: containers/secrets/openchamber.ya?ml$
+    key_groups:
+      - age:
+          - *lxc-ai
+        pgp:
+          - *hyshka
   - path_regex: containers/secrets/.*\.(ya?ml|sqlite|db)$
     key_groups:
       - age:
