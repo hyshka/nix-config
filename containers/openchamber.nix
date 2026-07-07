@@ -51,6 +51,9 @@ in
     port = 3000;
     host = "0.0.0.0";
     uiPasswordFile = config.sops.secrets.openchamber-password-file.path;
+    extraEnvironment = {
+      OPENCHAMBER_TERMINAL_SHELL = "/run/current-system/sw/bin/bash";
+    };
 
     #settings = {
     #  themeVariant = "dark";
@@ -60,8 +63,14 @@ in
     #};
   };
 
+  # nix for running local builds
+  nix.enable = true;
+
   # uvx for running MCPs
   environment.systemPackages = with pkgs; [ uv ];
+
+  # Expose system packages (incl. uv) on the sealed systemd PATH.
+  systemd.services.openchamber.environment.PATH = lib.mkForce "/run/current-system/sw/bin";
 
   networking.firewall.allowedTCPPorts = [ 3000 ];
 
