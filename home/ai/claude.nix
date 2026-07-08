@@ -19,6 +19,7 @@ in
     #agents = {
     #  technical-writer = ./agents/technical-writer.md;
     #};
+    context = ./base.md;
     settings = {
       hooks = lib.zipAttrsWith (_: lib.concatLists) hookModules;
       includeCoAuthoredBy = false;
@@ -30,6 +31,14 @@ in
       spinnerTipsEnabled = false;
       teammateMode = "tmux";
       tui = "fullscreen";
+      # Disable unused features to save context
+      autoMemoryEnabled = false;
+      disableClaudeAiConnectors = true;
+      disableArtifact = true;
+      disableRemoteControl = true;
+      disableWorkflows = true;
+      disableBundledSkills = true;
+      disableAgentView = true;
       sandbox = {
         enabled = true;
         network = {
@@ -63,11 +72,11 @@ in
         DISABLE_FEEDBACK_COMMAND = "1";
         DISABLE_AUTOUPDATER = "1";
         DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
-        CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
-        CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE = "1";
+        CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "0";
         ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-6[1m]";
-        ENABLE_CLAUDEAI_MCP_SERVERS = "false";
+        ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4-6";
         ENABLE_LSP_TOOL = "1";
+        #ENABLE_TOOL_SEARCH = "auto:1"; # can help with lots of MCPs enabled
       };
       statusLine = {
         type = "command";
@@ -75,8 +84,8 @@ in
         padding = 0;
         refreshInterval = 10;
       };
-      context = ./base.md;
       #skills = ./skills;
+      # Disable unused skills to save context
       skillOverrides = {
         bmad-agent-bmad-master = "off";
         bmad-agent-bmm-analyst = "off";
@@ -123,7 +132,7 @@ in
       };
       commandsDir = ./commands;
       enabledPlugins = {
-        "commit-commands@claude-plugins-official" = true;
+        #"commit-commands@claude-plugins-official" = true;
         #"context-mode@context-mode" = true;
       };
       permissions = {
@@ -241,26 +250,15 @@ in
           "Bash(./incus-manager.sh get-age-key:*)"
 
           # MCP permissions (read-only)
-          "Plugin:claude-code-home-manager:context7"
-          "Plugin:claude-code-home-manager:gh_grep"
-          "Plugin:context-mode:ctx-doctor"
           "mcp__context7"
           "mcp__gh_grep"
           "mcp__nixos"
           "mcp__github__search_repositories"
           "mcp__github__get_file_contents"
-          # headroom
-          "mcp__headroom__compress"
-          "mcp__headroom__retrieve"
-          "mcp__headroom__stats"
-          # tokensave
-          "mcp__tokensave__tokensave_callees"
-          "mcp__tokensave__tokensave_callers"
-          "mcp__tokensave__tokensave_context"
-          "mcp__tokensave__tokensave_impact"
-          "mcp__tokensave__tokensave_node"
-          "mcp__tokensave__tokensave_search"
-          "mcp__tokensave__tokensave_status"
+          "mcp__plugin_claude-code-home-manager_context7__*"
+          "mcp__plugin_claude-code-home-manager_gh_grep__*"
+          "mcp__plugin_claude-code-home-manager_headroom__*"
+          "mcp__plugin_claude-code-home-manager_tokensave__*"
         ];
         ask = [
           # Git (external side effects)
@@ -289,6 +287,23 @@ in
           "Bash(./incus-manager.sh bootstrap:*)"
         ];
         deny = [
+          # Disable unused tools to save context
+          "Artifact"
+          "CronCreate"
+          "CronDelete"
+          "CronList"
+          "Monitor"
+          "NotebookEdit"
+          "PowerShell"
+          "PushNotification"
+          "RemoteTrigger"
+          "ReportFindings"
+          "ScheduleWakeup"
+          "SendUserFile"
+          "ShareOnboardingGuide"
+          "TodoWrite"
+          "Workflow"
+
           # Sensitive file protection
           "Read(**/.env*)"
           "Read(**/*.pem)"

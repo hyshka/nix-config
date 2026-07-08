@@ -9,7 +9,8 @@ in
       hooks = [
         {
           type = "command";
-          command = "${tokensaveBin} hook-pre-tool-use";
+          command = tokensaveBin;
+          args = [ "hook-pre-tool-use" ];
         }
       ];
     }
@@ -19,7 +20,8 @@ in
       hooks = [
         {
           type = "command";
-          command = "${tokensaveBin} hook-prompt-submit";
+          command = tokensaveBin;
+          args = [ "hook-prompt-submit" ];
         }
       ];
     }
@@ -29,7 +31,8 @@ in
       hooks = [
         {
           type = "command";
-          command = "${tokensaveBin} hook-stop";
+          command = tokensaveBin;
+          args = [ "hook-stop" ];
         }
       ];
     }

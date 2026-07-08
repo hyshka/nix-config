@@ -6,7 +6,11 @@
       hooks = [
         {
           type = "command";
-          command = "${lib.getExe pkgs.rtk}/bin/rtk hook claude";
+          command = lib.getExe pkgs.rtk;
+          args = [
+            "hook"
+            "claude"
+          ];
         }
       ];
     }
