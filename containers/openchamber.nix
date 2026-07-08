@@ -64,12 +64,15 @@ in
   };
 
   # nix for running local builds
-  nix.enable = lib.mkForce true;
+  nix = {
+    enable = lib.mkForce true;
+    settings = {
+      # Enable flakes and new 'nix' command
+      experimental-features = "nix-command flakes ca-derivations";
+    };
+  };
 
-  # uvx for running MCPs
-  environment.systemPackages = with pkgs; [ uv ];
-
-  # Expose system packages (incl. uv) on the sealed systemd PATH.
+  # Expose system packages (incl. nix) on the sealed systemd PATH.
   systemd.services.openchamber.environment.PATH = lib.mkForce "/run/current-system/sw/bin";
 
   # Allow bash for terminal execution
