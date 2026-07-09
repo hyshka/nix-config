@@ -7,6 +7,7 @@
     ../desktop/espanso.nix
     #../ai/opencode.nix
     ../ai/claude.nix
+    ../ai/omp.nix
     ../nixvim
     ../cli
   ];
