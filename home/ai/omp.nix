@@ -13,4 +13,8 @@ in
   home.packages = [
     ompPkg
   ];
+
+  programs.git.ignores = [
+    "**/.omp/wt"
+  ];
 }
