@@ -17,8 +17,6 @@
   };
 
   home.packages = with pkgs; [
-    # mine
-    spotify-player
     # work
     curl
   ];
