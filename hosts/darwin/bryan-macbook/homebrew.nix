@@ -45,6 +45,7 @@
       "caffeine"
       "spotify"
       "figma"
+      "lm-studio"
     ];
   };
 
