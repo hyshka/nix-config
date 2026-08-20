@@ -87,7 +87,7 @@
     };
 
     openchamber-flake = {
-      url = "github:zms-dev/openchamber-flake";
+      url = "github:icebluerabbit/openchamber-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -172,11 +172,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
         "type": "github"
       },
       "original": {
@@ -404,11 +404,11 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1777168982,
-        "narHash": "sha256-GOkGPcboWE9BmGCRMLX3worL4EMnsnG8MyKmXNeYuhQ=",
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "f5901329dade4a6ea039af1433fb087bd9c1fe14",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
         "type": "github"
       },
       "original": {
@@ -500,15 +500,15 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1782622837,
-        "narHash": "sha256-gZhlUFdIl1/94oN54qiDBMojNUbd/srtj57/d1UHseg=",
-        "owner": "zms-dev",
+        "lastModified": 1786289203,
+        "narHash": "sha256-KEh5rGUq4J/vMJO+tnH7Bv5xyOYHR6lt2C+QJdmSl+I=",
+        "owner": "icebluerabbit",
         "repo": "openchamber-flake",
-        "rev": "ed4596747de629bca082b55847e53ca40aa6803b",
+        "rev": "0aefaeca32b1abe4730bcd2d19741aeb7f5e6db5",
         "type": "github"
       },
       "original": {
-        "owner": "zms-dev",
+        "owner": "icebluerabbit",
         "repo": "openchamber-flake",
         "type": "github"
       }
