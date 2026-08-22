@@ -16,7 +16,6 @@
         bash
         ssh_config
         sway
-        tmux
         jq
         zsh
         gpg

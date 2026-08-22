@@ -155,6 +155,7 @@
                 "steam"
                 "steam-unwrapped"
                 "discord"
+                "discord-unwrapped"
                 "slack"
                 "spotify"
               ];

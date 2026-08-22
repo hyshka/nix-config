@@ -5,7 +5,7 @@
   ...
 }:
 let
-  isLinux = pkgs.stdenv.isLinux;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
 in
 {
   # https://github.com/JMartJonesy/kickstart.nixvim/blob/main/nixvim.nix
@@ -29,7 +29,6 @@ in
     ./plugins/autopairs.nix
     ./plugins/indent-blankline.nix
     #./plugins/orgmode.nix
-    ./plugins/copilot.nix
     ./plugins/oil.nix
     ./plugins/codecompanion.nix
     #./plugins/opencode.nix

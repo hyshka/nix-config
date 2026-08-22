@@ -4,7 +4,7 @@
   ...
 }:
 let
-  isLinux = pkgs.stdenv.isLinux;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
   pinentry =
     if !isLinux then
       {

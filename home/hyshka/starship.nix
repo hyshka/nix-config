@@ -17,7 +17,7 @@
     ../desktop/espanso.nix
   ];
 
-  nixGL.packages = inputs.nixGL.packages;
+  targets.genericLinux.nixGL.packages = inputs.nixGL.packages;
 
   # TODO: desktop home manager stuff
   home.packages = with pkgs; [

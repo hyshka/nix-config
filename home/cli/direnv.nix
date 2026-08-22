@@ -6,7 +6,7 @@
     # Mach-O page hashes when sibling outputs (fish-doc) are present, so the
     # kernel SIGKILLs fish mid-test. Drop once NixOS/nix#15638 lands.
     package = pkgs.direnv.overrideAttrs (old: {
-      doCheck = old.doCheck or true && !pkgs.stdenv.isDarwin;
+      doCheck = old.doCheck or true && !pkgs.stdenv.hostPlatform.isDarwin;
     });
     enableZshIntegration = true;
     nix-direnv.enable = true;

@@ -14,10 +14,6 @@
     #  https://nix-community.github.io/nixvim/plugins/luasnip/index.html
     plugins.luasnip.enable = true; # autoEnableSources not enough
 
-    plugins.blink-copilot = {
-      enable = true;
-    };
-
     # Autocompletion
     # See `:help cmp`
     # https://nix-community.github.io/nixvim/plugins/cmp/index.html
@@ -74,19 +70,12 @@
             "path"
             "snippets"
             "buffer"
-            "copilot"
             "lazydev"
           ];
           providers = {
             lazydev = {
               module = "lazydev.integrations.blink";
               score_offset = 100;
-            };
-            copilot = {
-              name = "copilot";
-              module = "blink-copilot";
-              score_offset = 100;
-              async = true;
             };
           };
         };

@@ -4,7 +4,7 @@
   ...
 }:
 let
-  isLinux = pkgs.stdenv.isLinux;
+  isLinux = pkgs.stdenv.hostPlatform.isLinux;
   # See: https://nix-community.github.io/home-manager/index.xhtml#sec-usage-gpu-non-nixos
   alacritty =
     if isLinux then

@@ -32,9 +32,6 @@ in
           chat = {
             adapter = "opencode";
           };
-          inline = {
-            adapter = "copilot";
-          };
         };
         prompt_library = {
           "Review" = {
