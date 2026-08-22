@@ -14,6 +14,7 @@
     ../common/pipewire.nix
     ../common/plasma.nix
     ../common/wireless.nix
+    ../common/chrysalis.nix
 
     ./docker.nix
     ./doom.nix

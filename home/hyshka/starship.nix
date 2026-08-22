@@ -46,5 +46,6 @@
     incus
     brave
     solaar
+    chrysalis # keyboard firmware
   ];
 }
