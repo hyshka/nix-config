@@ -128,7 +128,7 @@
           - window_name: ai
             panes:
               - shell_command:
-                - claude
+                - blank
           - window_name: deploy
             panes:
               - shell_command:
@@ -155,7 +155,7 @@
             focus: true
             panes:
               - shell_command:
-                - claude
+                - blank
       '';
       target = "tmuxp/worktree.yml";
     };
