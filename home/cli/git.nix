@@ -75,6 +75,7 @@
     lfs.enable = true;
     ignores = [
       ".direnv"
+      ".envrc"
       "result"
     ];
     signing = {
