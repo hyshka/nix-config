@@ -20,6 +20,7 @@
     # `brew install`
     brews = [
       "helm"
+      "helm-docs"
       "git-lfs" # for claude code desktop
     ];
 
