@@ -42,7 +42,7 @@ in
 
   # Readarr - Book management
   services.readarr = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     user = "readarr";
     group = "mediacenter";
@@ -158,6 +158,34 @@ in
     RestartMaxDelaySec = "60s";
   };
 
+  networking.firewall.allowedTCPPorts = [ 8787 ];
+  systemd.tmpfiles.rules = [
+    "d /var/lib/bindery 0755 bindery mediacenter - -"
+  ];
+  virtualisation.oci-containers.containers.bindery = {
+    image = "ghcr.io/vavallee/bindery:latest";
+    user = "999:13000";
+    volumes = [
+      "/var/lib/bindery:/config"
+      "/data:/data"
+    ];
+    environment = {
+      TZ = "America/Edmonton";
+      # TODO: how to merge torrent and usenet completion folders?
+      BINDERY_DOWNLOAD_DIR = "/data/usenet/complete";
+      BINDERY_LIBRARY_DIR = "/data/media/books";
+      BINDERY_AUDIOBOOK_DIR = "/data/media/audiobooks";
+    };
+    extraOptions = [
+      "--network=host"
+    ];
+  };
+  systemd.services."podman-bindery".serviceConfig = {
+    RestartSec = "1s";
+    RestartSteps = 6;
+    RestartMaxDelaySec = "60s";
+  };
+
   # Set up all secrets
   sops.secrets.sonarr_api_key = {
     sopsFile = ./secrets/media-arr.yaml;
@@ -172,8 +200,12 @@ in
   # Add all service users to mediacenter group for shared storage access
   users.users.sonarr.extraGroups = [ "mediacenter" ];
   users.users.radarr.extraGroups = [ "mediacenter" ];
-  users.users.readarr.extraGroups = [ "mediacenter" ];
   users.users.recyclarr.extraGroups = [ "mediacenter" ];
+  users.users.bindery = {
+    isSystemUser = true;
+    uid = 999;
+    group = "mediacenter";
+  };
 
   # Persist all service data (SQLite databases, configs)
   environment.persistence."/persist" = {
@@ -186,6 +218,7 @@ in
       "/var/lib/private/seerr"
       "/var/lib/recyclarr"
       "/var/lib/decluttarr"
+      "/var/lib/bindery"
     ];
   };
 }
