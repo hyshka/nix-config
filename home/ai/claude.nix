@@ -27,6 +27,7 @@ in
         commit = "";
         pr = "";
       };
+      outputStyle = "Concise";
       prefersReducedMotion = true;
       spinnerTipsEnabled = false;
       teammateMode = "tmux";
