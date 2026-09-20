@@ -115,8 +115,8 @@ in
           reverse_proxy http://10.223.27.55:7878
         }
 
-        @readarr host readarr.home.hyshka.com
-        handle @readarr {
+        @bindery host bindery.home.hyshka.com
+        handle @bindery {
           reverse_proxy http://10.223.27.55:8787
         }
 
