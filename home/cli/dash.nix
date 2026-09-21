@@ -5,6 +5,9 @@
       defaults = {
         prApproveComment = "";
       };
+      pager = {
+        diff = "delta";
+      };
       prSections = [
         {
           filters = "is:open author:@me sort:updated-desc";
