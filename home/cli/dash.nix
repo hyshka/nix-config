@@ -7,18 +7,16 @@
       };
       prSections = [
         {
-          filters = "is:open author:@me";
-          title = "My Pull Requests";
+          filters = "is:open author:@me sort:updated-desc";
+          title = "Your pull requests";
         }
         {
-          filters = "is:open review-requested:@me";
-          title = "Needs My Review";
+          filters = "is:open user-review-requested:@me updated:>={{ nowModify '-1m' }} sort:updated-desc";
+          title = "Needs your review";
         }
-      ];
-      notificationSections = [
         {
-          filters = "";
-          title = "All";
+          filters = "is:open team-review-requested-user:@me updated:>={{ nowModify '-1m' }} sort:updated-desc";
+          title = "Needs your team's review";
         }
       ];
       repoPaths = {
