@@ -2,10 +2,12 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
   container = import ./default.nix { inherit lib inputs; };
+  library = "/mnt/books";
 in
 {
   imports = [ (container.mkContainer { name = "calibre"; }) ];
@@ -28,6 +30,10 @@ in
     group = config.services.calibre-server.group;
   };
 
+  # force enable fonts for calibre import HTML fallback
+  fonts.fontconfig.enable = lib.mkForce true;
+  environment.systemPackages = [ pkgs.dejavu_fonts ];
+
   services.calibre-server = {
     enable = true;
     port = 8083;
@@ -39,7 +45,25 @@ in
       userDb = config.sops.secrets."calibre-users.sqlite".path;
     };
     libraries = [
-      "/mnt/books"
+      library
     ];
+  };
+
+  # watches the synced ebook folder and automatically loads it into calibre
+  systemd.paths.calibre-watch = {
+    description = "Watch ebooks folder";
+    pathConfig = {
+      PathChanged = library;
+    };
+    wantedBy = [ "default.target" ];
+  };
+
+  systemd.services.calibre-watch = {
+    description = "Import ebook library into Calibre library";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+      ExecStart = "${pkgs.calibre}/bin/calibredb add ${library} --recurse --library-path=${library} --automerge=overwrite";
+    };
   };
 }
