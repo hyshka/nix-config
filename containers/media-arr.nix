@@ -40,15 +40,6 @@ in
     dataDir = "/var/lib/radarr";
   };
 
-  # Readarr - Book management
-  services.readarr = {
-    enable = false;
-    openFirewall = true;
-    user = "readarr";
-    group = "mediacenter";
-    dataDir = "/var/lib/readarr";
-  };
-
   # Prowlarr - Indexer proxy/aggregator
   services.prowlarr = {
     enable = true;
@@ -171,8 +162,7 @@ in
     ];
     environment = {
       TZ = "America/Edmonton";
-      # TODO: how to merge torrent and usenet completion folders?
-      BINDERY_DOWNLOAD_DIR = "/data/usenet/complete";
+      BINDERY_DOWNLOAD_DIR = "/data/downloads";
       BINDERY_LIBRARY_DIR = "/data/media/books";
       BINDERY_AUDIOBOOK_DIR = "/data/media/audiobooks";
     };
@@ -213,7 +203,6 @@ in
     directories = [
       "/var/lib/sonarr"
       "/var/lib/radarr"
-      "/var/lib/readarr"
       "/var/lib/private/prowlarr"
       "/var/lib/private/seerr"
       "/var/lib/recyclarr"

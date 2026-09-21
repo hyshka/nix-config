@@ -205,8 +205,8 @@ in
             };
           }
           {
-            "Calibre" = {
-              icon = "calibre.svg";
+            "Grimmory" = {
+              icon = "grimmory.svg";
               href = "https://library.home.hyshka.com/";
               siteMonitor = "https://library.home.hyshka.com";
             };
@@ -273,14 +273,15 @@ in
             };
           }
           {
-            Readarr = {
-              icon = "readarr.svg";
-              href = "https://readarr.home.hyshka.com";
-              siteMonitor = "https://readarr.home.hyshka.com";
+            Bindery = {
+              icon = "bindery.svg";
+              href = "https://bindery.home.hyshka.com";
+              siteMonitor = "https://bindery.home.hyshka.com";
               widget = {
-                type = "readarr";
-                url = "https://readarr.home.hyshka.com";
-                key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
+                type = "bindery";
+                url = "https://bindery.home.hyshka.com";
+                # TODO: bindery key
+                #key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
               };
             };
           }

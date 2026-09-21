@@ -187,8 +187,8 @@ in
         cache_limit = "1G";
 
         # Directories
-        download_dir = "/data/usenet/incomplete";
-        complete_dir = "/data/usenet/complete";
+        download_dir = "/data/downloads/usenet/incomplete";
+        complete_dir = "/data/downloads/usenet/complete";
 
         # Processing
         flat_unpack = 1;
