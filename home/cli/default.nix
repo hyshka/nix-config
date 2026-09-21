@@ -5,6 +5,7 @@
     ./direnv.nix
     ./fzf.nix
     ./git.nix
+    ./dash.nix
     ./glances.nix
     ./gpg.nix
     ./sops.nix
