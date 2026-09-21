@@ -11,11 +11,11 @@
           title = "Your pull requests";
         }
         {
-          filters = "is:open user-review-requested:@me updated:>={{ nowModify '-1m' }} sort:updated-desc";
+          filters = ''is:open user-review-requested:@me updated:>={{ nowModify "-1m" }} sort:updated-desc'';
           title = "Needs your review";
         }
         {
-          filters = "is:open team-review-requested-user:@me updated:>={{ nowModify '-1m' }} sort:updated-desc";
+          filters = ''is:open team-review-requested-user:@me updated:>={{ nowModify "-1m" }} sort:updated-desc'';
           title = "Needs your team's review";
         }
       ];
