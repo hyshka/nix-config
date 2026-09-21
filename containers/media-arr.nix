@@ -165,6 +165,8 @@ in
       BINDERY_DOWNLOAD_DIR = "/data/downloads";
       BINDERY_LIBRARY_DIR = "/data/media/books";
       BINDERY_AUDIOBOOK_DIR = "/data/media/audiobooks";
+      # Because prowlarr is on the same host
+      BINDERY_DOWNLOAD_ALLOW_LOOPBACK = "1";
     };
     extraOptions = [
       "--network=host"
