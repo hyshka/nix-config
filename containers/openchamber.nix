@@ -44,7 +44,7 @@ in
     ];
   };
 
-  # sudo tailscale serve --bg --https=10000 http://localhost:3000
+  # sudo tailscale serve --bg --https=10000 http://localhost:8888
   # https://github.com/zms-dev/openchamber-flake/blob/main/docs/NIXOS_OPTIONS.md
   services.openchamber = {
     enable = true;
@@ -68,7 +68,11 @@ in
     enable = lib.mkForce true;
     settings = {
       # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes ca-derivations";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "ca-derivations"
+      ];
     };
   };
 
