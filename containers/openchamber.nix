@@ -74,11 +74,15 @@ in
 
   # Fix system user ssh defaulting to /var/empty/.ssh/known_hosts
   users.users.openchamber.home = "/var/lib/openchamber";
+  # System users default to pkgs.shadow (nologin); give it a usable shell
+  users.users.openchamber.shell = pkgs.bashInteractive;
 
   systemd.services.openchamber = {
     environment = {
       # Expose system packages (incl. nix) on the sealed systemd PATH.
       PATH = lib.mkForce "/run/current-system/sw/bin";
+      # Terminal/agent shells read $SHELL before falling back to /bin/sh.
+      SHELL = lib.getExe pkgs.bashInteractive;
     };
     after = [ "sops-nix.service" ];
     # Populate SSH key
