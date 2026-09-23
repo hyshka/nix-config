@@ -72,6 +72,9 @@ in
     "d /var/lib/openchamber/.ssh 0700 openchamber openchamber - -"
   ];
 
+  # Fix system user ssh defaulting to /var/empty/.ssh/known_hosts
+  users.users.openchamber.home = "/var/lib/openchamber";
+
   systemd.services.openchamber = {
     environment = {
       # Expose system packages (incl. nix) on the sealed systemd PATH.
