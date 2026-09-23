@@ -221,13 +221,9 @@
       );
 
       # Dev shells
-      devShells = forEachSystem (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        import ./shell.nix { inherit pkgs; }
-      );
+      devShells = forEachSystem (system: {
+        default = import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; };
+      });
 
       formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);
       checks = forEachSystem (system: {

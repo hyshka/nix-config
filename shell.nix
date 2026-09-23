@@ -5,32 +5,33 @@
     let
       lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
       nixpkgs = fetchTarball {
-        url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
+        url = lock.url;
         sha256 = lock.narHash;
       };
     in
     import nixpkgs { overlays = [ ]; },
-  ...
 }:
-{
-  default = pkgs.mkShell {
-    NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
-    nativeBuildInputs = with pkgs; [
+pkgs.mkShell {
+  NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
+  packages =
+    with pkgs;
+    [
       nix
+      nh
+      nixos-rebuild
       home-manager
       git
-      neovim
-      tmux
 
-      # For CI
-      nixfmt
-
-      # For sops-nix
+      # sops-nix secrets workflow
       sops
       ssh-to-age
-      gnupg
       age
+      gnupg
       pinentry-curses
-    ];
-  };
+
+      # deploy.sh and incus-manager.sh
+      jq
+    ]
+    # incus client is linux-only; keep the darwin devShell buildable
+    ++ lib.optionals stdenv.hostPlatform.isLinux [ incus ];
 }

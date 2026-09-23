@@ -1,3 +1,5 @@
+# .envrc is tracked here; overrides the global gitignore that hides envrc files
+!.envrc
+.envrc.local
 .claude
-.envrc
 result
