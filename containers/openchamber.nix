@@ -10,11 +10,15 @@ let
   openchamberPublicKeyFile = pkgs.writeText "openchamber_ed25519.pub" (
     builtins.readFile ./openchamber.pub
   );
+  opencode = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
 in
 {
+  # Do manual build first before deploying because openchamber-server requires network access
+  # nix build ".#nixosConfigurations.openchamber.config.system.build.toplevel" --option sandbox false
+
   imports = [
     (container.mkContainer { name = "openchamber"; })
-    inputs.openchamber-flake.nixosModules.default
+    inputs.openchamber-nix.nixosModules.default
   ];
 
   sops.secrets.openchamber-password-file = {
@@ -29,38 +33,25 @@ in
     path = "/var/lib/openchamber/.ssh/id_ed25519";
   };
 
-  systemd.tmpfiles.rules = [
-    "d /var/lib/openchamber/.ssh 0700 openchamber openchamber - -"
-  ];
-
-  systemd.services.openchamber = {
-    after = [ "sops-nix.service" ];
-    environment.HOME = "/var/lib/openchamber";
-    serviceConfig.ExecStartPre = [
-      (pkgs.writeShellScript "openchamber-ssh-pre" ''
-        install -d -m 0700 -o openchamber -g openchamber /var/lib/openchamber/.ssh
-        install -m 0644 -o openchamber -g openchamber ${openchamberPublicKeyFile} /var/lib/openchamber/.ssh/id_ed25519.pub
-      '')
-    ];
-  };
-
   # sudo tailscale serve --bg --https=10000 http://localhost:8888
-  # https://github.com/zms-dev/openchamber-flake/blob/main/docs/NIXOS_OPTIONS.md
+  # https://github.com/x13-me/openchamber-nix
   services.openchamber = {
     enable = true;
     port = 3000;
     host = "0.0.0.0";
+    enableWebUI = true;
+    lan = true;
     uiPasswordFile = config.sops.secrets.openchamber-password-file.path;
-    extraEnvironment = {
-      OPENCHAMBER_TERMINAL_SHELL = "/run/current-system/sw/bin/bash";
-    };
+    opencodePackage = opencode;
 
-    #settings = {
-    #  themeVariant = "dark";
-    #  darkThemeId = "default";
-    #  desktopLanAccessEnabled = false;
-    #  showReasoningTraces = true;
-    #};
+    # opencodeHost = "http://hostname:4096";  # external OpenCode server (with skipOpencodeStart = true)
+    # opencodePort = 4096;  # external OpenCode port (ignored when opencodeHost is set)
+    # opencodeHostname = "127.0.0.1";  # bind hostname for the managed OpenCode server
+    # skipOpencodeStart = true;  # use the external OpenCode server instead of spawning a managed one
+    # verboseRequestLogs = true;  # log every request
+    # skipApiCompression = true;  # skip API response compression
+    # installCliForUser = false;  # skip putting the CLI on the service account's PATH (needed for LDAP/SSSD users)
+    # settings = { };  # freeform attrs -> seeded into $OPENCHAMBER_DATA_DIR/settings.json on first start only (an existing non-empty file is never overwritten; delete it to re-seed)
   };
 
   # nix for running local builds
@@ -76,11 +67,25 @@ in
     };
   };
 
-  # Expose system packages (incl. nix) on the sealed systemd PATH.
-  systemd.services.openchamber.environment.PATH = lib.mkForce "/run/current-system/sw/bin";
+  # Populate SSH key
+  systemd.tmpfiles.rules = [
+    "d /var/lib/openchamber/.ssh 0700 openchamber openchamber - -"
+  ];
 
-  # Allow bash for terminal execution
-  users.users.openchamber.shell = pkgs.bash;
+  systemd.services.openchamber = {
+    environment = {
+      # Expose system packages (incl. nix) on the sealed systemd PATH.
+      PATH = lib.mkForce "/run/current-system/sw/bin";
+    };
+    after = [ "sops-nix.service" ];
+    # Populate SSH key
+    serviceConfig.ExecStartPre = [
+      (pkgs.writeShellScript "openchamber-ssh-pre" ''
+        install -d -m 0700 -o openchamber -g openchamber /var/lib/openchamber/.ssh
+        install -m 0600 -o openchamber -g openchamber ${openchamberPublicKeyFile} /var/lib/openchamber/.ssh/id_ed25519.pub
+      '')
+    ];
+  };
 
   networking.firewall.allowedTCPPorts = [ 3000 ];
 
