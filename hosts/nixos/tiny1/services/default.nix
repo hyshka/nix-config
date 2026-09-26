@@ -7,7 +7,6 @@
     ./syncthing.nix
     ./caddy.nix
     ./acme.nix
-    #./nextcloud.nix # TODO: move to incus
     ./grafana
     ./adguard-home.nix # TODO: move to rpi4
     ./incus.nix
