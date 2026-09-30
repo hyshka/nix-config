@@ -114,6 +114,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    terranix = {
+      url = "github:terranix/terranix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -123,6 +128,7 @@
       home-manager,
       nix-darwin,
       treefmt-nix,
+      terranix,
       ...
     }@inputs:
     let
@@ -195,6 +201,25 @@
           name = lib.removeSuffix ".nix" name;
           value = mkContainer name;
         }) nixFiles;
+
+      pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      tofu = pkgs.opentofu;
+      terraformConfiguration = terranix.lib.terranixConfiguration {
+        system = "x86_64-linux";
+        modules = [ ./infra/config.nix ];
+        extraArgs = { inherit containers; };
+      };
+
+      mkTofuApp = pkgs: cmd: {
+        type = "app";
+        program = toString (
+          pkgs.writers.writeBash cmd ''
+            ln -sf ${terraformConfiguration} config.tf.json
+            ${tofu}/bin/tofu init
+            ${tofu}/bin/tofu ${cmd}
+          ''
+        );
+      };
     in
     {
       inherit lib;
@@ -278,5 +303,12 @@
           hostname = "macbook";
         };
       };
+
+      apps = forEachSystem (system: {
+        plan = mkTofuApp nixpkgs.legacyPackages.${system} "plan";
+        apply = mkTofuApp nixpkgs.legacyPackages.${system} "apply";
+        destroy = mkTofuApp nixpkgs.legacyPackages.${system} "destroy";
+        default = mkTofuApp nixpkgs.legacyPackages.${system} "plan";
+      });
     };
 }

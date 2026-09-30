@@ -3,3 +3,6 @@
 .envrc.local
 .claude
 result
+.terraform/
+*.tfstate*
+*.tf.json
