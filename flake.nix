@@ -21,9 +21,6 @@
   inputs = {
     nixpkgs.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
 
-    # Pinned nixpkgs for Incus 6.17.0
-    nixpkgs-incus-6-18.url = "github:nixos/nixpkgs/e1ebeec86b771e9d387dd02d82ffdc77ac753abc";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

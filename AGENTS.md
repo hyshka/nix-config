@@ -66,7 +66,7 @@ then `deploy`. The flake auto-discovers every `containers/*.nix` (except `defaul
 
 ## Key inputs
 
-`nixpkgs` (nixos-unstable), plus pinned `nixpkgs-incus-6-18`; `home-manager`,
+`nixpkgs` (nixos-unstable); `home-manager`,
 `nix-darwin` (lnl7), `sops-nix`, `nixvim`, `catppuccin`, `disko`, `lanzaboote`,
 `impermanence`, `plasma-manager`, `nixGL`, `nixos-hardware`, `treefmt-nix`,
 `llm-agents`, `opencode-flake`, `openchamber-nix`, `zimfw`, `nur`.

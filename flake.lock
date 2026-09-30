@@ -369,22 +369,6 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs-incus-6-18": {
-      "locked": {
-        "lastModified": 1762482733,
-        "narHash": "sha256-g/da4FzvckvbiZT075Sb1/YDNDr+tGQgh4N8i5ceYMg=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "e1ebeec86b771e9d387dd02d82ffdc77ac753abc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "e1ebeec86b771e9d387dd02d82ffdc77ac753abc",
-        "type": "github"
-      }
-    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1777168982,
@@ -556,7 +540,6 @@
         "nix-darwin": "nix-darwin",
         "nixGL": "nixGL",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-incus-6-18": "nixpkgs-incus-6-18",
         "nixvim": "nixvim",
         "nur": "nur",
         "openchamber-nix": "openchamber-nix",
