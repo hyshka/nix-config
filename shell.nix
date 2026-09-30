@@ -22,6 +22,9 @@ pkgs.mkShell {
       home-manager
       git
 
+      # infra
+      opentofu
+
       # sops-nix secrets workflow
       sops
       ssh-to-age
