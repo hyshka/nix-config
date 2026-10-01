@@ -18,6 +18,7 @@ pkgs.mkShell {
     [
       nix
       nh
+      dix
       nixos-rebuild
       home-manager
       git
