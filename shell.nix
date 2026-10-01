@@ -25,6 +25,7 @@ pkgs.mkShell {
 
       # infra
       opentofu
+      sshfs # incus file mount
 
       # sops-nix secrets workflow
       sops

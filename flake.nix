@@ -207,7 +207,7 @@
       terraformConfiguration = terranix.lib.terranixConfiguration {
         system = "x86_64-linux";
         modules = [ ./infra/config.nix ];
-        extraArgs = { inherit containers; };
+        extraArgs = { inherit inputs lib; };
       };
 
       mkTofuApp = pkgs: cmd: {

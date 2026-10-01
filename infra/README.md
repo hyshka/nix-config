@@ -44,3 +44,22 @@ nix run .#destroy
 | `hello-container.nix` | Minimal NixOS LXC container |
 | `config.nix` | Terranix module wiring the image build into `incus_image`/`incus_instance` |
 | `flake.nix` | Evaluates both and exposes the plan/apply/destroy commands |
+
+## Diffing using dix
+
+```sh
+# if the container was build on the same machine, it should be in our local store
+RUNNING=$(incus exec <container> -- readlink -f /run/current-system)
+# sanity check
+nix-store -qR "$RUNNING"
+# if it's not, you might be able to copy it
+# nix copy --from ssh-ng://root@<container> "$RUNNING"
+# can use incus file pull "$RUNNING" or incus file mount "$RUNNING" running-system if ssh is not available
+
+
+# need new toplevel in store for comparison, can't compare squashfs tarballs
+NEW=$(nix build ".#nixosConfigurations.hello.config.system.build.toplevel" --print-out-paths --no-link)
+
+# compare
+dix --force-correctness --output json $RUNNING $NEW
+```
