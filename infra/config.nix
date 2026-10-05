@@ -36,7 +36,7 @@ let
       metadata_path = "${nixos.config.system.build.metadata}/tarball/nixos-image-lxc-${nixos.config.system.nixos.version}-${system}.tar.xz";
     };
     # Placeholder: fill in once we know the VM image outputs.
-    virtual-machine = nixos: { };
+    virtual-machine = _nixos: { };
   };
 in
 {
