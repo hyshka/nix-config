@@ -336,21 +336,6 @@ in
         type = "http";
         url = "https://mcp.grep.app";
       };
-      headroom = {
-        type = "stdio";
-        args = [
-          "mcp"
-          "serve"
-        ];
-        command = "${lib.getBin pkgs.headroom}/bin/headroom";
-      };
-      tokensave = {
-        type = "stdio";
-        args = [
-          "serve"
-        ];
-        command = "${lib.getExe pkgs.tokensave}";
-      };
     };
     lspServers = {
       vue = {
@@ -469,4 +454,14 @@ in
       target = "tuicr/config.toml";
     };
   };
+
+  home.activation.claudeSettingsMutable = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    target="$HOME/.claude/settings.json"
+    if [ -L "$target" ]; then
+      source=$(readlink "$target")
+      rm "$target"
+      cp "$source" "$target"
+      chmod u+w "$target"
+    fi
+  '';
 }
