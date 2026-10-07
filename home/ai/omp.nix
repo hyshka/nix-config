@@ -16,5 +16,6 @@ in
 
   programs.git.ignores = [
     "**/.omp/wt"
+    "**/.omp/APPEND_SYSTEM.md"
   ];
 }
