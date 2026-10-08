@@ -88,6 +88,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # OpenChamber v2 package source. x13-me/openchamber-nix (which provides the
+    # NixOS module) is still pinned to OpenChamber 1.24.2, which only supports
+    # OpenCode 1.x. This flake packages the official @openchamber/web 2.x npm
+    # release, which runs on OpenCode 2.
+    openchamber-pkg = {
+      url = "github:Tarow/openchamber-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zimfw = {
       url = "github:joedevivo/zimfw.nix";
       inputs.home-manager.follows = "home-manager";

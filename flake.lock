@@ -499,6 +499,26 @@
         "type": "github"
       }
     },
+    "openchamber-pkg": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791180651,
+        "narHash": "sha256-eoyJmkVcBDgibDG9mJ+6fRf5xcKwpnfhJJX6TbS9iBQ=",
+        "owner": "Tarow",
+        "repo": "openchamber-nix",
+        "rev": "d80a565f86b724cf27c1fd57c30ad1d66fc314fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Tarow",
+        "repo": "openchamber-nix",
+        "type": "github"
+      }
+    },
     "opencode-flake": {
       "inputs": {
         "nixpkgs": [
@@ -579,6 +599,7 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "openchamber-nix": "openchamber-nix",
+        "openchamber-pkg": "openchamber-pkg",
         "opencode-flake": "opencode-flake",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",

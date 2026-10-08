@@ -10,10 +10,18 @@ let
   openchamberPublicKeyFile = pkgs.writeText "openchamber_ed25519.pub" (
     builtins.readFile ./openchamber.pub
   );
-  opencode = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
+  # OpenCode 2: llm-agents ships both lines (`opencode` = 1.x, `opencode2` = 2.x).
+  # OpenChamber 2.x requires OpenCode 2.
+  opencode = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2;
+  # OpenChamber 2.x package (see `openchamber-pkg` in flake.nix); the module
+  # comes from the stale `openchamber-nix` flake, but its `package` option is
+  # designed to accept a replacement that takes an `opencode` override.
+  openchamber = inputs.openchamber-pkg.packages.${pkgs.stdenv.hostPlatform.system}.openchamber;
 in
 {
-  # Do manual build first before deploying because openchamber-server requires network access
+  # Build the toplevel before deploying. The v2 openchamber package is built
+  # from the published @openchamber/web npm tarball (fixed-output deps), so no
+  # network is needed at build time; sandbox false is kept as a fallback.
   # nix build ".#nixosConfigurations.openchamber.config.system.build.toplevel" --option sandbox false
 
   imports = [
@@ -43,6 +51,7 @@ in
     lan = true;
     uiPasswordFile = config.sops.secrets.openchamber-password-file.path;
     opencodePackage = opencode;
+    package = openchamber;
 
     # opencodeHost = "http://hostname:4096";  # external OpenCode server (with skipOpencodeStart = true)
     # opencodePort = 4096;  # external OpenCode port (ignored when opencodeHost is set)
