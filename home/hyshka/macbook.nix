@@ -8,6 +8,7 @@
     #../ai/opencode.nix
     ../ai/claude.nix
     ../ai/omp.nix
+    ../ai/herdr.nix
     ../nixvim
     ../cli
   ];

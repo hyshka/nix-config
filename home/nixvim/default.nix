@@ -250,6 +250,15 @@ in
           desc = "Edit previous buffer";
         };
       }
+      # Sort keys alphabetically
+      {
+        mode = "n";
+        key = "<Space-o-a>";
+        action = "<cmd>'<,'>sort<CR>";
+        options = {
+          desc = "Sort keys alphabetically";
+        };
+      }
     ];
 
     # https://nix-community.github.io/nixvim/NeovimOptions/autoGroups/index.html
