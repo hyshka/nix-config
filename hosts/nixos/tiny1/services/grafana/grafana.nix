@@ -53,7 +53,7 @@
       "auth.generic_oauth" = {
         enabled = true;
         name = "PocketID";
-        client_id = "c731be14-d978-47d6-ad0b-eeea244ffffe";
+        client_id = "2f9d182f-76c4-4190-b302-20dbf32789c3";
         client_secret = "$__file{${config.sops.secrets.grafana-oauth2-client-secret.path}}";
         auth_url = "https://auth.home.hyshka.com/authorize";
         token_url = "https://auth.home.hyshka.com/api/oidc/token";
@@ -66,6 +66,7 @@
         skip_org_role_sync = true;
         signout_redirect_url = "";
       };
+      "auth.oauth_allow_insecure_email_lookup" = true; # fix for "signup is disabled error"
     };
 
     provision = {
