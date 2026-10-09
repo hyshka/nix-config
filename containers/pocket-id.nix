@@ -28,4 +28,10 @@ in
     };
     environmentFile = config.sops.secrets.pocket-id-encryption-key.path;
   };
+
+  environment.persistence."/persist" = {
+    directories = [
+      "/var/lib/pocket-id"
+    ];
+  };
 }
