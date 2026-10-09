@@ -92,6 +92,8 @@ in
       PATH = lib.mkForce "/run/current-system/sw/bin";
       # Terminal/agent shells read $SHELL before falling back to /bin/sh.
       SHELL = lib.getExe pkgs.bashInteractive;
+      # Openchamber can't resolve custom binary on its own
+      OPENCODE_BINARY = lib.getExe opencode;
     };
     after = [ "sops-nix.service" ];
     # Populate SSH key

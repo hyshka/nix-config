@@ -48,6 +48,11 @@ in
       HCC_AMDGPU_TARGET = "gfx1030"; # idk if I need this
       OLLAMA_FLASH_ATTENTION = "1"; # reduce VRAM usage of weights
       OLLAMA_KV_CACHE_TYPE = "q8_0"; # reduce VRAM usage on larger context windows
+      OLLAMA_CONTEXT_LENGTH = "32768"; # default to enough context for coding
+      OLLAMA_KEEP_ALIVE = "10m";
+      OLLAMA_NO_CLOUD = "1";
+      OLLAMA_NUM_PARALLEL = "1";
+      OLLAMA_MAX_LOADED_MODELS = "1";
     };
   };
   # Configure ollama for reasoning models
