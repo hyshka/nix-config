@@ -125,7 +125,7 @@
             receivers = [
               # https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/webhook-notifier/
               {
-                uid = "admin";
+                uid = "hyshka";
                 type = "webhook";
                 disableResolveMessage = true;
                 settings = {
