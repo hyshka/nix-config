@@ -66,7 +66,9 @@
         skip_org_role_sync = true;
         signout_redirect_url = "";
       };
-      "auth.oauth_allow_insecure_email_lookup" = true; # fix for "signup is disabled error"
+      auth = {
+        "oauth_allow_insecure_email_lookup" = true; # fix for "signup is disabled error"
+      };
     };
 
     provision = {
