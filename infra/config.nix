@@ -14,7 +14,9 @@ let
   );
 
   baseModule = name: kind: {
-    imports = lib.optional (kind == "container") ./container.nix;
+    imports =
+      lib.optional (kind == "container") ./container.nix
+      ++ lib.optional (kind == "virtual-machine") ./virtual-machine.nix;
     networking.hostName = name;
   };
 
@@ -35,8 +37,10 @@ let
       data_path = "${nixos.config.system.build.squashfs}/nixos-lxc-image-${system}.squashfs";
       metadata_path = "${nixos.config.system.build.metadata}/tarball/nixos-image-lxc-${nixos.config.system.nixos.version}-${system}.tar.xz";
     };
-    # Placeholder: fill in once we know the VM image outputs.
-    virtual-machine = _nixos: { };
+    virtual-machine = nixos: {
+      data_path = "${nixos.config.system.build.repartImage}/nixos.qcow2";
+      metadata_path = "${nixos.config.system.build.metadata}/tarball/${nixos.config.image.baseName}.tar.xz";
+    };
   };
 in
 {

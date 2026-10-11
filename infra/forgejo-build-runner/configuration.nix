@@ -1,23 +1,18 @@
 {
   config,
-  lib,
-  inputs,
   ...
 }:
-let
-  container = import ./default.nix { inherit lib inputs; };
-in
 {
-  imports = [ (container.mkContainer { name = "forgejo-build-runner"; }) ];
+  # A full VM, so podman can run job containers without LXC nesting.
 
-  # Bootstrap with nesting so podman can run job containers:
-  #   ./incus-manager.sh bootstrap forgejo-build-runner --nesting
-  #
-  # One-time registration (repository scope is the tightest):
-  #   <repo> -> Settings -> Actions -> Runners -> Create new runner
-  # Then:
-  #   1. sops containers/secrets/forgejo-build-runner.yaml   # replace the token placeholder
-  #   2. set settings.server.connections.default.uuid below to the runner UUID
+  # Bootstrap:
+  #   1. nix run .#apply
+  #   2. generate the SSH host key + sops age key (see infra/virtual-machine.nix)
+  #   3. <repo> -> Settings -> Actions -> Runners -> Create new runner
+  #      (repository scope is the tightest)
+  #   4. sops infra/forgejo-build-runner/secrets/forgejo-build-runner.yaml  # replace the token placeholder
+  #   5. set settings.server.connections.default.uuid below to the runner UUID
+  #      and re-run `nix run .#apply`
   #
   # The runner needs https://forgejo.home.hyshka.com/ (caddy + DNS) to be live first.
 
