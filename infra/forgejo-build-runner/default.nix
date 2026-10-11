@@ -2,6 +2,7 @@
   nixosImages."forgejo-build-runner" = {
     configuration = ./configuration.nix;
     kind = "virtual-machine";
+    remote = "starship";
   };
 
   resource.incus_instance."forgejo-build-runner" = {
@@ -22,6 +23,7 @@
 
   resource.incus_storage_volume."forgejo-build-runner-persist" = {
     name = "forgejo-build-runner-persist";
+    remote = "starship";
     pool = "default";
   };
 }

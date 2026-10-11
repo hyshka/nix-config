@@ -1,3 +1,6 @@
 {
-  nixosImages.hello.configuration = ./configuration.nix;
+  nixosImages.hello = {
+    configuration = ./configuration.nix;
+    remote = "starship";
+  };
 }
