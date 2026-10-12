@@ -46,8 +46,8 @@
     touchBeforeSync = false;
     # sync happens daily at 0100, try not to write to files during this time
     scrub = {
-      # scrub entire array about once a month
-      plan = 16;
+      # scrub entire array about once every three months
+      plan = 8;
     };
   };
 
