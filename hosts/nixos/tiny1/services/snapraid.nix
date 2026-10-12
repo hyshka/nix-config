@@ -4,6 +4,12 @@
   lib,
   ...
 }:
+let
+  collector = "${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh";
+  textfileDir = "/var/lib/prometheus-node-exporter-text-files";
+  logDir = "/var/log/snapraid-collector";
+  scrub = config.services.snapraid.scrub;
+in
 {
   services.snapraid = {
     enable = true;
@@ -20,7 +26,6 @@
       d3 = "/mnt/disk3/";
     };
     exclude = [
-      # https://github.com/IronicBadger/infra/blob/master/group_vars/morpheus.yaml#L52
       "*.unrecoverable"
       "/tmp/"
       "/lost+found/"
@@ -54,24 +59,25 @@
   # Override Snapraid services to use snapraid-collector
   systemd.services = {
     snapraid-scrub.serviceConfig = {
-      # TODO: snapraid-collector does not support CLI options
-      # https://github.com/ljmerza/snapraid-collector/blob/main/snapraid_metrics_collector.sh#L164C43-L164C48
-      # with config.services.snapraid;
-      # ExecStart = "${pkgs.snapraid}/bin/snapraid scrub -p ${toString scrub.plan} -o ${toString scrub.olderThan}";
-      ExecStart = lib.mkForce "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh scrub > /var/lib/prometheus-node-exporter-text-files/snapraid_scrub.prom'";
+      ExecStart = lib.mkForce "${collector} --textfile ${textfileDir}/snapraid_scrub.prom --log-dir ${logDir} --scrub-defaults '-p ${toString scrub.plan} -o ${toString scrub.olderThan}' scrub";
+      LogsDirectory = "snapraid-collector";
+      WorkingDirectory = logDir;
     };
     snapraid-sync.serviceConfig = {
-      ExecStart = lib.mkForce "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh sync > /var/lib/prometheus-node-exporter-text-files/snapraid_sync.prom'";
+      ExecStart = lib.mkForce "${collector} --textfile ${textfileDir}/snapraid_sync.prom --log-dir ${logDir} sync";
+      LogsDirectory = "snapraid-collector";
+      WorkingDirectory = logDir;
     };
-    # The script will attempt to write logs to the working directory, but will lack permissions in this unit. That should be okay.
     snapraid-smart = {
       description = "Log SMART attributes of the SnapRAID array";
       startAt = "05:00";
       serviceConfig =
         # Copy hardened unit config
         config.systemd.services.snapraid-scrub.serviceConfig // {
-          ExecStart = "${pkgs.bash}/bin/sh -c '${pkgs.snapraid-collector}/bin/snapraid_metrics_collector.sh smart > /var/lib/prometheus-node-exporter-text-files/snapraid_smart.prom'";
-          ReadWritePaths = "/var/lib/prometheus-node-exporter-text-files";
+          ExecStart = "${collector} --textfile ${textfileDir}/snapraid_smart.prom --log-dir ${logDir} smart";
+          LogsDirectory = "snapraid-collector";
+          WorkingDirectory = logDir;
+          ReadWritePaths = textfileDir;
           # Allow unit to access SMART attributes of all "sd" block devices
           PrivateDevices = false;
           DeviceAllow = "block-sd rw";
