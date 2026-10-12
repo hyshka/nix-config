@@ -169,6 +169,8 @@ in
           properties = {
             path = "/persist";
             shift = "true";
+            # TODO: this needs to be overriden per-instance and must be reworked
+            # e.g. /persist/microvms/<instance_name>
             source = "/persist/microvms/";
           };
         }

@@ -26,7 +26,7 @@ in
     openFirewall = true;
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/cloudflare@v0.2.4" ];
-      hash = "sha256-Olz4W84Kiyldy+JtbIicVCL7dAYl4zq+2rxEOUTObxA=";
+      hash = "sha256-Oirb6ZtU/c6C/SfICWpfBAEGDTepWShPQdWW0LlhF20=";
     };
     email = "bryan@hyshka.com";
     logFormat = ''
@@ -170,6 +170,11 @@ in
         @wol host wol.home.hyshka.com
         handle @wol {
           reverse_proxy http://10.223.27.205:8090
+        }
+
+        @code host code.home.hyshka.com
+        handle @code {
+          reverse_proxy 10.223.27.140:3000
         }
 
         @incus host incus.home.hyshka.com
