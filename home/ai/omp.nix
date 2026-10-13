@@ -18,5 +18,7 @@ in
     "**/.omp/wt"
     "**/.omp/APPEND_SYSTEM.md"
     "**/.omp/WATCHDOG.md"
+    "**/.omp/WATCHDOG.yaml"
+    "**/AGENTS.local.md"
   ];
 }
