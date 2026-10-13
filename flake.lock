@@ -506,11 +506,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791180651,
-        "narHash": "sha256-eoyJmkVcBDgibDG9mJ+6fRf5xcKwpnfhJJX6TbS9iBQ=",
+        "lastModified": 1791875061,
+        "narHash": "sha256-f2uxyURosH3rGPF24alPX+Nh2oppivaqHJRxuSK/vfY=",
         "owner": "Tarow",
         "repo": "openchamber-nix",
-        "rev": "d80a565f86b724cf27c1fd57c30ad1d66fc314fc",
+        "rev": "69232ff413f64e60371ae96dd74307626bf930f6",
         "type": "github"
       },
       "original": {
