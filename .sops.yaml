@@ -14,6 +14,7 @@ keys:
       - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
       - &lxc-core age19592wz437lvt45l5uc5m77n5ru54rcy7tma8662v3gaejlpvjytqey5gxv
       - &lxc-ai age19sq0g7drc6xaa0lc2485q08as838du90rvylzc8sqythalkndgxqceku5u
+      - &vm-forgejo-build-runner age1gayrnz3lwafvctse4xdc3q7u99gdhzuw8gx7crfy9whvk6l3t56qggqxhu
       # not easy to find ssh host key on macos
       # age-keygen -o ~/.config/sops/age/keys.txt
       - &macpro age19p5rdffzshspj0gcqf7sls5r3klnjcjdhd6qdcuvsqap5pu2h38sqrzv6l
@@ -73,7 +74,7 @@ creation_rules:
   - path_regex: infra/forgejo-build-runner/secrets/.*\.(ya?ml|sqlite|db)$
     key_groups:
       - age:
-          - *lxc-core
+          - *vm-forgejo-build-runner
   - path_regex: hosts/nixos/common/secrets.ya?ml$
     key_groups:
       - age:
