@@ -23,7 +23,16 @@
   sops.age.sshKeyPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
 
   # The data disk is attached by Incus at /persist (see each image's
-  # resource.incus_instance in infra/<name>/default.nix).
+  # resource.incus_instance in infra/<name>/default.nix). Mount it in the
+  # initrd, otherwise the sops activation phase runs before Incus' agent mounts
+  # the share and cannot read the age identity. The agent skips a mount point
+  # that already exists.
+  fileSystems."/persist" = {
+    device = "incus_persist";
+    fsType = "virtiofs";
+    neededForBoot = true;
+  };
+
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/nixos" # persist uids/gids
