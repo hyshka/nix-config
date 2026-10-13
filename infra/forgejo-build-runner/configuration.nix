@@ -32,7 +32,7 @@
       ];
 
       server.connections.default = {
-        url = "https://forgejo.home.hyshka.com/";
+        url = "https://code.home.hyshka.com/";
         uuid = "REPLACE_WITH_REGISTRATION_UUID";
       };
 

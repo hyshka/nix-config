@@ -5,14 +5,15 @@
 
   resource.incus_instance.forgejo = {
     device = [
-      #{
-      #  name = "http";
-      #  type = "proxy";
-      #  properties = {
-      #    listen = "tcp:0.0.0.0:2222";
-      #    connect = "tcp:127.0.0.1:2222";
-      #  };
-      #}
+      {
+        name = "ssh";
+        type = "proxy";
+        properties = {
+          listen = "tcp:0.0.0.0:2222";
+          connect = "tcp:0.0.0.0:2222";
+          nat = "true";
+        };
+      }
       {
         name = "persist";
         type = "disk";

@@ -6,6 +6,7 @@
     ./snapraid.nix
     ./syncthing.nix
     ./caddy.nix
+    ./forgejo.nix
     ./acme.nix
     ./grafana
     ./adguard-home.nix # TODO: move to rpi4
