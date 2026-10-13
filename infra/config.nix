@@ -121,6 +121,14 @@ in
         id = "tiny1:nixos-container";
       }
       {
+        to = "incus_network.tiny1-incusbr0";
+        id = "tiny1:incusbr0";
+      }
+      {
+        to = "incus_network.starship-incusbr0";
+        id = "starship:incusbr0";
+      }
+      {
         to = "incus_storage_pool.default";
         id = "tiny1:default";
       }
@@ -129,6 +137,31 @@ in
         id = "tiny1:storage";
       }
     ];
+
+    resource.incus_network = {
+      "tiny1-incusbr0" = {
+        name = "incusbr0";
+        remote = "tiny1";
+        description = "Bridge for NixOS LXC containers";
+        config = {
+          "ipv4.address" = "10.223.27.1/24";
+          "ipv4.nat" = "true";
+          "ipv6.address" = "fd42:336e:13ec:f27d::1/64";
+          "ipv6.nat" = "true";
+        };
+      };
+      "starship-incusbr0" = {
+        name = "incusbr0";
+        remote = "starship";
+        description = "Bridge for NixOS LXC containers";
+        config = {
+          "ipv4.address" = "10.166.156.1/24";
+          "ipv4.nat" = "true";
+          "ipv6.address" = "fd42:6d20:ae61:7455::1/64";
+          "ipv6.nat" = "true";
+        };
+      };
+    };
 
     resource.incus_storage_pool = {
       default = {
@@ -160,7 +193,7 @@ in
           name = "eth0";
           type = "nic";
           properties = {
-            network = "incusbr0";
+            network = "\${incus_network.tiny1-incusbr0.name}";
           };
         }
         {
