@@ -174,7 +174,7 @@ in
 
         @code host code.home.hyshka.com
         handle @code {
-          reverse_proxy 10.223.27.140:3000
+          reverse_proxy forgejo.incus:3000
         }
 
         @incus host incus.home.hyshka.com
