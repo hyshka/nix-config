@@ -1,0 +1,35 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Etc/UTC",
+  "labels": ["dependencies", "automated"],
+  "nix": {
+    "enabled": true
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Incus Terraform provider version in Terranix config",
+      "managerFilePatterns": ["/(^|/)infra/config\\.nix$/"],
+      "matchStrings": [
+        "terraform\\.required_providers\\.incus = \\{[\\s\\S]*?source = \"(?<packageName>[^\"]+)\";[\\s\\S]*?version = \"(?<currentValue>[^\"]+)\";"
+      ],
+      "datasourceTemplate": "terraform-provider",
+      "registryUrlTemplate": "https://registry.opentofu.org"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge llm-agents flake input bumps",
+      "matchManagers": ["nix"],
+      "matchDepNames": ["llm-agents"],
+      "automerge": true
+    },
+    {
+      "description": "Group the other flake inputs into one pull request",
+      "matchManagers": ["nix"],
+      "matchDepNames": ["!llm-agents"],
+      "groupName": "flake inputs"
+    }
+  ]
+}

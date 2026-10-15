@@ -1,0 +1,29 @@
+name: Renovate
+on:
+  schedule:
+    - cron: "0 12 * * *" # daily at 12:00 UTC
+  workflow_dispatch:
+concurrency:
+  group: renovate
+  cancel-in-progress: false
+jobs:
+  renovate:
+    name: Renovate
+    if: forgejo.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/renovatebot/renovate:latest
+      volumes:
+        - /var/lib/renovate-cache:/cache
+    env:
+      LOG_LEVEL: info
+      RENOVATE_PLATFORM: forgejo
+      RENOVATE_ENDPOINT: https://code.home.hyshka.com/api/v1
+      RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+      RENOVATE_GIT_AUTHOR: "Renovate Bot <noreply@hyshka.com>"
+      RENOVATE_REPOSITORIES: hyshka/nix-config
+      RENOVATE_ONBOARDING: "false"
+      RENOVATE_CONTAINERBASE_DIR: /cache
+    steps:
+      - name: Run Renovate
+        run: renovate

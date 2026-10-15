@@ -51,8 +51,11 @@ in
         uuid = "f265f0e9-a15d-498b-ae84-9a54ad70e180";
       };
 
-      # Cap job containers. Keep the safe defaults for privileged/network/valid_volumes.
+      # Cap job containers. Keep the safe defaults for privileged/network.
       container.options = "--memory=2g --cpus=2";
+
+      # Persist the Renovate containerbase tool cache across job containers.
+      container.valid_volumes = [ "/var/lib/renovate-cache" ];
 
       cache = {
         enabled = true;
@@ -68,6 +71,7 @@ in
     directories = [
       "/var/lib/forgejo-runner"
       "/var/lib/containers" # podman image cache
+      "/var/lib/renovate-cache" # renovate containerbase cache
     ];
   };
 }

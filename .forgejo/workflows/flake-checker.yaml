@@ -7,11 +7,9 @@ jobs:
   flake-checker:
     name: Flake Checker
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - uses: actions/checkout@v7
-      - uses: DeterminateSystems/flake-checker-action@v14
+      - uses: https://github.com/actions/checkout@v7
+      - uses: https://github.com/DeterminateSystems/flake-checker-action@v14
         with:
           fail-mode: true
           send-statistics: false

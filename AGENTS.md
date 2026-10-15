@@ -124,5 +124,7 @@ use.
 
 ## CI
 
-`.github/workflows/`: `lint.yaml` (nix fmt + `git diff --exit-code`),
-`flake-checker.yaml`, `lock-updater.yaml`, `llm-agents-updater.yaml`.
+`.forgejo/workflows/`: `renovate.yaml` (self-hosted Renovate, rules in
+`renovate.json`, token in the `RENOVATE_TOKEN` secret), `lint.yaml` (nix fmt +
+`git diff --exit-code`), `flake-checker.yaml`. Forgejo ignores `.github/workflows`
+once `.forgejo/workflows` exists.
