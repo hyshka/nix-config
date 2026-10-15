@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": ["config:best-practices"],
   "timezone": "Etc/UTC",
   "labels": ["dependencies", "automated"],
   "nix": {
@@ -20,10 +20,11 @@
   ],
   "packageRules": [
     {
-      "description": "Automerge llm-agents flake input bumps",
+      "description": "Automerge llm-agents flake input bumps once required branch protection checks pass",
       "matchManagers": ["nix"],
       "matchDepNames": ["llm-agents"],
-      "automerge": true
+      "automerge": true,
+      "platformAutomerge": true
     },
     {
       "description": "Group the other flake inputs into one pull request",
