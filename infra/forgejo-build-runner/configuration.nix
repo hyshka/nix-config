@@ -2,6 +2,9 @@
   config,
   ...
 }:
+let
+  cacheProxyPort = 42000;
+in
 {
   # A full VM, so podman can run job containers without LXC nesting.
 
@@ -25,6 +28,9 @@
     })
   ];
 
+  # Let job containers reach the runner's cache proxy at host.containers.internal.
+  networking.firewall.interfaces."podman+".allowedTCPPorts = [ cacheProxyPort ];
+
   virtualisation.podman.enable = true;
 
   sops.secrets.forgejo-build-runner-token = {
@@ -47,6 +53,12 @@
 
       # Cap job containers. Keep the safe defaults for privileged/network/valid_volumes.
       container.options = "--memory=2g --cpus=2";
+
+      cache = {
+        enabled = true;
+        host = "host.containers.internal";
+        proxy_port = cacheProxyPort;
+      };
     };
 
     secrets.server.connections.default.token_url = config.sops.secrets.forgejo-build-runner-token.path;
