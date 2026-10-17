@@ -2,7 +2,7 @@
   pkgs,
   lib,
   inputs,
-  #config,
+  config,
   ...
 }:
 let
@@ -16,6 +16,10 @@ in
   # - incus config device add ai gpu gpu pci=0000:2b:00.0
   # - incus config device add ai kfd unix-char source=/dev/kfd path=/dev/kfd gid=303
 
+  sops.secrets.open-webui-envFile = {
+    sopsFile = ./secrets/ai.yaml;
+  };
+
   environment.systemPackages = with pkgs; [ radeontop ];
 
   services.open-webui = {
@@ -24,8 +28,14 @@ in
     host = "0.0.0.0";
     environment = {
       OLLAMA_BASE_URL = "http://127.0.0.1:11434";
+      ENABLE_OAUTH_SIGNUP = "true";
+      OAUTH_CLIENT_ID = "6ab5ef9a-f8b3-43e4-a78d-306c860d38ae";
+      OAUTH_PROVIDER_NAME = "Pocket ID";
+      OPENID_PROVIDER_URL = "https://auth.home.hyshka.com/.well-known/openid-configuration";
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL = "true";
+      OAUTH_UPDATE_PICTURE_ON_LOGIN = "true";
     };
-    #environmentFile = '';
+    environmentFile = config.sops.secrets.open-webui-envFile.path;
   };
 
   nixpkgs = {
