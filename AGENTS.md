@@ -82,6 +82,12 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
 - Images are wired via `resource.incus_image`: containers use the squashfs,
   VMs use `system.build.repartImage` → `nixos.qcow2` plus the
   `system.build.metadata` tarball.
+- Those store paths reach tofu as `var.image_files`, not as literals in the
+  config. `infra/config.nix` publishes them through terranix `_meta`, `flake.nix`
+  renders them into `imageVarsFile`, and `plan`/`apply`/`destroy` pass
+  `-var-file`. `validate` passes nothing, so it never evaluates or builds an
+  image and stays cheap however many images exist. An image with an explicit
+  `sourceFile` skips the variable.
 - State is the S3 backend (`s3.home.hyshka.com`), credentials from
   `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on

@@ -47,6 +47,12 @@ let
       metadata_path = "${nixos.config.system.build.metadata}/tarball/${nixos.config.image.baseName}.tar.xz";
     };
   };
+
+  # Handed to tofu as `var.image_files` instead of being interpolated into the
+  # config, so that `tofu validate` never evaluates or builds an image.
+  imageFiles = lib.mapAttrs (name: c: defaultSourceFile.${c.kind} (build name c)) (
+    lib.filterAttrs (_name: c: c.sourceFile == null) config.nixosImages
+  );
 in
 {
   imports = map (name: ./. + "/${name}") folders;
@@ -86,6 +92,13 @@ in
   };
 
   config = {
+    _meta.imageFiles = imageFiles;
+
+    variable.image_files = {
+      type = "map(object({ data_path = string, metadata_path = string }))";
+      description = "Store paths of the built NixOS images. Supplied by the flake apps, unset for validate.";
+    };
+
     terraform.required_providers.incus = {
       source = "lxc/incus";
       version = "1.2.0";
@@ -144,7 +157,13 @@ in
       inherit (c) remote;
       project = project;
       source_file =
-        if c.sourceFile != null then c.sourceFile else defaultSourceFile.${c.kind} (build name c);
+        if c.sourceFile != null then
+          c.sourceFile
+        else
+          {
+            data_path = "\${var.image_files[\"${name}\"].data_path}";
+            metadata_path = "\${var.image_files[\"${name}\"].metadata_path}";
+          };
       alias = [ { name = "nixos/custom/${name}"; } ];
     }) config.nixosImages;
 

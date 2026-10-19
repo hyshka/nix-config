@@ -220,8 +220,17 @@
         extraArgs = { inherit inputs lib; };
       };
 
+      imageVarsFile = pkgs.writeText "image-vars.json" (
+        builtins.toJSON { image_files = terraformConfiguration.passthru._meta.imageFiles; }
+      );
+
       mkTofuApp =
-        pkgs: name: cmd:
+        {
+          pkgs,
+          name,
+          cmd,
+          varFile ? null,
+        }:
         let
           extraArgs =
             {
@@ -234,6 +243,7 @@
               validate = [ ];
             }
             .${cmd} or [ ];
+          varArgs = lib.optionalString (varFile != null) "-var-file=${varFile}";
         in
         {
           type = "app";
@@ -261,7 +271,7 @@
               fi
 
               ${tofu}/bin/tofu init "''${initArgs[@]}"
-              ${tofu}/bin/tofu ${cmd} ${lib.escapeShellArgs extraArgs} "$@"
+              ${tofu}/bin/tofu ${cmd} ${lib.escapeShellArgs extraArgs} ${varArgs} "$@"
             ''
           );
         };
@@ -350,11 +360,35 @@
       };
 
       apps = forEachSystem (system: {
-        plan = mkTofuApp nixpkgs.legacyPackages.${system} "plan" "plan";
-        apply = mkTofuApp nixpkgs.legacyPackages.${system} "apply" "apply";
-        destroy = mkTofuApp nixpkgs.legacyPackages.${system} "destroy" "destroy";
-        validate = mkTofuApp nixpkgs.legacyPackages.${system} "validate" "validate";
-        default = mkTofuApp nixpkgs.legacyPackages.${system} "plan" "plan";
+        plan = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "plan";
+          cmd = "plan";
+          varFile = imageVarsFile;
+        };
+        apply = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "apply";
+          cmd = "apply";
+          varFile = imageVarsFile;
+        };
+        destroy = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "destroy";
+          cmd = "destroy";
+          varFile = imageVarsFile;
+        };
+        validate = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "validate";
+          cmd = "validate";
+        };
+        default = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "plan";
+          cmd = "plan";
+          varFile = imageVarsFile;
+        };
       });
     };
 }
