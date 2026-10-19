@@ -53,15 +53,17 @@ in
 
   services.forgejo-runner.instances.build = {
     enable = true;
-
-    # `nix run .#apply` needs nix, git and a trust store on PATH. The runner
-    # replaces the module's default list, which is aimed at container jobs.
     hostPackages = with pkgs; [
+      # upstream nix module defaults
       bash
-      cacert
       coreutils
       curl
-      git
+      gawk
+      gnused
+      nodejs
+      wget
+      # needed for nixos:host label
+      cacert
       nix
     ];
 
