@@ -220,8 +220,28 @@
         extraArgs = { inherit inputs lib; };
       };
 
+      imageArtifacts = terraformConfiguration.passthru._meta.imageArtifacts;
+
       imageVarsFile = pkgs.writeText "image-vars.json" (
-        builtins.toJSON { image_files = terraformConfiguration.passthru._meta.imageFiles; }
+        builtins.toJSON {
+          image_files = lib.mapAttrs (_name: a: {
+            inherit (a) data_path metadata_path;
+          }) imageArtifacts;
+        }
+      );
+
+      imagePathsFile = pkgs.writeText "image-paths.txt" (
+        lib.concatStringsSep "\n" (
+          lib.unique (
+            lib.concatLists (
+              lib.mapAttrsToList (_name: a: [
+                a.image
+                a.metadata
+              ]) imageArtifacts
+            )
+          )
+        )
+        + "\n"
       );
 
       mkTofuApp =
@@ -388,6 +408,14 @@
           name = "plan";
           cmd = "plan";
           varFile = imageVarsFile;
+        };
+        image-paths = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.${system}.writers.writeBash "image-paths" ''
+              cat ${imagePathsFile}
+            ''
+          );
         };
       });
     };

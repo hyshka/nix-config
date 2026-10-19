@@ -49,3 +49,18 @@ jobs:
           else
             nix run .#apply
           fi
+      - name: Push images to the binary cache
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CREDENTIALS_DIRECTORY:-}" ]; then
+            echo "CREDENTIALS_DIRECTORY is not set; the runner service is missing its LoadCredential entries" >&2
+            exit 1
+          fi
+
+          # attic writes config.toml (with the token) here; keep it off the runner's home.
+          export XDG_CONFIG_HOME="$(mktemp -d)"
+          trap 'rm -rf "$XDG_CONFIG_HOME"' EXIT
+
+          attic login home https://cache.home.hyshka.com "$(cat "$CREDENTIALS_DIRECTORY/attic-token")"
+          nix run .#image-paths | attic push home:nix-config --stdin

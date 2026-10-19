@@ -63,6 +63,7 @@ in
       nodejs
       wget
       # needed for nixos:host label
+      attic-client
       cacert
       nix
     ];

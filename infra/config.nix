@@ -37,20 +37,24 @@ let
     };
 
   # Defaults only; any entry can override via `sourceFile`.
-  defaultSourceFile = {
+  imageArtifact = {
     container = nixos: {
+      image = nixos.config.system.build.squashfs;
+      metadata = nixos.config.system.build.metadata;
       data_path = "${nixos.config.system.build.squashfs}/nixos-lxc-image-${system}.squashfs";
       metadata_path = "${nixos.config.system.build.metadata}/tarball/nixos-image-lxc-${nixos.config.system.nixos.version}-${system}.tar.xz";
     };
     virtual-machine = nixos: {
+      image = nixos.config.system.build.repartImage;
+      metadata = nixos.config.system.build.metadata;
       data_path = "${nixos.config.system.build.repartImage}/nixos.qcow2";
       metadata_path = "${nixos.config.system.build.metadata}/tarball/${nixos.config.image.baseName}.tar.xz";
     };
   };
 
-  # Handed to tofu as `var.image_files` instead of being interpolated into the
-  # config, so that `tofu validate` never evaluates or builds an image.
-  imageFiles = lib.mapAttrs (name: c: defaultSourceFile.${c.kind} (build name c)) (
+  # Published through `_meta`; the flake renders it into `var.image_files` for
+  # tofu and into the store path list the binary cache push uses.
+  images = lib.mapAttrs (name: c: imageArtifact.${c.kind} (build name c)) (
     lib.filterAttrs (_name: c: c.sourceFile == null) config.nixosImages
   );
 in
@@ -92,7 +96,7 @@ in
   };
 
   config = {
-    _meta.imageFiles = imageFiles;
+    _meta.imageArtifacts = images;
 
     variable.image_files = {
       type = "map(object({ data_path = string, metadata_path = string }))";

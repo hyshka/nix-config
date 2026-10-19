@@ -88,6 +88,10 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   `-var-file`. `validate` passes nothing, so it never evaluates or builds an
   image and stays cheap however many images exist. An image with an explicit
   `sourceFile` skips the variable.
+- The apply workflow also publishes those images to the attic cache: `nix run
+  .#image-paths` prints the store paths and `attic push home:nix-config --stdin`
+  uploads them with their closures. `attic-client` is in the runner's
+  `hostPackages`; the token is the `attic-token` credential.
 - State is the S3 backend (`s3.home.hyshka.com`), credentials from
   `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
