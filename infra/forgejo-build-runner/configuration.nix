@@ -76,6 +76,13 @@ in
         "nixos:host"
       ];
 
+      runner.envs = lib.optionalAttrs (atticKey != "") {
+        NIX_CONFIG = ''
+          extra-substituters = https://cache.home.hyshka.com/nix-config
+          extra-trusted-public-keys = ${atticKey}
+        '';
+      };
+
       server.connections.default = {
         url = "https://code.home.hyshka.com/";
         uuid = "f265f0e9-a15d-498b-ae84-9a54ad70e180";
