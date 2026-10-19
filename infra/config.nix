@@ -7,6 +7,11 @@
 let
   system = "x86_64-linux";
 
+  # Every workload tofu owns lives in this project. Hosts preseed it alongside
+  # the restricted CI certificate (see hosts/nixos/*/incus.nix), which keeps the
+  # CI credential away from anything in `default`.
+  project = "lab-default";
+
   folders = lib.attrNames (
     lib.filterAttrs (
       name: type: type == "directory" && builtins.pathExists (./. + "/${name}/default.nix")
@@ -32,7 +37,6 @@ let
     };
 
   # Defaults only; any entry can override via `sourceFile`.
-  # TODO: source these from a common build machine or image remote
   defaultSourceFile = {
     container = nixos: {
       data_path = "${nixos.config.system.build.squashfs}/nixos-lxc-image-${system}.squashfs";
@@ -86,9 +90,31 @@ in
       source = "lxc/incus";
       version = "1.2.0";
     };
+
+    # Credentials come from the environment (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY),
+    # never from committed config. Native state/plan encryption is configured
+    # separately via TF_ENCRYPTION so the passphrase never reaches the store.
+    terraform.backend.s3 = {
+      bucket = "nix-config-tofu";
+      key = "infra/terraform.tfstate";
+      region = "us-east-1";
+      endpoints.s3 = "https://s3.home.hyshka.com";
+      use_lockfile = true;
+      use_path_style = true;
+      skip_credentials_validation = true;
+      skip_region_validation = true;
+      skip_requesting_account_id = true;
+      skip_metadata_api_check = true;
+      # SeaweedFS does not implement the AWS chunked checksum trailer.
+      skip_s3_checksum = true;
+    };
+
     provider.incus = {
       default_remote = "tiny1";
-      generate_client_certificates = true;
+      # The CI client certificate is minted out of band, trusted as a restricted
+      # project-scoped cert by each host's preseed, and handed to the provider
+      # through $INCUS_CONF.
+      generate_client_certificates = false;
       accept_remote_certificate = true;
       remote = [
         {
@@ -98,7 +124,6 @@ in
         {
           name = "tiny1";
           address = "https://tiny1:8443";
-          authentication_type = "oidc";
         }
         {
           name = "images";
@@ -115,121 +140,9 @@ in
       ];
     };
 
-    import = [
-      {
-        to = "incus_profile.nixos-container";
-        id = "tiny1:nixos-container";
-      }
-      {
-        to = "incus_network.tiny1-incusbr0";
-        id = "tiny1:incusbr0";
-      }
-      {
-        to = "incus_network.starship-incusbr0";
-        id = "starship:incusbr0";
-      }
-      {
-        to = "incus_storage_pool.default";
-        id = "tiny1:default";
-      }
-      {
-        to = "incus_storage_pool.storage";
-        id = "tiny1:storage";
-      }
-    ];
-
-    resource.incus_network = {
-      "tiny1-incusbr0" = {
-        name = "incusbr0";
-        remote = "tiny1";
-        description = "Bridge for NixOS LXC containers";
-        config = {
-          "ipv4.address" = "10.223.27.1/24";
-          "ipv4.nat" = "true";
-          "ipv6.address" = "fd42:336e:13ec:f27d::1/64";
-          "ipv6.nat" = "true";
-        };
-      };
-      "starship-incusbr0" = {
-        name = "incusbr0";
-        remote = "starship";
-        description = "Bridge for NixOS LXC containers";
-        config = {
-          "ipv4.address" = "10.166.156.1/24";
-          "ipv4.nat" = "true";
-          "ipv6.address" = "fd42:6d20:ae61:7455::1/64";
-          "ipv6.nat" = "true";
-        };
-      };
-    };
-
-    resource.incus_storage_pool = {
-      default = {
-        name = "default";
-        remote = "tiny1";
-        driver = "dir";
-        description = "SSD-backed storage for databases and container state";
-        config.source = "/var/lib/incus/storage-pools/default";
-      };
-      storage = {
-        name = "storage";
-        remote = "tiny1";
-        driver = "dir";
-        description = "HDD-based bulk data for backups, media, etc";
-        config.source = "/mnt/storage/incus";
-      };
-    };
-
-    resource.incus_profile."nixos-container" = {
-      name = "nixos-container";
-      remote = "tiny1";
-      description = "Standard profile for NixOS LXC containers";
-      config = {
-        "raw.idmap" = "both 0 0";
-        "security.nesting" = "true";
-      };
-      device = [
-        {
-          name = "eth0";
-          type = "nic";
-          properties = {
-            network = "\${incus_network.tiny1-incusbr0.name}";
-          };
-        }
-        {
-          name = "persist";
-          type = "disk";
-          properties = {
-            path = "/persist";
-            shift = "true";
-            # TODO: this needs to be overriden per-instance and must be reworked
-            # e.g. /persist/microvms/<instance_name>
-            source = "/persist/microvms/";
-          };
-        }
-        {
-          name = "root";
-          type = "disk";
-          properties = {
-            path = "/";
-            pool = "default";
-          };
-        }
-        {
-          name = "sops-age-key";
-          type = "disk";
-          properties = {
-            path = "/var/lib/sops-nix/key.txt";
-            "raw.mount.options" = "uid=0,gid=0";
-            readonly = "true";
-            source = "/run/secrets/lxc-core-age-key";
-          };
-        }
-      ];
-    };
-
     resource.incus_image = lib.mapAttrs (name: c: {
       inherit (c) remote;
+      project = project;
       source_file =
         if c.sourceFile != null then c.sourceFile else defaultSourceFile.${c.kind} (build name c);
       alias = [ { name = "nixos/custom/${name}"; } ];
@@ -240,11 +153,12 @@ in
       {
         inherit name;
         inherit (c) remote;
+        project = project;
         type = lib.mkDefault c.kind;
         image = "\${incus_image.${name}.fingerprint}";
       }
       // lib.optionalAttrs (c.kind == "container" && c.remote == "tiny1") {
-        profiles = [ "\${incus_profile.nixos-container.name}" ];
+        profiles = [ "nixos-container" ];
       }
     ) config.nixosImages;
   };

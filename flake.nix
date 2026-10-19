@@ -1,6 +1,7 @@
 {
   description = "NixOS and macOS configurations";
 
+  # Private substituters are configured per-host. Consumers must be on homelab network.
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
@@ -219,16 +220,51 @@
         extraArgs = { inherit inputs lib; };
       };
 
-      mkTofuApp = pkgs: cmd: {
-        type = "app";
-        program = toString (
-          pkgs.writers.writeBash cmd ''
-            ln -sf ${terraformConfiguration} config.tf.json
-            ${tofu}/bin/tofu init
-            ${tofu}/bin/tofu ${cmd}
-          ''
-        );
-      };
+      mkTofuApp =
+        pkgs: name: cmd:
+        let
+          extraArgs =
+            {
+              plan = [ "-lock-timeout=5m" ];
+              apply = [
+                "-auto-approve"
+                "-lock-timeout=5m"
+              ];
+              destroy = [ "-lock-timeout=5m" ];
+              validate = [ ];
+            }
+            .${cmd} or [ ];
+        in
+        {
+          type = "app";
+          program = toString (
+            pkgs.writers.writeBash name ''
+              set -euo pipefail
+
+              if [ -n "''${CI:-}" ]; then
+                # CI: keep checkout clean and never rewrite the lock file.
+                workdir="$(mktemp -d)"
+                trap 'rm -rf "$workdir"' EXIT
+                ln -sf ${terraformConfiguration} "$workdir/config.tf.json"
+                cp -f ./.terraform.lock.hcl "$workdir/" 2>/dev/null || true
+                cd "$workdir"
+                initArgs=(-input=false -lockfile=readonly)
+              else
+                ln -sf ${terraformConfiguration} config.tf.json
+                initArgs=()
+              fi
+
+              if [ ${cmd} = validate ]; then
+                ${tofu}/bin/tofu init -backend=false "''${initArgs[@]}"
+                ${tofu}/bin/tofu validate "$@"
+                exit
+              fi
+
+              ${tofu}/bin/tofu init "''${initArgs[@]}"
+              ${tofu}/bin/tofu ${cmd} ${lib.escapeShellArgs extraArgs} "$@"
+            ''
+          );
+        };
     in
     {
       inherit lib;
@@ -314,10 +350,11 @@
       };
 
       apps = forEachSystem (system: {
-        plan = mkTofuApp nixpkgs.legacyPackages.${system} "plan";
-        apply = mkTofuApp nixpkgs.legacyPackages.${system} "apply";
-        destroy = mkTofuApp nixpkgs.legacyPackages.${system} "destroy";
-        default = mkTofuApp nixpkgs.legacyPackages.${system} "plan";
+        plan = mkTofuApp nixpkgs.legacyPackages.${system} "plan" "plan";
+        apply = mkTofuApp nixpkgs.legacyPackages.${system} "apply" "apply";
+        destroy = mkTofuApp nixpkgs.legacyPackages.${system} "destroy" "destroy";
+        validate = mkTofuApp nixpkgs.legacyPackages.${system} "validate" "validate";
+        default = mkTofuApp nixpkgs.legacyPackages.${system} "plan" "plan";
       });
     };
 }

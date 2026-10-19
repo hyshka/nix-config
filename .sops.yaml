@@ -67,14 +67,18 @@ creation_rules:
           - *lxc-core
         pgp:
           - *hyshka
-  - path_regex: infra/forgejo/secrets/.*\.(ya?ml|sqlite|db)$
-    key_groups:
-      - age:
-          - *lxc-core
   - path_regex: infra/forgejo-build-runner/secrets/.*\.(ya?ml|sqlite|db)$
     key_groups:
       - age:
           - *vm-forgejo-build-runner
+        pgp:
+          - *hyshka
+  - path_regex: infra/\w+/secrets/.*\.(ya?ml|sqlite|db)$
+    key_groups:
+      - age:
+          - *lxc-core
+        pgp:
+          - *hyshka
   - path_regex: hosts/nixos/common/secrets.ya?ml$
     key_groups:
       - age:

@@ -29,8 +29,10 @@
   resource.incus_storage_volume."forgejo-persist" = {
     name = "forgejo-persist";
     pool = "default";
+    project = "lab-default";
     config = {
       "security.shifted" = "true";
     };
+    lifecycle.prevent_destroy = true;
   };
 }

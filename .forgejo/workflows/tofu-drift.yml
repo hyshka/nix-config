@@ -1,0 +1,34 @@
+name: Tofu Drift
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily at 06:00 UTC
+  workflow_dispatch:
+concurrency:
+  group: tofu-apply # shared with the apply workflow so the two never overlap
+  cancel-in-progress: false
+jobs:
+  drift:
+    name: Drift
+    if: forgejo.ref == 'refs/heads/main'
+    runs-on: nixos
+    steps:
+      - uses: https://github.com/actions/checkout@v7
+      - name: Plan
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CREDENTIALS_DIRECTORY:-}" ]; then
+            echo "CREDENTIALS_DIRECTORY is not set; the runner service is missing its LoadCredential entries" >&2
+            exit 1
+          fi
+
+          export INCUS_CONF="$CREDENTIALS_DIRECTORY"
+          export AWS_ACCESS_KEY_ID="$(cat "$CREDENTIALS_DIRECTORY/aws-access-key")"
+          export AWS_SECRET_ACCESS_KEY="$(cat "$CREDENTIALS_DIRECTORY/aws-secret-key")"
+          export TF_ENCRYPTION="$(cat "$CREDENTIALS_DIRECTORY/tofu-encryption")"
+
+          export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+          mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+          # exit 2 means the plan is non-empty, which fails the job
+          nix run .#plan -- -detailed-exitcode

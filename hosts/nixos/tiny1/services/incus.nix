@@ -1,5 +1,12 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [ ../../common/incus-ci.nix ];
+
   # References
   # - https://github.com/viperML/dotfiles/blob/5002378af7d3e1f898b2eac9ff80ef9512d68587/modules/nixos/incus.nix#L45
 
@@ -8,7 +15,106 @@
     enable = true;
     package = pkgs.incus; # use latest instead of LTS
     ui.enable = true;
+    # Platform resources live here, not in infra: nix-config owns the host, tofu owns the workloads.
+    # Re-applied on every boot; existing entities merge; removed entries are retained.
+    preseed = {
+      networks = [
+        {
+          name = "incusbr0";
+          project = "default";
+          type = "bridge";
+          description = "Bridge for NixOS LXC containers";
+          config = {
+            "ipv4.address" = "10.223.27.1/24";
+            "ipv4.nat" = "true";
+            "ipv6.address" = "fd42:336e:13ec:f27d::1/64";
+            "ipv6.nat" = "true";
+          };
+        }
+      ];
+
+      storage_pools = [
+        {
+          name = "default";
+          driver = "dir";
+          description = "SSD-backed storage for databases and container state";
+          config.source = "/var/lib/incus/storage-pools/default";
+        }
+        {
+          name = "storage";
+          driver = "dir";
+          description = "HDD-based bulk data for backups, media, etc";
+          config.source = "/mnt/storage/incus";
+        }
+      ];
+
+      profiles = [
+        {
+          name = "nixos-container";
+          project = "default";
+          description = "Standard profile for NixOS LXC containers";
+          config = {
+            "raw.idmap" = "both 0 0";
+            "security.nesting" = "true";
+          };
+          devices = {
+            eth0 = {
+              type = "nic";
+              network = "incusbr0";
+            };
+            persist = {
+              type = "disk";
+              path = "/persist";
+              shift = "true";
+              # TODO: this needs to be overridden per-instance and must be reworked
+              # e.g. /persist/microvms/<instance_name>
+              source = "/persist/microvms/";
+            };
+            root = {
+              type = "disk";
+              path = "/";
+              pool = "default";
+            };
+            sops-age-key = {
+              type = "disk";
+              path = "/var/lib/sops-nix/key.txt";
+              "raw.mount.options" = "uid=0,gid=0";
+              readonly = "true";
+              source = "/run/incus-secrets/lxc-core-age-key";
+            };
+          };
+        }
+        {
+          name = "nixos-container";
+          project = "lab-default";
+          description = "Standard profile for NixOS LXC containers";
+          config = {
+            "raw.idmap" = "both 0 0";
+            "security.nesting" = "true";
+          };
+          devices = {
+            eth0 = {
+              type = "nic";
+              network = "incusbr0";
+            };
+            root = {
+              type = "disk";
+              path = "/";
+              pool = "default";
+            };
+            sops-age-key = {
+              type = "disk";
+              path = "/var/lib/sops-nix/key.txt";
+              "raw.mount.options" = "uid=0,gid=0";
+              readonly = "true";
+              source = "/run/incus-secrets/lxc-core-age-key";
+            };
+          };
+        }
+      ];
+    };
   };
+
   networking.nftables.enable = true;
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; # normally incusd sets this, but something in nixos reset it
   users.groups."incus-admin".members = config.users.groups."wheel".members;
@@ -19,8 +125,26 @@
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
 
   # encrypted secret keys for Incus containers
-  # provisioned in containers via bind mounts to /run/secrets/lxc-core-age-key
+  # provisioned in containers via bind mounts
   sops.secrets.lxc-core-age-key = { };
+
+  # Incus restricted disk source rejects sops-nix symlinks.
+  # Copy real secrets in the isolated dir.
+  systemd.services.incus-secrets = {
+    wantedBy = [ "multi-user.target" ];
+    after = lib.optional config.sops.useSystemdActivation "sops-install-secrets.service";
+    requires = lib.optional config.sops.useSystemdActivation "sops-install-secrets.service";
+    before = [ "incus.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      RuntimeDirectory = "incus-secrets";
+      RuntimeDirectoryMode = "0700";
+    };
+    script = ''
+      install -m 0400 ${config.sops.secrets.lxc-core-age-key.path} /run/incus-secrets/lxc-core-age-key
+    '';
+  };
 
   # TODO: create a better system for managing idmapped disks
   users.users.root = {
@@ -76,38 +200,4 @@
   # incus config set core.metrics_address "127.0.0.1:8444"
   # Disable metrics auth (NOT RECOMMENDED)
   # incus config set core.metrics_authentication false
-
-  # TODO: set as preseed
-  # incus admin init
-  #yaml = ''
-  #  config: {}
-  #  networks:
-  #  - config:
-  #      ipv4.address: auto
-  #      ipv6.address: auto
-  #    description: ""
-  #    name: incusbr0
-  #    type: ""
-  #    project: default
-  #  storage_pools:
-  #  - config: {}
-  #    description: ""
-  #    name: default
-  #    driver: dir
-  #  profiles:
-  #  - config: {}
-  #    description: ""
-  #    devices:
-  #      eth0:
-  #        name: eth0
-  #        network: incusbr0
-  #        type: nic
-  #      root:
-  #        path: /
-  #        pool: default
-  #        type: disk
-  #    name: default
-  #  projects: []
-  #  cluster: null
-  #'';
 }

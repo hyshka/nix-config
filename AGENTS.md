@@ -62,7 +62,7 @@ then `deploy`. The flake auto-discovers every `containers/*.nix` (except `defaul
 ## Infrastructure (`infra/`)
 
 OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
-`containers/*.nix`.
+`containers/*.nix`. Apply is driven by CI (merge to `main`), not by hand.
 
 - `infra/config.nix` auto-discovers every `infra/<name>/default.nix`, which sets
   `nixosImages.<name> = { configuration; kind ? "container"; sourceFile ? null; }`.
@@ -72,12 +72,24 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   (`resource.incus_instance."<name>"`, `resource.incus_storage_volume`, ...)
   goes directly in `infra/<name>/default.nix` and merges with the instance
   `config.nix` generates.
+- Every workload lives in the `lab-default` project; `config.nix` sets it on the
+  generated `incus_image`/`incus_instance`. Any resource written by hand
+  (`incus_storage_volume`, ...) must set `project = "lab-default"` itself.
+- Platform is owned by the host, not tofu: networks (`incusbr0`), pools
+  (`default`, `storage`), and the `nixos-container` profile come from
+  `virtualisation.incus.preseed` in `hosts/nixos/<host>/…/incus.nix`. There are
+  no `incus_network`/`incus_profile` resources.
 - Images are wired via `resource.incus_image`: containers use the squashfs,
   VMs use `system.build.repartImage` → `nixos.qcow2` plus the
   `system.build.metadata` tarball.
+- State is the S3 backend (`s3.home.hyshka.com`), credentials from
+  `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
   an Incus filesystem volume mounted at `/persist`, shared over virtiofs. Do not
   use a block volume, ext4, or an in-guest `mkfs`.
+- Flake apps: `nix run '.#plan|apply|destroy|validate'` (`validate` needs no
+  credentials or state). Local runs authenticate with the CI client cert via
+  `$INCUS_CONF`.
 
 ### VM secrets
 
@@ -126,5 +138,7 @@ use.
 
 `.forgejo/workflows/`: `renovate.yaml` (self-hosted Renovate, rules in
 `renovate.json`, token in the `RENOVATE_TOKEN` secret), `lint.yaml` (nix fmt +
-`git diff --exit-code`), `flake-checker.yaml`. Forgejo ignores `.github/workflows`
+`git diff --exit-code`), `flake-checker.yaml`, and `tofu-apply.yml` /
+`tofu-drift.yml` (both on the `nixos:host` runner, trusted, main-only) plus
+`tofu-validate.yml` (PR, no credentials). Forgejo ignores `.github/workflows`
 once `.forgejo/workflows` exists.

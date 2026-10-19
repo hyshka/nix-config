@@ -1,0 +1,18 @@
+name: Tofu Validate
+on:
+  pull_request:
+    paths:
+      - "infra/**"
+      - "flake.lock"
+concurrency:
+  group: tofu-validate-${{ forgejo.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: https://github.com/actions/checkout@v7
+      - uses: https://github.com/DeterminateSystems/nix-installer-action@v23
+      # No credentials and no state access, so a pull request cannot mutate anything.
+      - run: nix run .#validate

@@ -1,9 +1,15 @@
 {
   config,
+  lib,
+  pkgs,
   ...
 }:
 let
   cacheProxyPort = 42000;
+  atticKeyFile = ../attic/cache-public-key.txt;
+  atticKey = lib.optionalString (builtins.pathExists atticKeyFile) (
+    lib.removeSuffix "\n" (builtins.readFile atticKeyFile)
+  );
 in
 {
   # A full VM, so podman can run job containers without LXC nesting.
@@ -33,17 +39,38 @@ in
 
   virtualisation.podman.enable = true;
 
-  sops.secrets.forgejo-build-runner-token = {
-    sopsFile = ./secrets/forgejo-build-runner.yaml;
+  sops.defaultSopsFile = ./secrets/ci.yaml;
+  sops.secrets = {
+    forgejo-build-runner-token = {
+      sopsFile = ./secrets/forgejo-build-runner.yaml;
+    };
+    incus-ci-client-key = { };
+    attic-ci-token = { };
+    tofu-s3-access-key = { };
+    tofu-s3-secret-key = { };
+    tofu-encryption = { };
   };
 
   services.forgejo-runner.instances.build = {
     enable = true;
 
+    # `nix run .#apply` needs nix, git and a trust store on PATH. The runner
+    # replaces the module's default list, which is aimed at container jobs.
+    hostPackages = with pkgs; [
+      bash
+      cacert
+      coreutils
+      curl
+      git
+      nix
+    ];
+
     settings = {
       runner.labels = [
         # Closest thing to a GitHub-hosted ubuntu runner (~550 MiB compressed)
         "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
+        # Runs directly on this VM, for the trusted apply/drift jobs.
+        "nixos:host"
       ];
 
       server.connections.default = {
@@ -66,6 +93,38 @@ in
 
     secrets.server.connections.default.token_url = config.sops.secrets.forgejo-build-runner-token.path;
   };
+
+  # Hand secrets to the service as systemd credentials so they land in
+  # $CREDENTIALS_DIRECTORY instead of a world-readable /run/secrets path.
+  systemd.services."forgejo-runner-build".serviceConfig.LoadCredential = [
+    "client.crt:${../ci-client.crt}"
+    "client.key:${config.sops.secrets.incus-ci-client-key.path}"
+    "attic-token:${config.sops.secrets.attic-ci-token.path}"
+    "aws-access-key:${config.sops.secrets.tofu-s3-access-key.path}"
+    "aws-secret-key:${config.sops.secrets.tofu-s3-secret-key.path}"
+    "tofu-encryption:${config.sops.secrets.tofu-encryption.path}"
+  ];
+  systemd.services."forgejo-runner-build" = {
+    after = [ "sops-install-secrets.service" ];
+    wants = [ "sops-install-secrets.service" ];
+  };
+
+  # The runner builds every image and runs OpenTofu. Keep the build from
+  # monopolising the VM.
+  nix.settings = lib.mkMerge [
+    {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      max-jobs = 4;
+      cores = 0;
+    }
+    (lib.mkIf (atticKey != "") {
+      extra-substituters = [ "https://cache.home.hyshka.com/nix-config" ];
+      extra-trusted-public-keys = [ atticKey ];
+    })
+  ];
 
   environment.persistence."/persist" = {
     directories = [

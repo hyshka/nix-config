@@ -45,6 +45,7 @@ nixpkgs module wiring; it is already captured below.
      resource.incus_storage_volume."<name>-persist" = {
        name = "<name>-persist";
        pool = "default";
+       project = "lab-default";
      };
    }
    ```
@@ -74,6 +75,11 @@ nixpkgs module wiring; it is already captured below.
   block volume, ext4, or an in-guest `mkfs`; leave `content_type` at the
   filesystem default. Keep the pool name consistent with the rest of `infra/`
   (currently `default`).
+- **Project.** Workloads live in `lab-default`; `config.nix` sets it on the
+  generated image and instance, but a resource you write by hand (the storage
+  volume) needs `project = "lab-default"` itself. Profiles are project-scoped,
+  so instances select the `nixos-container` profile from `lab-default` (created
+  by the host preseed), not from `default`.
 - **VM sops age key.** A VM has no host bind-mount to inject the key the way
   containers do. `infra/virtual-machine.nix` derives the age identity from the
   VM's persisted SSH host key at

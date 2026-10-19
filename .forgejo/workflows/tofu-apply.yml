@@ -1,0 +1,51 @@
+name: Tofu Apply
+on:
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - "flake.lock"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: What to run
+        type: choice
+        options: [plan, apply]
+        default: plan
+concurrency:
+  group: tofu-apply
+  cancel-in-progress: false
+jobs:
+  apply:
+    name: Apply
+    if: forgejo.ref == 'refs/heads/main'
+    runs-on: nixos
+    steps:
+      - uses: https://github.com/actions/checkout@v7
+      - name: Plan or apply
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CREDENTIALS_DIRECTORY:-}" ]; then
+            echo "CREDENTIALS_DIRECTORY is not set; the runner service is missing its LoadCredential entries" >&2
+            exit 1
+          fi
+
+          export INCUS_CONF="$CREDENTIALS_DIRECTORY"
+          export AWS_ACCESS_KEY_ID="$(cat "$CREDENTIALS_DIRECTORY/aws-access-key")"
+          export AWS_SECRET_ACCESS_KEY="$(cat "$CREDENTIALS_DIRECTORY/aws-secret-key")"
+          export TF_ENCRYPTION="$(cat "$CREDENTIALS_DIRECTORY/tofu-encryption")"
+
+          export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+          mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+          action="${{ inputs.action }}"
+          if [ -z "$action" ]; then
+            action=apply
+          fi
+
+          if [ "$action" = plan ]; then
+            nix run .#plan
+          else
+            nix run .#apply
+          fi

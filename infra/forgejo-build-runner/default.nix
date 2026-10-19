@@ -25,5 +25,7 @@
     name = "forgejo-build-runner-persist";
     remote = "starship";
     pool = "default";
+    project = "lab-default";
+    lifecycle.prevent_destroy = true;
   };
 }

@@ -13,6 +13,7 @@
     ../../../common/sops.nix
 
     # NixOS-specific modules
+    ./nix-cache.nix
     ./catppuccin.nix
     ./locale.nix
     #./nameservers.nix
