@@ -7,8 +7,19 @@
 
   resource.incus_instance."forgejo-build-runner" = {
     config."security.secureboot" = "false";
+    config."limits.cpu" = "8";
+    config."limits.memory" = "16GiB";
 
     device = [
+      {
+        name = "root";
+        type = "disk";
+        properties = {
+          pool = "default";
+          path = "/";
+          size = "48GiB";
+        };
+      }
       {
         name = "persist";
         type = "disk";

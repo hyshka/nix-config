@@ -127,7 +127,7 @@ in
         "nix-command"
         "flakes"
       ];
-      max-jobs = 4;
+      max-jobs = 6;
       cores = 0;
     }
     (lib.mkIf (atticKey != "") {
