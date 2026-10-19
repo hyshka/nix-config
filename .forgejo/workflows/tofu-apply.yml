@@ -21,7 +21,7 @@ jobs:
     if: forgejo.ref == 'refs/heads/main'
     runs-on: nixos
     steps:
-      - uses: https://github.com/actions/checkout@v7
+      - uses: https://github.com/actions/checkout@v5
       - name: Plan or apply
         run: |
           set -euo pipefail
