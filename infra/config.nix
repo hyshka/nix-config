@@ -41,12 +41,14 @@ let
     container = nixos: {
       image = nixos.config.system.build.squashfs;
       metadata = nixos.config.system.build.metadata;
+      toplevel = nixos.config.system.build.toplevel;
       data_path = "${nixos.config.system.build.squashfs}/nixos-lxc-image-${system}.squashfs";
       metadata_path = "${nixos.config.system.build.metadata}/tarball/nixos-image-lxc-${nixos.config.system.nixos.version}-${system}.tar.xz";
     };
     virtual-machine = nixos: {
       image = nixos.config.system.build.repartImage;
       metadata = nixos.config.system.build.metadata;
+      toplevel = nixos.config.system.build.toplevel;
       data_path = "${nixos.config.system.build.repartImage}/nixos.qcow2";
       metadata_path = "${nixos.config.system.build.metadata}/tarball/${nixos.config.image.baseName}.tar.xz";
     };

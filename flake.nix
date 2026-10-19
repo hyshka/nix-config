@@ -237,6 +237,7 @@
               lib.mapAttrsToList (_name: a: [
                 a.image
                 a.metadata
+                a.toplevel
               ]) imageArtifacts
             )
           )

@@ -90,8 +90,11 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   `sourceFile` skips the variable.
 - The apply workflow also publishes those images to the attic cache: `nix run
   .#image-paths` prints the store paths and `attic push home:nix-config --stdin`
-  uploads them with their closures. `attic-client` is in the runner's
-  `hostPackages`; the token is the `attic-token` credential.
+  uploads them with their closures. Each image's `system.build.toplevel` goes
+  along so locally-built paths (the pinned podman) substitute instead of
+  compiling; the cache's `cache.nixos.org-1` upstream filter skips everything
+  upstream already serves. `attic-client` is in the runner's `hostPackages`;
+  the token is the `attic-token` credential.
 - State is the S3 backend (`s3.home.hyshka.com`), credentials from
   `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
