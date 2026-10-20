@@ -26,9 +26,10 @@ repo = "local"
 [[repos.hooks]]
 id = "treefmt"
 name = "treefmt (nix fmt)"
-entry = "nix fmt -- --fail-on-change"
+entry = "nix fmt -- --fail-on-change --no-cache"
 language = "system"
 pass_filenames = true
+require_serial = true
 priority = 3
 
 [[repos]]
