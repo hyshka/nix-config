@@ -44,6 +44,10 @@ in
     neededForBoot = true;
   };
 
+  # Renovate's job container runs as the containerbase `ubuntu` user (uid
+  # 12021), which needs to write its cache volume.
+  systemd.tmpfiles.rules = [ "d /cache/renovate 0770 root root -" ];
+
   virtualisation.podman.enable = true;
   virtualisation.containers.storage.settings.storage.graphroot = "/cache/containers";
 
