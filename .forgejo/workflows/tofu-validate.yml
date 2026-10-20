@@ -12,7 +12,7 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     steps:
-      - uses: https://github.com/actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: https://github.com/cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31
         with:
           github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}

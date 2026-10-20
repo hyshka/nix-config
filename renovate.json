@@ -27,6 +27,19 @@
   ],
   "packageRules": [
     {
+      "description": "actions/checkout v6+ breaks git auth on the Forgejo runner: it writes hardcoded GitHub gitdir includeIf credential paths that never match the runner workspace. Stay on v5 until upstream fixes non-GitHub runners (actions/checkout#2321)",
+      "matchDatasources": [
+        "github-tags"
+      ],
+      "matchDepNames": [
+        "https://github.com/actions/checkout"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Automerge llm-agents flake input bumps once required branch protection checks pass",
       "matchManagers": [
         "nix"
