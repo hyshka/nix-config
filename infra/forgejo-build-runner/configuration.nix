@@ -114,17 +114,29 @@ in
 
   # Hand secrets to the service as systemd credentials so they land in
   # $CREDENTIALS_DIRECTORY instead of a world-readable /run/secrets path.
-  systemd.services."forgejo-runner-build".serviceConfig.LoadCredential = [
-    "client.crt:${../ci-client.crt}"
-    "client.key:${config.sops.secrets.incus-ci-client-key.path}"
-    "attic-token:${config.sops.secrets.attic-ci-token.path}"
-    "aws-access-key:${config.sops.secrets.tofu-s3-access-key.path}"
-    "aws-secret-key:${config.sops.secrets.tofu-s3-secret-key.path}"
-    "tofu-encryption:${config.sops.secrets.tofu-encryption.path}"
-  ];
+  # The incus client needs a writable config dir holding client.crt/client.key,
+  # so symlink them into a RuntimeDirectory it can write servercerts/ into.
   systemd.services."forgejo-runner-build" = {
     after = [ "sops-install-secrets.service" ];
     wants = [ "sops-install-secrets.service" ];
+
+    serviceConfig = {
+      RuntimeDirectory = "forgejo-runner/incus";
+      RuntimeDirectoryMode = "0700";
+      LoadCredential = [
+        "client.crt:${../ci-client.crt}"
+        "client.key:${config.sops.secrets.incus-ci-client-key.path}"
+        "attic-token:${config.sops.secrets.attic-ci-token.path}"
+        "aws-access-key:${config.sops.secrets.tofu-s3-access-key.path}"
+        "aws-secret-key:${config.sops.secrets.tofu-s3-secret-key.path}"
+        "tofu-encryption:${config.sops.secrets.tofu-encryption.path}"
+      ];
+    };
+
+    preStart = ''
+      ln -sf "$CREDENTIALS_DIRECTORY/client.crt" "$RUNTIME_DIRECTORY/client.crt"
+      ln -sf "$CREDENTIALS_DIRECTORY/client.key" "$RUNTIME_DIRECTORY/client.key"
+    '';
   };
 
   # The runner builds every image and runs OpenTofu. Keep the build from

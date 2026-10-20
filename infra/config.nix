@@ -138,11 +138,11 @@ in
       remote = [
         {
           name = "starship";
-          address = "https://starship:8443";
+          address = "https://starship.tail7dfc7.ts.net:8443";
         }
         {
           name = "tiny1";
-          address = "https://tiny1:8443";
+          address = "https://tiny1.tail7dfc7.ts.net:8443";
         }
         {
           name = "images";
