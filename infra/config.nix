@@ -107,7 +107,7 @@ in
 
     terraform.required_providers.incus = {
       source = "lxc/incus";
-      version = "1.2.0";
+      version = "1.2.1";
     };
 
     # Credentials come from the environment (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY),
