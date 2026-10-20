@@ -47,6 +47,11 @@ in
   virtualisation.podman.enable = true;
   virtualisation.containers.storage.settings.storage.graphroot = "/cache/containers";
 
+  # dbus-broker can reload into an empty policy on this VM, denying podman's
+  # StartTransientUnit calls and failing every job container. Manage cgroups
+  # directly so podman never talks to systemd over the system bus.
+  virtualisation.containers.containersConf.settings.engine.cgroup_manager = "cgroupfs";
+
   sops.defaultSopsFile = ./secrets/ci.yaml;
   sops.secrets = {
     forgejo-build-runner-token = {
