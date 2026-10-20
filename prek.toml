@@ -1,0 +1,38 @@
+#:schema https://www.schemastore.org/prek.json
+minimum_prek_version = "0.5.3"
+default_install_hook_types = ["pre-commit"]
+
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "trailing-whitespace", priority = 0 },
+  { id = "end-of-file-fixer", priority = 1 },
+  { id = "mixed-line-ending", args = ["--fix=lf"], priority = 2 },
+  { id = "check-merge-conflict", priority = 10 },
+  { id = "check-yaml", priority = 10 },
+  { id = "check-toml", priority = 10 },
+  { id = "check-json", priority = 10 },
+  { id = "check-case-conflict", priority = 10 },
+  { id = "check-symlinks", priority = 10 },
+  { id = "destroyed-symlinks", priority = 10 },
+  { id = "check-added-large-files", args = ["--maxkb=1024"], priority = 10 },
+  { id = "detect-private-key", priority = 10 },
+  { id = "forbid-new-submodules", priority = 10, always_run = true },
+]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "treefmt"
+name = "treefmt (nix fmt)"
+entry = "nix fmt -- --fail-on-change"
+language = "system"
+pass_filenames = true
+priority = 3
+
+[[repos]]
+repo = "meta"
+hooks = [
+  { id = "check-useless-excludes", priority = 20, always_run = true },
+]

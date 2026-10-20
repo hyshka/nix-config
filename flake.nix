@@ -423,6 +423,22 @@
             ''
           );
         };
+        lint = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.${system}.writers.writeBash "lint" ''
+              exec ${nixpkgs.legacyPackages.${system}.prek}/bin/prek run --all-files "$@"
+            ''
+          );
+        };
+        install-hooks = {
+          type = "app";
+          program = toString (
+            nixpkgs.legacyPackages.${system}.writers.writeBash "install-hooks" ''
+              exec ${nixpkgs.legacyPackages.${system}.prek}/bin/prek install --allow-missing-config "$@"
+            ''
+          );
+        };
       });
     };
 }

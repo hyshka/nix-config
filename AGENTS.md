@@ -21,7 +21,7 @@ sops-nix.
 ## Commands
 
 ```bash
-nix fmt                # treefmt: nixfmt, deadnix, shellcheck, shfmt, yamlfmt
+nix run .#lint         # prek: treefmt + hygiene hooks over all tracked files
 nix flake check        # eval the flake and run checks (formatting)
 
 nh os build|test|switch            # current NixOS host
@@ -31,6 +31,14 @@ nh home switch                     # standalone home-manager
 
 `deploy.sh <hosts> [args]` runs `nixos-rebuild --flake .#<host> switch --target-host root@<host>`
 for a comma-separated host list.
+
+## Hooks
+
+Git hooks run through `prek` (`prek.toml`), not the `pre-commit` package.
+`treefmt.nix` stays the formatting source of truth.
+
+Skip one hook with `PREK_SKIP=<hook-id>` (`PREK_SKIP=treefmt` while `flake.nix`
+cannot evaluate). Never `git commit --no-verify`; CI runs the same config.
 
 ## Containers
 
@@ -155,8 +163,8 @@ use.
 ## CI
 
 `.forgejo/workflows/`: `renovate.yaml` (self-hosted Renovate, rules in
-`renovate.json`, token in the `RENOVATE_TOKEN` secret), `lint.yaml` (nix fmt +
-`git diff --exit-code`), `flake-checker.yaml`, and `tofu-apply.yml` /
+`renovate.json`, token in the `RENOVATE_TOKEN` secret), `lint.yaml`
+(`nix run .#lint`), `flake-checker.yaml`, and `tofu-apply.yml` /
 `tofu-drift.yml` (both on the `nixos:host` runner, trusted, main-only) plus
 `tofu-validate.yml` (PR, no credentials). Forgejo ignores `.github/workflows`
 once `.forgejo/workflows` exists.

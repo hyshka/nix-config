@@ -12,7 +12,5 @@ jobs:
       - uses: https://github.com/cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31
         with:
           github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
-      - name: Lint nix files
-        run: |
-          nix fmt
-          git diff --exit-code
+      - name: Lint
+        run: nix run .#lint

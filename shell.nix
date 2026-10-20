@@ -22,6 +22,7 @@ pkgs.mkShell {
       nixos-rebuild
       home-manager
       git
+      prek # git hooks; config in prek.toml
 
       # infra
       opentofu
@@ -40,4 +41,10 @@ pkgs.mkShell {
     ]
     # incus client is linux-only; keep the darwin devShell buildable
     ++ lib.optionals stdenv.hostPlatform.isLinux [ incus ];
+
+  # prek installs its shims on every shell entry. A global core.hooksPath makes
+  # prek refuse; that case is silent here, rerun the command manually with --force.
+  shellHook = ''
+    prek install -q --allow-missing-config 2>/dev/null || true
+  '';
 }
