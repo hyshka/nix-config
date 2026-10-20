@@ -1,8 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
+  "extends": [
+    "config:best-practices"
+  ],
   "timezone": "Etc/UTC",
-  "labels": ["dependencies", "automated"],
+  "labels": [
+    "dependencies",
+    "automated"
+  ],
   "nix": {
     "enabled": true
   },
@@ -10,7 +15,9 @@
     {
       "customType": "regex",
       "description": "Incus Terraform provider version in Terranix config",
-      "managerFilePatterns": ["/(^|/)infra/config\\.nix$/"],
+      "managerFilePatterns": [
+        "/(^|/)infra/config\\.nix$/"
+      ],
       "matchStrings": [
         "terraform\\.required_providers\\.incus = \\{[\\s\\S]*?source = \"(?<packageName>[^\"]+)\";[\\s\\S]*?version = \"(?<currentValue>[^\"]+)\";"
       ],
@@ -20,23 +27,24 @@
   ],
   "packageRules": [
     {
-      "description": "actions/checkout v6+ breaks git auth on the Forgejo runner: it writes hardcoded GitHub gitdir includeIf credential paths that never match the runner workspace. Stay on v5 until upstream fixes non-GitHub runners (actions/checkout#2321)",
-      "matchDatasources": ["github-tags"],
-      "matchDepNames": ["actions/checkout"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
       "description": "Automerge llm-agents flake input bumps once required branch protection checks pass",
-      "matchManagers": ["nix"],
-      "matchDepNames": ["llm-agents"],
+      "matchManagers": [
+        "nix"
+      ],
+      "matchDepNames": [
+        "llm-agents"
+      ],
       "automerge": true,
       "platformAutomerge": true
     },
     {
       "description": "Group the other flake inputs into one pull request",
-      "matchManagers": ["nix"],
-      "matchDepNames": ["!llm-agents"],
+      "matchManagers": [
+        "nix"
+      ],
+      "matchDepNames": [
+        "!llm-agents"
+      ],
       "groupName": "flake inputs"
     }
   ]
