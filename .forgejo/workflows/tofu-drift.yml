@@ -12,7 +12,7 @@ jobs:
     if: forgejo.ref == 'refs/heads/main'
     runs-on: nixos
     steps:
-      - uses: https://github.com/actions/checkout@v5
+      - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - name: Reclaim store space
         run: |
           set -euo pipefail

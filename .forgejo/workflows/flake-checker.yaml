@@ -8,8 +8,8 @@ jobs:
     name: Flake Checker
     runs-on: ubuntu-latest
     steps:
-      - uses: https://github.com/actions/checkout@v5
-      - uses: https://github.com/DeterminateSystems/flake-checker-action@v14
+      - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: https://github.com/DeterminateSystems/flake-checker-action@786422608c7bded2bbc9741ad9f91356842bf520 # v14
         with:
           fail-mode: true
           send-statistics: false
