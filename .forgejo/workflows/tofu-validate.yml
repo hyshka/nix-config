@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: https://github.com/actions/checkout@v5
-      - uses: https://github.com/DeterminateSystems/nix-installer-action@v23
+      - uses: https://github.com/cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
       # No credentials and no state access, so a pull request cannot mutate anything.
       - run: nix run .#validate
