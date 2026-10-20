@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-      image: ghcr.io/renovatebot/renovate:44.164.6@sha256:a77b3f9602ddc451425e35b28e1784e56102c41149d467f1e573f891fd3556ad
+      image: ghcr.io/renovatebot/renovate:44.172.0@sha256:c0fb80c42b3e45ab1999f2560ca8af5bc394ed4513a33f32591d62678cb3e3e8
       volumes:
         - /cache/renovate:/cache
     env:
