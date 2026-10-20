@@ -99,7 +99,12 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
   an Incus filesystem volume mounted at `/persist`, shared over virtiofs. Do not
-  use a block volume, ext4, or an in-guest `mkfs`.
+  use a block volume, ext4, or an in-guest `mkfs` for `/persist`.
+- Exception: `forgejo-build-runner` mounts a second `content_type = "block"`
+  volume as `/cache` (virtio-blk, ext4, `autoFormat`) for disposable scratch
+  (podman graphroot, renovate cache, the container `/nix` store).
+  virtiofs reads/writes are ~40x slower for the many small files these jobs
+  churn, which dominated CI time; `/persist` stays virtiofs and backup-worthy.
 - Flake apps: `nix run '.#plan|apply|destroy|validate'` (`validate` needs no
   credentials or state). Local runs authenticate with the CI client cert via
   `$INCUS_CONF`.

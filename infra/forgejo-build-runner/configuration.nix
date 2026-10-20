@@ -37,7 +37,15 @@ in
   # Let job containers reach the runner's cache proxy at host.containers.internal.
   networking.firewall.interfaces."podman+".allowedTCPPorts = [ cacheProxyPort ];
 
+  fileSystems."/cache" = {
+    device = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_cache";
+    fsType = "ext4";
+    autoFormat = true;
+    neededForBoot = true;
+  };
+
   virtualisation.podman.enable = true;
+  virtualisation.containers.storage.settings.storage.graphroot = "/cache/containers";
 
   sops.defaultSopsFile = ./secrets/ci.yaml;
   sops.secrets = {
@@ -89,10 +97,10 @@ in
       };
 
       # Cap job containers. Keep the safe defaults for privileged/network.
-      container.options = "--memory=2g --cpus=2";
+      container.options = "--memory=8g --cpus=6 --volume /cache/nix:/nix";
 
-      # Persist the Renovate containerbase tool cache across job containers.
-      container.valid_volumes = [ "/var/lib/renovate-cache" ];
+      # Persist caches across job containers on the fast /cache volume.
+      container.valid_volumes = [ "/cache/renovate" ];
 
       cache = {
         enabled = true;
@@ -139,8 +147,6 @@ in
   environment.persistence."/persist" = {
     directories = [
       "/var/lib/forgejo-runner"
-      "/var/lib/containers" # podman image cache
-      "/var/lib/renovate-cache" # renovate containerbase cache
     ];
   };
 }

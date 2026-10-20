@@ -29,6 +29,14 @@
           path = "/persist";
         };
       }
+      {
+        name = "cache";
+        type = "disk";
+        properties = {
+          pool = "default";
+          source = "forgejo-build-runner-cache";
+        };
+      }
     ];
   };
 
@@ -38,5 +46,16 @@
     pool = "default";
     project = "lab-default";
     lifecycle.prevent_destroy = true;
+  };
+
+  resource.incus_storage_volume."forgejo-build-runner-cache" = {
+    name = "forgejo-build-runner-cache";
+    remote = "starship";
+    pool = "default";
+    project = "lab-default";
+    content_type = "block";
+    config = {
+      size = "20GiB";
+    };
   };
 }
