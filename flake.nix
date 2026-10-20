@@ -285,6 +285,11 @@
                 initArgs=()
               fi
 
+              if [ -n "''${TOFU_INIT_ARGS:-}" ]; then
+                # shellcheck disable=SC2206
+                initArgs+=(''${TOFU_INIT_ARGS})
+              fi
+
               if [ ${cmd} = validate ]; then
                 ${tofu}/bin/tofu init -backend=false "''${initArgs[@]}"
                 ${tofu}/bin/tofu validate "$@"
