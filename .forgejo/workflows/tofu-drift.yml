@@ -13,6 +13,18 @@ jobs:
     runs-on: nixos
     steps:
       - uses: https://github.com/actions/checkout@v5
+      - name: Reclaim store space
+        run: |
+          set -euo pipefail
+
+          # Realising the full image set needs headroom. Free only the shortfall,
+          # so the rest of the store stays cached between runs.
+          target=25 # GiB
+          avail=$(df -BG --output=avail /nix | tail -n1 | tr -dc '0-9')
+          if [ "$avail" -lt "$target" ]; then
+            echo "nix store has ${avail}G free; collecting down to ${target}G"
+            nix-collect-garbage --max-freed "$((target - avail))G"
+          fi
       - name: Plan
         run: |
           set -euo pipefail

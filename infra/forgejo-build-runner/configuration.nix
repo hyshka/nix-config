@@ -100,7 +100,10 @@ in
       container.options = "--memory=8g --cpus=6 --volume /cache/nix:/nix";
 
       # Persist caches across job containers on the fast /cache volume.
-      container.valid_volumes = [ "/cache/renovate" ];
+      container.valid_volumes = [
+        "/cache/renovate"
+        "/cache/nix"
+      ];
 
       cache = {
         enabled = true;
