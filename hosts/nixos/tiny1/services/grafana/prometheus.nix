@@ -18,6 +18,7 @@
     checkConfig = "syntax-only";
 
     scrapeConfigs = [
+      # tiny1 exporters
       {
         job_name = "node";
         static_configs = [
@@ -27,7 +28,7 @@
         ];
       }
       {
-        job_name = "smartcl";
+        job_name = "smartctl";
         static_configs = [
           {
             targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}" ];
@@ -115,6 +116,35 @@
         static_configs = [
           {
             targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
+          }
+        ];
+      }
+
+      # starship exporters
+      {
+        job_name = "node-starship";
+        static_configs = [
+          {
+            targets = [ "starship:${toString config.services.prometheus.exporters.node.port}" ];
+          }
+        ];
+      }
+      {
+        job_name = "smartctl-starship";
+        static_configs = [
+          {
+            targets = [ "starship:${toString config.services.prometheus.exporters.smartctl.port}" ];
+          }
+        ];
+      }
+      {
+        job_name = "incus-starship";
+        metrics_path = "/1.0/metrics";
+        scheme = "https";
+        tls_config.insecure_skip_verify = true;
+        static_configs = [
+          {
+            targets = [ "starship:8444" ];
           }
         ];
       }

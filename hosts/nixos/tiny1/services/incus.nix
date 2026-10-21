@@ -18,6 +18,15 @@
     # Platform resources live here, not in infra: nix-config owns the host, tofu owns the workloads.
     # Re-applied on every boot; existing entities merge; removed entries are retained.
     preseed = {
+      config = {
+        "core.https_address" = ":8443";
+        "core.metrics_address" = "127.0.0.1:8444";
+        # TODO: find a simple way to enable auth
+        "core.metrics_authentication" = "false";
+        "oidc.client.id" = "e8b1278a-ef80-45d7-844a-2712342e7471";
+        "oidc.issuer" = "https://auth.home.hyshka.com";
+        "oidc.scopes" = "openid,email,profile";
+      };
       networks = [
         {
           name = "incusbr0";

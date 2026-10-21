@@ -15,6 +15,12 @@
     # Platform resources live here, not in infra: nix-config owns the host, tofu owns the workloads.
     # Re-applied on every boot; existing entities merge; removed entries are retained.
     preseed = {
+      config = {
+        "core.https_address" = ":8443";
+        "core.metrics_address" = "0.0.0.0:8444";
+        # TODO: find a simple way to enable auth
+        "core.metrics_authentication" = "false";
+      };
       networks = [
         {
           name = "incusbr0";
@@ -40,8 +46,11 @@
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
 
-  # Expose Open-WebUI to tailscale0
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 8080 ];
+  # Expose Open-WebUI and Ollama to tailscale0
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+    8080
+    11434
+  ];
 
   # encrypted secret keys for Incus containers
   # provisioned in containers via bind mounts

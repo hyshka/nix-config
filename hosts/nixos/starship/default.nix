@@ -16,6 +16,7 @@
     ../common/wireless.nix
     ../common/chrysalis.nix
 
+    ./prometheus.nix
     ./docker.nix
     ./doom.nix
     ./steam.nix
