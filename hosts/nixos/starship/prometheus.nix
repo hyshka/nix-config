@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+  networking.firewall.allowedTCPPorts = [
     config.services.prometheus.exporters.node.port
     config.services.prometheus.exporters.smartctl.port
   ];

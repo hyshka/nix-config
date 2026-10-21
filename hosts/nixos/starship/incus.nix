@@ -41,7 +41,10 @@
   networking.nftables.enable = true;
   users.groups."incus-admin".members = config.users.groups."wheel".members;
   # Incus remote access
-  networking.firewall.allowedTCPPorts = [ 8443 ];
+  networking.firewall.allowedTCPPorts = [
+    8443
+    8444
+  ];
   # Enable networking rules after initialization
   # Allowing the entire interface _should_ be safe as incus has its own firewall
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
