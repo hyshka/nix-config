@@ -25,6 +25,7 @@
     ./wol.nix
     ./incus.nix
     ./lact.nix
+    ./forgejo-runner.nix
   ];
 
   networking.hostName = "starship";

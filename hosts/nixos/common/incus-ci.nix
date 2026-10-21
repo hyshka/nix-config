@@ -3,7 +3,8 @@
   ...
 }:
 let
-  # Private key is the sops secret `incus-ci-client-key` on the build runner.
+  # Private key is the sops secret `incus-ci-client-key` on the Starship host
+  # runner.
   # Mint a replacement with:
   #   openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes \
   #     -keyout client.key -out client.crt -days 3650 -subj "/CN=forgejo-ci"

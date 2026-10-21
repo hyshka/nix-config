@@ -15,7 +15,7 @@ jobs:
     container:
       image: ghcr.io/renovatebot/renovate:44.172.0@sha256:c0fb80c42b3e45ab1999f2560ca8af5bc394ed4513a33f32591d62678cb3e3e8
       volumes:
-        - /cache/renovate:/cache
+        - /var/lib/forgejo-cache/renovate:/cache
     env:
       LOG_LEVEL: info
       RENOVATE_PLATFORM: forgejo

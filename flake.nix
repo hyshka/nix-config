@@ -409,6 +409,17 @@
           name = "validate";
           cmd = "validate";
         };
+        force-unlock = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "force-unlock";
+          cmd = "force-unlock";
+        };
+        import = mkTofuApp {
+          pkgs = nixpkgs.legacyPackages.${system};
+          name = "import";
+          cmd = "import";
+          varFile = imageVarsFile;
+        };
         default = mkTofuApp {
           pkgs = nixpkgs.legacyPackages.${system};
           name = "plan";

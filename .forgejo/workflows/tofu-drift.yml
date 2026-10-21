@@ -23,7 +23,7 @@ jobs:
           avail=$(df -BG --output=avail /nix | tail -n1 | tr -dc '0-9')
           if [ "$avail" -lt "$target" ]; then
             echo "nix store has ${avail}G free; collecting down to ${target}G"
-            nix-collect-garbage --max-freed "$((target - avail))G"
+            nix-collect-garbage --delete-older-than 14d --max-freed "$((target - avail))G"
           fi
       - name: Plan
         run: |
