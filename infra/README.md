@@ -1,65 +1,46 @@
-# Provision and deploy NixOS LXC containers to Incus
+# Incus workloads
 
-This repo demonstrates using a single command (`nix run .#apply`) to build a NixOS LXC container image as well as provision an instance of the image on a local Incus server.
+One directory per workload. Terranix renders these modules into OpenTofu JSON,
+and OpenTofu keeps the Incus image and instance in sync through the Incus
+provider.
 
-The pipeline works like this:
+## A workload
 
-- NixOS builds the container image
-- [terranix](https://terranix.org/) turns that build into an OpenTofu config
-- [OpenTofu](https://opentofu.org/) keeps the [Incus](https://linuxcontainers.org/incus/) image and instance in sync through the [Incus Terraform provider](https://github.com/lxc/terraform-provider-incus)
+`infra/<name>/default.nix` sets `nixosImages.<name>`; `infra/config.nix`
+generates its `incus_image` and `incus_instance`. Anything the generator does
+not cover (storage volumes, extra devices, OCI images) is a plain `resource`
+block in the same file and merges with the generated config.
 
-This works because when the terranix configuration is evaluated by Nix, the metadata and squashfg build targets for the container get evaluated in turn. Any change in the container's closure produces new store paths, so OpenTofu picks up the changed image and rebuilds the instance.
-
-## Prerequisites
-
-- Nix with flakes
-- A working `incus` client and your user configured as an `incus-admin`
-
-## Demo
-
-```
-# preview changes
-nix run .#plan
-
-# upload image, create/update the instance
-nix run .#apply
-
-# run a command on the instance
-incus exec hello hello
-
-# make a change to hello-container.nix (e.g. add a package)
-nix run .#apply
-
-# verify the instance changed
-incus exec hello fortune
-
-# remove the instance and the image
-nix run .#destroy
-```
-
-## Files
-
-| File | Role |
+| Field | Values |
 | --- | --- |
-| `hello-container.nix` | Minimal NixOS LXC container |
-| `config.nix` | Terranix module wiring the image build into `incus_image`/`incus_instance` |
-| `flake.nix` | Evaluates both and exposes the plan/apply/destroy commands |
+| `kind` | `container` (default) or `virtual-machine` |
+| `remote` | `tiny1` (default) or `starship` |
+| `project` | `lab-default` (default) or `lab-gpu` |
+| `sourceFile` | skip the NixOS image, use the given image |
 
-## Diffing using dix
+Containers build `system.build.squashfs`; VMs build
+`system.build.repartImage` (qcow2) plus a metadata tarball. Those store paths
+reach OpenTofu as `var.image_files`, never as literals in the config.
 
-```sh
-# if the container was build on the same machine, it should be in our local store
-RUNNING=$(incus exec <container> -- readlink -f /run/current-system)
-# sanity check
-nix-store -qR "$RUNNING"
-# if it's not, you might be able to copy it
-# nix copy --from ssh-ng://root@<container> "$RUNNING"
-# can use incus file pull "$RUNNING" or incus file mount "$RUNNING" running-system if ssh is not available
+## State
 
+- App state: `incus_storage_volume` on the `default` pool, mounted at
+  `/persist` or the app's data path. Set `security.shifted = "true"` and
+  `lifecycle.prevent_destroy = true`.
+- Shared media: host bind from `/mnt/storage`, because several workloads read
+  the same tree. Bulk media stays on the bind for now; moving it into a volume
+  is an open option, not a settled decision.
 
-# need new toplevel in store for comparison, can't compare squashfs tarballs
-NEW=$(nix build ".#nixosConfigurations.hello.config.system.build.toplevel" --print-out-paths --no-link)
+Platform resources (networks, pools, profiles, restricted-project settings)
+belong to the host's `virtualisation.incus.preseed`, not to OpenTofu.
 
-# compare
-dix --force-correctness --output json $RUNNING $NEW
-```
+## Commands
+
+| App | Does |
+| --- | --- |
+| `plan` | preview changes |
+| `apply` | apply; CI runs this on merge to `main` |
+| `destroy` | remove instances and images |
+| `validate` | `tofu validate`; no credentials, no image build |
+| `import` | `tofu import` one resource |
+| `image-paths` | print image store paths for the attic push |

@@ -14,9 +14,10 @@ sops-nix.
 - `home/ai/` - claude-code + opencode config, agents, commands, hooks
 - `modules/nixos/`, `modules/home-manager/` - reusable modules, exported as
   `nixosModules` / `homeManagerModules`; register new files in the dir's `default.nix`
-- `containers/<name>.nix` - flake-built Incus container configs (`mkContainer`)
 - `infra/<name>/` - Terranix-managed Incus containers and VMs
 - `overlays/`, `pkgs/` - custom packages and overlays
+- `docs/` - network map, recovery, decisions; `infra/README.md` for the
+  workload model. Put new facts here, not in a second copy elsewhere.
 
 ## Commands
 
@@ -40,28 +41,10 @@ Git hooks run through `prek` (`prek.toml`), not the `pre-commit` package.
 Skip one hook with `PREK_SKIP=<hook-id>` (`PREK_SKIP=treefmt` while `flake.nix`
 cannot evaluate). Never `git commit --no-verify`; CI runs the same config.
 
-## Containers
-
-`incus-manager.sh` defaults to the `tiny1` remote (`--remote` to override).
-
-```bash
-./incus-manager.sh bootstrap <name> --nesting   # requires containers/<name>.nix first; then update nix-config
-./incus-manager.sh build <name>                 # build + import image (--no-import to skip import)
-./incus-manager.sh rebuild <name>               # recreate container from image
-./incus-manager.sh restart <name>
-./incus-manager.sh deploy <name>                # build + import, rebuild, restart
-./incus-manager.sh set-ip|add-persist-disk|add-storage|get-age-key <name>
-```
-
-Build/rebuild/restart/deploy accept a comma-separated list. Adding a container:
-create `containers/<name>.nix`, `bootstrap` it, add its age key to `.sops.yaml`,
-then `deploy`. The flake auto-discovers every `containers/*.nix` (except `default.nix`).
-
 ## How the flake is wired
 
 - `mkHome { system, hostname, username ? "hyshka" }` builds `homeConfigurations`
   from `home/<user>/<host>.nix`.
-- `mkContainer` builds a `nixosSystem` for each discovered container.
 - NixOS/darwin configs use `specialArgs = { inherit inputs outputs; }`.
 - Adding a host: create `hosts/<platform>/<host>/`, register it in
   `nixosConfigurations` / `darwinConfigurations`, add `home/hyshka/<host>.nix`
@@ -69,8 +52,7 @@ then `deploy`. The flake auto-discovers every `containers/*.nix` (except `defaul
 
 ## Infrastructure (`infra/`)
 
-OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
-`containers/*.nix`. Apply is driven by CI (merge to `main`), not by hand.
+OpenTofu/Terranix-managed Incus workloads. Apply is driven by CI (merge to `main`), not by hand.
 
 - `infra/config.nix` auto-discovers every `infra/<name>/default.nix`, which sets
   `nixosImages.<name> = { configuration; kind ? "container"; sourceFile ? null; }`.
@@ -134,8 +116,6 @@ incus exec <name> -- cat /persist/etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 
 then add that recipient to `.sops.yaml` and re-encrypt. Never keep a plaintext
 age key on the local filesystem, and do not ship key material via cloud-init.
-
-See the `infra-vm-migration` skill for the full container → VM recipe.
 
 ## House style
 
