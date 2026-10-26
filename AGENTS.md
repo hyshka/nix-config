@@ -98,9 +98,9 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   `-var-file`. `validate` passes nothing, so it never evaluates or builds an
   image and stays cheap however many images exist. An image with an explicit
   `sourceFile` skips the variable.
-- The apply workflow also publishes those images to the attic cache: `nix run
-  .#image-paths` prints the store paths and `attic push home:nix-config --stdin`
-  uploads them with their closures. Each image's `system.build.toplevel` goes
+- The apply workflow also publishes those images to the attic cache:
+  `nix run .#image-paths` prints the store paths and
+  `attic push home:nix-config --stdin` uploads them with their closures. Each image's `system.build.toplevel` goes
   along so locally-built paths (the pinned podman) substitute instead of
   compiling; the cache's `cache.nixos.org-1` upstream filter skips everything
   upstream already serves. `attic-client` is in the runner's `hostPackages`;

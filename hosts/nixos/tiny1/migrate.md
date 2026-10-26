@@ -25,16 +25,16 @@
 
 ## Launch (at least 1 hour)
 
-1. [ ] Run snapraid sync on rpi4 (skipped this since I didn't want to mess with syncthing either)
-2. [x] Ensure Syncthing is fully up to date on rpi4
-3. [x] Disable all services on rpi4 and tiny1
-4. [x] Copy /var/snapraid.content from rpi4 to tiny1
-5. [x] Copy ~/.config/syncthing from rpi4 to tiny1
-6. [x] Copy ~/media from rpi4 to tiny1
-   - sudo chmod 600 <keys>
-7. [x] chown ntfy-sh:ntfy-sh /var/lib/ntfy-sh/user.db (user must exist)
-8. [x] Power off both servers
-9. [x] Move all drives from rip4 to tiny1
+01. [ ] Run snapraid sync on rpi4 (skipped this since I didn't want to mess with syncthing either)
+02. [x] Ensure Syncthing is fully up to date on rpi4
+03. [x] Disable all services on rpi4 and tiny1
+04. [x] Copy /var/snapraid.content from rpi4 to tiny1
+05. [x] Copy ~/.config/syncthing from rpi4 to tiny1
+06. [x] Copy ~/media from rpi4 to tiny1
+    - sudo chmod 600 <keys>
+07. [x] chown ntfy-sh:ntfy-sh /var/lib/ntfy-sh/user.db (user must exist)
+08. [x] Power off both servers
+09. [x] Move all drives from rip4 to tiny1
 10. [ ] Power on tiny1 (already on)
 11. [x] Enable filesystem configs for mergerfs and snapraid
     - fix filesystem owners and groups
