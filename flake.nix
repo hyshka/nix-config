@@ -103,11 +103,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     unocss-language-server = {
       url = "github:xna00/unocss-language-server";
       # Do not follow nixpkgs to avoid pnpmDeps hash mis-match in the unocss-language-server nix pkg
@@ -185,32 +180,6 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/${username}/${hostname}.nix ];
         };
-
-      # Helper to create container configurations
-      mkContainer =
-        file:
-        lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./containers/${file} ];
-          specialArgs = { inherit inputs outputs; };
-        };
-
-      # Dynamically discover containers from the containers/ directory
-      containers =
-        let
-          containerDir = ./containers;
-          files = builtins.readDir containerDir;
-          # Filter for .nix files, excluding default.nix
-          nixFiles = lib.filterAttrs (
-            name: type:
-            (type == "regular" || type == "symlink") && lib.hasSuffix ".nix" name && name != "default.nix"
-          ) files;
-
-        in
-        lib.mapAttrs' (name: _: {
-          name = lib.removeSuffix ".nix" name;
-          value = mkContainer name;
-        }) nixFiles;
 
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
       tofu = pkgs.opentofu;
@@ -352,8 +321,7 @@
           modules = [ ./hosts/nixos/ashyn ];
           specialArgs = { inherit inputs outputs; };
         };
-      }
-      // containers;
+      };
 
       # Nix-Darwin configuration entrypoint
       # nh darwin built/boot/switch

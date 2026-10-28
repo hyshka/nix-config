@@ -1,4 +1,6 @@
 {
+  config,
+  lib,
   pkgs,
   ...
 }:
@@ -9,56 +11,16 @@ let
   #   openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes \
   #     -keyout client.key -out client.crt -days 3650 -subj "/CN=forgejo-ci"
   certificate = ../../../infra/ci-client.crt;
+
+  # Derived from the projects the importing host preseed, so the certificate
+  # scope cannot drift from the host's own services/incus.nix.
+  projects = lib.concatStringsSep "," (map (p: p.name) config.virtualisation.incus.preseed.projects);
 in
 {
-  # The project the CI certificate is scoped to.
-  virtualisation.incus.preseed = {
-    projects = [
-      {
-        name = "lab-default";
-        config = {
-          restricted = "true";
-          "restricted.storage-pools.access" = "default";
-          "features.images" = "true"; # own image namespace
-          "features.profiles" = "true"; # required
-          "features.networks" = "false"; # share the default project's networks
-
-          "restricted.containers.nesting" = "allow"; # profile: security.nesting
-          "restricted.idmap.uid" = "0"; # profile: raw.idmap = "both 0 0"
-          "restricted.idmap.gid" = "0";
-          # profile: the sops age key is a host path
-          "restricted.devices.disk" = "allow";
-          "restricted.devices.disk.paths" = "/run/incus-secrets";
-          "restricted.devices.proxy" = "allow"; # instance: forgejo's ssh proxy
-        };
-      }
-    ];
-
-    # An instance with no `profiles` gets this project's `default`.
-    profiles = [
-      {
-        name = "default";
-        project = "lab-default";
-        description = "Default profile for lab-default workloads";
-        devices = {
-          eth0 = {
-            type = "nic";
-            network = "incusbr0";
-          };
-          root = {
-            type = "disk";
-            path = "/";
-            pool = "default";
-          };
-        };
-      }
-    ];
-  };
-
   # `incus admin init --preseed` creates trust entries unconditionally and
   # aborts when the certificate is already trusted, so registering it there
   # fails the preseed unit on every boot after the first. This is a no-op once
-  # the fingerprint is trusted.
+  # the fingerprint is trusted with the right scope.
   systemd.services.incus-ci-trust = {
     description = "Trust the CI client certificate";
     wantedBy = [ "incus.service" ];
@@ -83,19 +45,32 @@ in
         | ${pkgs.gnused}/bin/sed -e 's/^.*=//' -e 's/://g' \
         | ${pkgs.coreutils}/bin/tr 'A-Z' 'a-z')
 
+      # Re-add when the project scope changed too, not only when the
+      # fingerprint did: an unchanged certificate already trusted with the old
+      # project list would otherwise keep its old scope.
       if $incus config trust list --format=json \
-        | ${pkgs.jq}/bin/jq -e --arg fp "$fingerprint" 'any(.[]; .fingerprint == $fp)' >/dev/null; then
+        | ${pkgs.jq}/bin/jq -e \
+            --arg fp "$fingerprint" \
+            --arg projects "${projects}" \
+            'any(.[];
+               .fingerprint == $fp
+               and .restricted == true
+               and ((.projects // []) | sort | join(",")) == ($projects | split(",") | sort | join(","))
+             )' >/dev/null; then
         exit 0
       fi
 
       stale=$($incus config trust list --format=json \
-        | ${pkgs.jq}/bin/jq -r '.[] | select(.name == "forgejo-ci") | .fingerprint')
-      if [ -n "$stale" ]; then
-        $incus config trust remove "$stale"
-      fi
+        | ${pkgs.jq}/bin/jq -r --arg fp "$fingerprint" \
+            '.[] | select(.fingerprint == $fp or .name == "forgejo-ci") | .fingerprint' \
+        | ${pkgs.coreutils}/bin/sort -u)
+      for entry in $stale; do
+        $incus config trust remove "$entry"
+      done
 
       $incus config trust add-certificate ${certificate} \
-        --name forgejo-ci --restricted --projects lab-default
+        --name forgejo-ci --restricted \
+        --projects ${projects}
     '';
   };
 }

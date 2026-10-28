@@ -80,9 +80,11 @@ OpenTofu/Terranix-managed Incus workloads, separate from the flake-built
   (`resource.incus_instance."<name>"`, `resource.incus_storage_volume`, ...)
   goes directly in `infra/<name>/default.nix` and merges with the instance
   `config.nix` generates.
-- Every workload lives in the `lab-default` project; `config.nix` sets it on the
-  generated `incus_image`/`incus_instance`. Any resource written by hand
-  (`incus_storage_volume`, ...) must set `project = "lab-default"` itself.
+- Workloads default to the `lab-default` project; `config.nix` sets it on the
+  generated `incus_image`/`incus_instance`. A workload with a device
+  passthrough sets `nixosImages.<name>.project = "lab-gpu"`, the second
+  restricted project. Any resource written by hand (`incus_storage_volume`, ...)
+  must set `project` itself.
 - Platform is owned by the host, not tofu: networks (`incusbr0`), pools
   (`default`, `storage`), and the `nixos-container` profile come from
   `virtualisation.incus.preseed` in `hosts/nixos/<host>/…/incus.nix`. There are
@@ -159,7 +161,7 @@ use.
 `nixpkgs` (nixos-unstable); `home-manager`,
 `nix-darwin` (lnl7), `sops-nix`, `nixvim`, `catppuccin`, `disko`, `lanzaboote`,
 `impermanence`, `plasma-manager`, `nixGL`, `nixos-hardware`, `treefmt-nix`,
-`llm-agents`, `opencode-flake`, `openchamber-nix`, `zimfw`, `nur`.
+`llm-agents`, `opencode-flake`, `openchamber-nix`, `zimfw`.
 
 ## CI
 

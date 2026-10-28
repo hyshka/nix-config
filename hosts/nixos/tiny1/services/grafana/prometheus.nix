@@ -72,7 +72,7 @@
         job_name = "ntfy";
         static_configs = [
           {
-            targets = [ "10.223.27.234:9091" ];
+            targets = [ "ntfy.incus:9091" ];
           }
         ];
       }

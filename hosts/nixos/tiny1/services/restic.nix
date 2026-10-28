@@ -33,6 +33,7 @@
       "/mnt/storage/silverbullet"
       # Persisted container data
       "/persist/microvms"
+      "/var/lib/incus/storage-pools/default/custom/"
     ];
     exclude = [
       ".snapshots"
@@ -42,6 +43,10 @@
       "/mnt/storage/immich/thumbs"
       "/persist/microvms/jellyfin/config/cache"
       "/persist/microvms/jellyfin/config/transcodes"
+      "/var/lib/incus/storage-pools/default/custom/lab-gpu_jellyfin-persist/config/cache"
+      "/var/lib/incus/storage-pools/default/custom/lab-gpu_jellyfin-persist/config/transcodes"
+      # Only backup paperless-export
+      "/var/lib/incus/storage-pools/default/custom/lab-default_paperless-media"
     ];
     repository = "s3:s3.us-west-000.backblazeb2.com/storage-hyshka";
     timerConfig = {

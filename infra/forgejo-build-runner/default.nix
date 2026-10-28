@@ -6,6 +6,7 @@
   };
 
   resource.incus_instance."forgejo-build-runner" = {
+    depends_on = [ "incus_storage_volume.forgejo-build-runner-persist" ];
     config."security.secureboot" = "false";
     config."limits.cpu" = "4";
     config."limits.memory" = "8GiB";

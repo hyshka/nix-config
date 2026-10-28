@@ -4,6 +4,7 @@
   };
 
   resource.incus_instance.forgejo = {
+    depends_on = [ "incus_storage_volume.forgejo-persist" ];
     device = [
       {
         name = "ssh";

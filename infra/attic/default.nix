@@ -4,6 +4,7 @@
   };
 
   resource.incus_instance.attic = {
+    depends_on = [ "incus_storage_volume.attic-persist" ];
     device = [
       {
         name = "persist";

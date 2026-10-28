@@ -4,6 +4,7 @@
   };
 
   resource.incus_instance.seaweedfs = {
+    depends_on = [ "incus_storage_volume.seaweedfs-persist" ];
     device = [
       {
         name = "persist";

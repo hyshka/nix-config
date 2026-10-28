@@ -7,10 +7,12 @@
 let
   system = "x86_64-linux";
 
-  # Every workload tofu owns lives in this project. Hosts preseed it alongside
-  # the restricted CI certificate (see hosts/nixos/*/incus.nix), which keeps the
-  # CI credential away from anything in `default`.
-  project = "lab-default";
+  # Default project for every workload tofu owns. A workload with a device
+  # passthrough overrides it via `nixosImages.<name>.project`. Hosts preseed the
+  # projects alongside the restricted CI certificate (see
+  # hosts/nixos/*/incus.nix), which keeps the CI credential away from anything in
+  # `default`.
+  defaultProject = "lab-default";
 
   folders = lib.attrNames (
     lib.filterAttrs (
@@ -92,6 +94,10 @@ in
             type = lib.types.str;
             default = "tiny1";
           };
+          project = lib.mkOption {
+            type = lib.types.str;
+            default = defaultProject;
+          };
         };
       }
     );
@@ -161,7 +167,7 @@ in
 
     resource.incus_image = lib.mapAttrs (name: c: {
       inherit (c) remote;
-      project = project;
+      project = c.project;
       source_file =
         if c.sourceFile != null then
           c.sourceFile
@@ -178,11 +184,11 @@ in
       {
         inherit name;
         inherit (c) remote;
-        project = project;
+        project = c.project;
         type = lib.mkDefault c.kind;
         image = "\${incus_image.${name}.fingerprint}";
       }
-      // lib.optionalAttrs (c.kind == "container" && c.remote == "tiny1") {
+      // lib.optionalAttrs (c.kind == "container" && (c.remote == "tiny1" || c.project == "lab-gpu")) {
         profiles = [ "nixos-container" ];
       }
     ) config.nixosImages;
