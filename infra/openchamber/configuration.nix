@@ -16,6 +16,7 @@ let
   # comes from the stale `openchamber-nix` flake, but its `package` option is
   # designed to accept a replacement that takes an `opencode` override.
   openchamber = inputs.openchamber-pkg.packages.${pkgs.stdenv.hostPlatform.system}.openchamber;
+  funes = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.funes;
 in
 {
   # Build the image before deploying: `nix run .#plan` and `.#apply` realize
@@ -28,6 +29,24 @@ in
     inputs.openchamber-nix.nixosModules.default
   ];
 
+  environment.systemPackages = with pkgs; [
+    forgejo-cli
+    prek
+    jq
+    yq-go
+    fd
+    ast-grep
+    sd
+    difftastic
+    bat
+    file
+    unzip
+    sops
+    age
+    ssh-to-age
+    funes
+  ];
+
   sops.secrets.openchamber-password-file = {
     sopsFile = ./secrets/openchamber.yaml;
   };
@@ -38,6 +57,13 @@ in
     group = "openchamber";
     mode = "0600";
     path = "/var/lib/openchamber/.ssh/id_ed25519";
+  };
+
+  sops.secrets.forgejo-cli-token = {
+    sopsFile = ./secrets/openchamber.yaml;
+    owner = "openchamber";
+    group = "openchamber";
+    mode = "0400";
   };
 
   # sudo tailscale serve --bg --https=10000 http://localhost:8888
@@ -100,6 +126,16 @@ in
       (pkgs.writeShellScript "openchamber-ssh-pre" ''
         install -d -m 0700 -o openchamber -g openchamber /var/lib/openchamber/.ssh
         install -m 0600 -o openchamber -g openchamber ${openchamberPublicKeyFile} /var/lib/openchamber/.ssh/id_ed25519.pub
+      '')
+      (pkgs.writeShellScript "openchamber-forgejo-pre" ''
+        keys=/var/lib/openchamber/.local/share/forgejo-cli/keys.json
+        install -d -m 0700 /var/lib/openchamber/.local/share/forgejo-cli
+        ${pkgs.jq}/bin/jq -n \
+          --arg token "$(cat ${config.sops.secrets.forgejo-cli-token.path})" \
+          --arg host "code.home.hyshka.com" \
+          '{hosts: {($host): {type: "Application", token: $token}}, aliases: {}, default_ssh: [$host]}' \
+          > "$keys"
+        chmod 0600 "$keys"
       '')
     ];
   };
