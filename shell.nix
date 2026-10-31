@@ -36,7 +36,7 @@ pkgs.mkShell {
       gnupg
       pinentry-curses
 
-      # deploy.sh and incus-manager.sh
+      # deploy.sh
       jq
     ]
     # incus client is linux-only; keep the darwin devShell buildable

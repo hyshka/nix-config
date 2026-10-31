@@ -20,7 +20,6 @@
     ./docker.nix
     ./doom.nix
     ./steam.nix
-    ./sunshine.nix
     ./syncthing.nix
     ./wol.nix
     ./incus.nix

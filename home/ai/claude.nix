@@ -16,9 +16,6 @@ in
   programs.claude-code = {
     enable = true;
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
-    #agents = {
-    #  technical-writer = ./agents/technical-writer.md;
-    #};
     context = ./base.md;
     settings = {
       hooks = lib.zipAttrsWith (_: lib.concatLists) hookModules;
@@ -239,16 +236,11 @@ in
           "WebFetch(domain:registry.yarnpkg.com)"
           "WebFetch(domain:registry.npmjs.org)"
           "WebFetch(domain:vite.dev)"
-          "WebFetch(domain:vite.dev)"
 
           # Trusted Skills
           "Skill(commit-commands:commit)"
           "Skill(commit-commands:commit-push-pr)"
           "Skill(pr-review-toolkit:review-pr:*)"
-
-          # Container management (build-only)
-          "Bash(./incus-manager.sh build:*)"
-          "Bash(./incus-manager.sh get-age-key:*)"
 
           # MCP permissions (read-only)
           "mcp__context7"
@@ -280,12 +272,6 @@ in
           "Bash(gh pr create:*)"
           "Bash(gh pr merge:*)"
           "Bash(gh pr comment:*)"
-
-          # Container management (modifies infrastructure)
-          "Bash(./incus-manager.sh deploy:*)"
-          "Bash(./incus-manager.sh rebuild:*)"
-          "Bash(./incus-manager.sh restart:*)"
-          "Bash(./incus-manager.sh bootstrap:*)"
         ];
         deny = [
           # Disable unused tools to save context

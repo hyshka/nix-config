@@ -28,10 +28,8 @@ in
     # Extra
     ./plugins/autopairs.nix
     ./plugins/indent-blankline.nix
-    #./plugins/orgmode.nix
     ./plugins/oil.nix
     ./plugins/codecompanion.nix
-    #./plugins/opencode.nix
   ];
 
   programs.nixvim = {

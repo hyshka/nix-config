@@ -15,12 +15,6 @@
     # Use llm-agents version of opencode instead of nixpkgs
     opencode = inputs.llm-agents.packages.${prev.stdenv.hostPlatform.system}.opencode;
 
-    sunshine = prev.sunshine.overrideAttrs (_oldAttrs: {
-      extraLibraries = [
-        prev.util-linux # required for setsid
-      ];
-    });
-
     # snapraid searches a hardcoded list of FHS paths for smartctl, so
     # `snapraid smart` cannot find it on NixOS. Replace the first path with the
     # store path; the remaining FHS paths stay as fallbacks.
@@ -45,10 +39,5 @@
         });
       }
     );
-  };
-
-  # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
-  stable = final: _: {
-    stable = inputs.nixpkgs-stable.legacyPackages.${final.system};
   };
 }

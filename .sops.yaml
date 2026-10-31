@@ -43,24 +43,6 @@ creation_rules:
           - *ashyn
         pgp:
           - *hyshka
-  - path_regex: containers/secrets/ai.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-ai
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/openchamber.ya?ml$
-    key_groups:
-      - age:
-          - *lxc-ai
-        pgp:
-          - *hyshka
-  - path_regex: containers/secrets/.*\.(ya?ml|sqlite|db)$
-    key_groups:
-      - age:
-          - *lxc-core
-        pgp:
-          - *hyshka
   - path_regex: infra/forgejo-build-runner/secrets/.*\.(ya?ml|sqlite|db)$
     key_groups:
       - age:
@@ -88,10 +70,3 @@ creation_rules:
           - *ashyn
         pgp:
           - *hyshka
-
-#- path_regex: hosts/common/secrets.ya?ml$
-#      key_groups:
-#      - age:
-#        - *starship
-#        pgp:
-#        - *hyshka

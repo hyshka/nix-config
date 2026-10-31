@@ -9,7 +9,6 @@
     ../desktop/alacritty.nix
     ../desktop/plasma.nix
     ../desktop/zwift.nix
-    #../desktop/logseq.nix
     ../ai/opencode.nix
     ../nixvim
     ../cli

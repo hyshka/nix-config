@@ -49,12 +49,6 @@
 
         };
       };
-      # TODO: upstream bug: Unrecognized key: "commands"
-      #commands = {
-      #  commit = ./commands/commit.md;
-      #  review-changes = ./commands/review-changes.md;
-      #  review-pr = ./commands/review-pr.md;
-      #};
     };
     # TODO: reimplement notifications
     #"plugin-notification" = {

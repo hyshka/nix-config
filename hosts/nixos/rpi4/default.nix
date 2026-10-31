@@ -12,7 +12,6 @@
 
     ../common/global
 
-    ./services
     ./bluetooth-audio.nix
   ];
 

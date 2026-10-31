@@ -5,19 +5,18 @@ description: Move an Incus LXC container into a Terranix-managed virtual machine
 
 # Migrating a container to a VM under `infra/`
 
-Use when moving `containers/<name>.nix` (flake `mkContainer`) to an
-`infra/<name>/` Terranix workload with `kind = "virtual-machine"`, or when
-adding any new VM under `infra/`.
+Use when moving an existing Incus LXC container into an `infra/<name>/`
+Terranix workload with `kind = "virtual-machine"`, or when adding any new VM
+under `infra/`.
 
 Read `infra/config.nix`, `infra/container.nix`, `infra/virtual-machine.nix`, and
-a sibling such as `infra/hello/` before changing anything. Do not re-derive the
+a sibling such as `infra/forgejo-build-runner/` before changing anything. Do not re-derive the
 nixpkgs module wiring; it is already captured below.
 
 ## Steps
 
-1. Create `infra/<name>/configuration.nix` with the body of the container file
-   (services, sops secrets, `environment.persistence."/persist"`) minus the
-   `mkContainer` boilerplate.
+1. Create `infra/<name>/configuration.nix` with the container's services, sops
+   secrets, and `environment.persistence."/persist"`.
 
 2. Create `infra/<name>/default.nix`:
 
@@ -55,8 +54,9 @@ nixpkgs module wiring; it is already captured below.
    (age recipient only, no `pgp`), and re-encrypt for the VM's host-key
    recipient (see below).
 
-4. Delete `containers/<name>.nix`. `infra/config.nix` auto-discovers
-   `infra/*/default.nix`, so nothing to register.
+4. Remove the old container definition once the VM is verified.
+   `infra/config.nix` auto-discovers `infra/*/default.nix`, so nothing to
+   register.
 
 5. `nix fmt`, then evaluate the terranix config to confirm the merge produces a
    single instance resource with `config`, `device`, `image`, `name`, and
@@ -64,7 +64,7 @@ nixpkgs module wiring; it is already captured below.
 
 ## Facts that are easy to get wrong
 
-- **Image paths.** In `infra/config.nix`, `defaultSourceFile.virtual-machine` is
+- **Image paths.** In `infra/config.nix`, `imageArtifact.virtual-machine` is
   `data_path = ${config.system.build.repartImage}/nixos.qcow2` and
   `metadata_path = ${config.system.build.metadata}/tarball/${config.image.baseName}.tar.xz`.
   Use `config.image.baseName`; `config.image.fileName`/`filePath` hit an
