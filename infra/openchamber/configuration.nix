@@ -45,6 +45,8 @@ in
     age
     ssh-to-age
     funes
+    sqlite # funes
+    bun # funes
   ];
 
   sops.secrets.openchamber-password-file = {
