@@ -12,6 +12,31 @@ let
   # OpenCode 2: llm-agents ships both lines (`opencode` = 1.x, `opencode2` = 2.x).
   # OpenChamber 2.x requires OpenCode 2.
   opencode = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2;
+  # OpenChamber starts `opencode serve` in the foreground; funes-opencode reads a project's
+  # sessions through the service registration opencode writes only under `--service`.
+  opencodeService = pkgs.writeShellScriptBin "opencode" ''
+    for arg in "$@"; do
+      [ "$arg" = "--service" ] && exec ${opencode}/bin/opencode2 "$@"
+    done
+    if [ "''${1:-}" = "serve" ]; then
+      exec ${opencode}/bin/opencode2 "$@" --service
+    fi
+    exec ${opencode}/bin/opencode2 "$@"
+  '';
+  opencodeFunes =
+    pkgs.runCommand "opencode-funes-0.3.0"
+      {
+        src = pkgs.fetchFromGitHub {
+          owner = "balcsida";
+          repo = "opencode-funes";
+          rev = "v0.3.0";
+          hash = "sha256-hjk/ubPFTibzi1swn0kpRQLSycspBw8Sz5v6aujEkHI=";
+        };
+      }
+      ''
+        mkdir -p $out
+        cp -r $src/opencode $out/opencode
+      '';
   # OpenChamber 2.x package (see `openchamber-pkg` in flake.nix); the module
   # comes from the stale `openchamber-nix` flake, but its `package` option is
   # designed to accept a replacement that takes an `opencode` override.
@@ -45,6 +70,8 @@ in
     age
     ssh-to-age
     funes
+    opencodeFunes # funes add opencode --from
+    trufflehog # funes push
     sqlite # funes
     bun # funes
   ];
@@ -77,7 +104,7 @@ in
     enableWebUI = true;
     lan = true;
     uiPasswordFile = config.sops.secrets.openchamber-password-file.path;
-    opencodePackage = opencode;
+    opencodePackage = opencodeService;
     package = openchamber;
 
     # opencodeHost = "http://hostname:4096";  # external OpenCode server (with skipOpencodeStart = true)
