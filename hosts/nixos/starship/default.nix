@@ -21,7 +21,6 @@
     ./doom.nix
     ./steam.nix
     ./syncthing.nix
-    ./wol.nix
     ./incus.nix
     ./lact.nix
     ./forgejo-runner.nix
