@@ -62,6 +62,7 @@ jobs:
             nix run .#apply
           fi
       - name: Push images to the binary cache
+        if: false
         run: |
           set -euo pipefail
 
