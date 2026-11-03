@@ -78,7 +78,7 @@ in
       };
       statusLine = {
         type = "command";
-        command = "~/claudeline/claudeline -cwd -git-branch"; # TODO: move to custom nix pkg
+        command = "~/claudeline/claudeline -cwd -git-branch";
         padding = 0;
         refreshInterval = 10;
       };

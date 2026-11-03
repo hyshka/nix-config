@@ -9,7 +9,7 @@
     ./forgejo.nix
     ./acme.nix
     ./grafana
-    ./adguard-home.nix # TODO: move to rpi4
+    ./adguard-home.nix
     ./incus.nix
   ];
 }

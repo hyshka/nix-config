@@ -60,7 +60,6 @@
       config = {
         "core.https_address" = ":8443";
         "core.metrics_address" = "127.0.0.1:8444";
-        # TODO: find a simple way to enable auth
         "core.metrics_authentication" = "false";
         "oidc.client.id" = "e8b1278a-ef80-45d7-844a-2712342e7471";
         "oidc.issuer" = "https://auth.home.hyshka.com";
@@ -114,7 +113,6 @@
               type = "disk";
               path = "/persist";
               shift = "true";
-              # TODO: this needs to be overridden per-instance and must be reworked
               # e.g. /persist/microvms/<instance_name>
               source = "/persist/microvms/";
             };
@@ -258,7 +256,6 @@
     '';
   };
 
-  # TODO: create a better system for managing idmapped disks
   users.users.root = {
     subUidRanges = [
       # hyshka user

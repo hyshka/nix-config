@@ -66,7 +66,6 @@
       show_image_date = true;
       show_image_location = true;
       show_user = true;
-      # TODO: immich_users_api_keys = []
       # Additional configuration can be added here
       # See https://docs.immichkiosk.app/configuration/ for available options
       # Examples:

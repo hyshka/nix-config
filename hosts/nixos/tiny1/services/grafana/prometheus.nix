@@ -170,7 +170,6 @@
         group = "restic";
         refreshInterval = 60 * 60 * 24; # every 24hrs
       };
-      # TODO: not in nixpkgs https://github.com/henrywhitaker3/adguard-exporter
     };
   };
 

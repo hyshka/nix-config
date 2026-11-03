@@ -16,7 +16,6 @@
       executable = true;
     };
   };
-  # TODO
   xdg.configFile = {
     "zwift" = {
       text = ''

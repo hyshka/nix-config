@@ -18,8 +18,6 @@
     extraBackupArgs = [
       "--no-scan" # disable backup progress estimation to reduce I/O
     ];
-    # TODO: alert if there are check issues
-    # TODO: determine best options for --read-data-subset
     runCheck = true;
     paths = [
       "/mnt/storage/hyshka"
@@ -27,7 +25,6 @@
       "/var/lib/private/AdGuardHome/AdGuardHome.yaml"
       "/var/lib/private/AdGuardHome/data"
       "/var/lib/nixos"
-      # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
       "/mnt/storage/silverbullet"
@@ -38,7 +35,6 @@
     exclude = [
       ".snapshots"
       ".Trash-1000"
-      # TODO: create better system for backing up data from LXC containers
       "/mnt/storage/immich/encoded-video"
       "/mnt/storage/immich/thumbs"
       "/persist/microvms/jellyfin/config/cache"

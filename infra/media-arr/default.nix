@@ -5,7 +5,6 @@
 
   resource.incus_instance.media-arr = {
     depends_on = [ "incus_storage_volume.media-arr-persist" ];
-    # TODO: drop service uids and rely on mediacenter group instead, requires re-own
     config."raw.idmap" =
       "both 0 0\nuid 274 274\nuid 275 275\nuid 997 997\nuid 998 998\nuid 61654 61654\ngid 13000 13000";
     device = [

@@ -138,7 +138,6 @@
     };
   };
 
-  # TODO: fix discoverability on LAN
   # We'd need to expose the same ports from the tiny1 host as this container
   services.avahi = {
     publish.enable = true;

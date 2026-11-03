@@ -1,5 +1,4 @@
 {
-  # TODO
   # mpris-proxy: bluetooth speaker audio controls
   #hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;

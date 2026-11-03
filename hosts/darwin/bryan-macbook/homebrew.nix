@@ -26,7 +26,6 @@
 
     # `brew install --cask`
     casks = [
-      # TODO: aerospace config
       # https://nix-darwin.github.io/nix-darwin/manual/index.html#opt-services.aerospace.enable
       # https://github.com/AlexNabokikh/nix-config/blob/master/home/modules/darwin-aerospace.nix
       "aerospace" # tiling window manager, https://nikitabobko.github.io/AeroSpace/guide#installation
@@ -50,8 +49,6 @@
     ];
   };
 
-  # TODO espanso: mac not supported by home-manager module
-  # TODO set content of config file in nix
   # /Users/hyshka/Library/Application Support/espanso/config/default.yml
   # /Users/hyshka/Library/Application Support/espanso/match/base.yml
   # https://github.com/nix-community/home-manager/blob/master/modules/services/espanso.nix#L103

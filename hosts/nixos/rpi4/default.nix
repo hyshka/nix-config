@@ -41,7 +41,6 @@
   ];
 
   users = {
-    #mutableUsers = false; # TODO
     users = {
       hyshka = {
         isNormalUser = true;

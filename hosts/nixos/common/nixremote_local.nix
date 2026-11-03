@@ -2,7 +2,6 @@
   # Configuration for using a remote Nix builder over SSH.
   # See https://wiki.nixos.org/wiki/Distributed_build
 
-  # TODO: how to automate the following steps on each client?
   # 1. sudo ssh-keygen -f /root/.ssh/nixremote
   # 2. add contents of /root/.ssh/nixremote.pub to ./nixremote.nix authorizedKeys
   programs.ssh = {

@@ -8,7 +8,6 @@
     depends_on = [
       "incus_storage_volume.immich_db"
     ];
-    # TODO: re-own immich volumes, no data is shared on the host
     config."raw.idmap" = "both 0 999";
     # TODO: immich doesn't need lxc-core age key but it's mounted anyways
     device = [

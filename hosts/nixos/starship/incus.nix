@@ -57,7 +57,6 @@
       config = {
         "core.https_address" = ":8443";
         "core.metrics_address" = "0.0.0.0:8444";
-        # TODO: find a simple way to enable auth
         "core.metrics_authentication" = "false";
       };
       networks = [

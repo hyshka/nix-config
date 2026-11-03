@@ -17,7 +17,6 @@
         main = {
           # meta triggers esc, when held trigger meta
           meta = "overload(meta, esc)";
-          # TODO: Weird extra key beside left shift
           "102nd" = "layer(shift)";
 
           # TODO: tweak these to be more useful
