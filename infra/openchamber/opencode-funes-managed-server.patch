@@ -1,0 +1,30 @@
+--- a/opencode/plugin.ts
++++ b/opencode/plugin.ts
+@@ -115,8 +115,25 @@
+   try {
+     const file = join(process.env.XDG_STATE_HOME || join(homedir(), ".local", "state"), "opencode", "service.json");
+     const info = JSON.parse(readFileSync(file, "utf8"));
+-    return info.pid === process.pid ? info : undefined;
+-  } catch { return undefined; }
++    if (info.pid === process.pid) return info;
++  } catch {}
++  return managedServer();
++}
++
++// A server a supervisor started in the foreground — OpenChamber's managed one — writes no
++// registration. It is this process, and its own bind address and password are in reach.
++function managedServer(): { url: string; password?: string } | undefined {
++  const password = process.env.OPENCODE_SERVER_PASSWORD;
++  if (!password) return undefined;
++  let argv: string[];
++  try { argv = readFileSync("/proc/self/cmdline", "utf8").split("\0"); } catch { return undefined; }
++  const flag = (name: string) => {
++    const index = argv.indexOf(name);
++    return index < 0 ? undefined : argv[index + 1];
++  };
++  const port = flag("--port");
++  if (!port) return undefined;
++  return { url: `http://${flag("--hostname") ?? "127.0.0.1"}:${port}`, password };
+ }
+
+ // The OpenCode 2 plugin context (packages/plugin/src/promise), as far as it is used here.
