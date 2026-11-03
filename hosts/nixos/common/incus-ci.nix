@@ -15,6 +15,14 @@ let
   # Derived from the projects the importing host preseed, so the certificate
   # scope cannot drift from the host's own services/incus.nix.
   projects = lib.concatStringsSep "," (map (p: p.name) config.virtualisation.incus.preseed.projects);
+
+  trustedQuery = ''
+    any(.[];
+      .fingerprint == $fp
+      and .restricted == true
+      and ((.projects // []) | sort | join(",")) == ($projects | split(",") | sort | join(","))
+    )
+  '';
 in
 {
   # `incus admin init --preseed` creates trust entries unconditionally and
@@ -39,6 +47,7 @@ in
 
     script = ''
       incus=${pkgs.incus}/bin/incus
+      jq=${pkgs.jq}/bin/jq
       $incus admin waitready
 
       fingerprint=$(${pkgs.openssl}/bin/openssl x509 -in ${certificate} -noout -fingerprint -sha256 \
@@ -48,29 +57,37 @@ in
       # Re-add when the project scope changed too, not only when the
       # fingerprint did: an unchanged certificate already trusted with the old
       # project list would otherwise keep its old scope.
-      if $incus config trust list --format=json \
-        | ${pkgs.jq}/bin/jq -e \
-            --arg fp "$fingerprint" \
-            --arg projects "${projects}" \
-            'any(.[];
-               .fingerprint == $fp
-               and .restricted == true
-               and ((.projects // []) | sort | join(",")) == ($projects | split(",") | sort | join(","))
-             )' >/dev/null; then
+      trusted() {
+        $incus config trust list --format=json \
+          | $jq -e \
+              --arg fp "$fingerprint" \
+              --arg projects "${projects}" \
+              '${trustedQuery}' >/dev/null
+      }
+
+      if trusted; then
+        echo "forgejo-ci $fingerprint is trusted for ${projects}"
         exit 0
       fi
 
       stale=$($incus config trust list --format=json \
-        | ${pkgs.jq}/bin/jq -r --arg fp "$fingerprint" \
+        | $jq -r --arg fp "$fingerprint" \
             '.[] | select(.fingerprint == $fp or .name == "forgejo-ci") | .fingerprint' \
         | ${pkgs.coreutils}/bin/sort -u)
       for entry in $stale; do
+        echo "removing stale trust entry $entry"
         $incus config trust remove "$entry"
       done
 
+      echo "trusting forgejo-ci $fingerprint for ${projects}"
       $incus config trust add-certificate ${certificate} \
         --name forgejo-ci --restricted \
         --projects ${projects}
+
+      trusted || {
+        echo "forgejo-ci $fingerprint is not trusted for ${projects} after add-certificate" >&2
+        exit 1
+      }
     '';
   };
 }

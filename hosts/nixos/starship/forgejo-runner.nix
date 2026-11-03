@@ -49,8 +49,8 @@
 
   # Hand secrets to the service as systemd credentials so they land in
   # $CREDENTIALS_DIRECTORY instead of a world-readable /run/secrets path.
-  # The incus client needs a writable config dir holding client.crt/client.key,
-  # so symlink them into a RuntimeDirectory it can write servercerts/ into.
+  # The incus client needs a writable config dir holding client.crt/client.key
+  # plus the pinned server certs, so put them on a RuntimeDirectory.
   systemd.services."forgejo-runner-tofu" = {
     after = [ "sops-install-secrets.service" ];
     wants = [ "sops-install-secrets.service" ];
@@ -90,6 +90,8 @@
     preStart = ''
       ln -sf "$CREDENTIALS_DIRECTORY/client.crt" "$RUNTIME_DIRECTORY/client.crt"
       ln -sf "$CREDENTIALS_DIRECTORY/client.key" "$RUNTIME_DIRECTORY/client.key"
+      install -D -m 0644 ${../../../infra/starship-server.crt} "$RUNTIME_DIRECTORY/servercerts/starship.crt"
+      install -D -m 0644 ${../../../infra/tiny1-server.crt} "$RUNTIME_DIRECTORY/servercerts/tiny1.crt"
     '';
   };
 
