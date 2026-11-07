@@ -60,18 +60,101 @@ in
           };
           base_url = "http://localhost:7878";
           delete_old_custom_formats = true;
-          replace_existing_custom_formats = true;
-          include = [
-            { template = "radarr-quality-definition-movie"; }
-            { template = "radarr-quality-profile-hd-bluray-web"; }
-            { template = "radarr-custom-formats-hd-bluray-web"; }
+          quality_definition = {
+            type = "movie";
+            qualities = [
+              {
+                name = "WEBDL-1080p";
+                min = 12.5;
+                preferred = 85;
+                max = 213;
+              }
+              {
+                name = "WEBRip-1080p";
+                min = 12.5;
+                preferred = 85;
+                max = 213;
+              }
+              {
+                name = "Bluray-1080p";
+                min = 50.8;
+                preferred = 85;
+                max = 213;
+              }
+              {
+                name = "HDTV-1080p";
+                min = 33.8;
+                preferred = 85;
+                max = 213;
+              }
+              {
+                name = "WEBDL-720p";
+                min = 12.5;
+                preferred = 20;
+                max = 40;
+              }
+              {
+                name = "WEBRip-720p";
+                min = 12.5;
+                preferred = 20;
+                max = 40;
+              }
+              {
+                name = "Bluray-720p";
+                min = 25.7;
+                preferred = 30;
+                max = 50;
+              }
+              {
+                name = "HDTV-720p";
+                min = 17.1;
+                preferred = 20;
+                max = 40;
+              }
+            ];
+          };
+          quality_profiles = [
+            {
+              trash_id = "d1d67249d3890e49bc12e275d989a7e9"; # HD Bluray + WEB
+              name = "HD Bluray + WEB";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "WEB 1080p";
+              };
+              qualities = [
+                {
+                  name = "WEB 1080p";
+                  qualities = [
+                    "WEBRip-1080p"
+                    "WEBDL-1080p"
+                  ];
+                }
+                { name = "Bluray-1080p"; }
+                {
+                  name = "WEB 720p";
+                  qualities = [
+                    "WEBRip-720p"
+                    "WEBDL-720p"
+                  ];
+                }
+                { name = "Bluray-720p"; }
+              ];
+            }
           ];
+          custom_format_groups = {
+            add = [
+              {
+                trash_id = "f8bf8eab4617f12dfdbd16303d8da245"; # [Optional] Golden Rule HD
+                exclude = [ "dc98083864ea246d05a42df0d05f81cc" ]; # x265 (HD)
+              }
+            ];
+          };
           custom_formats = [
             {
+              trash_ids = [ "839bea857ed2c0a8e084f3cbdbd65ecb" ]; # x265 (no HDR/DV)
+              score = 0;
               assign_scores_to = [ { name = "HD Bluray + WEB"; } ];
-              trash_ids = [
-                "839bea857ed2c0a8e084f3cbdbd65ecb" # x265 (no HDR/DV)
-              ];
             }
           ];
         };
@@ -83,18 +166,122 @@ in
           };
           base_url = "http://localhost:8989";
           delete_old_custom_formats = true;
-          replace_existing_custom_formats = true;
-          include = [
-            { template = "sonarr-quality-definition-series"; }
-            { template = "sonarr-v4-quality-profile-web-1080p-alternative"; }
-            { template = "sonarr-v4-custom-formats-web-1080p"; }
+          quality_definition = {
+            type = "series";
+            qualities = [
+              {
+                name = "WEBDL-1080p";
+                min = 10;
+                preferred = 23;
+                max = 57;
+              }
+              {
+                name = "WEBRip-1080p";
+                min = 10;
+                preferred = 23;
+                max = 57;
+              }
+              {
+                name = "Bluray-1080p";
+                min = 50.4;
+                preferred = 55;
+                max = 57;
+              }
+              {
+                name = "HDTV-1080p";
+                min = 10;
+                preferred = 23;
+                max = 57;
+              }
+              {
+                name = "WEBDL-720p";
+                min = 10;
+                preferred = 15;
+                max = 35;
+              }
+              {
+                name = "WEBRip-720p";
+                min = 10;
+                preferred = 15;
+                max = 35;
+              }
+              {
+                name = "Bluray-720p";
+                min = 17.1;
+                preferred = 25;
+                max = 45;
+              }
+              {
+                name = "HDTV-720p";
+                min = 10;
+                preferred = 15;
+                max = 35;
+              }
+            ];
+          };
+          quality_profiles = [
+            {
+              trash_id = "9d142234e45d6143785ac55f5a9e8dc9"; # WEB-1080p (Alternative)
+              name = "WEB-1080p";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "WEB 1080p";
+              };
+            }
+            {
+              name = "SD Fallback";
+              reset_unmatched_scores.enabled = true;
+              upgrade = {
+                allowed = true;
+                until_quality = "WEB 1080p";
+              };
+              qualities = [
+                {
+                  name = "WEB 1080p";
+                  qualities = [
+                    "WEBRip-1080p"
+                    "WEBDL-1080p"
+                  ];
+                }
+                { name = "Bluray-1080p"; }
+                { name = "HDTV-1080p"; }
+                {
+                  name = "WEB 720p";
+                  qualities = [
+                    "WEBRip-720p"
+                    "WEBDL-720p"
+                  ];
+                }
+                { name = "Bluray-720p"; }
+                { name = "HDTV-720p"; }
+                { name = "Bluray-576p"; }
+                {
+                  name = "WEB 480p";
+                  qualities = [
+                    "WEBRip-480p"
+                    "WEBDL-480p"
+                  ];
+                }
+                { name = "Bluray-480p"; }
+                { name = "DVD"; }
+                { name = "SDTV"; }
+              ];
+            }
           ];
+          custom_format_groups = {
+            add = [
+              {
+                trash_id = "158188097a58d7687dee647e04af0da3"; # [Optional] Golden Rule HD
+                exclude = [ "47435ece6b99a0b477caf360e79ba0bb" ]; # x265 (HD)
+              }
+            ];
+          };
           custom_formats = [
             {
+              trash_ids = [ "9b64dff695c2115facf1b6ea59c9bd07" ]; # x265 (no HDR/DV)
+              score = 0;
               assign_scores_to = [ { name = "WEB-1080p"; } ];
-              trash_ids = [
-                "9b64dff695c2115facf1b6ea59c9bd07" # x265 (no HDR/DV)
-              ];
             }
           ];
         };
