@@ -41,7 +41,7 @@ in
   # Renovate's job container runs as the containerbase `ubuntu` user (uid
   # 12021), which needs to write its cache volume.
   systemd.tmpfiles.rules = [
-    "d ${cacheDir}/renovate 0770 root root -"
+    "d ${cacheDir}/renovate 0770 12021 root -"
     "d ${cacheDir}/nix 0755 root root -"
   ];
 

@@ -9,7 +9,8 @@ concurrency:
 jobs:
   renovate:
     name: Renovate
-    if: forgejo.ref == 'refs/heads/main'
+    # ref_name is "main" for both push and schedule runs.
+    if: forgejo.ref_name == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:

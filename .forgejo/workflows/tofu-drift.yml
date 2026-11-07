@@ -9,7 +9,8 @@ concurrency:
 jobs:
   drift:
     name: Drift
-    if: forgejo.ref == 'refs/heads/main'
+    # ref_name is "main" for both push and schedule runs.
+    if: forgejo.ref_name == 'main'
     runs-on: nixos
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
