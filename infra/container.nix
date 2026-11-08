@@ -31,11 +31,9 @@
     neededForBoot = lib.mkForce true;
   };
 
-  environment.persistence."/persist" = {
-    directories = [
-      "/var/lib/nixos" # persist uids/gids
-    ];
-  };
+  services.userborn.importLegacyState = lib.mkDefault false;
+
+  environment.persistence."/persist".enableWarnings = lib.mkDefault false;
 
   # image-based-appliance.nix enforces networkd, only use resolved
   networking.useHostResolvConf = false;

@@ -16,3 +16,15 @@ would otherwise be lost.
   project-scoped client certificate through `$INCUS_CONF`. No manual apply.
 - **2026-10:** Workloads are addressed as `<name>.incus` over DHCP. Avoid
   static addresses.
+- **2026-11:** Workload identity comes from the config, not from persisted
+  runtime state. Containers and the VM run `perlless` + userborn
+  (`users.mutableUsers = false`, `userborn.importLegacyState = false`) and do
+  not persist `/var/lib/nixos`. Pin `uid`/`gid` only for a static account whose
+  numeric id appears on durable storage: DynamicUser units need no pin
+  (systemd owns and re-chowns their state dir), accounts with an explicit
+  `uid`/`gid` (including `config.ids.uids.*`) are already stable, a `uid = null`
+  account that owns durable data must be pinned, and a `uid = null` account
+  that owns nothing can stay floating.
+- **2026-11:** Workload state belongs in one Incus volume per state directory.
+  Keep an impermanence-backed `/persist` when a workload has several
+  directories, rather than multiplying volumes or hand-writing bind mounts.

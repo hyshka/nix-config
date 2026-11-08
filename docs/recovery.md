@@ -52,6 +52,10 @@ disk. It protects against a disk failure, not against deletion or a bad write.
 
 ## Known gaps
 
+- Container and VM uids are not pinned yet for `forgejo`, `jellyfin`,
+  `openchamber`, `pinchflat`, `pocket-id`, `qbittorrent`, `sabnzbd`, and
+  `recyclarr`. Until they are, a volume that survives an image replacement
+  relies on userborn's deterministic allocation.
 - Restic runs on `tiny1` only. `ai` and `openchamber` state on `starship` has no
   offsite copy.
 - Volumes on the `storage` pool (`/mnt/storage/incus`) rely on snapraid, not

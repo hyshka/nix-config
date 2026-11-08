@@ -1,16 +1,21 @@
 {
+  lib,
   inputs,
   ...
 }:
 {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/virtualisation/incus-virtual-machine.nix"
+    "${inputs.nixpkgs}/nixos/modules/profiles/perlless.nix"
     inputs.sops-nix.nixosModules.sops
     inputs.impermanence.nixosModules.impermanence
   ];
 
   # Base configuration
   system.stateVersion = "23.11";
+
+  users.mutableUsers = false;
+  services.userborn.importLegacyState = lib.mkDefault false;
 
   # Unlike the containers, a VM has no host bind-mount to inject a sops age key.
   # Derive the age identity deterministically from this VM's SSH host key, which
@@ -33,9 +38,5 @@
     neededForBoot = true;
   };
 
-  environment.persistence."/persist" = {
-    directories = [
-      "/var/lib/nixos" # persist uids/gids
-    ];
-  };
+  environment.persistence."/persist".enableWarnings = lib.mkDefault false;
 }
