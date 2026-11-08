@@ -3,6 +3,8 @@
   ...
 }:
 {
+  nixpkgs.config.permittedInsecurePackages = [ "pinchflat-2025.9.26" ];
+
   sops.secrets.secretsFile = {
     sopsFile = ./secrets/pinchflat.yaml;
   };
