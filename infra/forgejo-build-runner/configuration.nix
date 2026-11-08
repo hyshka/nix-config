@@ -13,27 +13,7 @@ let
 in
 {
   # A full VM, so podman can run job containers without LXC nesting. It carries
-  # only the untrusted docker label; the trusted apply/drift jobs run on Starship.
-
-  # podman 5.8.7 regressed the archive API: copying actions through the
-  # in-container /var/run -> /run symlink fails with "path escapes from
-  # parent", failing every job. Pin the last known-good release until podman
-  # vendors the buildah copier fix. Reintroduces CVE-2026-79705.
-  # https://github.com/podman-container-tools/podman/issues/29805
-  nixpkgs.overlays = [
-    (_final: prev: {
-      podman = prev.podman.overrideAttrs (_old: {
-        version = "5.8.4";
-        src = prev.fetchFromGitHub {
-          owner = "podman-container-tools";
-          repo = "podman";
-          tag = "v5.8.4";
-          hash = "sha256-zhEtMZVKiv1L72EMlwgz8sHpmvhejGp98oW63aPj+rQ=";
-        };
-        doInstallCheck = false;
-      });
-    })
-  ];
+  # only the untrusted docker label; the trusted apply/drift jobs run on Starship
 
   # Let job containers reach the runner's cache proxy at host.containers.internal.
   networking.firewall.interfaces."podman+".allowedTCPPorts = [ cacheProxyPort ];
