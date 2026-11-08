@@ -7,15 +7,12 @@
 {
   imports = [
     inputs.hardware.nixosModules.raspberry-pi-4
-
     ./hardware-configuration.nix
 
     ../common/global
-
-    ./bluetooth-audio.nix
   ];
 
-  networking.hostName = "rpi4";
+  networking.hostName = "scadrial";
 
   networking.wireless = {
     enable = true;
@@ -64,5 +61,5 @@
     neededForUsers = true;
   };
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "26.05";
 }

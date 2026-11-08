@@ -9,7 +9,7 @@ keys:
       # when changing keys
       # sops --config ./.sops.yaml updatekeys ./hosts/nixos/starship/secrets.yaml
       - &starship age1sl93uhtzglmcyq2zuk76ndfh9k95mnhdcsdjt6a5sjr069c4ep9sjwna3p
-      - &rpi4 age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
+      - &scadrial age12sle9vz3zh5kcw62g4l0azn2keq0a3s46g35628rw9za7nd3x4pq7uen2l
       - &tiny1 age1c6wsp9h35dzzy8m2rk2y2agj0jvfadsfsdl2vaf4y00zhlxtdskqx9kh6x
       - &ashyn age14nj99csleyr6sxpv4t3j77586uzaq90264p7hp2fz8w2gen6na8sc7fpg7
       - &lxc-core age19592wz437lvt45l5uc5m77n5ru54rcy7tma8662v3gaejlpvjytqey5gxv
@@ -25,10 +25,10 @@ creation_rules:
           - *starship
         pgp:
           - *hyshka
-  - path_regex: hosts/nixos/rpi4/secrets.ya?ml$
+  - path_regex: hosts/nixos/scadrial/secrets.ya?ml$
     key_groups:
       - age:
-          - *rpi4
+          - *scadrial
         pgp:
           - *hyshka
   - path_regex: hosts/nixos/tiny1/secrets.ya?ml$

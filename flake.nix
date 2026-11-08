@@ -309,8 +309,8 @@
           modules = [ ./hosts/nixos/starship ];
           specialArgs = { inherit inputs outputs; };
         };
-        rpi4 = lib.nixosSystem {
-          modules = [ ./hosts/nixos/rpi4 ];
+        scadrial = lib.nixosSystem {
+          modules = [ ./hosts/nixos/scadrial ];
           specialArgs = { inherit inputs outputs; };
         };
         tiny1 = lib.nixosSystem {
