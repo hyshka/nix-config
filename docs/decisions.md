@@ -3,6 +3,8 @@
 One line per settled choice, newest last. Add an entry only when the reason
 would otherwise be lost.
 
+- **2025-01:** Use cosmere worlds for baremetal host names.
+  https://stormlightarchive.fandom.com/wiki/Cosmere#Worlds
 - **2026-10:** Hosts keep platform resources (networks, pools,
   profiles, restricted projects) in `virtualisation.incus.preseed`; OpenTofu
   never manages them.
