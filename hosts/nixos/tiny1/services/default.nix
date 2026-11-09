@@ -10,7 +10,6 @@
     ./forgejo.nix
     ./acme.nix
     ./grafana
-    ./adguard-home.nix
     ./incus.nix
   ];
 }

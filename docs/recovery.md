@@ -17,13 +17,22 @@ What has to survive disk loss, and where the copies are. Sources:
 
 ## Restic
 
-Backblaze B2 bucket `storage-hyshka`, daily at 03:00: `--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 2`, `runCheck = true`.
-Credentials are the sops secrets `restic_password` and `restic_environmentFile` on `tiny1`.
+Backblaze B2 bucket `storage-hyshka`. `tiny1` runs at 03:00 with
+`--keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 2` and owns
+pruning; `scadrial` runs at 03:40 with no prune options. Both use `runCheck`.
+Credentials are the sops secrets `restic_password` and `restic_environmentFile`
+on each host.
 
-Covered paths include `/mnt/storage/{hyshka,tm_share,immich}`,
-`/var/lib/private/AdGuardHome`, `/var/lib/nixos`, and
-`/var/lib/incus/storage-pools/default/custom/`. Thumbnails, transcodes and
-`.snapshots` are excluded.
+`tiny1` covers `/mnt/storage/{hyshka,tm_share,immich}`, `/var/lib/nixos`,
+`/var/lib/private/seaweedfs`, and `/var/lib/incus/storage-pools/default/custom/`.
+`scadrial` covers `/etc/ssh`, `/var/lib/caddy`, `/var/lib/pocket-id`, and
+`/var/lib/private/AdGuardHome`. Thumbnails, transcodes and `.snapshots` are
+excluded.
+
+```bash
+restic -r s3:s3.us-west-000.backblazeb2.com/storage-hyshka snapshots
+restic -r s3:s3.us-west-000.backblazeb2.com/storage-hyshka restore latest --target /mnt/restore
+```
 
 ```bash
 restic -r s3:s3.us-west-000.backblazeb2.com/storage-hyshka snapshots
@@ -53,11 +62,11 @@ disk. It protects against a disk failure, not against deletion or a bad write.
 ## Known gaps
 
 - Container and VM uids are not pinned yet for `forgejo`, `jellyfin`,
-  `openchamber`, `pinchflat`, `pocket-id`, `qbittorrent`, `sabnzbd`, and
-  `recyclarr`. Until they are, a volume that survives an image replacement
-  relies on userborn's deterministic allocation.
-- Restic runs on `tiny1` only. `ai` and `openchamber` state on `starship` has no
-  offsite copy.
+  `openchamber`, `pinchflat`, `qbittorrent`, `sabnzbd`, and `recyclarr`. Until
+  they are, a volume that survives an image replacement relies on userborn's
+  deterministic allocation.
+- `starship` state has no offsite copy; restic runs on `tiny1` and `scadrial`
+  only.
 - Volumes on the `storage` pool (`/mnt/storage/incus`) rely on snapraid, not
   restic.
 - No restore drill is recorded yet, so the steps above are the intended path,

@@ -22,8 +22,6 @@
     paths = [
       "/mnt/storage/hyshka"
       "/mnt/storage/tm_share" # time machine samba share
-      "/var/lib/private/AdGuardHome/AdGuardHome.yaml"
-      "/var/lib/private/AdGuardHome/data"
       "/var/lib/nixos"
       "/var/lib/private/seaweedfs"
       "/mnt/storage/paperless/export"

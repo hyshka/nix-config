@@ -67,11 +67,6 @@ in
           reverse_proxy http://silverbullet.incus:3000
         }
 
-        @adguard host adguard.home.hyshka.com
-        handle @adguard {
-          reverse_proxy http://${host_ip}:3020
-        }
-
         @paperless host paperless.home.hyshka.com
         handle @paperless {
           reverse_proxy http://paperless.incus:28981
@@ -152,11 +147,6 @@ in
           reverse_proxy http://${host_ip}:8384 {
             header_up Host {upstream_hostport}
           }
-        }
-
-        @auth host auth.home.hyshka.com
-        handle @auth {
-          reverse_proxy http://pocket-id.incus:1411
         }
 
         @code host code.home.hyshka.com

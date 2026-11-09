@@ -82,13 +82,6 @@ adds podman, so removing it is mechanical.
   - [ ] Optional simplification: drop the widgets that need keys (Grafana,
     Immich, Jellyfin, the \*arr suite) and keep `siteMonitor` links, which
     makes the workload genuinely secret-free.
-- [ ] **pocket-id** (`infra/pocket-id/`)
-  - [ ] Upstream image, volume at `/app/data`, settings as env.
-  - [ ] Secret: encryption key. Check whether the image can generate one into
-    the volume on first boot and keep it there; if so, this workload needs
-    no injected secret after bootstrap.
-  - [ ] Higher blast radius than the others: SSO for Forgejo, Paperless, AI.
-    Move last, or not at all.
 - [ ] **ntfy** (`infra/ntfy/`)
   - [ ] Upstream image, `server.yml` on a volume plus the cache volume.
   - [ ] Secrets: auth user file and tokens. The env file today is the whole
@@ -160,7 +153,7 @@ Candidate approaches, cheapest first:
   rotate. Reduces long-lived secrets but adds a service to run and back up.
 - [ ] **Avoid secrets in the workload.** Drop the auth-dependent features
   (homepage widgets, kiosk API key) so the OCI move needs no secret at all.
-  Works for `homepage`; not for `pocket-id` or `ntfy`.
+  Works for `homepage`; not for `ntfy`.
 - [ ] **Reject: `environment.*` in instance config.** Simple, but widens secret
   exposure to the state bucket, instance backups, and every project-cert
   holder.
