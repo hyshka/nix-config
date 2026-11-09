@@ -35,3 +35,20 @@ would otherwise be lost.
   VideoCore, legacy GPIO, and NFS-root support the control plane does not use,
   and it is not in a binary cache, so every install compiles it. Revisit if a
   Pi peripheral needs the vendor tree.
+- **2026-11:** The OpenTofu state backend is a SeaweedFS host service on `tiny1`,
+  reached at `http://tiny1.tail7dfc7.ts.net:8333`. Never through an Incus
+  workload or `s3.home.hyshka.com`, which the CI root can replace. Backblaze B2
+  is not a candidate: it rejects `If-None-Match` on `PutObject`, so
+  `use_lockfile` cannot lock. Move the store to `scadrial` only with a USB SSD.
+- **2026-11:** Control-plane services (DNS, TLS for `adguard` and `auth`, OIDC)
+  live on `scadrial`, outside the CI root. `scadrial` runs no Incus, no
+  home-manager, and no workloads.
+- **2026-11:** `scadrial` issues per-host certificates with the Cloudflare DNS
+  challenge and its own token, instead of a second copy of the wildcard. The
+  public zone points only at tailnet addresses, so HTTP-01 is unusable.
+- **2026-11:** The router keeps DHCP, with `scadrial` first and a public resolver
+  second so browsing survives the control plane being down. Clients that pick the
+  second server cannot resolve `*.home.hyshka.com`; accepted.
+- **2026-11:** Forgejo stays on `tiny1`, with no `prevent_destroy` on the
+  instance: `/var/lib/forgejo` is on the guarded volume, so a replacement is a
+  restart, not data loss, and the guard would only fail image bumps.

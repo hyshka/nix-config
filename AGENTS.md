@@ -6,7 +6,7 @@ sops-nix.
 
 ## Layout
 
-- `hosts/nixos/<host>/` - NixOS host configs (starship, rpi4, tiny1, ashyn)
+- `hosts/nixos/<host>/` - NixOS host configs (starship, scadrial, tiny1, ashyn)
 - `hosts/darwin/bryan-macbook/` - nix-darwin config (`hyshka-D5920DQ4RN`)
 - `hosts/common/` - shared host modules and secrets
 - `home/hyshka/<host>.nix` - home-manager entrypoints per host
@@ -48,7 +48,7 @@ cannot evaluate). Never `git commit --no-verify`; CI runs the same config.
 - NixOS/darwin configs use `specialArgs = { inherit inputs outputs; }`.
 - Adding a host: create `hosts/<platform>/<host>/`, register it in
   `nixosConfigurations` / `darwinConfigurations`, add `home/hyshka/<host>.nix`
-  and a matching `mkHome` entry.
+  and a matching `mkHome` entry. Appliance hosts such as `scadrial` have none.
 
 ## Infrastructure (`infra/`)
 
@@ -117,6 +117,11 @@ incus exec <name> -- cat /persist/etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
 
 then add that recipient to `.sops.yaml` and re-encrypt. Never keep a plaintext
 age key on the local filesystem, and do not ship key material via cloud-init.
+
+## Control plane (`scadrial`)
+
+The services needed to deploy and recover the workloads are deliberately hosted
+outside the `infra/` root that is continuously deployed. `scadrial` runs no Incus, no home-manager, and no workloads. Certificates are per-host with the Cloudflare DNS challenge. Do not proxy these names through `tiny1`'s Caddy.
 
 ## House style
 
