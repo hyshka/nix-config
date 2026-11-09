@@ -116,7 +116,6 @@ Keep these as NixOS containers; each fails the criteria for a specific reason.
 | `ai` | ROCm device, `rocmOverrideGfx`, `ollama-rocm` build |
 | `openchamber` | Needs `nix` and a login shell for agent builds |
 | `attic` | Token-signing secret and a cache-format-sensitive version pin |
-| `seaweedfs` | Fine technically, but it backs tofu state; a bad tag bump is costly |
 | `forgejo-build-runner` | Virtual machine for podman nesting |
 
 `jellyfin` also stays: the GPU device works in OCI, but the NixOS image is what

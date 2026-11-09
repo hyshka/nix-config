@@ -180,11 +180,6 @@ in
           reverse_proxy http://attic.incus:8080
         }
 
-        @s3 host s3.home.hyshka.com
-        handle @s3 {
-          reverse_proxy http://seaweedfs.incus:8333
-        }
-
         handle {
           abort
         }
