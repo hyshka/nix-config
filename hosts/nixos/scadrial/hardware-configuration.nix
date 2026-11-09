@@ -12,6 +12,8 @@ in
     inputs.disko.nixosModules.disko
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages;
+
   boot.kernel.sysctl = {
     # optimize swap for zram
     # https://wiki.archlinux.org/title/Zram#Optimizing_swap_on_zram

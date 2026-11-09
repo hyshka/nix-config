@@ -30,3 +30,8 @@ would otherwise be lost.
 - **2026-11:** Workload state belongs in one Incus volume per state directory.
   Keep an impermanence-backed `/persist` when a workload has several
   directories, rather than multiplying volumes or hand-writing bind mounts.
+- **2026-11:** `scadrial` runs the mainline kernel (`pkgs.linuxPackages`), not
+  nixos-hardware's vendor `linux-rpi`. The vendor kernel adds camera, audio HAT,
+  VideoCore, legacy GPIO, and NFS-root support the control plane does not use,
+  and it is not in a binary cache, so every install compiles it. Revisit if a
+  Pi peripheral needs the vendor tree.
