@@ -10,5 +10,5 @@ if [ -z "$hosts" ]; then
 fi
 
 for host in ${hosts//,/ }; do
-  nixos-rebuild --flake ".#$host" switch --target-host "root@$host" "$@"
+  nh os switch ".#$host" --target-host "root@$host" --build-host localhost "$@"
 done
