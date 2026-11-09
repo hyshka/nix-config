@@ -123,7 +123,7 @@ in
       bucket = "nix-config-tofu";
       key = "infra/terraform.tfstate";
       region = "us-east-1";
-      endpoints.s3 = "https://s3.home.hyshka.com";
+      endpoints.s3 = "http://tiny1.tail7dfc7.ts.net:8333";
       use_lockfile = true;
       use_path_style = true;
       skip_credentials_validation = true;

@@ -87,8 +87,9 @@ OpenTofu/Terranix-managed Incus workloads. Apply is driven by CI (merge to `main
   compiling; the cache's `cache.nixos.org-1` upstream filter skips everything
   upstream already serves. `attic-client` is in the runner's `hostPackages`;
   the token is the `attic-token` credential.
-- State is the S3 backend (`s3.home.hyshka.com`), credentials from
-  `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encrypted via `TF_ENCRYPTION`.
+- State is in the S3 backend on the `tiny1` host, reached over the tailnet
+  at `http://tiny1.tail7dfc7.ts.net:8333`. Credentials come from
+  `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encryption from `TF_ENCRYPTION`.
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
   an Incus filesystem volume mounted at `/persist`, shared over virtiofs. Do not
   use a block volume, ext4, or an in-guest `mkfs` for `/persist`.
