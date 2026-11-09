@@ -21,15 +21,6 @@
     RuntimeMaxUse = "64M";
   };
 
-  networking.wireless = {
-    enable = true;
-    secretsFile = config.sops.secrets.wireless.path;
-    networks."THENEST" = {
-      psk = "@PSK_THENEST@";
-    };
-  };
-  sops.secrets.wireless = { };
-
   environment.systemPackages = with pkgs; [
     # rpi utils
     raspberrypi-eeprom
@@ -53,12 +44,14 @@
         openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../../home/hyshka/ssh.pub);
         shell = pkgs.zsh;
       };
-      # For remote deployments as root
-      root.openssh.authorizedKeys.keys = lib.splitString "\n" (
-        builtins.readFile ../../../home/hyshka/ssh.pub
-      );
     };
   };
+
+  # For remote deployments as root
+  services.openssh.settings.PermitRootLogin = "yes";
+  users.users.root.openssh.authorizedKeys.keys = lib.splitString "\n" (
+    builtins.readFile ../../../home/hyshka/ssh.pub
+  );
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets.hyshka_password = {

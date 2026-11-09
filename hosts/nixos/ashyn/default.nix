@@ -5,7 +5,9 @@
     ./keyboard.nix
     ./syncthing.nix
 
+    ../../common/fonts
     ../common/global
+    ../common/global/catppuccin.nix
     ../common/users/hyshka
 
     ../common/android.nix

@@ -9,12 +9,10 @@
     ../../../common/nix.nix
     ../../../common/nixpkgs.nix
     ../../../common/zsh.nix
-    ../../../common/fonts.nix
     ../../../common/sops.nix
 
     # NixOS-specific modules
     ./nix-cache.nix
-    ./catppuccin.nix
     ./locale.nix
     #./nameservers.nix
     ./openssh.nix
