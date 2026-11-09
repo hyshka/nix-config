@@ -47,6 +47,13 @@
     };
   };
 
+  services.openssh.hostKeys = [
+    {
+      type = "ed25519";
+      path = "/boot/firmware/ssh/ssh_host_ed25519_key";
+    }
+  ];
+
   # For remote deployments as root
   services.openssh.settings.PermitRootLogin = "yes";
   users.users.root.openssh.authorizedKeys.keys = lib.splitString "\n" (
@@ -54,6 +61,7 @@
   );
 
   sops.defaultSopsFile = ./secrets.yaml;
+  sops.age.sshKeyPaths = [ "/boot/firmware/ssh/ssh_host_ed25519_key" ];
   sops.secrets.hyshka_password = {
     neededForUsers = true;
   };

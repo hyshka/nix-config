@@ -1,17 +1,9 @@
 {
-  inputs,
-  config,
   pkgs,
+  lib,
   ...
 }:
-let
-  firmwareBoot = "${pkgs.raspberrypifw}/share/raspberrypi/boot";
-in
 {
-  imports = [
-    inputs.disko.nixosModules.disko
-  ];
-
   boot.kernelPackages = pkgs.linuxPackages;
 
   boot.kernel.sysctl = {
@@ -30,65 +22,19 @@ in
     uboot.enable = true;
   };
 
-  disko.devices.disk.main = {
-    type = "disk";
-    device = "/dev/mmcblk0";
-    content = {
-      type = "table";
-      format = "msdos";
-      partitions = [
-        {
-          name = "FIRMWARE";
-          part-type = "primary";
-          fs-type = "fat32";
-          start = "8M";
-          end = "520M";
-          content = {
-            type = "filesystem";
-            format = "vfat";
-            mountpoint = "/boot/firmware";
-            mountOptions = [ "umask=0077" ];
-            postMountHook = ''
-              set -euo pipefail
-              shopt -s nullglob
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/NIXOS_SD";
+    fsType = "ext4";
+    options = [ "noatime" ];
+  };
 
-              fw=/mnt/boot/firmware
-              src=${firmwareBoot}
-
-              mkdir -p "$fw/overlays"
-
-              cp "$src"/bootcode.bin "$src"/start*.elf "$src"/fixup*.dat "$fw/"
-              if compgen -G "$src/*.dtb" >/dev/null; then
-                cp "$src"/*.dtb "$fw/"
-              fi
-              if compgen -G "$src/broadcom/*.dtb" >/dev/null; then
-                cp "$src"/broadcom/*.dtb "$fw/"
-              fi
-              if compgen -G "$src/overlays/*" >/dev/null; then
-                cp "$src"/overlays/* "$fw/overlays/"
-              fi
-
-              cp ${pkgs.ubootRaspberryPiAarch64}/u-boot.bin "$fw/"
-              cp ${config.hardware.raspberry-pi.configtxt.file} "$fw/config.txt"
-            '';
-          };
-        }
-        {
-          name = "root";
-          part-type = "primary";
-          fs-type = "ext4";
-          start = "520M";
-          end = "100%";
-          bootable = true;
-          content = {
-            type = "filesystem";
-            format = "ext4";
-            mountpoint = "/";
-            mountOptions = [ "noatime" ];
-          };
-        }
-      ];
-    };
+  fileSystems."/boot/firmware" = {
+    device = "/dev/disk/by-label/FIRMWARE";
+    fsType = "vfat";
+    options = lib.mkForce [
+      "umask=0077"
+      "nofail"
+    ];
   };
 
   nixpkgs.hostPlatform.system = "aarch64-linux";

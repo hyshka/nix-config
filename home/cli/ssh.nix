@@ -25,9 +25,9 @@
         hostname = "tiny1";
         user = "hyshka";
       };
-      "Host rpi4" = {
-        host = "rpi4";
-        hostname = "rpi4";
+      "Host scadrial" = {
+        host = "scadrial";
+        hostname = "scadrial";
         user = "hyshka";
       };
       "Host starship" = {
