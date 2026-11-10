@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-      image: ghcr.io/renovatebot/renovate:44.223.1@sha256:4d82316637556d793f1c0e248e003a3842ebadecea0a9f4e9b77c12421da2122
+      image: ghcr.io/renovatebot/renovate:44.226.0@sha256:05b3a6b06d2c452e11bf0f3cd792f13d44d7e37b9a4bbd8106f6de6f5de4842b
       volumes:
         - /var/lib/forgejo-cache/renovate:/cache
     env:
