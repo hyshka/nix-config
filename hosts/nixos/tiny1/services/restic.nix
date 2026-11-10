@@ -25,6 +25,7 @@
       "/var/lib/private/AdGuardHome/AdGuardHome.yaml"
       "/var/lib/private/AdGuardHome/data"
       "/var/lib/nixos"
+      "/var/lib/private/seaweedfs"
       "/mnt/storage/paperless/export"
       "/mnt/storage/immich"
       "/mnt/storage/silverbullet"

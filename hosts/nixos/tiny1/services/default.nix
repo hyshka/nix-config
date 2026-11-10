@@ -2,6 +2,7 @@
   imports = [
     ./media.nix
     ./restic.nix
+    ./seaweedfs.nix
     ./samba.nix
     ./snapraid.nix
     ./syncthing.nix

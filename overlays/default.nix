@@ -13,18 +13,7 @@
     # });
 
     # Use llm-agents version of opencode instead of nixpkgs
-    opencode = inputs.llm-agents.packages.${prev.stdenv.hostPlatform.system}.opencode;
-
-    # snapraid searches a hardcoded list of FHS paths for smartctl, so
-    # `snapraid smart` cannot find it on NixOS. Replace the first path with the
-    # store path; the remaining FHS paths stay as fallbacks.
-    # Remove once 15.0 lands in nixpkgs: https://github.com/amadvance/snapraid/issues/49
-    snapraid = prev.snapraid.overrideAttrs (oldAttrs: {
-      postPatch = (oldAttrs.postPatch or "") + ''
-        substituteInPlace cmdline/unix.c \
-          --replace-fail '"/usr/sbin/smartctl"' '"${final.smartmontools}/bin/smartctl"'
-      '';
-    });
+    opencode = inputs.llm-agents.packages.${prev.stdenv.hostPlatform.system}.opencode2;
 
     # Temporary fix: https://github.com/NixOS/nixpkgs/pull/564140/
     tree-sitter-grammars = prev.tree-sitter-grammars.overrideScope (
