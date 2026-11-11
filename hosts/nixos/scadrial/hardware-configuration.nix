@@ -20,6 +20,16 @@
   hardware.raspberry-pi.firmware = {
     enable = true;
     uboot.enable = true;
+
+    package = pkgs.raspberrypifw.overrideAttrs (prev: {
+      installPhase = prev.installPhase + ''
+        boot=$out/share/raspberrypi/boot
+        find "$boot" -maxdepth 1 -type f -name 'kernel*.img' -delete
+        find "$boot" -maxdepth 1 -type f -name 'start*.elf' ! -name 'start4.elf' -delete
+        find "$boot" -maxdepth 1 -type f -name 'fixup*.dat' ! -name 'fixup4.dat' -delete
+        find "$boot" -maxdepth 1 -type f -name '*.dtb' ! -name 'bcm2711-rpi-*.dtb' -delete
+      '';
+    });
   };
 
   fileSystems."/" = {

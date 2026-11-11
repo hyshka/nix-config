@@ -10,6 +10,8 @@
     inputs.hardware.nixosModules.raspberry-pi-4
     ./hardware-configuration.nix
     ../common/global
+
+    ./services
   ];
 
   networking.hostName = "scadrial";
@@ -33,6 +35,8 @@
     htop
     git
     pciutils
+    parted
+    smartmontools
   ];
 
   users = {
