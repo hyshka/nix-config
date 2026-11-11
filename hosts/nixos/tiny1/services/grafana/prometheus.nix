@@ -148,6 +148,14 @@
           }
         ];
       }
+      {
+        job_name = "node-scadrial";
+        static_configs = [
+          {
+            targets = [ "scadrial:9100" ];
+          }
+        ];
+      }
     ];
 
     exporters = {
