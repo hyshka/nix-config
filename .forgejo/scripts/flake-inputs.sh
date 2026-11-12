@@ -6,7 +6,7 @@ cd "$(git rev-parse --show-toplevel)"
 base_ref="${BASE_REF:-origin/main}"
 branch="${BRANCH:-flake-inputs}"
 title="${PR_TITLE:-flake.lock: update inputs}"
-token="${FORGEJO_TOKEN:-}"
+token="${FORGEJO_API_TOKEN:-}"
 
 work_dir="$(mktemp -d)"
 trap 'rm -rf "$work_dir"' EXIT
@@ -93,7 +93,7 @@ if [ "${DRY_RUN:-0}" = "1" ]; then
 fi
 
 if [ -z "$token" ]; then
-  echo "FORGEJO_TOKEN is empty" >&2
+  echo "FORGEJO_API_TOKEN is empty" >&2
   exit 1
 fi
 
@@ -127,8 +127,6 @@ fi
 echo "api: $api"
 echo "repo: $repo"
 
-git push --force origin "HEAD:refs/heads/$branch"
-
 resp_file="$work_dir/resp.json"
 
 request() {
@@ -157,13 +155,22 @@ request() {
   return 1
 }
 
+if request GET "$api/user"; then
+  echo "token user: $(jq -r '.login // "?"' "$resp_file")"
+fi
+
+git push --force origin "HEAD:refs/heads/$branch"
+
 request GET "$api/repos/$repo/pulls?state=open&limit=50" || exit 1
 number="$(jq -r --arg b "$branch" '[.[] | select(.head.ref == $b) | .number][0] // empty' "$resp_file")"
 
 if [ -z "$number" ]; then
   payload="$(jq -n --arg title "$title" --arg head "$branch" --rawfile body "$body_file" \
     '{title: $title, head: $head, base: "main", body: $body}')"
-  request POST "$api/repos/$repo/pulls" "$payload" || exit 1
+  request POST "$api/repos/$repo/pulls" "$payload" || {
+    echo "hint: opening a pull request needs a token owned by a user with pull request access to $repo" >&2
+    exit 1
+  }
   number="$(jq -r '.number // empty' "$resp_file")"
   echo "opened PR #$number"
 else

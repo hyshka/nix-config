@@ -14,7 +14,7 @@ jobs:
     runs-on: nixos
     timeout-minutes: 60
     env:
-      FORGEJO_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+      FORGEJO_API_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
       FORGEJO_REPOSITORY: ${{ forgejo.repository }}
       FORGEJO_SERVER_URL: ${{ forgejo.server_url }}
       FORGEJO_API_URL: ${{ forgejo.api_url }}
