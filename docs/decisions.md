@@ -52,3 +52,8 @@ would otherwise be lost.
 - **2026-11:** Forgejo stays on `tiny1`, with no `prevent_destroy` on the
   instance: `/var/lib/forgejo` is on the guarded volume, so a replacement is a
   restart, not data loss, and the guard would only fail image bumps.
+- **2026-11:** The `hyshka.com` zone stays hand-edited in Cloudflare, outside the
+  CI root: an apply that removed a record would take `auth` off the tailnet once
+  the TTL expired, and the control plane must not depend on what CI can change.
+  Per-host A records override `*.home.hyshka.com`; that override is the cutover,
+  not certificate issuance.

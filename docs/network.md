@@ -49,3 +49,24 @@ Everything needed to deploy and recover, kept out of the CI/CD `infra/` root.
 
 Router DHCP hands out `scadrial` and a public resolver. The second server keeps
 browsing alive while `scadrial` is down; it cannot answer `*.home.hyshka.com`.
+
+## DNS names
+
+The `hyshka.com` zone lives on Cloudflare and is edited by hand
+One wildcard carries every name; explicit records move individual labels off it.
+
+| Record | Target | Notes |
+| --- | --- | --- |
+| `*.home.hyshka.com` | `tiny1` tailnet address | default for every name |
+| `auth.home.hyshka.com` | `scadrial` tailnet address | overrides the wildcard |
+| `adguard.home.hyshka.com` | `scadrial` tailnet address | overrides the wildcard |
+
+Cloudflare resolves the most specific name, so a record for one label leaves the
+rest on `tiny1`.
+
+Certificates do not depend on these records. Caddy proves control with a
+`_acme-challenge` TXT record through the Cloudflare API, so a host holds a valid
+certificate before any traffic moves and the A record stays the real cutover.
+
+`tiny1`'s wildcard vhost ends in `abort`, so a name that resolves there but has
+no handler gets no response at all.
