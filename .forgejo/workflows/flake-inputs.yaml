@@ -1,0 +1,26 @@
+name: Flake Inputs
+on:
+  schedule:
+    - cron: "0 0 * * 0" # weekly on Sunday at 00:00 UTC
+  workflow_dispatch:
+concurrency:
+  group: flake-inputs
+  cancel-in-progress: false
+jobs:
+  update:
+    name: Update flake inputs
+    # ref_name is "main" for both push and schedule runs.
+    if: forgejo.ref_name == 'main'
+    runs-on: nixos
+    timeout-minutes: 60
+    env:
+      FORGEJO_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+      FORGEJO_REPOSITORY: ${{ forgejo.repository }}
+      FORGEJO_SERVER_URL: ${{ forgejo.server_url }}
+      SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    steps:
+      - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          token: ${{ secrets.RENOVATE_TOKEN }}
+      - name: Update and open pull request
+        run: nix shell --inputs-from . nixpkgs#jq nixpkgs#curl -c bash .forgejo/scripts/flake-inputs.sh

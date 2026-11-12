@@ -9,10 +9,10 @@
     "automated"
   ],
   "nix": {
-    "enabled": true
+    "enabled": false
   },
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
   },
   "customManagers": [
     {
@@ -41,27 +41,6 @@
         "major"
       ],
       "enabled": false
-    },
-    {
-      "description": "Automerge llm-agents flake input bumps once required branch protection checks pass",
-      "matchManagers": [
-        "nix"
-      ],
-      "matchDepNames": [
-        "llm-agents"
-      ],
-      "automerge": true,
-      "platformAutomerge": true
-    },
-    {
-      "description": "Group the other flake inputs into one pull request",
-      "matchManagers": [
-        "nix"
-      ],
-      "matchDepNames": [
-        "!llm-agents"
-      ],
-      "groupName": "flake inputs"
     }
   ]
 }

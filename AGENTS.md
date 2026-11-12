@@ -152,7 +152,10 @@ use.
 ## CI
 
 `.forgejo/workflows/`: `renovate.yaml` (self-hosted Renovate, rules in
-`renovate.json`, token in the `RENOVATE_TOKEN` secret), `lint.yaml`
+`renovate.json`, token in the `RENOVATE_TOKEN` secret), `flake-inputs.yaml`
+(weekly `nix flake update` PR with per-input compare links, run by
+`.forgejo/scripts/flake-inputs.sh`; Renovate does not manage flake inputs),
+`lint.yaml`
 (`nix run .#lint`), `flake-checker.yaml`, and `tofu-apply.yml` /
 `tofu-drift.yml` (both on the `nixos:host` runner, trusted, main-only) plus
 `tofu-validate.yml` (PR, no credentials). Forgejo ignores `.github/workflows`

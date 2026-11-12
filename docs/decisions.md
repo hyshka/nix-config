@@ -57,3 +57,9 @@ would otherwise be lost.
   the TTL expired, and the control plane must not depend on what CI can change.
   Per-host A records override `*.home.hyshka.com`; that override is the cutover,
   not certificate issuance.
+- **2026-11:** Flake inputs update through `.forgejo/workflows/flake-inputs.yaml`,
+  not Renovate. Renovate's nix manager tracks only commit hashes through the
+  `git-refs` datasource: branch-tracked inputs yield no candidates, and digest
+  updates carry no old/new version, so it cannot attach compare links.
+  `nix flake update` plus the lock diff gives every changed input a
+  `compare/<old>...<new>` URL in one weekly PR.
