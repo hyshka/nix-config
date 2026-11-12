@@ -316,9 +316,11 @@ in
             };
           }
           {
-            SeaweedFS = mkService "s3" {
+            SeaweedFS = {
               icon = "mdi-database";
               description = "S3 object store, tofu state";
+              href = "http://tiny1.tail7dfc7.ts.net:8333";
+              siteMonitor = "http://tiny1.tail7dfc7.ts.net:8333";
             };
           }
           {
