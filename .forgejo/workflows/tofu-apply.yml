@@ -5,6 +5,12 @@ on:
     paths:
       - "infra/**"
       - "flake.lock"
+  pull_request:
+    # Opt in per pull request by adding the `tofu-plan` label. Runs stay plan-only.
+    types: [labeled, synchronize, reopened]
+    paths:
+      - "infra/**"
+      - "flake.lock"
   workflow_dispatch:
     inputs:
       action:
@@ -18,7 +24,9 @@ concurrency:
 jobs:
   apply:
     name: Apply
-    if: forgejo.ref == 'refs/heads/main'
+    # Only a main-branch run applies. A pull request or a dispatch on another
+    # branch plans, and the run step forces plan mode for those.
+    if: forgejo.event_name == 'workflow_dispatch' || (forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main') || (forgejo.event_name == 'pull_request' && contains(forgejo.event.pull_request.labels.*.name, 'tofu-plan'))
     runs-on: nixos
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -54,6 +62,15 @@ jobs:
           action="${{ inputs.action }}"
           if [ -z "$action" ]; then
             action=apply
+          fi
+
+          # Forgejo reports the base branch as ref_name on pull_request events,
+          # so the event name is what tells a PR run apart from a main run.
+          if [ "${{ forgejo.event_name }}" = pull_request ] || [ "${{ forgejo.ref_name }}" != main ]; then
+            if [ "$action" != plan ]; then
+              echo "not on main: forcing plan (requested ${action})" >&2
+            fi
+            action=plan
           fi
 
           if [ "$action" = plan ]; then

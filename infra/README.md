@@ -38,7 +38,7 @@ belong to the host's `virtualisation.incus.preseed`, not to OpenTofu.
 
 | App | Does |
 | --- | --- |
-| `plan` | preview changes |
+| `plan` | preview changes; CI also plans on pull requests labelled `tofu-plan` |
 | `apply` | apply; CI runs this on merge to `main` |
 | `destroy` | remove instances and images |
 | `validate` | `tofu validate`; no credentials, no image build |
