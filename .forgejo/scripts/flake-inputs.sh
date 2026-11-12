@@ -6,9 +6,6 @@ cd "$(git rev-parse --show-toplevel)"
 base_ref="${BASE_REF:-origin/main}"
 branch="${BRANCH:-flake-inputs}"
 title="${PR_TITLE:-flake.lock: update inputs}"
-repo="${FORGEJO_REPOSITORY:-hyshka/nix-config}"
-server="${FORGEJO_SERVER_URL:-https://code.home.hyshka.com}"
-api="${server%/}/api/v1"
 token="${FORGEJO_TOKEN:-}"
 
 work_dir="$(mktemp -d)"
@@ -100,30 +97,86 @@ if [ -z "$token" ]; then
   exit 1
 fi
 
+repo=""
+remote="$(git remote get-url --push origin 2>/dev/null || true)"
+case "$remote" in
+http://* | https://*)
+  rest="${remote#*://}"
+  rest="${rest#*@}"
+  repo="${rest#*/}"
+  repo="${repo%.git}"
+  ;;
+esac
+[ -n "$repo" ] || repo="${FORGEJO_REPOSITORY:-hyshka/nix-config}"
+
+case "$repo" in
+*/*) ;;
+*)
+  echo "cannot resolve owner/repo from '$repo'" >&2
+  exit 1
+  ;;
+esac
+
+if [ -n "${FORGEJO_API_URL:-}" ]; then
+  api="${FORGEJO_API_URL%/}"
+else
+  server="${FORGEJO_SERVER_URL:-https://code.home.hyshka.com}"
+  api="${server%/}/api/v1"
+fi
+
+echo "api: $api"
+echo "repo: $repo"
+
 git push --force origin "HEAD:refs/heads/$branch"
 
-api_curl=(curl -fsS -H "Authorization: token $token" -H "Content-Type: application/json")
+resp_file="$work_dir/resp.json"
 
-prs="$("${api_curl[@]}" "$api/repos/$repo/pulls?state=open&limit=50")"
-number="$(printf '%s' "$prs" | jq -r --arg b "$branch" '.[] | select(.head.ref == $b) | .number' | head -n1)"
+request() {
+  method="$1"
+  url="$2"
+  data="${3:-}"
+  status=""
+  if [ -n "$data" ]; then
+    status="$(curl -sS -X "$method" \
+      -H "Authorization: token $token" \
+      -H "Content-Type: application/json" \
+      --data "$data" -o "$resp_file" -w '%{http_code}' "$url")" || true
+  else
+    status="$(curl -sS -X "$method" \
+      -H "Authorization: token $token" \
+      -o "$resp_file" -w '%{http_code}' "$url")" || true
+  fi
+  case "$status" in
+  2[0-9][0-9]) return 0 ;;
+  esac
+  {
+    echo "request failed: $method $url -> HTTP ${status:-none}"
+    head -c 400 "$resp_file" 2>/dev/null
+    echo
+  } >&2
+  return 1
+}
+
+request GET "$api/repos/$repo/pulls?state=open&limit=50" || exit 1
+number="$(jq -r --arg b "$branch" '[.[] | select(.head.ref == $b) | .number][0] // empty' "$resp_file")"
 
 if [ -z "$number" ]; then
   payload="$(jq -n --arg title "$title" --arg head "$branch" --rawfile body "$body_file" \
     '{title: $title, head: $head, base: "main", body: $body}')"
-  number="$("${api_curl[@]}" -X POST -d "$payload" "$api/repos/$repo/pulls" | jq -r '.number')"
+  request POST "$api/repos/$repo/pulls" "$payload" || exit 1
+  number="$(jq -r '.number // empty' "$resp_file")"
   echo "opened PR #$number"
 else
   payload="$(jq -n --arg title "$title" --rawfile body "$body_file" \
     '{title: $title, body: $body}')"
-  "${api_curl[@]}" -X PATCH -d "$payload" "$api/repos/$repo/pulls/$number" >/dev/null
+  request PATCH "$api/repos/$repo/pulls/$number" "$payload" || exit 1
   echo "updated PR #$number"
 fi
 
-label_ids="$("${api_curl[@]}" "$api/repos/$repo/labels" |
-  jq -c '[.[] | select(.name == "dependencies" or .name == "automated") | .id]')"
+request GET "$api/repos/$repo/labels" || exit 1
+label_ids="$(jq -c '[.[] | select(.name == "dependencies" or .name == "automated") | .id]' "$resp_file")"
 if [ "$label_ids" != "[]" ]; then
-  "${api_curl[@]}" -X POST -d "{\"labels\": $label_ids}" \
-    "$api/repos/$repo/issues/$number/labels" >/dev/null
+  request POST "$api/repos/$repo/issues/$number/labels" "{\"labels\": $label_ids}" || exit 1
 else
   echo "labels dependencies/automated not found; PR left unlabeled" >&2
 fi

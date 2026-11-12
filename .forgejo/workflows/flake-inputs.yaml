@@ -17,6 +17,7 @@ jobs:
       FORGEJO_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
       FORGEJO_REPOSITORY: ${{ forgejo.repository }}
       FORGEJO_SERVER_URL: ${{ forgejo.server_url }}
+      FORGEJO_API_URL: ${{ forgejo.api_url }}
       SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
