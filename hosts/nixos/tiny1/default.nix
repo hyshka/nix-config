@@ -14,6 +14,7 @@
     ../common/global
     ../common/users/hyshka
     ../common/nixremote.nix
+    ../common/appliance-utils.nix
 
     ./services
   ];
@@ -39,21 +40,13 @@
     snapper
 
     # disk tools
-    parted
     nvme-cli
-    smartmontools
-    fio
-    hdparm
-    sdparm
-    #iozone # TODO: build error
 
     # for intel_gpu_top
     intel-gpu-tools
     libva-utils
 
     # misc utils
-    usbutils # lsusb
-    pciutils # lspci
     glibc # ldd, sprof
   ];
 

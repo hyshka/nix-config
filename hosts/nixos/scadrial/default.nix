@@ -10,6 +10,7 @@
     inputs.hardware.nixosModules.raspberry-pi-4
     ./hardware-configuration.nix
     ../common/global
+    ../common/appliance-utils.nix
 
     ./services
   ];
@@ -27,16 +28,6 @@
     # rpi utils
     raspberrypi-eeprom
     libraspberrypi
-
-    # utils
-    neovim
-    ncdu_1
-    yazi
-    htop
-    git
-    pciutils
-    parted
-    smartmontools
   ];
 
   users = {
