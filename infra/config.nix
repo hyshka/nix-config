@@ -34,6 +34,7 @@ let
       modules = [
         (baseModule name c.kind)
         c.configuration
+        { nixpkgs.overlays = builtins.attrValues (import ../overlays { inherit inputs; }); }
       ];
       specialArgs = { inherit inputs; };
     };

@@ -24,10 +24,7 @@ in
   services.caddy = {
     enable = true;
     openFirewall = true;
-    package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.4" ];
-      hash = "sha256-QSiwKqKvSxhksWBF4/MlBOpyXba5xOQ2sRwA0R7399E=";
-    };
+    package = pkgs.caddy-cloudflare;
     email = "bryan@hyshka.com";
     logFormat = ''
       level INFO

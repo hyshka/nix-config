@@ -57,6 +57,10 @@ would otherwise be lost.
   the TTL expired, and the control plane must not depend on what CI can change.
   Per-host A records override `*.home.hyshka.com`; that override is the cutover,
   not certificate issuance.
+- **2026-11:** `pkgs/caddy-cloudflare` pins Caddy at 2.11.9 with its own source
+  and vendor hashes. The `withPlugins` hash covers Caddy's whole vendored tree,
+  so following nixpkgs broke the build on every Caddy bump. Bump version,
+  source hash, `vendorHash`, and plugin hash together.
 - **2026-11:** Flake inputs update through `.forgejo/workflows/flake-inputs.yaml`,
   not Renovate. Renovate's nix manager tracks only commit hashes through the
   `git-refs` datasource: branch-tracked inputs yield no candidates, and digest
