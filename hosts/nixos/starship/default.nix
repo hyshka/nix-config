@@ -7,7 +7,7 @@
 
     ./hardware-configuration.nix
 
-    ../../common/fonts
+    ../../common/fonts.nix
     ../common/global
     ../common/global/catppuccin.nix
     ../common/users/hyshka
@@ -29,6 +29,18 @@
   ];
 
   networking.hostName = "starship";
+
+  nix.settings = {
+    min-free = "40G";
+    max-free = "100G";
+  };
+
+  users.groups.nix-gc-roots = { };
+  users.users.hyshka.extraGroups = [ "nix-gc-roots" ];
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/nix-gc-roots/images 2775 root nix-gc-roots -"
+  ];
 
   hardware.graphics.enable = true;
   hardware.bluetooth = {

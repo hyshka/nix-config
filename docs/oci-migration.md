@@ -11,8 +11,8 @@ when all of these hold:
 - it owns no network interface, sysctl, or device driver
 - its secrets can be delivered as a file or env var
 
-The payoff is fewer `nixosSystem` evals, squashfs builds, and attic pushes per
-apply. Updates become image tag bumps via Renovate.
+The payoff is fewer `nixosSystem` evals and squashfs builds per apply. Updates
+become image tag bumps via Renovate.
 
 `infra/byparr/default.nix` is the working example: no `nixosImages` entry, a
 hand-written `incus_instance` with `image = "oci-github:..."`.
@@ -108,7 +108,6 @@ Keep these as NixOS containers; each fails the criteria for a specific reason.
 | `caddy` | Plugin build with a pinned hash, ACME state, env secret |
 | `ai` | ROCm device, `rocmOverrideGfx`, `ollama-rocm` build |
 | `openchamber` | Needs `nix` and a login shell for agent builds |
-| `attic` | Token-signing secret and a cache-format-sensitive version pin |
 | `forgejo-build-runner` | Virtual machine for podman nesting |
 
 `jellyfin` also stays: the GPU device works in OCI, but the NixOS image is what

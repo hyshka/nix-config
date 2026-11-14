@@ -61,6 +61,10 @@ would otherwise be lost.
   and vendor hashes. The `withPlugins` hash covers Caddy's whole vendored tree,
   so following nixpkgs broke the build on every Caddy bump. Bump version,
   source hash, `vendorHash`, and plugin hash together.
+- **2026-11:** Drop the private binary cache. CI and manual applies build into
+  the same `starship` store, so the cache had no reader; image artifacts stay
+  alive through GC roots in `/var/lib/nix-gc-roots`. Revisit only when a
+  consumer cannot reach the builder's store.
 - **2026-11:** Flake inputs update through `.forgejo/workflows/flake-inputs.yaml`,
   not Renovate. Renovate's nix manager tracks only commit hashes through the
   `git-refs` datasource: branch-tracked inputs yield no candidates, and digest

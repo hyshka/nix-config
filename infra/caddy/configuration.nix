@@ -162,11 +162,6 @@ in
           }
         }
 
-        @cache host cache.home.hyshka.com
-        handle @cache {
-          reverse_proxy http://attic.incus:8080
-        }
-
         handle {
           abort
         }

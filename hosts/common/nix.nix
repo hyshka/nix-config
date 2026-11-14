@@ -29,11 +29,5 @@
       warn-dirty = false;
       trusted-users = [ "@wheel" ];
     };
-
-    gc = {
-      automatic = true;
-      # Delete older generations too
-      options = "--delete-older-than 7d";
-    };
   };
 }

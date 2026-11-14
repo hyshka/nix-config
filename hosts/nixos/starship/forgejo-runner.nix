@@ -7,7 +7,6 @@
   sops.secrets = {
     forgejo-tofu-runner-token = { };
     incus-ci-client-key = { };
-    attic-ci-token = { };
     tofu-s3-access-key = { };
     tofu-s3-secret-key = { };
     tofu-encryption = { };
@@ -27,7 +26,6 @@
       nodejs
       wget
       # used by the apply/drift workflows
-      attic-client
       cacert
       nix
     ];
@@ -61,7 +59,6 @@
       LoadCredential = [
         "client.crt:${../../../infra/ci-client.crt}"
         "client.key:${config.sops.secrets.incus-ci-client-key.path}"
-        "attic-token:${config.sops.secrets.attic-ci-token.path}"
         "aws-access-key:${config.sops.secrets.tofu-s3-access-key.path}"
         "aws-secret-key:${config.sops.secrets.tofu-s3-secret-key.path}"
         "tofu-encryption:${config.sops.secrets.tofu-encryption.path}"
@@ -85,6 +82,8 @@
         "AF_INET"
         "AF_INET6"
       ];
+      SupplementaryGroups = [ "nix-gc-roots" ];
+      ReadWritePaths = [ "/var/lib/nix-gc-roots" ];
     };
 
     preStart = ''

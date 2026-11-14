@@ -5,7 +5,7 @@
     ./keyboard.nix
     ./syncthing.nix
 
-    ../../common/fonts
+    ../../common/fonts.nix
     ../common/global
     ../common/global/catppuccin.nix
     ../common/users/hyshka

@@ -1,15 +1,10 @@
 {
   config,
-  lib,
   ...
 }:
 let
   cacheProxyPort = 42000;
   cacheDir = "/var/lib/forgejo-cache";
-  atticKeyFile = ../attic/cache-public-key.txt;
-  atticKey = lib.optionalString (builtins.pathExists atticKeyFile) (
-    lib.removeSuffix "\n" (builtins.readFile atticKeyFile)
-  );
 in
 {
   # A full VM, so podman can run job containers without LXC nesting. It carries
@@ -45,12 +40,6 @@ in
           # Closest thing to a GitHub-hosted ubuntu runner (~550 MiB compressed)
           "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
         ];
-        envs = lib.optionalAttrs (atticKey != "") {
-          NIX_CONFIG = ''
-            extra-substituters = https://cache.home.hyshka.com/nix-config
-            extra-trusted-public-keys = ${atticKey}
-          '';
-        };
       };
 
       server.connections.default = {

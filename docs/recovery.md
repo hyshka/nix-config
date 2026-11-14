@@ -13,7 +13,7 @@ What has to survive disk loss, and where the copies are. Sources:
 | VM identity | `/persist/etc/ssh/ssh_host_ed25519_key` on the VM volume | restic |
 | Workload state | `default` pool, `/var/lib/incus/storage-pools/default/custom/` | restic |
 | Media and shares | `/mnt/storage` (mergerfs over 4 bay enclosure) | snapraid parity, plus restic for the listed paths |
-| Host config | this repo | forgejo, plus the attic image cache |
+| Host config | this repo | forgejo |
 
 ## Restic
 

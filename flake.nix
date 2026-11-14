@@ -1,7 +1,6 @@
 {
   description = "NixOS and macOS configurations";
 
-  # Private substituters are configured per-host. Consumers must be on homelab network.
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
@@ -199,20 +198,55 @@
         }
       );
 
-      imagePathsFile = pkgs.writeText "image-paths.txt" (
+      imageRootsFile = pkgs.writeText "image-roots.tsv" (
         lib.concatStringsSep "\n" (
-          lib.unique (
-            lib.concatLists (
-              lib.mapAttrsToList (_name: a: [
-                a.image
-                a.metadata
-                a.toplevel
-              ]) imageArtifacts
-            )
+          lib.concatLists (
+            lib.mapAttrsToList (name: a: [
+              "${name}\timage\t${a.image}"
+              "${name}\tmetadata\t${a.metadata}"
+              "${name}\ttoplevel\t${a.toplevel}"
+            ]) imageArtifacts
           )
         )
         + "\n"
       );
+
+      # One root per artifact, replaced in place. A path stays only while a link
+      # reaches it; links for images that no longer exist are pruned here.
+      imageRootsScript =
+        pkgs:
+        {
+          onLocked ? "exit 0",
+        }:
+        ''
+          rootsDir="''${NIX_GC_ROOTS_DIR:-/var/lib/nix-gc-roots/images}"
+          if mkdir -p "$rootsDir" 2>/dev/null && [ -w "$rootsDir" ]; then
+            if [ ! -e "$rootsDir/.lock" ]; then
+              ( umask 0002; : > "$rootsDir/.lock" )
+            fi
+            chmod g+w "$rootsDir/.lock" 2>/dev/null || true
+            exec 9>>"$rootsDir/.lock"
+            if ! ${pkgs.util-linux}/bin/flock -n 9; then
+              echo "another image-roots run holds $rootsDir/.lock" >&2
+              ${onLocked}
+            fi
+            declare -A expected=()
+            while IFS=$'\t' read -r name artifact path; do
+              [ -n "$name" ] || continue
+              expected["$name-$artifact"]=1
+              ${pkgs.nix}/bin/nix-store --add-root "$rootsDir/$name-$artifact" --indirect -r "$path"
+            done < ${imageRootsFile}
+            for link in "$rootsDir"/*; do
+              [ -L "$link" ] || continue
+              base="''${link##*/}"
+              if [ -z "''${expected[$base]:-}" ]; then
+                rm -f "$link"
+              fi
+            done
+          else
+            echo "skipping image GC roots: $rootsDir is not writable" >&2
+          fi
+        '';
 
       mkTofuApp =
         {
@@ -220,6 +254,7 @@
           name,
           cmd,
           varFile ? null,
+          rootImages ? false,
         }:
         let
           extraArgs =
@@ -240,6 +275,8 @@
           program = toString (
             pkgs.writers.writeBash name ''
               set -euo pipefail
+
+              ${lib.optionalString rootImages (imageRootsScript pkgs { onLocked = "exit 1"; })}
 
               if [ -n "''${CI:-}" ]; then
                 # CI: keep checkout clean and never rewrite the lock file.
@@ -365,6 +402,7 @@
           name = "apply";
           cmd = "apply";
           varFile = imageVarsFile;
+          rootImages = true;
         };
         destroy = mkTofuApp {
           pkgs = nixpkgs.legacyPackages.${system};
@@ -394,11 +432,13 @@
           cmd = "plan";
           varFile = imageVarsFile;
         };
-        image-paths = {
+        image-roots = {
           type = "app";
           program = toString (
-            nixpkgs.legacyPackages.${system}.writers.writeBash "image-paths" ''
-              cat ${imagePathsFile}
+            nixpkgs.legacyPackages.${system}.writers.writeBash "image-roots" ''
+              set -euo pipefail
+
+              ${imageRootsScript nixpkgs.legacyPackages.${system} { }}
             ''
           );
         };

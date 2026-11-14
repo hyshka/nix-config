@@ -12,7 +12,6 @@
     ../../../common/sops.nix
 
     # NixOS-specific modules
-    ./nix-cache.nix
     ./locale.nix
     #./nameservers.nix
     ./openssh.nix
@@ -21,4 +20,13 @@
   ++ (builtins.attrValues outputs.nixosModules);
 
   hardware.enableRedistributableFirmware = true;
+
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      dates = "03:15";
+      extraArgs = "--keep-since 14d --keep 3";
+    };
+  };
 }

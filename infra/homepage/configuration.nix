@@ -310,12 +310,6 @@ in
             };
           }
           {
-            Attic = mkService "cache" {
-              icon = "mdi-archive-arrow-up";
-              description = "Nix binary cache";
-            };
-          }
-          {
             SeaweedFS = {
               icon = "mdi-database";
               description = "S3 object store, tofu state";

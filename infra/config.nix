@@ -58,7 +58,7 @@ let
   };
 
   # Published through `_meta`; the flake renders it into `var.image_files` for
-  # tofu and into the store path list the binary cache push uses.
+  # tofu and into the GC roots `apply` creates before planning.
   images = lib.mapAttrs (name: c: imageArtifact.${c.kind} (build name c)) (
     lib.filterAttrs (_name: c: c.sourceFile == null) config.nixosImages
   );

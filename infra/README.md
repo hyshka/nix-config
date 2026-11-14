@@ -43,4 +43,4 @@ belong to the host's `virtualisation.incus.preseed`, not to OpenTofu.
 | `destroy` | remove instances and images |
 | `validate` | `tofu validate`; no credentials, no image build |
 | `import` | `tofu import` one resource |
-| `image-paths` | print image store paths for the attic push |
+| `image-roots` | root image artifacts so the next GC keeps them |

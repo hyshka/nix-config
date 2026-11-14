@@ -11,4 +11,9 @@
     ../../common/fonts.nix
     # Note: sops.nix can be added here if darwin hosts need secrets
   ];
+
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 7d";
+  };
 }

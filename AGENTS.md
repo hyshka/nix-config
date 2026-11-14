@@ -80,13 +80,19 @@ OpenTofu/Terranix-managed Incus workloads. Apply is driven by CI (merge to `main
   `-var-file`. `validate` passes nothing, so it never evaluates or builds an
   image and stays cheap however many images exist. An image with an explicit
   `sourceFile` skips the variable.
-- The apply workflow also publishes those images to the attic cache:
-  `nix run .#image-paths` prints the store paths and
-  `attic push home:nix-config --stdin` uploads them with their closures. Each image's `system.build.toplevel` goes
-  along so locally-built paths (the pinned podman) substitute instead of
-  compiling; the cache's `cache.nixos.org-1` upstream filter skips everything
-  upstream already serves. `attic-client` is in the runner's `hostPackages`;
-  the token is the `attic-token` credential.
+- There is no private binary cache. `apply` roots every image artifact under
+  `/var/lib/nix-gc-roots/images` (`<name>-image`, `-metadata`, `-toplevel`)
+  before tofu runs, so the next GC cannot collect a build the next apply needs.
+  One link per artifact: the next apply replaces it and the old closure becomes
+  garbage, freed by the next GC. The same step prunes links for images that no
+  longer exist and holds `flock` on `.lock`; a contended apply fails, the
+  `image-roots` app skips. `plan` must not touch the links: a PR or drift run
+  describes a tree that was never applied. `nh clean all` only age-prunes
+  direnv roots and `result*` build links, so these roots survive it. Reuse comes
+  from the single `starship` store, not from a cache. Group `nix-gc-roots` owns
+  the directory; the runner reaches it through `SupplementaryGroups` and
+  `ReadWritePaths`. The daemon backstop is `min-free = 40G` / `max-free = 100G`;
+  one image set is about 15 G.
 - State is in the S3 backend on the `tiny1` host, reached over the tailnet
   at `http://tiny1.tail7dfc7.ts.net:8333`. Credentials come from
   `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`, encryption from `TF_ENCRYPTION`.
