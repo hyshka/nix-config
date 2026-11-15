@@ -8,12 +8,6 @@
     "dependencies",
     "automated"
   ],
-  "nix": {
-    "enabled": false
-  },
-  "lockFileMaintenance": {
-    "enabled": false
-  },
   "customManagers": [
     {
       "customType": "regex",
@@ -41,6 +35,25 @@
         "major"
       ],
       "enabled": false
+    },
+    {
+      "description": "Automerge the GitHub Actions used by the Forgejo workflows once the PR checks pass",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "Renovate releases too often, constrain to weekly PRs",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/renovatebot/renovate"
+      ],
+      "extends": [
+        "schedule:weekly"
+      ]
     }
   ]
 }
