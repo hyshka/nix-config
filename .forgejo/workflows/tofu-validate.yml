@@ -17,4 +17,6 @@ jobs:
         with:
           github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
       # No credentials and no state access, so a pull request cannot mutate anything.
-      - run: nix run .#validate
+      - name: Pre-build the CI shell
+        run: nix build --no-link .#devShells.x86_64-linux.ci
+      - run: nix develop .#ci -c nix run .#validate

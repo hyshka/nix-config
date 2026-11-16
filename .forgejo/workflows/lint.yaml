@@ -12,5 +12,13 @@ jobs:
       - uses: https://github.com/cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086 # v31
         with:
           github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
+      - name: Pre-build the CI shell
+        run: nix build --no-link .#devShells.x86_64-linux.ci
       - name: Lint
-        run: nix run .#lint
+        run: nix develop .#ci -c prek run --all-files
+      # Fill the runner's local binary cache so the next job substitutes locally.
+      - name: Seed the binary cache
+        if: always()
+        run: |
+          nix flake archive --to 'file:///nix-cache?compression=zstd'
+          nix copy --to 'file:///nix-cache?compression=zstd' .#devShells.x86_64-linux.ci

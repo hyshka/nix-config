@@ -332,6 +332,14 @@
       # Dev shells
       devShells = forEachSystem (system: {
         default = import ./shell.nix { pkgs = nixpkgs.legacyPackages.${system}; };
+        ci = nixpkgs.legacyPackages.${system}.mkShellNoCC {
+          packages = with nixpkgs.legacyPackages.${system}; [
+            git
+            opentofu
+            prek
+            treefmtEval.${system}.config.build.wrapper
+          ];
+        };
       });
 
       formatter = forEachSystem (system: treefmtEval.${system}.config.build.wrapper);

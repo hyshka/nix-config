@@ -99,12 +99,11 @@ OpenTofu/Terranix-managed Incus workloads. Apply is driven by CI (merge to `main
 - VMs set `config."security.secureboot" = "false"` (unsigned UKI) and persist on
   an Incus filesystem volume mounted at `/persist`, shared over virtiofs. Do not
   use a block volume, ext4, or an in-guest `mkfs` for `/persist`.
-- Disposable scratch for `forgejo-build-runner` (podman graphroot, the Renovate
-  cache, the container `/nix` store) lives on the VM root disk under
-  `/var/lib/forgejo-cache`. tiny1's pools are `dir`, which cannot host
-  `content_type = "block"`, and the root disk is a real block device, so it
-  avoids the virtiofs small-file penalty. `/persist` stays virtiofs and
-  backup-worthy.
+- Disposable scratch for `forgejo-build-runner` lives on the VM root disk under
+  `/var/lib/forgejo-cache`: podman's graphroot, the Renovate cache, and the
+  binary cache the job containers substitute from. tiny1's pools are `dir`, so
+  no block volume, and virtiofs is slow for many small files. `/persist` stays
+  virtiofs and backup-worthy.
 - Flake apps: `nix run '.#plan|apply|destroy|validate'` (`validate` needs no
   credentials or state). Local runs authenticate with the CI client cert via
   `$INCUS_CONF`.
