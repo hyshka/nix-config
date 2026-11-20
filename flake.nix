@@ -263,6 +263,7 @@
               apply = [
                 "-auto-approve"
                 "-lock-timeout=5m"
+                "-parallelism=3"
               ];
               destroy = [ "-lock-timeout=5m" ];
               validate = [ ];
