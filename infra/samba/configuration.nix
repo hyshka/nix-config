@@ -140,10 +140,12 @@
 
   # We'd need to expose the same ports from the tiny1 host as this container
   services.avahi = {
-    publish.enable = true;
-    publish.userServices = true;
     enable = true;
     openFirewall = true;
+    settings.publish = {
+      "disable-publishing" = false;
+      publish-addresses = true;
+    };
     extraServiceFiles = {
       timemachine = ''
         <?xml version="1.0" standalone='no'?>
