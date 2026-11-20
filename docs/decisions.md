@@ -71,3 +71,9 @@ would otherwise be lost.
   updates carry no old/new version, so it cannot attach compare links.
   `nix flake update` plus the lock diff gives every changed input a
   `compare/<old>...<new>` URL in one weekly PR.
+- **2026-11:** The lint and validate jobs read GitHub anonymously. Every flake
+  input is public, so a token only buys rate-limit headroom, and the NixOS org
+  rejects the long-lived fine-grained PAT with a 403 on `nixos-hardware`, which
+  aborts `nix flake archive`. Nix does not fall back to anonymous requests once
+  a token is configured, so the token is worse than none. It also keeps a PAT
+  out of jobs that execute pull-request code.

@@ -14,8 +14,6 @@ jobs:
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: https://github.com/cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086 # v31
-        with:
-          github_access_token: ${{ secrets.RENOVATE_GITHUB_COM_TOKEN }}
       # No credentials and no state access, so a pull request cannot mutate anything.
       - name: Pre-build the CI shell
         run: nix build --no-link .#devShells.x86_64-linux.ci
