@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
-      - uses: https://github.com/cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086 # v31
+      - uses: https://github.com/cachix/install-nix-action@bb0495a1086c46893eee56f32fd192dfe4a15bb9 # v32
       - name: Pre-build the CI shell
         run: nix build --no-link .#devShells.x86_64-linux.ci
       - name: Lint
