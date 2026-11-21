@@ -13,33 +13,30 @@
 }:
 pkgs.mkShell {
   NIX_CONFIG = "extra-experimental-features = nix-command flakes";
-  packages =
-    with pkgs;
-    [
-      nix
-      nh
-      dix
-      nixos-rebuild
-      home-manager
-      git
-      prek # git hooks; config in prek.toml
+  packages = with pkgs; [
+    nix
+    nh
+    dix
+    nixos-rebuild
+    home-manager
+    git
+    prek # git hooks; config in prek.toml
 
-      # infra
-      opentofu
-      sshfs # incus file mount
+    # infra
+    opentofu
+    sshfs # incus file mount
+    incus
 
-      # sops-nix secrets workflow
-      sops
-      ssh-to-age
-      age
-      gnupg
-      pinentry-curses
+    # sops-nix secrets workflow
+    sops
+    ssh-to-age
+    age
+    gnupg
+    pinentry-curses
 
-      # deploy.sh
-      jq
-    ]
-    # incus client is linux-only; keep the darwin devShell buildable
-    ++ lib.optionals stdenv.hostPlatform.isLinux [ incus ];
+    # deploy.sh
+    jq
+  ];
 
   # prek installs its shims on every shell entry. A global core.hooksPath makes
   # prek refuse; that case is silent here, rerun the command manually with --force.

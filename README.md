@@ -1,13 +1,13 @@
 # nix-config
 
-NixOS hosts, nix-darwin, home-manager, and Incus workloads (LXC, VM, OCI)
+NixOS hosts, home-manager, and Incus workloads (LXC, VM, OCI)
 provisioned with Terranix and OpenTofu. Secrets are sops-encrypted.
 
 ## Layout
 
 | Path | What |
 | --- | --- |
-| `hosts/` | NixOS and nix-darwin host configs |
+| `hosts/` | NixOS host configs |
 | `home/` | home-manager entrypoints and modules |
 | `modules/` | reusable NixOS and home-manager modules |
 | `infra/` | Incus workloads owned by Terranix/OpenTofu |
@@ -18,7 +18,6 @@ provisioned with Terranix and OpenTofu. Secrets are sops-encrypted.
 
 ```bash
 nh os switch                # current NixOS host
-nh darwin switch            # macbook
 nh home switch              # standalone home-manager
 ./deploy.sh starship,tiny1  # remote NixOS switch
 

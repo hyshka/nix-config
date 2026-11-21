@@ -1,13 +1,12 @@
 # AGENTS.md
 
-Flake-based NixOS + nix-darwin + standalone home-manager config, plus NixOS
+Flake-based NixOS + standalone home-manager config, plus NixOS
 services running in Incus LXC containers and VMs. Secrets are managed with
 sops-nix.
 
 ## Layout
 
 - `hosts/nixos/<host>/` - NixOS host configs (starship, scadrial, tiny1, ashyn)
-- `hosts/darwin/bryan-macbook/` - nix-darwin config (`hyshka-D5920DQ4RN`)
 - `hosts/common/` - shared host modules and secrets
 - `home/hyshka/<host>.nix` - home-manager entrypoints per host
 - `home/{cli,desktop,ai,nixvim}/` - reusable home-manager modules
@@ -26,7 +25,6 @@ nix run .#lint         # prek: treefmt + hygiene hooks over all tracked files
 nix flake check        # eval the flake and run checks (formatting)
 
 nh os build|test|switch            # current NixOS host
-nh darwin switch                   # macOS
 nh home switch                     # standalone home-manager
 ```
 
@@ -45,9 +43,9 @@ cannot evaluate). Never `git commit --no-verify`; CI runs the same config.
 
 - `mkHome { system, hostname, username ? "hyshka" }` builds `homeConfigurations`
   from `home/<user>/<host>.nix`.
-- NixOS/darwin configs use `specialArgs = { inherit inputs outputs; }`.
+- NixOS configs use `specialArgs = { inherit inputs outputs; }`.
 - Adding a host: create `hosts/<platform>/<host>/`, register it in
-  `nixosConfigurations` / `darwinConfigurations`, add `home/hyshka/<host>.nix`
+  `nixosConfigurations`, add `home/hyshka/<host>.nix`
   and a matching `mkHome` entry. Appliance hosts such as `scadrial` have none.
 
 ## Infrastructure (`infra/`)
@@ -150,7 +148,7 @@ use.
 ## Key inputs
 
 `nixpkgs` (nixos-unstable); `home-manager`,
-`nix-darwin` (lnl7), `sops-nix`, `nixvim`, `catppuccin`, `disko`, `lanzaboote`,
+`sops-nix`, `nixvim`, `catppuccin`, `disko`, `lanzaboote`,
 `impermanence`, `plasma-manager`, `nixGL`, `nixos-hardware`, `treefmt-nix`,
 `llm-agents`, `opencode-flake`, `openchamber-nix`, `zimfw`.
 

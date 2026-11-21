@@ -1,8 +1,4 @@
 {
-  # Espanso is installed via Homebrew (see hosts/darwin/bryan-macbook/homebrew.nix)
-  # The home-manager service module doesn't work properly on macOS, so we manage
-  # configuration files declaratively using home.file instead.
-
   # NOTE: Add private matchers to ~/Library/Application Support/espanso/match/private.yml
   home.file = {
     # Main configuration file

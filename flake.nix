@@ -1,18 +1,16 @@
 {
-  description = "NixOS and macOS configurations";
+  description = "NixOS configurations";
 
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://mic92.cachix.org"
-      "https://nix-darwin.cachix.org"
       "https://catppuccin.cachix.org"
       "https://cache.numtide.com"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "mic92.cachix.org-1:gi8IhgiT3CYZnJsaW7fxznzTkMUOn1RY4GmXdT/nXYQ="
-      "nix-darwin.cachix.org-1:LxMyKzQk7Uqkc1Pfq5uhm9GSn07xkERpy+7cpwc006A="
       "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
@@ -23,11 +21,6 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -130,7 +123,6 @@
       self,
       nixpkgs,
       home-manager,
-      nix-darwin,
       treefmt-nix,
       terranix,
       ...
@@ -369,15 +361,6 @@
         };
       };
 
-      # Nix-Darwin configuration entrypoint
-      # nh darwin built/boot/switch
-      darwinConfigurations = {
-        "hyshka-D5920DQ4RN" = nix-darwin.lib.darwinSystem {
-          modules = [ ./hosts/darwin/bryan-macbook ];
-          specialArgs = { inherit inputs outputs; };
-        };
-      };
-
       # Standalone home-manager configurations
       # nh home build/switch
       homeConfigurations = {
@@ -392,10 +375,6 @@
         "hyshka@ashyn" = mkHome {
           system = "x86_64-linux";
           hostname = "ashyn";
-        };
-        "hyshka@hyshka-D5920DQ4RN" = mkHome {
-          system = "aarch64-darwin";
-          hostname = "macbook";
         };
       };
 
