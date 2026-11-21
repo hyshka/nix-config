@@ -71,11 +71,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    opencode-flake = {
-      url = "github:noblepayne/opencode-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     openchamber-nix = {
       url = "github:x13-me/openchamber-nix";
       inputs.nixpkgs.follows = "nixpkgs";

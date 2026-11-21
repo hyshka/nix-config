@@ -150,7 +150,7 @@ use.
 `nixpkgs` (nixos-unstable); `home-manager`,
 `sops-nix`, `nixvim`, `catppuccin`, `disko`, `lanzaboote`,
 `impermanence`, `plasma-manager`, `nixGL`, `nixos-hardware`, `treefmt-nix`,
-`llm-agents`, `opencode-flake`, `openchamber-nix`, `zimfw`.
+`llm-agents`, `openchamber-nix`, `zimfw`.
 
 ## CI
 

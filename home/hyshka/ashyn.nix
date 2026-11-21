@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -9,15 +8,10 @@
     ./global.nix
     ../desktop/alacritty.nix
     ../desktop/sway.nix
-    ../ai/opencode.nix
     ../nixvim
     ../cli
     ../desktop/font.nix
   ];
-
-  programs.opencode = {
-    package = lib.mkForce inputs.opencode-flake.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
-  };
 
   nixGL.packages = inputs.nixGL.packages;
 
