@@ -152,6 +152,7 @@
       "network-online.target"
       "systemd-networkd-wait-online@wg0.service"
     ];
+    serviceConfig.UMask = "0002";
   };
 
   services.sabnzbd = {
@@ -255,6 +256,12 @@
           dir = "books";
           priority = -100;
         };
+        audiobooks = {
+          name = "audiobooks";
+          order = 6;
+          dir = "audiobooks";
+          priority = -100;
+        };
       };
 
       ntfosd.ntfosd_enable = false;
@@ -272,6 +279,7 @@
       "network-online.target"
       "systemd-networkd-wait-online@wg0.service"
     ];
+    serviceConfig.UMask = "0002";
   };
 
   nixpkgs = {

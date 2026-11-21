@@ -342,6 +342,8 @@ in
     ];
     environment = {
       TZ = "America/Edmonton";
+      BINDERY_PUID = "999";
+      BINDERY_PGID = "13000";
       BINDERY_DOWNLOAD_DIR = "/data/downloads";
       BINDERY_LIBRARY_DIR = "/data/media/books";
       BINDERY_AUDIOBOOK_DIR = "/data/media/audiobooks";
