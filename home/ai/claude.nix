@@ -9,7 +9,6 @@ let
     (import ./hooks/notification.nix { inherit pkgs; })
     (import ./hooks/subagent-stop.nix { inherit pkgs; })
     (import ./hooks/rtk.nix { inherit pkgs lib; })
-    (import ./hooks/tokensave.nix { inherit pkgs lib; })
   ];
 in
 {
@@ -250,8 +249,6 @@ in
           "mcp__github__get_file_contents"
           "mcp__plugin_claude-code-home-manager_context7__*"
           "mcp__plugin_claude-code-home-manager_gh_grep__*"
-          "mcp__plugin_claude-code-home-manager_headroom__*"
-          "mcp__plugin_claude-code-home-manager_tokensave__*"
         ];
         ask = [
           # Git (external side effects)
@@ -388,13 +385,6 @@ in
     "**/.tokensave/"
   ];
 
-  home.sessionVariables = {
-    # enable output token reduction
-    HEADROOM_OUTPUT_SHAPER = 1;
-    # enable AST-based code compression
-    HEADROOM_CODE_AWARE_ENABLED = 1;
-  };
-
   # -----
   # Dependencies
   # -----
@@ -424,8 +414,6 @@ in
     pkgs.gh
     # Context management
     pkgs.rtk
-    pkgs.headroom
-    pkgs.tokensave
   ];
 
   xdg.configFile = {

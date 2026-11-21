@@ -7,6 +7,4 @@
   # example = pkgs.callPackage ./example { };
   caddy-cloudflare = pkgs.callPackage ./caddy-cloudflare { };
   snapraid-collector = pkgs.callPackage ./snapraid-collector { };
-  headroom = pkgs.callPackage ./headroom { };
-  tokensave = pkgs.callPackage ./tokensave { };
 }
