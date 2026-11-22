@@ -302,7 +302,7 @@
       # Reusable modules you might want to export
       # These are usually stuff you would upstream
       nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+      homeModules = import ./modules/home-manager;
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };

@@ -13,7 +13,7 @@ in
   imports = [
     inputs.catppuccin.homeModules.catppuccin
   ]
-  ++ (builtins.attrValues outputs.homeManagerModules);
+  ++ (builtins.attrValues outputs.homeModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;

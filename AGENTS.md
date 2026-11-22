@@ -12,7 +12,7 @@ sops-nix.
 - `home/{cli,desktop,ai,nixvim}/` - reusable home-manager modules
 - `home/ai/` - claude-code + opencode config, agents, commands, hooks
 - `modules/nixos/`, `modules/home-manager/` - reusable modules, exported as
-  `nixosModules` / `homeManagerModules`; register new files in the dir's `default.nix`
+  `nixosModules` / `homeModules`; register new files in the dir's `default.nix`
 - `infra/<name>/` - Terranix-managed Incus containers and VMs
 - `overlays/`, `pkgs/` - custom packages and overlays
 - `docs/` - network map, recovery, decisions; `infra/README.md` for the
