@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   # Configuration for using a remote Nix builder over SSH.
   # See https://wiki.nixos.org/wiki/Distributed_build
@@ -16,4 +17,9 @@
     ];
   };
   nix.settings.trusted-users = [ "nixremote" ];
+  # For remote deployments as root
+  services.openssh.settings.PermitRootLogin = "yes";
+  users.users.root.openssh.authorizedKeys.keys = lib.splitString "\n" (
+    builtins.readFile ../../../home/hyshka/ssh.pub
+  );
 }

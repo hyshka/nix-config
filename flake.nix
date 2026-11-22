@@ -365,10 +365,6 @@
       # Standalone home-manager configurations
       # nh home build/switch
       homeConfigurations = {
-        "hyshka@tiny1" = mkHome {
-          system = "x86_64-linux";
-          hostname = "tiny1";
-        };
         "hyshka@starship" = mkHome {
           system = "x86_64-linux";
           hostname = "starship";
