@@ -28,6 +28,8 @@ jobs:
     # branch plans, and the run step forces plan mode for those.
     if: forgejo.event_name == 'workflow_dispatch' || (forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main') || (forgejo.event_name == 'pull_request' && contains(forgejo.event.pull_request.labels.*.name, 'tofu-plan'))
     runs-on: nixos
+    env:
+      GC_INITIAL_HEAP_SIZE: 4G
     steps:
       - uses: https://github.com/actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - name: Plan or apply
