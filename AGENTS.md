@@ -104,7 +104,9 @@ OpenTofu/Terranix-managed Incus workloads. Apply is driven by CI (merge to `main
   virtiofs and backup-worthy.
 - Flake apps: `nix run '.#plan|apply|destroy|validate'` (`validate` needs no
   credentials or state). Local runs authenticate with the CI client cert via
-  `$INCUS_CONF`.
+  `$INCUS_CONF`. The apps are `x86_64-linux` only: their inputs are x86_64 NixOS
+  images, so an aarch64 wrapper would fail building `imageVarsFile` on
+  `scadrial`.
 
 ### VM secrets
 

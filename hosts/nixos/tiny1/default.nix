@@ -7,6 +7,8 @@
   imports = [
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-cpu-intel-cpu-only
+    # module emits a harmless warning, eventual removal will fail outright
+    # trace: warning: common-gpu-intel-kaby-lake flake output is deprecated and will be removed. See https://github.com/NixOS/nixos-hardware/issues/992 for more information
     inputs.hardware.nixosModules.common-gpu-intel-kaby-lake
 
     ./hardware-configuration.nix

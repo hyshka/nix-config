@@ -1,5 +1,5 @@
 {
-  description = "NixOS configurations";
+  description = "Declarative system configuration using nix";
 
   nixConfig = {
     extra-substituters = [
@@ -125,7 +125,11 @@
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
-      forEachSystem = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forEachSystem = nixpkgs.lib.genAttrs systems;
       treefmtEval = forEachSystem (
         system:
         let
@@ -242,6 +246,7 @@
           cmd,
           varFile ? null,
           rootImages ? false,
+          description ? "Run OpenTofu ${cmd} against the Incus workload infrastructure",
         }:
         let
           extraArgs =
@@ -260,6 +265,7 @@
         in
         {
           type = "app";
+          meta.description = description;
           program = toString (
             pkgs.writers.writeBash name ''
               set -euo pipefail
@@ -373,7 +379,7 @@
         };
       };
 
-      apps = forEachSystem (system: {
+      apps = nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: {
         plan = mkTofuApp {
           pkgs = nixpkgs.legacyPackages.${system};
           name = "plan";
@@ -414,9 +420,11 @@
           name = "plan";
           cmd = "plan";
           varFile = imageVarsFile;
+          description = "Alias for the plan app";
         };
         image-roots = {
           type = "app";
+          meta.description = "Create or prune the image GC roots for the next apply";
           program = toString (
             nixpkgs.legacyPackages.${system}.writers.writeBash "image-roots" ''
               set -euo pipefail
@@ -427,6 +435,7 @@
         };
         lint = {
           type = "app";
+          meta.description = "Run prek over all tracked files";
           program = toString (
             nixpkgs.legacyPackages.${system}.writers.writeBash "lint" ''
               exec ${nixpkgs.legacyPackages.${system}.prek}/bin/prek run --all-files "$@"
@@ -435,6 +444,7 @@
         };
         install-hooks = {
           type = "app";
+          meta.description = "Install the prek git hooks";
           program = toString (
             nixpkgs.legacyPackages.${system}.writers.writeBash "install-hooks" ''
               exec ${nixpkgs.legacyPackages.${system}.prek}/bin/prek install --allow-missing-config "$@"
