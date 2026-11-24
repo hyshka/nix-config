@@ -5,10 +5,10 @@ hosts="$1"
 shift
 
 if [ -z "$hosts" ]; then
-  echo "No hosts to deploy"
-  exit 2
+	echo "No hosts to deploy"
+	exit 2
 fi
 
 for host in ${hosts//,/ }; do
-  nh os switch ".#$host" --target-host "root@$host" --build-host localhost "$@"
+	nh os switch ".#$host" --target-host "root@$host" --build-host localhost "$@"
 done

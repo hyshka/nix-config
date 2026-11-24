@@ -64,64 +64,64 @@ git checkout -B "$branch" "$base_ref"
 nix flake update
 
 if git diff --quiet -- flake.lock; then
-  echo "flake.lock already current"
-  exit 0
+	echo "flake.lock already current"
+	exit 0
 fi
 
 lines="$(jq -r --slurpfile old "$old_lock" -f "$jq_file" flake.lock)"
 if [ -z "$lines" ]; then
-  echo "flake.lock changed without a tracked input rev change" >&2
-  exit 1
+	echo "flake.lock changed without a tracked input rev change" >&2
+	exit 1
 fi
 
 {
-  echo 'Automated by nix flake update.'
-  echo
-  echo "### Updated inputs"
-  echo
-  printf '%s\n' "$lines"
+	echo 'Automated by nix flake update.'
+	echo
+	echo "### Updated inputs"
+	echo
+	printf '%s\n' "$lines"
 } >"$body_file"
 
 git -c user.name="flake-inputs[bot]" -c user.email="noreply@hyshka.com" \
-  commit -m "$title" -- flake.lock
+	commit -m "$title" -- flake.lock
 
 if [ "${DRY_RUN:-0}" = "1" ]; then
-  echo "pr title: $title"
-  echo "branch: $branch"
-  cat "$body_file"
-  exit 0
+	echo "pr title: $title"
+	echo "branch: $branch"
+	cat "$body_file"
+	exit 0
 fi
 
 if [ -z "$token" ]; then
-  echo "FORGEJO_API_TOKEN is empty" >&2
-  exit 1
+	echo "FORGEJO_API_TOKEN is empty" >&2
+	exit 1
 fi
 
 repo=""
 remote="$(git remote get-url --push origin 2>/dev/null || true)"
 case "$remote" in
 http://* | https://*)
-  rest="${remote#*://}"
-  rest="${rest#*@}"
-  repo="${rest#*/}"
-  repo="${repo%.git}"
-  ;;
+	rest="${remote#*://}"
+	rest="${rest#*@}"
+	repo="${rest#*/}"
+	repo="${repo%.git}"
+	;;
 esac
 [ -n "$repo" ] || repo="${FORGEJO_REPOSITORY:-hyshka/nix-config}"
 
 case "$repo" in
 */*) ;;
 *)
-  echo "cannot resolve owner/repo from '$repo'" >&2
-  exit 1
-  ;;
+	echo "cannot resolve owner/repo from '$repo'" >&2
+	exit 1
+	;;
 esac
 
 if [ -n "${FORGEJO_API_URL:-}" ]; then
-  api="${FORGEJO_API_URL%/}"
+	api="${FORGEJO_API_URL%/}"
 else
-  server="${FORGEJO_SERVER_URL:-https://code.home.hyshka.com}"
-  api="${server%/}/api/v1"
+	server="${FORGEJO_SERVER_URL:-https://code.home.hyshka.com}"
+	api="${server%/}/api/v1"
 fi
 
 echo "api: $api"
@@ -130,33 +130,33 @@ echo "repo: $repo"
 resp_file="$work_dir/resp.json"
 
 request() {
-  method="$1"
-  url="$2"
-  data="${3:-}"
-  status=""
-  if [ -n "$data" ]; then
-    status="$(curl -sS -X "$method" \
-      -H "Authorization: token $token" \
-      -H "Content-Type: application/json" \
-      --data "$data" -o "$resp_file" -w '%{http_code}' "$url")" || true
-  else
-    status="$(curl -sS -X "$method" \
-      -H "Authorization: token $token" \
-      -o "$resp_file" -w '%{http_code}' "$url")" || true
-  fi
-  case "$status" in
-  2[0-9][0-9]) return 0 ;;
-  esac
-  {
-    echo "request failed: $method $url -> HTTP ${status:-none}"
-    head -c 400 "$resp_file" 2>/dev/null
-    echo
-  } >&2
-  return 1
+	method="$1"
+	url="$2"
+	data="${3:-}"
+	status=""
+	if [ -n "$data" ]; then
+		status="$(curl -sS -X "$method" \
+			-H "Authorization: token $token" \
+			-H "Content-Type: application/json" \
+			--data "$data" -o "$resp_file" -w '%{http_code}' "$url")" || true
+	else
+		status="$(curl -sS -X "$method" \
+			-H "Authorization: token $token" \
+			-o "$resp_file" -w '%{http_code}' "$url")" || true
+	fi
+	case "$status" in
+	2[0-9][0-9]) return 0 ;;
+	esac
+	{
+		echo "request failed: $method $url -> HTTP ${status:-none}"
+		head -c 400 "$resp_file" 2>/dev/null
+		echo
+	} >&2
+	return 1
 }
 
 if request GET "$api/user"; then
-  echo "token user: $(jq -r '.login // "?"' "$resp_file")"
+	echo "token user: $(jq -r '.login // "?"' "$resp_file")"
 fi
 
 git push --force origin "HEAD:refs/heads/$branch"
@@ -165,25 +165,25 @@ request GET "$api/repos/$repo/pulls?state=open&limit=50" || exit 1
 number="$(jq -r --arg b "$branch" '[.[] | select(.head.ref == $b) | .number][0] // empty' "$resp_file")"
 
 if [ -z "$number" ]; then
-  payload="$(jq -n --arg title "$title" --arg head "$branch" --rawfile body "$body_file" \
-    '{title: $title, head: $head, base: "main", body: $body}')"
-  request POST "$api/repos/$repo/pulls" "$payload" || {
-    echo "hint: opening a pull request needs a token owned by a user with pull request access to $repo" >&2
-    exit 1
-  }
-  number="$(jq -r '.number // empty' "$resp_file")"
-  echo "opened PR #$number"
+	payload="$(jq -n --arg title "$title" --arg head "$branch" --rawfile body "$body_file" \
+		'{title: $title, head: $head, base: "main", body: $body}')"
+	request POST "$api/repos/$repo/pulls" "$payload" || {
+		echo "hint: opening a pull request needs a token owned by a user with pull request access to $repo" >&2
+		exit 1
+	}
+	number="$(jq -r '.number // empty' "$resp_file")"
+	echo "opened PR #$number"
 else
-  payload="$(jq -n --arg title "$title" --rawfile body "$body_file" \
-    '{title: $title, body: $body}')"
-  request PATCH "$api/repos/$repo/pulls/$number" "$payload" || exit 1
-  echo "updated PR #$number"
+	payload="$(jq -n --arg title "$title" --rawfile body "$body_file" \
+		'{title: $title, body: $body}')"
+	request PATCH "$api/repos/$repo/pulls/$number" "$payload" || exit 1
+	echo "updated PR #$number"
 fi
 
 request GET "$api/repos/$repo/labels" || exit 1
 label_ids="$(jq -c '[.[] | select(.name == "dependencies" or .name == "automated") | .id]' "$resp_file")"
 if [ "$label_ids" != "[]" ]; then
-  request POST "$api/repos/$repo/issues/$number/labels" "{\"labels\": $label_ids}" || exit 1
+	request POST "$api/repos/$repo/issues/$number/labels" "{\"labels\": $label_ids}" || exit 1
 else
-  echo "labels dependencies/automated not found; PR left unlabeled" >&2
+	echo "labels dependencies/automated not found; PR left unlabeled" >&2
 fi
