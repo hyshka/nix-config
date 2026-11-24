@@ -187,7 +187,7 @@ in
         inherit (c) remote;
         project = c.project;
         type = lib.mkDefault c.kind;
-        image = "\${incus_image.${name}.fingerprint}";
+        image = lib.mkDefault "\${incus_image.${name}.fingerprint}";
       }
       // lib.optionalAttrs (c.kind == "container" && (c.remote == "tiny1" || c.project == "lab-gpu")) {
         profiles = [ "nixos-container" ];
